@@ -1,0 +1,146 @@
+\chapter{列表}
+
+若是帮领导起草并排版一份会议讲话稿，须知天下没有领导不偏爱含有列表的文章。大可以相信，\ConTeXt\ 列表绝对不会让领导失望。
+
+\section{Todo List}
+
+在偷偷使用 ChatGPT 给领导起草讲稿之前，先用 \ConTeXt\ 列表安排一下今日待办事项：
+
+\startsamplecode\startnarrowtyping
+2023 年 3 月 22 日
+\startitemize
+\item 中午，晒十五分钟太阳
+\item 晚上，看流浪地球 \Romannumerals[2]
+\stopitemize
+\stopnarrowtyping\stopsamplecode
+\mysample[todo-list]{待办事项}{05-todo-list.pdf}
+
+现在你已经学会了列表的用法了，剩下的，仅仅是设定它的样式。此外，你也学到了如何写大写的罗马数字，至于小写的，将 \type{\Romannumerals} 换成 \type{\romannumerals} 即可。
+
+\section{无序号列表}
+
+示例 \in[todo-list] 已经展示了样式最为简单的无序号列表，列表项符号是实心圆点。该示例中的列表实际上省略了列表项符号的设定，其完整形式为
+
+\starttyping[option=TEX]
+\startitemize[1]
+\item 中午，晒十五分钟太阳
+\item 晚上，看流浪地球 \Romannumerals[2]
+\stopitemize
+\stoptyping
+
+将上述代码中的数字 1 换成 2～9 的任何一个数字，可更换另一种列表项符号。例如
+
+\startsamplecode\startnarrowtyping
+\startitemize[8]
+\item 中午，晒十五分钟太阳
+\item 晚上，看流浪地球 \Romannumerals[2]
+\stopitemize
+\stopnarrowtyping\stopsamplecode
+\mysample[]{改变列表项符号}{05-todo-list-2.pdf}
+
+\section{有序号列表}
+
+将无序号列表的数字参数换为 n，便可得到有序号列表。例如
+
+\startsamplecode\startnarrowtyping
+\startitemize[n]
+\item 中午，晒十五分钟太阳
+\item 晚上，看流浪地球 \Romannumerals[2]
+\stopitemize
+\stopnarrowtyping\stopsamplecode
+\mysample[]{有序号列表}{05-todo-list-3.pdf}
+
+有时，需要序号形式是带括号的数字，可作以下设定：
+
+\startsamplecode\startnarrowtyping
+\startitemize[n][left=(,right=),stopper=]
+\item 中午，晒十五分钟太阳
+\item 晚上，看流浪地球 \Romannumerals[2]
+\stopitemize
+\stopnarrowtyping\stopsamplecode
+\mysample[]{数字带括号的有序号列表}{05-todo-list-4.pdf}
+
+\noindent 其中「\type{stopper=}」是将参数 \type{stopper} 置空，达到的效果是消除列表项序号的西文句号后缀「\type{.}」。
+
+若将列表项序号参数设定为 a，A，r，R，对应的序号形式分别为小写英文字母、大写英文字母、小写罗马数字、大写罗马数字。
+
+\section[item-sym-diy]{自定义符号列表}
+
+你可能会觉得 \ConTeXt\ 为无序号列表提供的列表项符号无法体现你的气质，\ConTeXt\ 说，Do it yourself! 下面我用 \MetaPost\ 代码绘制了一个小正方形，并令其边线略微受到随机扰动，然后将该图形定义为列表项符号：
+
+\startsamplecode\startnarrowtyping
+\startuseMPgraphic{foo}
+  path p;
+  p := fullsquare scaled 8pt randomized 1pt;
+  draw p withpen pencircle scaled 2pt
+         withcolor darkred;
+\stopuseMPgraphic
+
+\definesymbol
+  [10][{\lower.2ex\hbox{\useMPgraphic{foo}}}]
+\startitemize[10]
+\item 中午，晒十五分钟太阳
+\item 晚上，看流浪地球 \Romannumerals{2}
+\stopitemize
+\stopnarrowtyping\stopsamplecode
+\mysample[rsquare]{自定义符号的无序号列表}{05-todo-list-5.pdf}
+
+\noindent 现在你不懂上述代码的具体细节也无妨，观其大略即可，知道有一种可以画画的语言，叫 \MetaPost，它的代码可嵌入 \ConTeXt\ 环境作为插图使用，便已足够。
+
+对于有序号列表，有时会需要使用带圈的数字作为序号。虽然 Unicode 有相应的带圈字符的码位，例如 \char"2460，\char"2461……对应的 \TeX\ 命令是
+
+\starttyping[option=TEX]
+\char"2460，\char"2461……
+\stoptyping
+
+\noindent 但是这些带圈数字都是文字，并非数字。带圈的数字，无非是数字外面画个圆圈。画圆圈，用 \MetaPost\ 做此事，完全是不费吹灰之力，然后借助 \ConTeXt\ 的 overlay 机制\cite[overlay]，将圆圈作为 inframed\cite[inframed] 的背景，再用 inframed 套住列表项序号即可，详见
+
+\startsamplecode\startnarrowtyping
+\startuseMPgraphic{foo}
+  path p;
+  p := fullcircle scaled 12pt;
+  draw p withpen pencircle scaled .4pt
+         withcolor darkred;
+\stopuseMPgraphic
+\defineoverlay[rsquare][\useMPgraphic{foo}]
+\def\fooframe#1{%
+  \inframed[frame=off,background=rsquare]{#1}%
+}
+
+\defineconversion[foo][\fooframe]
+\startitemize[foo][stopper=]
+\item 中午，晒十五分钟太阳
+\item 晚上，看流浪地球 \Romannumerals{2}
+\stopitemize
+\stopnarrowtyping\stopsamplecode
+\mysample[number-in-circle]{数字带圆圈的有序号列表}{05-todo-list-6.pdf}
+
+\noindent 你可能依然不知道上述代码具体细节，不必着急，以后会经常和它们打交道，逐渐便可熟悉。
+
+\section{间距调整}
+
+消除列表项之间的空白，只需
+
+\startsamplecode\startnarrowtyping
+2023 年 3 月 22 日
+\startitemize[1,packed]
+\item 中午，晒十五分钟太阳
+\item 晚上，看流浪地球 \Romannumerals{2}
+\stopitemize
+\stopnarrowtyping\stopsamplecode
+\mysample[]{消除列表项之间的空白}{05-todo-list-7.pdf}
+
+消除列表前后以及列表项之间的空白，只需
+
+\startsamplecode\startnarrowtyping
+2023 年 3 月 22 日
+\startitemize[1,nowhite]
+\item 中午，晒十五分钟太阳
+\item 晚上，看流浪地球 \Romannumerals{2}
+\stopitemize
+\stopnarrowtyping\stopsamplecode
+\mysample[]{消除列表项之间的空白}{05-todo-list-8.pdf}
+
+\section{小结}
+
+真正让你的领导失望并抱怨的应该是，他想要一份 Microsoft Word 文件，而你提交给他的却是只能看不能随手改动的 PDF 文件。

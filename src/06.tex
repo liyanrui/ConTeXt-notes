@@ -1,0 +1,179 @@
+\chapter{参考文献}
+
+稍微严肃一些的文章，往往会附上一些与文章内容密切相关的参考文献。科研论文更是如此，牛顿都说过自己是站在巨人的肩膀上做事情的。参考文献便是巨人。任何一个 \TeX\ 系统皆不敢对支持参考文献排版这一事宜掉以轻心，否则 \TeX\ 无以为科技文献排版软件之先驱和典范。
+
+\section{\BibTeX}
+
+大多数 \TeX\ 系统在排版参考文献时，皆需依赖 bibtex 程序。由 bibtex 基于文献数据文件生成参考文献列表信息，然后交由 \TeX\ 进行排版，这一过程通常是自动进行的，并不需要用户了解和干预。\ConTeXt\ 现在不需要依赖 bibtex 程序，它已自身内部实现了 bibtex 的全部功能。本文档在谈及 \BibTeX 时，主要指其文献数据格式。
+
+\BibTeX\ 文献数据文件是纯文本文件，其中包含着论文、专著和手册等文献数据。例如，一篇期刊论文，其数据格式为
+
+\starttyping
+@article{knuth-1984-literate,
+  title={Literate programming},
+  author={Knuth, Donald Ervin},
+  journal={The computer journal},
+  volume={27},
+  number={2},
+  pages={97--111},
+  year={1984},
+  publisher={Oxford University Press}
+}
+\stoptyping
+
+\noindent 再例如一本专著，其数据格式为
+
+\starttyping
+@book{knuth-1986-texbook,
+  title={The texbook},
+  author={Knuth, Donald Ervin and Bibby, Duane},
+  volume={1993},
+  year={1986},
+  publisher={Addison-Wesley Reading, MA}
+}
+\stoptyping
+
+现在，为了学习 \ConTeXt\ 的参考文献排版功能，可将上述文献数据保存为一份文本文件，例如 foo.bib，将该文件作为文献数据文件。
+
+在 foo.bib 相同目录下，建立 \ConTeXt\ 源文件，例如 foo.tex，其内容为
+
+\starttyping[option=TEX]
+\usebtxdataset[foo.bib] % 加载 foo.bib
+\starttext
+Knuth 基于文学编程\cite[knuth-1984-literate]技术开发了
+\TeX\ 系统\cite[knuth-1986-texbook]。
+\blank
+\placelistofpublications
+\stoptext
+\stoptyping
+\noindent 编译 foo.tex，可得以下结果：
+\blank[line]
+\midaligned{\externalfigure[10-bibtex-example-01.pdf]}
+\blank[line]
+
+\section{文献列表样式}
+
+上一节示例中的文献列表是 \ConTeXt\ 默认样式，除此之外，还有其他三种预定义的文献列表样式：apa，aps 和 chicago，可在 \type{\placelistofpublications} 之前使用 \type{\usebtxdefinitions} 进行切换。例如使用 aps 样式，
+
+\starttyping[option=TEX]
+... ... ...
+\usebtxdefinitions[aps]
+\placelistofpublications
+\stoptyping
+\blank[line]
+\midaligned{\externalfigure[10-bibtex-example-02.pdf]}
+\blank[line]
+
+对于预定义样式，可以进行调整。例如，缩小文献序号后的空白间距，
+
+\starttyping[option=TEX]
+\setupbtxlist[apa][distance=.5em,width=fit]
+\stoptyping
+\blank[line]
+\midaligned{\externalfigure[10-bibtex-example-03.pdf]}
+
+\section{自定义文献列表样式}
+
+也许 \ConTeXt\ 提供的参考文献列表样式并不符合你的需求，因此你会忍不住想自己定义一种样式。对此，我的看法是，文献列表样式当由期刊编辑部或专著出版商负责定义，个人无需如此刻意。不过，倘若你正是此类机构工作人员，需要为 \ConTeXt\ 定义符合自己单位要求的文献样式，下文仅能为你提供一个简单的示例，希望对你有所帮助。
+
+现在，假设我们要定义一种名字叫作 foo 的文献列表样式。首先，需要按照 \ConTeXt\ 的文件命名约定，建立两份文件，一份是 publ-imp-foo.lua，一份是 publ-imp-foo.tex。
+
+在 publ-imp-foo.lua 里写入以下内容：
+
+\starttyping[option=LUA]
+local specification = {
+  name      = "foo",
+  categories = {},
+}
+local categories = specification.categories
+categories.book = {
+  required = { "title" },
+  optional = {"author", "editor",
+              "year",
+              "edition", "series", "volume", "number",
+              "address", "publisher",
+  },
+}
+return specification
+\stoptyping
+
+\noindent 上述代码是 Lua 代码，定义了一个表。\ConTeXt\ 可通过该表明白 \BibTeX\ 文献数据里哪些信息是必须的，哪些信息是可选的。
+
+在 publ-imp-foo.tex 文件中写入以下内容
+
+\starttyping[option=TEX]
+\startbtxrenderingdefinitions[foo]
+\definebtx
+  [foo]
+  [default=default,specification=foo]
+
+\definebtxrendering
+  [foo]
+  [specification=foo,numbering=yes]
+\stopbtxrenderingdefinitions
+\stoptyping
+
+\noindent 上述代码定义了 foo 环境及其默认样式。此外，\ConTeXt\ 实际上是通过上述代码获知你在 publ-imp-foo.lua 文件里定义的数据表。
+
+下面在 publ-imp-foo.tex 文件为期刊论文定义文献列表样式：
+
+\starttyping[option=TEX]
+\startsetups btx:foo:list:article
+  \btxdoif {author} {
+    \color[blue]{\btxflush{author}}\btxperiod\btxspace
+  }
+  \btxdoifelse {title} {
+     \color[red]{\btxflush{title}}\btxperiod\btxspace
+  }{
+     No title\btxperiod\btxspace
+  }
+  \btxdoif {journal} {
+    \color[magenta]{\btxflush{journal}}\btxcomma\btxspace
+    \btxflush{year}，\nospace
+    \btxdoifelse {volume} {
+      \btxspace
+      \btxflush{volume}
+      \btxdoif {number} {
+        \ignorespaces
+        \btxleftparenthesis
+        \btxflush{number}
+        \btxrightparenthesis
+      }
+    }{
+      \btxdoif {number} {
+        \btxlabeltext{default:number}
+        \btxspace
+        \btxflush{number}
+      }
+    }
+    \btxdoif {pages} {
+     \nospace\btxcolon\btxspace\btxflush{pages}
+    }
+    \btxperiod
+  }
+  \removeunwantedspaces
+\stopsetups
+\stoptyping
+
+这是本文档截止至此最为复杂的 \TeX\ 代码，但是所表达的内容非常简单，仅仅是针对期刊论文设定文献列表应当出现作者、文章名称、期刊名称、时间、卷号、期号以及页码等信息。其中，\type{\btxflush} 命令可将 \ConTeXt\ 从 \BibTeX\ 数据格式中解析出的信息输出到排版结果中；\type{\btxcomma}，\type{\btxperiod} 之类的命令皆为西文逗号，句号等标点符号；\type{\btxspace} 是西文空格；\type{\btxdoif} 之类的命令是判断 \ConTeXt\ 对 \BibTeX\ 数据格式的解析结果中是否包含某项。
+
+在 publ-imp-foo.lua 和 publ-imp-foo.tex 文件同一目录下，建立测试文件，例如 foo.tex，其内容为
+
+\starttyping[option=TEX]
+\usebtxdataset[foo.bib] % 加载 foo.bib
+\starttext
+Knuth 发明了文学编程语言 WEB\cite[knuth-1984-literate]。
+\blank
+\usebtxdefinitions[foo]
+\placelistofpublications
+\stoptext
+\stoptyping
+
+用于验证上述定义参考文献类表样式 foo 是否可用。结果为
+
+\blank[line]
+\midaligned{\externalfigure[10-bibtex-example-04.pdf]}
+
+\section{小结}
+
+参考文献的样式，我总觉得是学术界拿来唬人的东西。写一篇论文，即使附上几十篇参考文献，用 \ConTeXt\ 列表进行排版，与写文章内容的所耗费的时间相比，完全可以忽略不计。然而在学术界，参考文献如何排版，却成了一门学问。倘若你半个小时依然未能学会如何为 \ConTeXt\ 定义参考文献样式，我建议随便选一个 \ConTeXt\ 预定义的样式使用。待文章最终定稿后，再手工用 \ConTeXt\ 列表将参考文献制作成你需要的样式。

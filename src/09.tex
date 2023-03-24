@@ -1,0 +1,295 @@
+\chapter{表格}
+
+\ConTeXt\ 提供了多种表格形式，我们不需要全都学会，可以先学会最为简单的形式 Tabulate，等到将它用到山穷水尽也无法表达你想要的表格时，再考虑其他形式是否够用。简单的未必不好，强大的未必更好，既简单又符合自己需求的，永远都是最好的。
+
+\section{基本用法}
+
+首先，构造一个 2 行 3 列的表格，第 1 行的内容是 \type{1 2 3}，第二行的内容是 \type{4 5 6}，排版代码和结果如下：
+
+\starttyping[option=TEX]
+\starttabulate
+\NC 1 \NC 2 \NC 3\NC\NR
+\NC 4 \NC 5 \NC 6\NC\NR
+\stoptabulate
+\stoptyping
+\starttabulate
+\NC 1 \NC 2 \NC 3\NC\NR
+\NC 4 \NC 5 \NC 6\NC\NR
+\stoptabulate
+
+结果第 3 列跑到版面最右侧了。这是因为我们尚未定义表格各列的对齐方式。对齐方式不外乎三种，左、中、右，Tabulate 分别使用缩写 \type{l}，\type{c} 和 \type{r} 指代它们。例如，若令表格第 1 列居左，第 2 列居中，第 3 列居右，只需
+
+\starttyping[option=TEX]
+\starttabulate[|l|c|r|]
+\NC 1 \NC 2 \NC 3\NC\NR
+\NC 4 \NC 5 \NC 6\NC\NR
+\stoptabulate
+\stoptyping
+\starttabulate[|l|c|r|]
+\NC 1 \NC 2 \NC 3\NC\NR
+\NC 4 \NC 5 \NC 6\NC\NR
+\stoptabulate
+
+现在看上去像表格了，但是由于表格尚无边框线，无法看出表格各列内容的对齐状态。
+
+想必你已经猜测出了，\type{\NC} 用于在表格的某一行构造一个单元格，上述示例中，表格内容的每一行最后一个 \type{\NC} 实际上是多余的，\ConTeXt\ 会忽略它，但是你可以将它理解为表格的单元格的边界。\type{\NR} 用于构造一个新行，即下一行。上述示例里，表格只有两行，实际上第 2 个 \type{\NR} 也是多余的，只是为了形式上更整齐而保留，\ConTeXt\ 会忽略它，你可以将它理解为表格一行的结束。
+
+现在，将 \type{\NC} 替换为 \type{\VL}，便可画出单元格的左右边界线，即
+
+\starttyping[option=TEX]
+\starttabulate[|l|c|r|]
+\VL 1 \VL 2 \VL 3\VL\NR
+\VL 4 \VL 5 \VL 6\VL\NR
+\stoptabulate
+\stoptyping
+
+\starttabulate[|l|c|r|]
+\VL 1 \VL 2 \VL 3\VL\NR
+\VL 4 \VL 5 \VL 6\VL\NR
+\stoptabulate
+
+如果在表格每一行的开始放上 \type{\HL}，可画出表格各行横线，即
+
+\starttyping[option=TEX]
+\starttabulate[|l|c|r|]
+\HL
+\VL 1 \VL 2 \VL 3\VL\NR
+\HL
+\VL 4 \VL 5 \VL 6\VL\NR
+\HL
+\stoptabulate
+\stoptyping
+\starttabulate[|l|c|r|]
+\HL
+\VL 1 \VL 2 \VL 3\VL\NR
+\HL
+\VL 4 \VL 5 \VL 6\VL\NR
+\HL
+\stoptabulate
+
+可能你已经发现了，表格的竖线将被横线截断了。不必担心是你的问题，而是 Tabulate 主要用于排版横线表，例如图 \in[three-line table] 所示的在科技论文中常用的三线表。
+
+\placefigure[here][three-line table]{三线表}{\externalfigure[06-three-line-table.pdf]}
+
+不过，要让表格的横线和竖线完全相交并不困难，只需将单元格之间的纵向间距参数 \type{distance} 设为 \type{0pt} 或 \type{none}：
+
+\starttyping[option=TEX]
+\starttabulate[|l|c|r|][distance=none]
+\HL
+\VL 1 \VL 2 \VL 3\VL\NR
+\HL
+\VL 4 \VL 5 \VL 6\VL\NR
+\HL
+\stoptabulate
+\stoptyping
+\starttabulate[|l|c|r|][distance=none]
+\HL
+\VL 1 \VL 2 \VL 3\VL\NR
+\HL
+\VL 4 \VL 5 \VL 6\VL\NR
+\HL
+\stoptabulate
+
+\section{间距调整}
+
+若希望单元格的宽度更宽一些，需要在列格式中设定 \type{w} 参数，例如令单元格宽度为 1 cm，只需 \type{w(1cm)} 即可。例如
+
+\starttyping[option=TEX]
+\starttabulate[|lw(1cm)|cw(1cm)|rw(1cm)|][distance=none]
+\HL
+\VL 1 \VL 2 \VL 3\VL\NR
+\HL
+\VL 4 \VL 5 \VL 6\VL\NR
+\HL
+\stoptabulate
+\stoptyping
+\starttabulate[|lw(1cm)|cw(1cm)|rw(1cm)|][distance=none]
+\HL
+\VL 1 \VL 2 \VL 3\VL\NR
+\HL
+\VL 4 \VL 5 \VL 6\VL\NR
+\HL
+\stoptabulate
+
+如果希望所有的 Tablutate 实例的 \type{distance} 参数皆为 \type{none}，可使用 \type{\setuptabulate} 进行设定：
+
+\starttyping[option=TEX]
+\setuptabulate[distance=none]
+\stoptyping
+
+若希望单元格的竖向间距大一些，可使用 \type{\TB} 命令插入空行进行调整。例如插入 2mm 高的空格：
+
+\starttyping[option=TEX]
+\starttabulate[|lw(1cm)|cw(1cm)|rw(1cm)|][distance=none]
+\HL
+\VL 1 \VL 2 \VL 3\VL\NR
+\HL
+\TB[2mm]
+\HL
+\VL 4 \VL 5 \VL 6\VL\NR
+\HL
+\stoptabulate
+\stoptyping
+\starttabulate[|lw(1cm)|cw(1cm)|rw(1cm)|][distance=none]
+\HL
+\VL 1 \VL 2 \VL 3\VL\NR
+\HL
+\TB[line]
+\HL
+\VL 4 \VL 5 \VL 6\VL\NR
+\HL
+\stoptabulate
+
+\noindent \type{\TB} 也可以使用相对尺寸，例如 \type{2*line}，\type{line}，\type{halfline} 和 \type{quarterline} 分别为一行文字的高度的 2 倍，1 倍，1/2 倍和 1/4 倍。
+
+由于插图不过是个头较大的文字，因此基于表格理应能实现 \in[figure-matrix] 节所述的排版插图阵列。的确可以如此，例如
+
+\starttyping[option=TEX]
+\def\figA{\externalfigure[ctxnotes.png][height=3cm]}
+\def\figB{\externalfigure[ctxnotes-2.png][height=3cm]}
+\placefigure{}{
+  \starttabulate[|cw(6cm)|cw(6cm)|]
+  \NC \figA \NC \figB \NC\NR
+  \NC a \NC b\NC\NR
+  \stoptabulate
+}
+\stoptyping
+\midaligned{\externalfigure[06-01.pdf]}
+
+\section{\type{\placetable}}
+
+类似于插图，表格也有一个放置命令 \type{\placetable}，其用法与 \type{\placefigure} 相似。例如
+
+\starttyping[option=TEX]
+\placetable[here][表格示例]{简单的表格}{
+  \starttabulate[|cw(2cm)|cw(2cm)|cw(2cm)|][distance=none]
+  \HL
+  \VL 1 \VL 2 \VL 3\VL\NR
+  \HL
+  \VL 4 \VL 5 \VL 6\VL\NR
+  \HL
+  \stoptabulate
+}
+\stoptyping
+\midaligned{\externalfigure[06-02.pdf]}
+
+对于中文排版，表格的标题，也需要自己定制，默认的设置并不符合我们的习惯。首先，将表格编号前缀设定为
+
+\starttyping[option=TEX][space=on]
+\setuplabeltext[en][table={表 }]
+\stoptyping
+
+\noindent 然后将表格标题编号设为正体，字号比正文字号小一级，放置于表格上方，并居中对齐：
+
+\starttyping[option=TEX]
+\setupcaption
+  [table]
+  [headstyle=\tf,style=\tfx,location=top,align=center]
+\stoptyping
+\blank[line]
+\midaligned{\externalfigure[06-03.pdf]}
+
+\section{不传之秘}
+
+在绘制表格的横线和竖线时，线条粗度可通过参数 \type{rulethickness} 进行设定。例如，将线条粗度设为 2 pt：
+
+\starttyping[option=TEX]
+\starttabulate[|c|c|c|c|c|][rulethickness=2pt]
+\HL
+\NC 一 \NC 二 \NC 三 \NC 四 \NC 五 \NC\NR
+\HL
+\NC one \NC two \NC three \NC four \NC five \NC\NR
+\NC 1 \NC 2 \NC 3 \NC 4 \NC 5 \NC\NR
+\HL
+\stoptabulate
+\stoptyping
+\midaligned{\externalfigure[06-04.pdf]}
+
+\noindent 但是，如果我们只想让表格的顶线和底线是粗度 2 pt，中间那条横线让它是 Tabulate 的默认粗度，该如何实现呢？
+
+对于该问题，也许你翻遍 \ConTeXt\ 的 Wiki 或手册，都找不到答案，因为答案在 \ConTeXt\ 的 tabl-tbl.mkxl 文件里。使用以下命令可搜索该文件：
+
+\starttyping
+$ mtxrun --script base --search tabl-tbl.mkxl
+\stoptyping
+
+\noindent 需要注意的是，该文件中关于 \type{\TL}，\type{\LL} 和 \type{\BL} 的注释应该是错的。要解决上述问题，需要先了解以下细节：
+
+\startitemize[packed]
+\item 表格线粗度默认大概是 0.4 pt；
+\item 横线 \type{\HL} 有着细致的类别划分，从表格的顶线到底线，依次为顶线 \type{\TL}，第一条横线 \type{\FL}，中间的横线 \type{\ML}，最后一条横线 \type{LL}，底线 \type{\BL}；
+\item 若要设定表格横线的不同粗度，则横线必须按照类别使用，不可使用 \type{\HL}；
+\item \type{\HL}\footnote{包括 \type{\TL}，\type{\FL}，……，\type{\BL}。}和 \type{\VL} 可以接受两个参数，一个是表格线既定粗度的倍数，另一个是表格线颜色。
+\stopitemize
+
+解决方法是，首先将上述示例修改为
+
+\starttyping[option=TEX]
+\starttabulate[|c|c|c|c|c|][rulethickness=2pt]
+\TL
+\NC 一 \NC 二 \NC 三 \NC 四 \NC 五 \NC\NR
+\FL
+\NC one \NC two \NC three \NC four \NC five \NC\NR
+\NC 1 \NC 2 \NC 3 \NC 4 \NC 5 \NC\NR
+\BL
+\stoptabulate
+\stoptyping
+
+\noindent 由于该表格内容只有三行，因此只有顶线，第一条横线和底线，亦即无中间横线和最后一条横线。为了更加充分演示问题是如何解决的，可以让该表格的内容再丰富一些：
+
+\starttyping[option=TEX]
+\starttabulate[|c|c|c|c|c|][rulethickness=2pt]
+\TL
+\NC 一 \NC 二 \NC 三 \NC 四 \NC 五 \NC\NR
+\FL
+\NC 甲 \NC 乙 \NC 丙 \NC 丁 \NC 戊 \NC\NR
+\ML
+\NC one \NC two \NC three \NC four \NC five \NC\NR
+\LL
+\NC 1 \NC 2 \NC 3 \NC 4 \NC 5 \NC\NR
+\BL
+\stoptabulate
+\stoptyping
+
+现在要保持 \type{\TL} 和 \type{\BL} 为既定粗度 2 pt，将 \type{\FL}，\type{\ML} 和 \type{\LL} 的粗度设置为 0.2 倍的既定粗度，及 0.4 pt，顺便试验一下颜色是否真的可用，见表 \in[HL example] 对应的代码，结果只有 \type{\ML} 变成了双线，其他皆符合预期。
+
+为何 \type{\ML} 如此不配合呢？我猜也许它本来就是在绘制双线，因为 Tabulate 支持表格分页断开，即一个表格若处于页面底部且不能完全被当前页面容纳时，\ConTeXt\ 可将其断开，一部分在当前页面，另一部分在下一页面。为了让断开后的表格完整，\type{\ML} 必须是双线。若将表 \in[HL example] 对应代码中的 \type{\ML} 换成 \type{\HL}，结果同样是双线。若不需要双线，可将 \type{\ML} 皆换为 \type{\FL} 或 \type{\LL}。
+
+为了避免上述莫名其妙的问题，若只是令表格顶线和底线变粗，不必设定 \type{rulethickness} 参数，而是修改顶线和底线的粗度，令其他表格线的粗度皆为默认值。
+
+\starttyping[option=TEX]
+\starttabulate[|c|c|c|c|c|][rulethickness=2pt]
+\TL
+\NC 一 \NC 二 \NC 三 \NC 四 \NC 五 \NC\NR
+\FL[0.2,red]
+\NC 甲 \NC 乙 \NC 丙 \NC 丁 \NC 戊 \NC\NR
+\ML[0.2,blue]
+\NC one \NC two \NC three \NC four \NC five \NC\NR
+\LL[0.2,magenta]
+\NC 1 \NC 2 \NC 3 \NC 4 \NC 5 \NC\NR
+\BL
+\stoptabulate
+\stoptyping
+\placetable[here][HL example]{修改表格线粗度和颜色}{
+  \starttabulate[|c|c|c|c|c|][rulethickness=2pt]
+  \TL
+  \NC 一 \NC 二 \NC 三 \NC 四 \NC 五 \NC\NR
+  \FL[0.2,red]
+  \NC 甲 \NC 乙 \NC 丙 \NC 丁 \NC 戊 \NC\NR
+  \ML[0.2,blue]
+  \NC one \NC two \NC three \NC four \NC five \NC\NR
+  \LL[0.2,magenta]
+  \NC 1 \NC 2 \NC 3 \NC 4 \NC 5 \NC\NR
+  \BL
+  \stoptabulate
+}
+
+\section{小结}
+
+除了在设定表格线粗度时不尽人意之外，Tabulate 堪当日常之用。它还有一些功能，本章尚未涉及，诸如跨栏，分页，段落等，这部分功能在后续章节介绍其他排版元素时，将作为搭配示例予以介绍。
+
+待到 Tabulate 用至捉襟见肘之时，可使用「终极表格」，其文档在你的 \ConTeXt\ 环境里，可通过以下命令搜索：
+
+\starttyping
+$ mtxrun --script base --search xtables-mkiv.pdf
+\stoptyping

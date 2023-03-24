@@ -1,0 +1,166 @@
+\chapter{学一点 \MetaPost}
+
+想必你已迫不及待想学习 \MetaPost\ 了。这大概是来自人类上古基因的冲动。人类先学会的是绘画，而后才是文字。只是不要妄图通过这区区一章内容掌握 \MetaPost，因为关于它的全部内容，足够写一本至少三百多页的书籍了。不过，本章内容足以给你打开一扇窗户，让 \MetaPost\ 的优雅气息拂过时常过于严肃的 \ConTeXt\ 世界。
+
+\section{作图环境}
+
+\MetaPost\ 是一种计算机作图语言，与 \TeX\ 一样，皆为宏编程语言。使用 \MetaPost\ 语言编写的代码可被 mpost 程序编译成 PS 格式的图形文件。自 \LuaTeX\ 开始，mpost 的核心功能集成到了 \LuaTeX\ 中，从此以后，在 \TeX\ 环境中使用 \MetaPost\ 语言作图便不需依赖外部程序了。
+
+\ConTeXt\ 为 \MetaPost\ 代码提供了五种环境：
+
+\starttyping
+\startMPcode ... \stopMPcode
+\startMPpage ... \stopMPpage
+\startuseMPgraphic{name} ... \stopuseMPgraphic
+\startuniqueMPgraphic{name} ... \stopuniqueMPgraphic
+\startreusableMPgraphic{name} ... \stopreusableMPgraphic
+\stoptyping
+
+\noindent 第一种环境用于临时作图，生成的图形会被插入到代码所在位置。第二种环境是生成单独的图形文件，以作其他用途。后面三种环境，生成的图形可根据环境的名称作为文章插图随处使用，但它们又有三种不同用途：
+
+\startitemize[nowhite]
+\item useMPgraphic：每被使用一次，对应的 \MetaPost\ 代码便会被重新编译一次。
+\item uniqueMPgraphic：只要图形所处环境不变，\MetaPost\ 代码只会被编译一次。
+\item reusableMPgraphic：无论如何使用，其 \MetaPost\ 只会被编译一次。
+\stopitemize
+
+\noindent 大多数情况下，建议选用 uniqueMPgraphic，但若图形中存在一些需要每次使用时都要有所变化的内容，可选用 useMPgraphic。
+
+另外需要注意，在 \ConTeXt\ 中使用 \MetaPost\ 时，通常会使用 \ConTeXt\ 定义的一些 \MetaPost\ 宏，这些宏构成的集合，名曰 \MetaFun。
+
+\section{画一个盒子}
+
+\MetaPost\ 作图语句遵守基本的英文语法，理解起来颇为简单。例如，用粗度为 2 pt 的圆头笔用暗红色绘制一条经过 $(0, 0)$，$(3\,{\rm cm}, 0)$，$(3\,{\rm cm}, 1\,{\rm cm})$，$(0, 1\,{\rm cm})$ 的封闭路径，
+
+\starttyping[option=MP]
+\startMPcode
+pickup pencircle scaled 2pt;
+draw (0, 0) -- (3cm, 0) -- (3cm, 1cm) -- (0, 1cm) -- cycle withcolor darkred;
+\stopMPcode
+\stoptyping
+\startMPcode
+pickup pencircle scaled 2pt;
+draw (0, 0) -- (3cm, 0) -- (3cm, 1cm) -- (0, 1cm) -- cycle withcolor darkred;
+\stopMPcode
+
+上述代码中，\type{(0, 0) -- ... -- cycle} 构造的是一条封闭路径，可将其保存于一个路径变量：
+
+\starttyping[option=MP]
+path p;
+p := (0, 0) -- (3cm, 0) -- (3cm, 1cm) -- (0, 1cm) -- cycle;
+pickup pencircle scaled 2pt;
+draw p withcolor darkred;
+\stoptyping
+
+将路径保存在变量中，是为了更便于对路径进行一些运算，例如
+
+\starttyping[option=MP]
+path p;
+p := (0, 0) -- (3cm, 0) -- (3cm, 1cm) -- (0, 1cm) -- cycle;
+pickup pencircle scaled 2pt;
+draw p withcolor darkred;
+draw p shifted (2cm, .5cm) withcolor darkblue;
+\stoptyping
+\startMPcode
+path p;
+p := (0, 0) -- (3cm, 0) -- (3cm, 1cm) -- (0, 1cm) -- cycle;
+pickup pencircle scaled 2pt;
+draw p withcolor darkred;
+draw p shifted (2cm, .5cm) withcolor darkblue;
+\stopMPcode
+\noindent 路径 \type{p} 被向右平移了 2 cm，继而被向上平移动了 0.5 cm。
+
+还有一种构造矩形路径的方法：先构造一个单位正方形，然后对其缩放。例如
+
+\starttyping[option=MP]
+pickup pencircle scaled 2pt;
+draw fullsquare xscaled 3cm yscaled 1cm withcolor darkred;
+\stoptyping
+\startMPcode
+pickup pencircle scaled 2pt;
+draw fullsquare xscaled 3cm yscaled 1cm withcolor darkred;
+\stopMPcode
+
+可以使用 \MetaFun\ 宏 \type{randomized} 对路径进行随机扰动。例如，对一个宽为 3 cm，高为 1cm 的矩形路径以幅度 2mm 的程度予以扰动：
+
+\starttyping[option=MP]
+\startuseMPgraphic{随机晃动的矩形}
+pickup pencircle scaled 2pt;
+draw (fullsquare xscaled 3cm yscaled 1cm) randomized 2mm withcolor darkred;
+\stopuseMPgraphic
+\useMPgraphic{随机晃动的矩形}
+\stoptyping
+\startuseMPgraphic{随机晃动的矩形}
+pickup pencircle scaled 2pt;
+draw (fullsquare xscaled 3cm yscaled 1cm) randomized 2mm withcolor darkred;
+\stopuseMPgraphic
+\useMPgraphic{随机晃动的矩形}
+
+还记得 overlay 吗？只要将上述 useMPgraphic 环境构造的图形制作为 overlay，便可将其作为 \type{\framed} 的背景，从而可以得到一种外观颇为别致的盒子。
+
+\starttyping
+\defineoverlay[晃晃][\useMPgraphic{随机晃动的矩形}]
+\framed[frame=off,background=晃晃]{光辉岁月}
+\stoptyping
+\defineoverlay[晃晃][\useMPgraphic{随机晃动的矩形}]
+\framed[frame=off,background=晃晃]{光辉岁月}
+
+在 \ConTeXt\ 为 \MetaPost\ 提供的作图环境里，可分别通过 \type{\overlaywidth} 和 \type{\overlayheight} 获得 overlay 的宽度和高度。在将 overlay 作为 \type{\framed} 的背景时，\type{\framed} 的宽度和高度便是 overlay 的宽度和高度。基于这一特性，便可实现 \MetaPost\ 绘制的图形能够自动适应 \type{\framed} 的宽度和高度的变化。例如
+
+\starttyping[option=MP]
+\startuseMPgraphic{新的随机晃动的矩形}
+path p;
+p := fullsquare xscaled \overlaywidth yscaled \overlayheight;
+pickup pencircle scaled 2pt;
+draw p randomized 2mm withcolor darkred;
+\stopuseMPgraphic
+
+\defineoverlay[新的晃晃][\useMPgraphic{新的随机晃动的矩形}]
+\framed
+  [frame=off,background=新的晃晃]
+  {今天只有残留的躯壳，迎接光辉岁月，风雨中抱紧自由。}
+\stoptyping
+
+\startuseMPgraphic{新的随机晃动的矩形}
+path p;
+p := fullsquare xscaled \overlaywidth yscaled \overlayheight;
+pickup pencircle scaled 2pt;
+draw p randomized 2mm withcolor darkred;
+\stopuseMPgraphic
+
+\defineoverlay[新的晃晃][\useMPgraphic{新的随机晃动的矩形}]
+\framed[frame=off,background=新的晃晃]{今天只有残留的躯壳，迎接光辉岁月，风雨中抱紧自由。}
+
+对于需要重复使用的盒子，为了避免每次重复设置其样式，可以将它定义为专用盒子。例如
+
+\starttyping[option=TEX]
+\defineframed[funnybox][frame=off,background=新的晃晃]
+\funnybox{今天只有残留的躯壳，迎接光辉岁月，风雨中抱紧自由。}
+\stoptyping
+
+\MetaPost\ 可以为一条封闭路径填充颜色。在此需要明确，何为封闭路径。例如
+
+\starttyping[option=MP]
+path p, q, r;
+p := (0, 0) -- (1, 0) -- (1, 1) -- (0, 0) -- (0, 0);
+q := (0, 0) -- (1, 0) -- (1, 1) -- (0, 0) -- cycle;
+r := fullsquare;
+\stoptyping
+
+\noindent 其中路径 \type{p} 的终点的坐标恰好是其起点，但它并非封闭路径，而路径 \type{q} 和 \type{r} 皆为封闭路径。下面示例，为封闭路径填充颜色：
+
+\starttyping[option=MP]
+path p;
+p := (fullsquare xscaled 3cm yscaled 1cm) randomized 2mm;
+pickup pencircle scaled 2pt;
+fill p withcolor gray;
+draw p withcolor darkred;
+\stoptyping
+\startMPcode
+path p;
+p := (fullsquare xscaled 3cm yscaled 1cm) randomized 2mm;
+pickup pencircle scaled 2pt;
+fill p withcolor darkgray;
+draw p withcolor darkred;
+\stopMPcode
+\noindent 注意，对于封闭路径，应当先填充颜色，再绘制路径，否则所填充的颜色会覆盖一部分路径线条。

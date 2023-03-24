@@ -1,0 +1,175 @@
+\startenvironment doc-env
+\usemodule[zhfonts]
+\definefont[kaiti][name:kaiti]
+
+\usecolors[svg]
+%\showgrid
+\setupinteraction[state=start,
+  focus=standard,
+  color=darkblue,
+  title={ConTeXt 蹊径},
+  author={李延瑞},
+  keyword={TeX, ConTeXt, LMTX, MkIV, LuaTeX, LuaMetaTeX}]
+%\setupinteractionscreen[option=max]
+% 书签
+\setupinteractionscreen[option=bookmark]
+\placebookmarks[chapter,section][chapter]
+% 版式
+\setuppapersize[A4][A4]
+\setuplayout[backspace=2.5cm,width=16.5cm,
+             topspace=1.5cm,header=1.5cm,
+             height=27.2cm,footer=1cm]
+%\showframe
+% 段落首行缩进、行间距
+\setupindenting[first,always,2em]
+\setupinterlinespace[line=3.7ex] 
+% 关闭页码，后面会在页眉设置页码
+\setuppagenumbering[location=]
+% 丑度
+%\setuptolerance[horizontal,stretch]
+% 图片目录
+\setupexternalfigures[directory={./figures}]
+% 标题设置
+\setupheads[indentnext=yes]
+\setuphead
+  [title,chapter]
+  [style=\bfb,header=empty,footer=empty,before=,after={\blank[1cm]}]
+\setuphead[title][align=center]
+\setuphead[subject,section][style=\bfa,before={\blank},after={\blank}]
+\setuphead[subsubject,subsection][style=\bf,before={\blank},after={\blank}]
+
+% 抄录
+\setuplinenumbering[style=small]
+%\setuptyping[option=color,palet=graypretty,
+%	     before={\blank[.5em]\setupinterlinespace[line=1.2em]},
+%             after={\blank[.5em]}]
+\startuniqueMPgraphic{blue box}
+path p, q;
+w := \overlaywidth; h := \overlayheight;
+p := (3mm, 0) -- (0, 0) -- (0, h) -- (3mm, h);
+q := (w - 3mm, 0) -- (w, 0) -- (w, h) -- (w - 3mm, h);
+pickup pencircle scaled 2pt;
+draw p withcolor \MPcolor{lightsteelblue};
+draw q withcolor \MPcolor{lightsteelblue};
+\stopuniqueMPgraphic
+\defineoverlay[blue box][\uniqueMPgraphic{blue box}]
+\defineframedtext
+  [blueframe]
+  [frame=off,background={blue box},
+    offset=0pt,loffset=.5em,roffset=.5em,before={\blank},after={\blank[.95em]}]
+\setuptyping
+  [before={\startblueframe[width=\textwidth]},
+    after={\stopblueframe},escape=yes]
+\definetyping
+  [narrowtyping]
+  [option=TEX,before={\startblueframe[width=fit]},after={\stopblueframe},escape=yes]
+
+\startuniqueMPgraphic{blue box2}
+path p;
+numeric s;
+w := \overlaywidth; h := \overlayheight;
+p := (0, 0) -- (0, h) -- (w, h) -- (w, 0) -- cycle;
+pickup pencircle scaled 2pt;
+s := .1 * h;
+if s < 2mm:
+  s := 2mm;
+fi
+draw p randomized s withcolor \MPcolor{lightsteelblue};
+\stopuniqueMPgraphic
+\defineoverlay[blue box2][\uniqueMPgraphic{blue box2}]
+\def\bluebox#1{%
+  \kern.25em%
+  \inframed[frame=off,background={blue box2},offset=0pt,loffset=.25em,roffset=.25em]{#1}%
+  \kern.25em%
+}
+\def\blueframed#1{%
+  \kern.25em%
+  \framed[frame=off,background={blue box2},offset=0pt,loffset=.25em,roffset=.25em]{#1}%
+  \kern.25em%
+}
+\defineframedtext[blueframedtext][offset=0pt,frame=off,background={blue box2},width=\textwidth]
+
+% 目录列表
+\def\ChapterNumber#1{\doiftext{#1}{第\;#1\;章\quad}}
+\setuplist
+  [chapter]
+  [alternative=a,
+   before=\blank,
+   after=\blank,
+   style=\bf,
+   width=fit,
+   pagenumber=no,
+   numbercommand=\ChapterNumber]
+\def\PageNumber#1{\underbars{#1}.}
+\setuplist
+  [section]
+  [alternative=d,
+   style=normal,
+   pagecommand=\PageNumber,
+   pagestyle=\tfx\bf]
+\setupcombinedlist[content][list={chapter,section}]
+
+% 页眉：通用
+\startsetups HeaderFooter
+\setupheadertexts[][pagenumber][pagenumber][]
+\setupheader[style=\tfx]
+\stopsetups
+% 页眉：body 部分
+\startsetups BodyHeaderFooter
+\def\CurrentChapter{%
+  第 \headnumber[chapter]\ 章\kern 1em\getmarking[chapter]%
+}
+\def\CurrentSection{%
+  \headnumber[section]%
+  \hbox to 2em{}%
+  \getmarking[section]%
+}
+\setupheadertexts[\CurrentChapter][pagenumber][pagenumber][\CurrentSection]
+\setupheader[style=\tfx]
+\stopsetups
+
+% 脚注里的中文断行
+\startsetups footnote:hanzi
+\setscript[hanzi]
+\stopsetups
+\setupnote[footnote][textstyle=\bold,setups={footnote:hanzi}]
+\setupnotation[footnote][way=bypage] % 来自 wolfgang 的 tip
+
+% 汉化
+\setuplabeltext[en][chapter={第\;,\;章\kern.5em}]
+\setuplabeltext[en][figure=图\;]
+\setuplabeltext[en][table=表\;]
+\setupheadtext[en][pubs={\bfc 参考文献}]
+\setupheadtext[en][content={\bfc 目录}]
+%---- 其它一些零碎设置 ----
+\setupfloats[indentnext=yes] 
+\setupcaptions[style=\tfx, headstyle=\normal, align=center]
+%\setupitemize[each][packed,serried,inmargin][margin=2em]
+\setupitemize[each][distance=.4em]
+\setupinmargin[left,right][style=\tfx]
+\definedescription
+  [definition]
+  [location=top,hang=20,width=broad,indenting=always,style=\ss,headstyle=\bf]
+
+% 红色背景框
+\def\redbox#1{%
+  \inframed[frame=off,background=color,backgroundcolor=indianred,offset=4pt]{#1}%
+}
+
+% sample
+\definefloat[Sample][Samples]
+\setuplabeltext[en][Sample={示例\;}]
+\definebuffer[samplecode]
+\def\mysample[#1]#2#3{%
+  \placeSample[force][#1]{#2}{%
+    \hbox to \textwidth{%
+      \hbox to .45\textwidth{\getsamplecode}\hfill\externalfigure[#3][maxwidth=.45\textwidth]%
+    }%
+  }%
+}
+
+\def\BibTeX{B\scale[height=.5em]{IB}\TeX}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 参考文献 GB
+\input bib-style
+\stopenvironment

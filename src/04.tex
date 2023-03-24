@@ -1,0 +1,186 @@
+\chapter[post]{让文章有它该有的样子}
+
+走出新手村，我们的第一个任务是，让一篇文章有它该有的样子。什么样子呢？至少要有标题，有作者信息，还可能有次标题，次次标题……还要有页码，当然最重要的是，要有段落——新手村里我们的老朋友。对于大多数文学创作工作者而言，这些已经足够了，这就是一篇文章该有的样子。至于科技工作者通常所需要的列表、表格、插图、数学公式等形式，是在文章该有的样子的基础上进一步的构造，现在不必急于理会。
+
+\section{标题}
+
+在 \ConTeXt\ 中，标题分为两种，无编号的和有编号的。每种标题又分为诸多级别。无编号的标题，级别从高到低，排版命令依序是
+
+\starttyping[option=TEX]
+\title{...} % 一级标题
+\subject{...} % 次级标题
+\subsubject{...} % 次次级标题
+\subsubsubject{...} % 次次次级标题
+... ... ...
+\stoptyping
+
+\noindent 有编号的标题，级别从高到低，排版命令依序是
+
+\starttyping[option=TEX]
+\title{...} % 一级标题
+\section{...} % 次级标题
+\subsection{...} % 次次级标题
+\subsubsection{...} % 次次次级标题
+... ... ...
+\stoptyping
+
+\noindent 应该不难看出两种标题各自的次级标题降级规律。不建议使用级别层次太深的标题，否则会让读者觉得身陷迷宫，通常前三级标题足够使用。若是写一篇散文，标题只需要用 \type{\title}。若是写一本小说，只需用 \type{\title} 制作书名，用 \type{\chapter} 制作章名。
+
+\section{写一篇散文}
+
+示例 \in[zaoshu] 虚构了一篇散文，我只给出了关键的源代码——为它构建完整的可编译的源代码，对你应该不是难事。该示例设置了段落首行缩进距离，并且使用 \type{\title} 创建了文章标题。目前尚无作者的名字，因为它会导致你无法看到 \ConTeXt\ 标题之后的段落，首行是不缩进的，这是西文的排版习惯。在使用标题前，只需对标题作如下设定，便可强迫 \ConTeXt\ 必须对每个标题后的第一个段落进行缩进。
+
+\starttyping[option=TEX]
+\setupheads[indentnext=yes]
+\stoptyping
+
+\startsamplecode\startnarrowtyping
+\setupindenting[first,always,2em]
+\title{鲁迅家的后园}
+
+在鲁迅家的后园，可以看见墙外有两株树。
+一株是枣树，还有一株也是枣树。
+
+这上面的夜的天空，奇怪而高，鲁迅生平
+没有见过这样奇怪而高的天空。
+\stopTEXpage
+\stopnarrowtyping\stopsamplecode
+\mysample[zaoshu]{散文示例 1}{zaoshu.pdf}
+
+现在可以为文章增加作者信息了，虽然他叫无名氏，见示例 \in[zaoshu-2]，只是作者距离正文太近了。不要尝试使用一些空行去增大该距离，因为 \TeX\ 引擎在遇到多个空行时，它也只是把它们当成一个空行，并将其视为 \type{\par}。
+
+\startsamplecode\startnarrowtyping
+\setupheads[indentnext=yes]
+\setupindenting[first,always,2em]
+\title{鲁迅家的后园}
+\midaligned{无名氏}
+% 省略了正文内容
+\stopTEXpage
+\stopnarrowtyping\stopsamplecode
+\mysample[zaoshu-2]{散文示例 2}{zaoshu-2.pdf}
+
+在版面的竖直方向，段落之间，或标题与段落之间，或标题与标题之间……增加空白，通常可以使用 \type{\blank} 命令。例如，在作者和正文之间增加一个空行的距离，只需 \type{\blank[line]}；要增加 $n$ 个空行的距离，只需 \type{\blank[n*line]}。
+
+\startsamplecode\startnarrowtyping
+\midaligned{无名氏}
+\blank[line]
+% 省略了正文内容
+\stopnarrowtyping\stopsamplecode
+\mysample[zaoshu-3]{散文示例 3}{zaoshu-3.pdf}
+
+倘若需要将标题居中，而非默认的居左，只需使用 \type{\setuphead}单独为 \type{\title} 设定样式：
+
+\starttyping[option=TEX]
+\setuphead[title][align=middle]
+\stoptyping
+
+若汉字字族里已经设定了粗体，也可以将标题的样式设为粗体，并指定它的大小级别：
+
+\starttyping[option=TEX]
+\setuphead[title][style=\bfc,align=middle]
+\stoptyping
+
+示例 \in[zaoshu-4] 将上述设定综合起来，排版结果已经中规中矩了，只是标题里的汉字的分布有些疏松，这是 \type{\setscript[hanzi]} 命令在汉字之间插入的粘连的伸长特性被 \ConTeXt\ 激活导致的，而它们之所以被激活，大概是 \ConTeXt\ 过于追求精确文字居中对齐而导致的，令 \type{\setuphead} 的参数 \type{align} 的值为 \type{{middle,broad}} 可以让 \ConTeXt\ 在文字居中对齐方面宽松一些\cite[contextref](p86)，结果可让汉字的分布变为紧密，见示例 \in[zaoshu-5]。
+
+\startsamplecode\startnarrowtyping
+\setupheads[indentnext=yes]
+\setuphead[title][style=\bfc,align=middle]
+\setupindenting[first,always,2em]
+
+\title{鲁迅家的后园}
+\midaligned{无名氏}
+% 省略了正文内容
+\stopnarrowtyping\stopsamplecode
+\mysample[zaoshu-4]{散文示例 4}{zaoshu-4.pdf}
+
+不知 \ConTeXt\ 从哪个版本起，有了一个新的对齐方式 \type{center}，它与 \type{{middle,broad}} 等价。请记住这个知识，因为以后可能会经常需要设定居中对齐。
+
+\startsamplecode\startnarrowtyping
+\setupheads[indentnext=yes]
+\setuphead
+  [title][style=\bfc,align=center]
+\setupindenting[first,always,2em]
+
+\title{鲁迅家的后园}
+\midaligned{无名氏}
+% 省略了正文内容
+\stopnarrowtyping\stopsamplecode
+\mysample[zaoshu-5]{散文示例 5}{zaoshu-5.pdf}
+
+\section[context-world]{正式踏入 \ConTeXt\ 世界}
+
+新手村终究太小了，小到已经不太容易让你尝试越来越多的 \ConTeXt\ 排版命令了。事实上，真正的 \ConTeXt\ 世界用起来要比新手村更为简单，只需使用 \type{\starttext ...\stoptext} 环境取代新手村即可，另外，一切设置排版样式的命令皆可放在 \type{\starttext} 之前。在 \type{text} 环境里，我们通常只需要关心文章或书籍的内容。
+
+以下代码应当有助于你看到 \ConTeXt\ 世界大致面目。它是完整的，亦即可将其保存为 \ConTeXt\ 源文件，使用 \type{context} 程序进行编译。
+
+\starttyping[option=TEX]
+% 排版样式
+\definefontfamily[myfonts][rm][nsimsun][bf=simhei]
+\setupbodyfont[myfonts,10.5pt]
+\setscript[hanzi]
+\setupheads[indentnext=yes]
+\setuphead[title][style=\bfc,align=center]
+\setupindenting[first,always,2em]
+% 行距：1.5 倍的正文字体尺寸，即1.5 * 10.5pt
+\setupinterlinespace[line=15.75pt]
+% 正文
+\starttext
+\title{鲁迅家的后园}
+\midaligned{无名氏}
+\blank[line]
+在我的后园，可以看见墙外有两株树，一株是枣树，还有一株也是枣树。
+
+这上面的夜的天空，奇怪而高，我生平没有见过这样的奇怪而高的天空。他仿佛要离开人间而去，使人们仰面不再看见。然而现在却非常之蓝，闪闪地眨着几十个星星的眼，冷眼。他的口角上现出微笑，似乎自以为大有深意，而将繁霜洒在我的园里的野花草上。
+
+... ... ...
+\stoptext
+\stoptyping
+
+\section[style]{内容与样式分离}
+
+或许你现在已经对每次排版时，会担心日后需要重复输入许多代码，它们主要用于设定排版所用的字体，标题的对齐方式、字体的大小粗细、段落缩进、行间距等。无需有此担心，因为任何一种 \TeX\ 都支持排版内容与样式的分离。
+
+如图 \in[style-file] 若将 \in[context-world] 节中的代码中位于 \type{\starttext} 之前的部分保存为文件，例如 foo-env.tex，然后将这部分代码之后的所有代码也保存为文件，例如 foo.tex。让 foo-env.tex 和 foo.tex 位于同一目录，然后在 foo.tex 的开头添加
+
+\starttyping[option=TEX]
+\input foo-env
+\stoptyping
+
+\noindent 最后，编译 foo.tex，所的结果必定与 \in[context-world] 节中的代码的编译结果相同。\type{\input} 是 \TeX\ 层面的命令，它的作用载入指定的扩展名为 \type{.tex} 的文件，但扩展名可省略。\ConTeXt\ 提供了 \type{\input} 等效且用法相同的命令 \type{\environment}，以体现所载入的文件仅涉及排版样式的设定。
+
+\placefigure
+  [here,force][style-file]
+  {内容与样式分离}{\blueframed{\externalfigure[style-file.png][width=.8\textwidth]}}
+
+一旦熟悉了如何实现排版内容与样式的分离，在使用 \ConTeXt\ 排版愈发复杂的内容时，你的样式文件 foo-env.tex 的内容便会日益丰富。长此以往，你总是能攒出一些样式文件，供不同的文档形式使用。排版内容总是千变万化，但样式却总是寥寥数种且极易与他人分享，这便是 \TeX\ 的优点，但前提是，你需要清晰地理解你所设定的任何一个排版样式。事实上，这也正是学习任何一种 \TeX\ 系统的乐趣所在。
+
+\section{页码}
+
+如果你亲自动手编译了 \in[style] 的 foo.tex，应当能看到，页眉是有页码的，如图 \in[pagenumber] 所示。这是 \ConTeXt\ 默认的页码样式，即页码出现在每一页，且居中位于页眉，这并不合乎中文的排版习惯，需要对页码进行样式设定。
+
+\placefigure
+  [here,force][pagenumber]
+  {页码}{\blueframed{\externalfigure[pagenumber.png][width=.8\textwidth]}}
+
+首先，文章标题所在页面，通常不需要页码。该要求，只需在标题样式将页眉和页脚置空，即
+
+\starttyping[option=TEX]
+\setuphead
+ [title]
+ [header=empty,
+  footer=empty,
+  % 应该还有其他设定吧
+  ...=...]
+\stoptyping
+
+然后，修改页码投放位置，例如放在页脚右侧：
+
+\starttyping[option=TEX]
+\setuppagenumbering[location={footer,right}]
+\stoptyping
+
+将上述设定酌情添加到样式文件里，然后编译 \ConTeXt\ 源文档，查看其效果吧。日后，倘若是排版书籍，还需要对标题和页码样式的设计作更多的调整。
+
+\section{小结}
+
+现在，你已经可以用 \ConTeXt\ 写日记或随笔了。倘若动手尝试了 \type{\chapter}，你甚至能用 \ConTeXt\ 写一本文集，只是风格过于朴素。若想让排版结果更为精致，\ConTeXt\ 博大精深，通常总有途径能够实现你的想法，前提是你需要更加用心。\TeX\ 之父 Donald Knuth 曾有一言，「我从来也不期盼 {\TeX} 会成为某种万能的排版工具，用于制作一些快速而脏的东西；我只是将其视为一种只要你足够用心就能得到最好结果的东西」，引用于此，与君共勉。

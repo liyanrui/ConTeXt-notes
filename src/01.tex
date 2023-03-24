@@ -1,0 +1,236 @@
+\chapter[Installation]{不怕命令行 }
+
+无论是安装还是使用 \ConTeXt，皆需要对命令行环境有所了解。原本未有介绍这方面知识的计划，但是考虑到我正在写一份世上最好的 \ConTeXt\ 入门文档，便有了些许动力。本章先分别介绍 Windows、Linux 和 macOS 系统的命令行环境的基本用法，以刚好满足安装和运行 \ConTeXt\ 的需求为要。倘若对命令行环境已颇为熟悉，可直接阅读 \in[installation] 和 \in[quick-installation] 节。
+
+\section{任务}
+
+使用命令行环境，在文件系统中，创建一个名为 foo 的目录，在该目录内创建一份 Shell 脚本，令其可在命令行窗口中输出「不怕命令行」，执行该脚本，查看其输出。
+
+\section{Windows 命令行}
+
+Windows 用户似乎畏惧甚至厌憎命令行环境，甚至很多人认为命令行环境是早已被淘汰的上个世纪的产物，因此要教会他们如何使用命令行环境，通常会有些麻烦，我当勉力为之。
+
+在 Windows 系统中打开一个命令行窗口，有很多种方法，其中最快的应当是使用如图 \in[win-r] 所示快捷键「Win + R」，打开「运行」对话框，在其中输入「cmd」后点击「确定」按钮或单击「Enter」键，即可打开与图 \in[cmd-window] 类似的命令行窗口。
+
+\startplacefigure[location=none]
+\startfloatcombination[nx=2,ny=1]
+\startplacefigure[title={「\type{Win + R}」 组合键},reference=win-r]
+\externalfigure[win-r.jpg][height=6cm]
+\stopplacefigure
+\startplacefigure[title={Windows 命令行窗口},reference=cmd-window]
+\externalfigure[cmd-window.png][height=6cm]
+\stopplacefigure
+\stopfloatcombination
+\stopplacefigure
+
+所有要执行的命令皆是在「\type{>}」符号后输入，因而该符号名曰「命令提示符」。命令提示符左侧的内容是一个文件目录，名曰「当前目录」或「工作目录」。在命令行环境里，任何命令皆是在某个目录中执行的。在开始尝试输入命令之前，请将输入法切换为英文输入状态。
+
+在命令行窗口中输入命令「d:」，然后单击「Enter」键执行该命令，可将当前目录切换为 D 盘。在命令行环境里，输入命令后，必须单击「Enter」键，方能使命令得以执行。
+
+执行命令「\type{md foo}」，可在 D 盘根目录创建目录 foo，然后执行命令「\type{cd foo}」，将当前目录切换为 foo，即 \type{D:\foo}。
+
+诸如 \type{D:\} 和 \type{D:\foo} 这样的表示形式统称为路径，更为准确地说，是绝对路径。有相对路径吗？有。在 \type{D:\foo} 中执行命令「\type{cd ..}」，便可将当前目录返回上一级，即 \type{D:\}。在 \type{D:\foo} 中执行命令「\type{cd ..\foo}」，则当前目录不会发生变化，因为 \type{D:\foo} 的上一级目录的子目录 foo 依然是 \type{D:\foo} 。形如 \type{..\foo} 这样的路径便是相对路径。
+
+在当前目录 \type{D:\} 中执行命令「\type{cd ..}」，当前目录会发生什么变化？不会发生任何变化，因为 \type{D:\} 是 D 盘的最顶层目录，亦即它的上一级目录为空。
+
+掌握了上述命令，便可在 Windows 文件系统中畅游无阻了，然而我们的任务尚未完成。在 Windows 系统中，该任务可描述为，在 \type{D:\foo} 中创建一份 Shell 脚本，执行该脚本，在命令行窗口中输出「不怕命令行」。在 Windows 系统中，Shell 脚本即批处理文件——扩展名为「\type{.bat}」的纯文本文件。在制作这份批处理文件之前，需要了解「\type{echo}」命令的基本用法。
+
+「\type{echo}」命令，如同我们对着幽深的山谷呼喊而产生回声的过程，它读取一段文本，然后在命令行窗口中原样输出。例如，
+
+\starttyping
+D:\foo> echo 不怕命令行 
+不怕命令行
+\stoptyping
+
+似乎「\type{echo}」命令是一个什么都不会做的命令，这样的命令有什么用呢？它有一个用途是，利用输出重定向，将一些内容写入文本文件。例如，
+
+\starttyping
+D:\foo> echo @echo off > foo.bat
+\stoptyping
+
+\noindent 上述命令通过命令输出重定向符「\type{>}」将「\type{echo}」原本会输出到命令行窗口的文字「@echo off」重定向为输出到文件 \type{D:\foo\foo.bat} 。倘若该文件事先并不存在，上述命令会自动创建它。
+
+现在，使用「\type{echo}」命令向文件 \type{D:\foo\foo.bat} 增加一行文字：
+
+\starttyping
+D:\foo> echo echo 不怕命令行 >> foo.bat
+\stoptyping
+
+\noindent 注意，向指定文件追加内容，需要使用「\type{>>}」，倘若使用「\type{>}」，则文件原有内容会被全部替换。
+
+现在，略有纪念意义的时刻到了，你可能已经创建了人生中第一份 Windows 批处理文件，执行它吧！
+
+\starttyping
+D:\foo> .\foo.bat
+不怕命令行
+\stoptyping
+
+\noindent 注意，上述命令使用了相对路径的第二种形式，路径中的「\type{.}」表示当前目录。事实上，在 Windows 命令行环境里，这种形式的相对路径可以忽略，亦即上述命令可以改为
+
+\starttyping
+D:\foo> foo.bat
+不怕命令行
+\stoptyping
+
+\noindent 在执行某个程序或批处理文件时，倘若未给出其路径，Windows 系统默认先从当前目录中搜索文件，若未搜到，才会在系统环境变量 \type{PATH} 设定的路径中搜索。
+
+系统环境变量 \type{PATH} 是什么呢？既然是变量，必定有值，其值是绝对路径集，执行以下命令可以查看：
+
+\starttyping
+D:\foo> echo %PATH%
+\stoptyping
+
+\noindent 顺便指出，这是「\type{echo}」命令的另一种用途。
+
+使用以下「\type{setx}」命令可以将上述示例创建的批处理文件 foo.bat 所在目录 \type{D:\foo} 追加至 \type{PATH} 变量现有路径集的尾部：
+
+\starttyping
+D:\foo> setx /M PATH "%PATH%d:\foo;"
+\stoptyping
+
+\noindent 务必注意，该命令仅在「以管理员身份」启动的命令行窗口中起效。在 Windows 开始菜单里的搜索栏，输入「cmd」并单击「Enter」键提交，然后鼠标右键单击如图 \in[search] 所示的搜索结果，在弹出的菜单中选择「以管理员身份运行」。以这种方式开启的命令行窗口方可执行上述的「\type{setx}」命令。
+
+验证「\type{D:\foo}」是否被成功添加到系统 \type{PATH} 变量，只需在除 \type{D:\foo} 之外的任一目录验证能否执行 foo.bat，例如
+
+\starttyping
+D:\foo> c:
+C:\> cd windows\system32  
+C:\Windows\System32> foo.bat
+不怕命令行  
+\stoptyping
+
+\useURL[Windows 命令行][https://www.bilibili.com/video/BV1vk4y1h7LE/]
+若不知如何以管理员身份运行命令行窗口，亦可通过图形界面设置 \type{PATH} 变量。我已将上述构建 \type{D:\foo\foo.bat} 以及如何通过图形界面设置系统 \type{PATH} 变量等过程录制为视频，网络链接为\bluebox{\from[Windows 命令行]}，藉此避免让层峦叠障的 Windows 窗口截图占据本章太多篇幅。
+
+\section{Linux 终端}
+
+在 Linux 系统中，命令行环境叫作「终端（Terminal）」。终端中可以运行多种 Shell，最为常见的是 Bash Shell。这些 Shell 往往大同小异。终端可以嵌入窗口运行，也可以在没有窗口的情况下运行\footnote{通常情况下，可使用快捷键「\type{Ctrl + Alt + F1～F6}」切换到无窗口的终端。「\type{Ctrl + Alt + F7}」也对应一个终端，它通常被 Linux 窗口系统占用。}，我们通常使用的是前者。
+
+Linux 系统发行版众多，每个发行版有其不同的打开终端窗口的方式且因 Linux 用户往往对终端较为熟悉，因而不再赘述如何打开终端窗口。现在，假设终端窗口已经开启。首先，进入 \type{$HOME} 目录，创建子目录 foo：
+
+\starttyping
+$ cd $HOME
+$ mkdir foo
+\stoptyping
+
+\noindent 进入 foo，使用命令输出重定向，将 \type{echo} 命令的输出结果写入 foo.sh 文件：
+
+\starttyping
+$ cd foo
+$ echo #!/bin/bash > foo.sh
+$ echo echo 不怕命令行 >> foo.sh
+\stoptyping
+
+\noindent 使用 \type{chmod} 命令为 foo.sh 增加可执行权限，让它像程序一样运行：
+
+\starttyping
+$ chmod +x foo.sh
+\stoptyping
+
+\noindent 运行 foo.sh：
+
+\starttyping
+$ ./foo.sh
+不怕命令行
+\stoptyping
+
+\noindent 将「\type{$HOME/foo}」添加至系统「\type{PATH}」变量并使之生效：
+
+\starttyping
+$ cd $HOME
+$ echo 'export PATH=$HOME/foo:$PATH' >> .bashrc
+$ source .bashrc
+\stoptyping
+
+\noindent 在任一目录下执行 foo.sh 以验证「\type{$HOME/foo}」是否已被添加至「\type{PATH}」变量，例如
+
+\starttyping
+$ cd /tmp
+$ foo.sh
+不怕命令行
+\stoptyping
+
+倘若想对 Bash Shell 有更多一些的了解，可以阅读我的拙作「写给高年级小学生的《Bash 指南》」\cite[bash-tutor]，它介绍了 Bash 的诸多有趣之处，也许会让你喜欢命令行，而不仅仅是不怕它。
+
+\section{macOS 终端}
+
+\useURL[macOS 终端][https://support.apple.com/zh-cn/guide/terminal/apd5265185d-f365-44cb-8b09-71a064a42125/mac]
+我没用过 macOS 系统，在该系统中打开终端窗口，可按 macOS 官方帮助文档介绍的方法进行，详见：\\
+\bluebox{{\switchtobodyfont[9.75pt]\from[macOS 终端]}}
+
+至于 macOS 终端的用法，因 macOS 和 Linux 皆为 Unix-like（类 Unix）系统，二者终端环境的用法近乎相同，唯一有些区别的是，从 macOS Catalina 版开始，macOS 默认使用的 Shell 不再是 Bash，而是 zsh。因此，在设置「\type{PATH}」变量时，命令需要变为
+
+\starttyping
+$ cd $HOME
+$ echo 'export PATH=$HOME/foo:$PATH' >> .zshrc
+$ source .zshrc
+\stoptyping
+
+\section[installation]{安装 \ConTeXt\ LMTX}
+
+\useURL[installation][https://wiki.contextgarden.net/Installation]
+\ConTeXt\ 的最新版本是 \ConTeXt\ LMTX，目前尚在开发和试验阶段，功能虽不稳定，但对于入门而言并无妨碍。从 \bluebox{\from[installation]} 下载对应操作系统类型的 \ConTeXt\ LMTX 安装包，按照该网址的相关介绍进行安装即可。授人以鱼，不如授人以渔，安装过程所需要的全部知识皆已在上文介绍完毕。不过，我总担心 Windows 用户无法安装成功，下文以 Windows 64 位系统为例，给出完整的安装过程。
+
+\useURL[win-64-version][http://lmtx.pragma-ade.com/install-lmtx/context-win64.zip]
+首先，从链接 \bluebox{\from[win-64-version]} 获得面向 Windows 64 位系统的安装包 \type{context-win64.zip} 并假设将其放在 \type{D:\} 解开，所得目录为 \type{context-win64}，其结构如下：
+
+\starttyping
+D:\context-win64
+├── bin
+│   ├── mtx-install.lua  
+│   ├── mtxrun.exe
+│   └── mtxrun.lua
+├── installation.pdf
+├── install.bat
+└── setpath.bat
+\stoptyping
+
+将目录 \type{context-win64} 改名为 \type{context}，然后打开命令行窗口，依次执行以下命令：
+
+\starttyping
+> d:
+> cd context
+> install.bat
+\stoptyping
+
+\noindent 批处理文件 install.bat 能够自动从网络上下载 \ConTeXt\ LMTX 的所有文件，并将其安装在 \type{D:\context} 目录。安装时长取决于网络下载速度。由于服务器在境外，文件下载速度缓慢，可能需要很久方能安装完毕。当安装过程结束后，目前需要再次执行 install.bat，将 \ConTeXt\ LMTX 更新到最新版本。这些都是 \bluebox{\from[installation]} 未告诉我们的。此外，即使安装过程中断，再次运行 install.bat 可继续安装，而不会导致前功尽弃。
+
+验证 \ConTeXt\ LMTX 是否安装成功的方法是，在 \type{D:\context} 目录中执行以下命令：
+
+\starttyping
+> setpath.bat
+> md test
+> cd test
+> echo \startTEXpage[frame=on,offset=1pt] > foo.tex
+> echo Hello \ConTeXt! >> foo.tex
+> echo \stopTEXpage >> foo.tex
+> context foo.tex
+\stoptyping
+
+\noindent 倘若在 \type{D:\context\test} 目录下能够得到 \type{foo.pdf} 文件，且其内容为 \lower.3em\hbox{\externalfigure[foo.pdf]}，则意味着已成功安装 \ConTeXt\ LMTX。
+
+最后，将 \type{D:\context\tex\texmf-win64\bin} 添加到系统 \type{PATH} 变量，便可在任一目录使用 \type{context} 命令将扩展名为 \type{.tex} 的文本文件编译成 PDF 文件了。
+
+\section[quick-installation]{投机取巧}
+
+倘若因为网络不畅甚至不通等问题无法成功安装 \ConTeXt\ LMTX，可以考虑下载我打包的整个 \ConTeXt\ LMTX 环境，目前仅有 Windows 64 位和 Linux 64 位版本，下载地址为：
+
+\useURL[win64v][https://pan.baidu.com/s/1r5gMqsk-peGQhOmcp_dNlw?pwd=eejf]
+\useURL[linux64v][https://pan.baidu.com/s/1iBHN-8Zroyd9rGOjRpQrYg?pwd=r2hp]
+\startitemize[packed]
+\item Windows amd64 版本：\bluebox{\from[win64v]}
+\item Linux amd64 版本：\bluebox{\from[linux64v]}
+\stopitemize
+
+\useURL[quick-installation][https://www.bilibili.com/video/BV1q84y1c7Je/]
+以 Windows 系统为例，从上述链接获得压缩包，以 \type{D:\} 作为解压缩目录，解压后可得 \type{D:\context} 目录，然后按照上一节所述方式修改系统 \type{PATH} 变量即可得到完整的 \ConTeXt\ LMTX 环境，日后依然可执行 \type{D:\context\install.bat} 对其进行更新。我已将该过程录制为视频，网络链接为 \bluebox{\from[quick-installation]}。
+
+\section{小结}
+
+在一个桌面操作系统中，命令行环境能完成的工作，图形界面通常也能完成，但对于有些任务，命令行环境比图形界面更为高效，反之亦然，原本无需厚此薄彼，但尺有所短，寸有所长，Windows，Linux 和 macOS 也是如此。
+
+\startitemize
+\item Windows 系统的命令行环境，前身是 MS DOS 系统，长期未得进化，现在用起来，捉襟见肘。现代的 PowerShell 更为适用，但因 \ConTeXt\ 目前不能直接在 PowerShell 环境里完成安装，故而上文未曾言及。
+\item macOS 无论图形界面还是命令行环境皆胜于 Windows 和 Linux，但其缺点是在不违法的情况下，它只能运行于苹果公司的计算机，费用不菲。
+\item Linux 系统的图形界面不及 Windows 和 macOS，但命令行环境优于 Windows\footnote{自 Windows 10 开始，微软在 Windows 系统中构建了 Linux 子系统（WSL），允许用户在 Windows 系统中使用 Linux 命令行环境，但是该环境无法利用 Windows 和 Linux 的图形界面功能。}，与 macOS 相当，但 Linux 最显著的特点是，它能帮助每一个使用计算机的人，让他深刻觉察自己以往所宣称的那样热爱自由是否真实。
+\stopitemize

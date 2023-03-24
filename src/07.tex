@@ -1,0 +1,179 @@
+\chapter{数学环境}
+
+\TeX\ 原本是 Knuth 专为排版数学类书籍而开发的，亦即排版数学公式是 \TeX\ 最擅长的任务，这也是我对数学的唯一兴趣了。希望你是因为喜欢数学而喜欢 \TeX。
+
+\section{两种模式}
+
+\TeX\ 数学公式有两种模式，一种是正文模式（text mode），一种是显摆模式（display mode），在 \ConTeXt\ 中，自然也是如此。当然，可能你觉得显摆模式这个称谓不够严肃，于是随了它的俗称「行间模式」，并无不可，而且后文我也如此称谓它。
+
+正文模式里的数学公式放在一对美元符号之间，意思是有钱人都精通数学。例如 \type{$a^2 + b^2 = c^2$} 便是正文模式的数学公式，其排版结果为 $a^2 + b^2 = c^2$。\TeX\ 数学公式的行间模式是放在一对双美元符号之间，例如
+
+\starttyping[option=TEX]
+$$
+\int_0^{+\infty}f(x) {\rm d}x
+$$
+\stoptyping
+
+\noindent 其排版结果为
+
+$$
+\int_0^{+\infty}f(x) {\rm d}x
+$$
+
+\noindent 但是，在 \ConTeXt\ 里，行间模式建议用以下形式的语法
+
+\starttyping[option=TEX]
+\startformula
+\int_0^{+\infty}f(x) {\rm d}x
+\stopformula
+\stoptyping
+\startformula
+\int_0^{+\infty}f(x) {\rm d}x
+\stopformula
+
+\noindent 至于原因为何，想必你已经知道了，\ConTeXt\ 对 \type{\startformula ... \stopformula} 环境的行间公式默认提供了居中对齐以及前后空白支持。为什么 \ConTeXt\ 不对 \type{$$...$$} 提供类似的支持呢？因为 \ConTeXt\ 需要以一种统一的方式控制行间公式前后的空白大小，例如消除行间公式前后空白，只需
+
+\starttyping[option=TEX]
+\setupformulas[spacebefore=0pt,spaceafter=0pt]
+\startformula
+\int_0^{+\infty}f(x) {\rm d}x
+\stopformula
+\stoptyping
+\setupformulas[spacebefore=0pt,spaceafter=0pt]
+\startformula
+\int_0^{+\infty}f(x) {\rm d}x
+\stopformula
+
+\noindent 若基于 \type{$$...$$} 标记则很难实现该方式。
+
+\section{公式编号}
+
+如同插图和表格，行间数学公式也有一个放置命令 \type{\placeformula}。例如
+
+\starttyping[option=TEX]
+\placeformula
+\startformula
+\int_0^{+\infty}f(x) {\rm d}x
+\stopformula
+\stoptyping
+
+\placeformula[math-example]
+\startformula
+\int_0^{+\infty}f(x) {\rm d}x
+\stopformula
+
+\ConTeXt\ 行间公式支持引用，例如
+
+\starttyping[option=TEX]
+\placeformula[math-example]
+\startformula
+\int_0^{+\infty}f(x) {\rm d}x
+\stopformula
+\stoptyping
+
+\noindent 类似插图和表格，使用 \type{\in[...]} 进行引用。例如 \type{\in[math-example]}，结果为「\in[math-example]」。
+
+\section{定理和证明}
+
+\ConTeXt\ 未提供可直接用于排版数学定理和证明的命令，但是我们可以借助枚举环境定义它们。我们对枚举环境事实上并不陌生，因为早已见识过它的一个特例：列表。
+
+使用 \type{\defineenumeration} 可以定义一种新的枚举特例。例如
+
+\starttyping[option=TEX]
+\defineenumeration[theorem][text=定理]
+\stoptyping
+
+然后便可使用该特例：
+
+\starttyping[option=TEX]
+\starttheorem
+凡人皆有一死，凡人皆须侍奉。
+\stoptheorem
+\stoptyping
+
+\noindent 结果为
+
+\startblueframedtext
+\defineenumeration[theorem][text=定理]
+\starttheorem
+凡人皆有一死，凡人皆须侍奉。
+\stoptheorem
+\stopblueframedtext
+
+接下来，让定理序号与定理内容的第一行处于同一行，让版面更加紧凑（serried）：
+
+\starttyping[option=TEX]
+\defineenumeration[theorem][text=定理,alternative=serried]
+\starttheorem
+凡人皆有一死，凡人皆须侍奉。
+\stoptheorem
+\stoptyping
+
+\startblueframedtext
+\defineenumeration[theorem][text=定理,alternative=serried]
+\starttheorem
+凡人皆有一死，凡人皆须侍奉。
+\stoptheorem
+\stopblueframedtext
+
+现在，只需将定理的宽度设为 \type{broad} 或 \type{\textwidth}，便可让定理编号和定理内容不至于如此隔阂，顺便将定理内容的字体切换为粗体：
+
+\starttyping[option=TEX]
+\defineenumeration[theorem][text=定理,alternative=serried,width=broad,style=\bf]
+\starttheorem
+凡人皆有一死，凡人皆须侍奉。
+\stoptheorem
+\stoptyping
+
+\noindent 结果为
+
+\startblueframedtext
+\defineenumeration[theorem][text=定理,alternative=serried,width=broad,style=\bf]
+\starttheorem
+凡人皆有一死，凡人皆须侍奉。
+\stoptheorem
+\stopblueframedtext
+
+由于枚举环境皆支持引用，因此上述定义的定理可免费继承该功能。例如
+
+\starttyping[option=TEX]
+\starttheorem[千面神定理]
+凡人皆有一死，凡人皆须侍奉。
+\stoptheorem
+
+如定理 \in[千面神定理] 所述……
+\stoptyping
+
+\startblueframedtext
+\defineenumeration[theorem][text=定理,alternative=serried,width=broad,style=\bf]
+\starttheorem[千面神定理]
+凡人皆有一死，凡人皆须侍奉。
+\stoptheorem
+
+如定理 \in[千面神定理] 所述……
+\stopblueframedtext
+
+类似地，也基于枚举环境定义证明，只需去掉序号，并在证明结尾居右放置 $\square$ 符号。例如
+
+\starttyping[option=TEX]
+\defineenumeration
+  [proof]
+  [text=证明,alternative=serried,width=broad,
+   number=no,closesymbol={$\square$}]
+\startproof
+因为人的生命是有限的，为人民服务是无限的。我们应当将有限的生命投入到无限的为人民服务中去。
+\stopproof
+\stoptyping
+\startblueframedtext
+\defineenumeration
+  [proof]
+  [text=证明,alternative=serried,width=broad,
+   number=no,closesymbol={$\square$}]
+\startproof
+因为人的生命是有限的，为人民服务是无限的。我们应当将有限的生命投入到无限的为人民服务中去。
+\stopproof
+\stopblueframedtext
+
+\section{小结}
+
+现在你已经基本学会了 \ConTeXt\ 数学公式排版。与 \ConTeXt\ 数学排版专家相比，你缺乏的可能主要是如何熟练地输入具体的数学公式。若想在这方面能有所精进，可参考 \ConTeXt\ Wiki 的「Math」页面\cite[math]。

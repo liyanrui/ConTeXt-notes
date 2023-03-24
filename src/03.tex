@@ -1,0 +1,327 @@
+\chapter[chinese-fonts]{汉字}
+
+让 \TeX\ 系统支持汉字，这个任务曾经很容易对新手学习和使用 \TeX\ 的热情造成毁灭性打击。后来，随着 \XeTeX\ 和 \LuaTeX\ 等现代 \TeX\ 引擎的出现，这项任务的难度已经大幅降低了。\ConTeXt\ LMTX 所用的 \TeX\ 引擎是 \LuaMetaTeX，对 \LuaTeX\ 进行了精简并作为它的继任者而继续发展。可能你现在并不理解这些术语，但也不必担心，如同驾驶一辆 \ConTeXt\ 汽车，无需知道它的引擎（发动机）是哪个工厂生产的，其性能参数又是如何。
+
+\section[fonts-installation]{安装字体}
+
+首先，需要找到一款汉字字体文件，否则只有学仓颉，自己造字。倘若你或你的朋友的计算机中装有 Windows 系统，可从如图 \in[msfonts] 所示的 \type{C:\Windows\Fonts} 目录下获得宋体（simsun.ttc）、黑体（simhei.ttf）和楷体（simkai.ttf）等字体文件。有了它们，足以胜任常规的排版工作。
+
+\placefigure
+  [here,force]
+  [msfonts]
+  {\type{C:\Windows\Fonts}}
+  {\externalfigure[msfonts.png][width=.6\textwidth]}
+
+在开始安装字体之前，需要给出一个术语，\TeX\ 根目录。以 Windows 系统为例，若 \ConTeXt\ 安装在 \type{D:\context} 目录，则该目录中的子目录和文件当如图 \in[tex-root] 所示。在这种情况下，\type{D:\context\tex} 目录即为 \TeX\ 根目录。同理，对于 Linux 和 macOS 系统，若 \ConTeXt\ 安装在 \type{$HOME/context} 目录，则 \type{$HOME/context/tex} 为 \TeX\ 根目录。
+
+\placefigure
+  [here,force]
+  [tex-root]
+  {\TeX\ 根目录}
+  {\externalfigure[tex-root.png][width=.6\textwidth]}
+
+为了便于描述，从现在开始，以虚构的类 Unix 环境变量风格的 \type{$TEXROOT} 指代 \TeX\ 根目录，不再使用具体路径，因为后者严重依赖于操作系统和用户偏好而缺乏一致性。此外，路径中的目录间隔符也统一使用类 Unix 风格进行表示，即使用「\type{/}」而非 Windows 风格的「\type{\}」，例如 \type{$TEXROOT/texmf} 表示 \TeX\ 根目录的子目录 \type{texmf}。
+
+向 \ConTeXt\ 安装宋体（simsun.ttc）、黑体（simhei.ttf）和楷体（simkai.ttf）的具体过程如下：
+
+\startitemize[n,packed][stopper=,left=(,right=)]
+\item 将上述字体文件复制到 \type{$TEXROOT/texmf-local/fonts/truetype/msfonts} 目录，若该目录不存在，则自行创建；
+\item 执行「\type{context --generate}」命令，刷新 \ConTeXt\ 的文件数据库：
+\item 执行「\type{mtxrun --script fonts --reload --force}」命令，载入新添加的字体：
+\stopitemize
+
+字体安装完毕后，可以通过查询字体文件名确认字体是否安装成功，例如查询 simhei.ttf：
+
+
+\starttyping
+$ mtxrun --script fonts --list --file simhei.ttf
+familyname   weight   style    width    variant   fontname   filename     ...
+
+simhei       normal   normal   normal   normal    simhei     simhei.ttf
+\stoptyping
+
+\noindent 查询结果中的 \type{fontname} 栏很重要，因为在排版时，通常要使用字体名字指代某个字体。上述命令也可用于查询 simkai.ttf 的信息，但是无法用于查询 TTC 字体 simsun.ttc，可能是因 TTC 字体文件较为特殊，但无论如何，这是 \type{mtxrun} 的 \type{fonts} 脚本的一个 bug，希望日后能被修复。
+
+查询 simsun.ttc 对应的字体名，可以使用以下命令：
+
+\starttyping
+$ mtxrun --script fonts --list --all simsun
+identifier       familyname   fontname   filename     subfont   instances
+
+nsimsunnormal    nsimsun      nsimsun    simsun.ttc   2
+nsimsunregular   nsimsun      nsimsun    simsun.ttc   2
+simsun           simsun       simsun     simsun.ttc   1
+simsunnormal     simsun       simsun     simsun.ttc   1
+simsunregular    simsun       simsun     simsun.ttc   1
+\stoptyping
+
+\noindent\type{subfont} 栏表明 simsun.ttc 里包含了两种字体，一种是 \type{simsun}（宋体），另一种是 \type{nsimsun}（新宋体）。此外，请对 \type{identifier} 和 \type{familyname} 栏略加留意，\in[define-family] 节需要这些信息。
+
+需要注意，上述过程安装的字体都是有版权的，倘若作商业用途，需要向开发这些字体的公司支付授权费用。本文档之所以选择使用它们，主要是为了兼容国内在文档字体选用上的积习。网络上能够找到 Google 公司开发的一系列免费的汉字字体，例如 Noto 系列，其安装方式可参考上述过程，无须赘述。此外，若安装扩展名为「\type{.otf}」的字体，即 OpenType 字体，建议将它们安装到 \type{$TEXROOT/texmf-local/fonts/opentype} 目录，若无该目录，可自行创建。
+
+\section{字体的定义与使用}
+
+示例 \in[hello-hanzi] 演示了如何在新手村里为 \ConTeXt\ 定义大小为 12 pt 的宋体，黑体和楷体等字体切换命令，并使用它们各排版一行文字。
+
+\startsamplecode\startnarrowtyping
+\startTEXpage[frame=on,offset=4pt]
+\definefont[songti][name:simsun at 12pt]
+\definefont[heiti][name:simhei at 12pt]
+\definefont[kaiti][name:kaiti at 12pt]
+\songti 潜龙勿用。\\
+\heiti 见龙在田，利见大人。\\
+\kaiti 君子终日乾乾，夕惕若厉，无咎。
+\stopTEXpage
+\stopnarrowtyping\stopsamplecode
+\mysample[hello-hanzi]{三种汉字字体}{qian.pdf}
+
+需要注意的是，第一次在 \ConTeXt\ 中使用新安装的汉字字体，源文件编译过程会较为缓慢，因为 \ConTeXt\ 需要解析字体文件中的一些编码信息并将解析结果存到它的字体缓存目录。待下一次使用经过缓存后字体时，编译速度便会正常，因此不应急切宣判 \ConTeXt\ 不适合处理中文文档。我的计算机 CPU 是 \type{Intel i5-4300U @ 1.90GHz}。这份文档写至此处，已有 20 页内容，其源文件单次编译时间不到 3 秒。我感觉 \ConTeXt\ 处理中文文档，并不是很慢，但是应当承认，肯定是比基于 \pdfTeX 或 \XeTeX 等引擎的 \TeX\ 要慢一些。
+
+\section[breaking-lines]{中文断行}
+
+现在尝试用宋体字排版一段中文，见示例 \in[无法断行]。结果表明，仅仅能在 \ConTeXt\ 中使用汉字字体是不够的，因为 \ConTeXt\ 此刻尚不知在限定宽度的版面内如何对汉字进行断行，以致文字超出版面。究其原因，是汉字之间不像西文单词以空格作为间隔，因此在 \ConTeXt\ 看来，一段汉字文字等同于一个很长的西文单词，是一个无法分隔的单元。
+
+\startsamplecode\startnarrowtyping
+\startTEXpage[frame=on,width=5cm,offset=4pt]
+\definefont[songti][name:simsun at 12pt]
+\songti
+潜龙勿用。见龙在田，利见大人。%
+君子终日乾乾，夕惕若厉，无咎。
+\stopTEXpage
+\stopnarrowtyping\stopsamplecode
+\mysample[无法断行]{中文段落无法断行}{breakinglines-1.pdf}
+
+需要注意示例 \in[无法断行] 中的注释符的用法。虽然注释内容为空，但注释符可令 \TeX\ 引擎忽略其后的所有空白字符（包括换行符）。倘若将该示例中的注释符去掉，第一行汉字和第二行汉字之间的换行符会被 \TeX\ 引擎视为空白字符，从而让 \ConTeXt\ 觉得，它面对的是两个较长的单词，它们之间可以断行，结果见示例 \in[将错就错]，可以断行，但属于误打误撞。
+
+\startsamplecode\startnarrowtyping
+\startTEXpage[frame=on,width=5cm,offset=4pt]
+\definefont[songti][name:simsun at 12pt]
+\songti
+潜龙勿用。见龙在田，利见大人。
+君子终日乾乾，夕惕若厉，无咎。
+\stopTEXpage
+\stopnarrowtyping\stopsamplecode
+\mysample[将错就错]{中文段落无法断行}{breakinglines-2.pdf}
+
+现在，我们可以灵机一动，既然换行符被 \TeX\ 引擎视为空白字符从而使得 \ConTeXt\ 误打误撞对汉字进行了一次断行，那么倘若在汉字之间手工插入空格字符，\ConTeXt\ 能否实现汉字断行呢？答案是，可行，见源文档显现了空格字符（以 \type[space=on]{ } 表示）的示例 \in[手工断行]，只是空格的存在，导致排版结果中的汉字分布较为蓬松。
+
+\startsamplecode\startnarrowtyping[space=on]
+\startTEXpage[frame=on,width=5cm,offset=4pt]
+\definefont[songti][name:simsun at 12pt]
+\songti
+潜 龙 勿 用。 见 龙 在 田， 利 见 大 人。
+君 子 终 日 乾 乾， 夕 惕 若 厉， 无 咎。
+\stopTEXpage
+\stopnarrowtyping\stopsamplecode
+\mysample[手工断行]{中文段落手工插入空格进行断行}{breakinglines-3.pdf}
+
+位于 \ConTeXt\ 底层的 \TeX\ 系统提供了粘连（Glue）机制，我们可以用它定义给定宽度且有些许弹性的空格。例如，定义一个宽度为 0，最大可伸展 2 pt 且不可收缩的粘连：
+
+\starttyping[option=TEX]
+\def\foo{\hskip 0pt plus 2pt minus 0pt}
+\stoptyping
+
+\noindent 然后用该粘连代替空格，插入到汉字之间，便基本可实现汉字断行，结果见示例 \in[手工插入粘连断行]，需要注意的是，\TeX\ 会自动忽略排版命令之后尾随的空格，因此 \type{\foo} 之后虽然有一个空格，但该空格不会在排版结果里出现。
+
+\startsamplecode\startnarrowtyping[space=on]
+\startTEXpage[frame=on,width=5cm,offset=4pt]
+\definefont[songti][name:simsun at 12pt]
+\def\foo{\hskip 0pt plus 2pt minus 0pt}
+\songti
+潜\foo 龙\foo 勿\foo 用。%
+\foo 见\foo 龙\foo 在\foo 田，\foo 利\foo 见%
+\foo 大\foo 人。%
+\foo 君\foo 子\foo 终\foo 日\foo 乾\foo 乾，%
+\foo 夕\foo 惕\foo 若\foo 厉，\foo 无\foo 咎。
+\stopTEXpage
+\stopnarrowtyping\stopsamplecode
+\mysample[手工插入粘连断行]{中文段落手工插入粘连进行断行}{breakinglines-4.pdf}
+
+由于没有人愿意像示例 \in[手工插入粘连断行] 那样排版汉字，因此 \ConTeXt\ 提供了一个可以自动在汉字之间插入粘连的命令，即
+
+\starttyping[option=TEX]
+\setscript[hanzi]
+\stoptyping
+
+\noindent 上述过程大费周章，仅仅是让你明白 \type{\setscript[hanzi]} 的原理。此外，你甚至学会了如何定义一个 \TeX\ 宏，即 \type{\foo}，从而避免了像下面这样输入繁琐的排版命令：
+
+\starttyping[option=TEX]
+潜\hskip 0pt plus 2pt minus 0pt 龙\hskip 0pt plus 2pt minus 0pt 勿……
+\stoptyping
+
+\noindent 倘若你擅长定义你所需要的 \TeX\ 宏，便可以自己创造一个可与 \ConTeXt\ 媲美的宏包。现在，已经隐隐知道了\ConTeXt\ 的一些真相了吧。
+
+\section{写一封真正的信}
+
+\startsamplecode\startnarrowtyping
+\startTEXpage[frame=on,width=6cm,offset=6pt]
+\definefont[songti][name:simsun at 10.5pt]
+\setscript[hanzi] % 中文断行支持
+\songti
+\setupindenting[always,first,2em]
+\setupinterlinespace[1.5]
+\noindent 亲爱的朋友：\par
+你们好吗？\par
+现在工作很忙吧，身体好吗？我现在五指山挺好的。
+虽然我很少写信，其实我很怀念花果山。\par
+五百年后的春节，我一定回山。
+好了，先写到这吧。\par
+此致\par
+\noindent 敬礼\par
+\rightaligned{孙悟空}
+\rightaligned{2035.10.1}
+\stopTEXpage
+\stopnarrowtyping\stopsamplecode
+\mysample[孙悟空的信]{孙悟空的信}{breakinglines-5.pdf}
+
+从现在开始，在提供示例时，为了节省篇幅，我有时会省略一部分经常重复使用的代码，仅给出关键代码以突出重点，在有兴致动手试验这些代码时，需要你自己动手添加被省略的代码。
+
+\section{字族}
+
+如同我们习惯于将汉字分为许多书体，诸如常用的宋体、楷体、仿宋、隶书、幼圆、黑体等，西方人对他们的字体也是有着一套分类体系。\TeX\ 系统原本是针对西方文字排版而设计和开发的，因此我们需要先了解西方人对字体的分类，然后将汉字字体按自己的需要与之相应。
+
+回忆一下，在学会安装和使用汉字字体之前，用 \ConTeXt\ 排版英文内容，我们并未设置任何西文字体，\ConTeXt\ 依然能完成排版。这意味着 \ConTeXt\ 已经为用户定义了一套西文字体，且在排版环境中默认启用了。这套字体由十多种字体组成，统称为 Computer Modern Roman（简称 cmr）字体，可分为四族：衬线（Serif）、无衬线（Sans Serif）、等宽（Monospace）以及数学。前三个字族基本上又分别细分为正体（Regular 或 Normal）、粗体（Bold）、斜体（Italic）和粗斜体（BoldItalic）。
+
+\ConTeXt\ 默认启用的正文字体是衬线字族中的正体。\type{\rm}，\type{\ss} 和 \type{\tt} 可分别用于将字体切换为衬线、无衬线和等宽字族的正体。\type{\tf}，\type{\bf}，\type{\it} 和 {\type{\bi}} 可分别用于切换每个字族中的正体、粗体、斜体和粗斜体等字体。示例 \in[默认字体] 演示了如何切换各种字体以及 \type{{...}} 的用法。在默认情况下，\TeX\ 引擎将一对花括号所包含的内容视为一个整体，\TeX\ 术语称之为编组（Group）。编组内部的排版命令不会对编组外部产生任何影响，但编组外部的排版命令会影响编组内部。
+
+\startsamplecode\startnarrowtyping
+% 衬线字体
+Hello. {\bf Hello.}
+{\it Hello.} {\bi Hello.}\\
+% 无衬线字体
+\ss Hello. {\bf Hello.}
+{\it Hello.} {\bi Hello.}\\
+% 等宽字体
+\tt Hello. {\bf Hello.}
+{\it Hello.} {\bi Hello.}\\
+% 将字体切换为衬线字体
+\rm
+% 数学字体
+Math in text mode: $\int_a^b f(x)dx$\\
+Math in display mode:
+\startformula
+\int_a^b f(x)dx
+\stopformula
+\stopnarrowtyping\stopsamplecode
+\mysample[默认字体]{\ConTeXt\ 默认字体}{defaultfonts.pdf}
+
+\ConTeXt\ 默认正文字体的大小为 12 pt，并以该尺寸为基准，定义了 6 种不同级别的字体尺寸，从小到大依序为：\type{xx}，\type{x}，\type{a}，\type{b}，\type{c}，\type{d}。\type{x} 级比正文字体小，\type{a} 级比正文字体大。示例 \in[fontsize-level] 演示了无衬线字族的正体字体 7 种大小级别的切换。
+
+\startsamplecode\startnarrowtyping
+\ss {\tfxx A} {\tfx A} A or {\tf A}
+{\tfa A} {\tfb A} {\tfc A} {\tfd A}
+\stopnarrowtyping\stopsamplecode
+\mysample[fontsize-level]{字体大小的 7 种级别}{fontsize-level.pdf}
+
+此外，还需要注意的是，尺寸单位 em 的含义。之前我对它给出解释是字母 \type{M} 宽度，恰好等于 1 个汉字的宽度，这是针对当前所的字体环境而言的。例如，在示例 \in[em-1] 和 \in[em-2] 中，段落首行缩进设定命令出现的位置不同，导致段落缩进距离产生了差异。这是因为，在示例 \in[em-1] 中，设定段落首行缩进时，em 的值是基于 \ConTeXt\ 默认的正文字体尺寸确定的，其值为 12 pt，而在 示例 \in[em-1] 中，em 的值是基于我们自定义的字体 \type{\songti} 的尺寸确定的，其值为 9 pt。
+
+\startsamplecode\startnarrowtyping
+\setscript[hanzi]
+\definefont[songti][name:simsun at 9pt]
+\setupindenting[always,first,2em]
+\songti
+我现在五指山挺好的。
+虽然我很少写信，其实我很怀念花果山。
+\stopnarrowtyping\stopsamplecode
+\mysample[em-1]{段落缩进距离是 24 pt}{indenting-1.pdf}
+
+\startsamplecode\startnarrowtyping
+\setscript[hanzi]
+\definefont[songti][name:simsun at 9pt]
+\songti
+\setupindenting[always,first,2em]
+我现在五指山挺好的。
+虽然我很少写信，其实我很怀念花果山。
+\stopnarrowtyping\stopsamplecode
+\mysample[em-2]{段落缩进距离是 18 pt}{indenting-2.pdf}
+
+\section[define-family]{定义汉字字族}
+
+使用 \type{\definefontfamily} 可将你喜欢的一些汉字字体定义为字族，用以代替 \ConTeXt\ 的默认字族，然后使用 \type{\setupbodyfont} 启用你定义的字族。示例 \in[setupbodyfont] 将 10.5 pt 的宋体作为正文默认字体\footnote{10.5 pt 可对应 MicroSoft Word 中的五号字。}。注意，字族的定义和启用，需在新手村之外进行，否则无效。不过，\type{\setupindenting} 却只能在新手村之内起效，这让我有些不解，但是这就是新手村的规矩，只能接受。
+
+\startsamplecode\startnarrowtyping
+\definefontfamily[myfonts][rm][nsimsun]
+\setupbodyfont[myfonts,10.5pt]
+\setscript[hanzi]
+\startTEXpage[frame=on,width=6cm,offset=6pt]
+\setupindenting[always,first,2em]
+我现在五指山挺好的。
+虽然我很少写信，其实我很怀念花果山。
+\stopTEXpage
+\stopnarrowtyping\stopsamplecode
+\mysample[setupbodyfont]{定义正文字体并启用}{setupbodyfont.pdf}
+
+示例 \in[setupbodyfont] 仅定义了 \type{myfonts} 的衬线字族（\type{rm}）为 \type{nsimsun}，且需要注意的是，此处的 \type{nsimsun} 并非字体名，而是字族名。在 \in[fonts-installation] 节中，将 simsun.ttc 安装至 \ConTeXt\ 环境之后，我们曾查询过它的相关信息，其中有一栏信息是 \type{familyname}，其中罗列的便是字体所属的字族名。\ConTeXt\ 会根据字族名自动搜索字体的 \type{identifier} 信息，若某字体，其 identifier 的末尾是 \type{regular} 或 \type{normal}\footnote{identifier 名的末尾为 regular 和 normal 的字体通常是同一个字体。}，则该字体会被 \ConTeXt\ 自动作为该字体所属字族的正体。同理，若某字体的 identifier 的末尾是 \type{bold}，\type{italic} 或 \type{bolditalic}，则该字体会被 \ConTeXt\ 自动作为该字体所属字族的粗体、斜体或粗斜体。
+
+由于我们的 \ConTeXt\ 环境里的 \type{nsimsun} 字族只有正体 \type{nsimsunregular}，没有其他字体，因此倘若在示例 \in[setupbodyfont] 中，使用 \type{\bf} 切换字体时，即
+
+\starttyping[option=TEX]
+\bf 我现在五指山挺好的。
+虽然我很少写信，其实我很怀念花果山。
+\stoptyping
+
+\noindent \ConTeXt\ 会因找不到相应的字体而排出空页。若要解决该问题，需要使用 \type{\definefontfamily} 的第四个参数，通过字体名指定其他字体以补充字族缺失的字体。例如，可以使用黑体和楷体作为来补充 \type{nsimsun} 字族的缺失字体：
+
+\starttyping[option=TEX]
+\definefontfamily[myfonts][rm][nsimsun][bf=simhei,it=kaiti,bi=simhei]
+\stoptyping
+
+同理，也可以用宋体，黑体和楷体定义非衬线和等宽字族：
+
+\starttyping[option=TEX]
+\definefontfamily[myfonts][ss][simhei][bf=simhei,it=simhei,bi=simhei]
+\definefontfamily[myfonts][tt][kaiti][bf=simhei,it=kaiti,bi=simhei]
+\stoptyping
+
+为汉字定义字族还有一种传统方法，使用 \ConTeXt\ 的 typescript 机制，但是需要写许多代码，但以前只有这一种方法。现在我们可以对它说，再见，typescript！
+
+\section{字形替换}
+
+也许你现在觉得自己在新手村里已经脱胎换骨，可以扬眉吐气了，因为你已经能够自由地在 \ConTeXt\ 世界里使用汉字。是的，你可以如此觉得，只要你的排版内容没有西方文字。
+
+排版内容里有西方文字会怎样的？图 \in[bad-latin] 给出了选项，在排版结果中，是上面那行文字里的英文单词美观，还是下面那行？前者是 simsun.ttc 中的西文字形，后者是 \ConTeXt\ 默认的 cmr 字体里的衬线正体中的西文字形。若你选择前者，则本节内容可至此完全忽略，否则请继续阅读。
+
+\placefigure
+  [here,force][bad-latin]
+  {英文字形比较}
+  {\externalfigure[bad-latin.pdf][width=.4\textwidth]}
+
+\type{\definefallbackfamily} 可用一种字体中的部分字形替换另一种字体的相应字形，其用法与 \type{\definefontfamily} 类似，只是需要在参数中指定字形覆盖范围。示例 \in[fallbacks] 使用 lmroman10 字族里的每种字体的 Unicode 码位区间 $[0\mathrm{x}0000, 0\mathrm{x}0400]$ 中的所有字形强行替换 nsimsun 字族中每种字体（包括替补字体）的相应字形。也可以使用 \ConTeXt\ 已经定义了名字的 Unicode 码位区间代替 16 进制数字形式的区间。例如，
+
+\starttyping[option=TEX]
+\definefallbackfamily
+  [myfonts][rm][lmroman10]
+  [range={basiclatin,latinsupplement},force=yes]
+\stoptyping
+
+\noindent 指定了 Unicode 码位区间 $\mathrm{[0x0000, 0x00FF]}$ 中的字形作为替换字形。Unicode 码位区间的名字见文档「List of Unicode blocks」\cite[unicode-blocks]。
+
+\startsamplecode\startnarrowtyping
+\definefallbackfamily
+  [myfonts][rm][lmroman10]
+  [range={0x0000-0x0400},force=yes]
+\definefontfamily
+  [myfonts][rm][nsimsun]
+  [bf=simhei,it=kaiti,bi=simhei]
+\setupbodyfont[myfonts,16pt]
+\setscript[hanzi]
+\startTEXpage[frame=on,offset=4pt]
+爱因斯坦 Einstein\\
+\bf 爱因斯坦 Einstein\\
+\it 爱因斯坦 Einstein\\
+\bi 爱因斯坦 Einstein
+\stopTEXpage
+\stopnarrowtyping\stopsamplecode
+\mysample[fallbacks]{字形替换}{fallbacks.pdf}
+
+\section{小结}
+
+当你读到此处，我想悄悄告诉你，\ConTeXt\ 里最难的知识，你已基本掌握。现在，你完全可以在新手村的春天里扬眉吐气了。
+
+这部分知识有多难呢，难到 Hans Hagen 需要为之撰写一本长达 228 页的手册，若有兴趣，不妨拜读。我可以很诚实地说，该手册我只读过寥寥数页。由于你已经安装了 \ConTeXt，这份手册就在你的 \ConTeXt\ 环境里，执行以下命令可以找到它：
+
+\starttyping
+$ mtxrun --script base --find-file fonts-mkiv.pdf
+\stoptyping
+
+\noindent 请顺便浏览一番这份手册所在的目录里的其他 PDF 文件吧。

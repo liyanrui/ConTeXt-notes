@@ -1,0 +1,276 @@
+\chapter{盒子}
+
+在 \in[item-sym-diy] 节中，你已经见过盒子了，只是那时可能你还不知其究竟，本章将揭开它们的一些端倪。也有可能你早已钻研过 Knuth 的《The \TeX\ book》，对盒子的研究之深已经让我望风而拜，但是未必熟悉 \ConTeXt\ 的盒子，故而本章仍有部分内容值得一睹。
+
+\section{\TeX\ 盒子}
+
+前面已经多次暗示和明示，\TeX\ 系统是 \ConTeXt\ 的底层，二者的关系犹如引擎（发动机）和汽车的关系。对 \TeX\ 引擎丝毫不懂，并不影响你学习和使用 \ConTeXt\ 排版一份精致的文档，但是懂一些引擎层面工作原理，未必会有用处，但是你现在也并不能确定将来会不会成为一名 \TeX\ 黑客，如同你从前也从未想过有一天会学习 \ConTeXt。
+
+在 \TeX\ 系统中，盒子是很重要的部件。例如，在 \ConTeXt\ 的排版的每一个段落，是一个竖向盒子，即 \type{\vbox}，该盒子之内又有一些横向盒子，即 \type{\hbox}，它们是段落的每一行。我们可以直接用这两种盒子构造一个不甚规整的段落：
+
+\startsamplecode\startnarrowtyping
+\vbox{
+  \hbox{离离原上草}\hbox{一岁一枯荣}\hbox{野火烧不尽}\hbox{春风吹又生}
+}
+\stopnarrowtyping\stopsamplecode
+\mysample[todo-list]{竖向盒子和横向盒子}{08-vbox-and-hbox.pdf}
+
+横向盒子可以指定它的长度，竖向盒子可以指定它的高度。例如，
+
+\starttyping[option=TEX]
+\hbox to 5cm {赋得古原草送别}
+\vbox to 3cm {
+  \hbox{离离原上草}\hbox{一岁一枯荣}\hbox{野火烧不尽}\hbox{春风吹又生}
+}
+\stoptyping
+
+在示例 \in[rsquare] 中，\type{\hbox} 用于包含一副使用 \MetaPost\ 语言绘制的矢量插图，关键代码如下：
+
+\starttyping[option=TEX]
+\startuseMPgraphic{foo}
+... ... ...
+\stopuseMPgraphic
+\lower.2ex\hbox{\useMPgraphic{foo}}
+\stoptyping
+
+\noindent 其中 \type{useMPgraphic} 环境中的 \MetaPost\ 代码会被 \type{\useMPgraphic{foo}} 提交给 \TeX\ 引擎。\TeX\ 引擎会调用 metapost 程序将 \MetaPost\ 代码编译成 PDF 格式的图片，然后交给 \ConTeXt。最后由 \ConTeXt\ 将图片插入到 \type{\useMPgraphic{foo}} 所在的横向盒子里。\type{\lower .2ex} 可令位于其后的横向盒子下沉 0.2 ex。长度单位 ex 类似于 em，也是一个相对尺寸，它是当前所用字体中的字母 x 对应的字形的高度。从现在开始要记住，横向距离用 em，竖向距离用 ex，不过这只是建议，并非 \TeX\ 世界的法律。
+
+还有一种横向盒子 \type{\line}，它的宽度是当前段落的宽度，可让其中的文字向两边伸展并与边界对齐，例如
+
+\starttyping[option=TEX]
+\line{\darkred\bf 我能吞下玻璃而不伤身体。}
+\stoptyping
+\line{\darkred\bf 我能吞下玻璃而不伤身体。}
+
+看到上述示例，想必你想起了之前我们曾在文章标题的样式设定时，用 \type{{middle,broad}} 抑制的 \ConTeXt\ 触发汉字间隙的伸长特性，该特性与\type{\line} 的效果非常相似。
+
+使用 \type{\hfill} 或 \type{\hss} 可对横向盒子里的内容进行挤压。例如
+
+\starttyping[option=TEX]
+\line{\hfill 我能吞下玻璃而不伤身体。}
+\line{我能吞下玻璃而不伤身体。\hfill}
+\line{\hfill 我能吞下玻璃而不伤身体。\hfill}
+\line{\hss 我能吞下玻璃而不伤身体。}
+\line{我能吞下玻璃而不伤身体。\hss}
+\line{\hss 我能吞下玻璃而不伤身体。\hss}
+\stoptyping
+
+\blueframed{
+  \vbox{
+  \line{\hfill 我能吞下玻璃而不伤身体。}
+  \line{我能吞下玻璃而不伤身体。\hfill}
+  \line{\hfill 我能吞下玻璃而不伤身体。\hfill}
+  \line{\hss 我能吞下玻璃而不伤身体。}
+  \line{我能吞下玻璃而不伤身体。\hss}
+  \line{\hss 我能吞下玻璃而不伤身体。\hss}
+  }
+}
+
+\type{\hfill} 和 \type{\hss}，都是可无限伸缩的粘连，还有一个伸缩能力弱于 \type{\hfill} 的 \type{\hfil}。竖向的可无限伸缩的粘连有 \type{\vfil}，\type{\vfill} 和 \type{\vss}。
+
+\section{\ConTeXt\ 盒子}
+
+在 \ConTeXt\ 层面，通常很少使用 \TeX\ 盒子，而是使用 \type{\inframed} 和 \type{\framed}——前者是后者的特例。与 \TeX\ 盒子相比，\ConTeXt\ 层面的盒子可以显示边框，且有非常多的参数可以定制它们的外观。
+
+\type{\inframed} 用于正文，可用于给一行文字增加边框，例如
+
+\starttyping[option=TEX]
+\type{\inframed{\type{\inframed{...}}}}
+\stoptyping
+
+\noindent 结果为 \inframed{\type{\inframed{...}}}。倘若使用 \type{\framed}，例如
+
+\starttyping[option=TEX]
+\type{\framed{\type{\framed{...}}}}
+\stoptyping
+
+\noindent 结果为 \framed{\type{\framed{...}}}。可以发现，\type{\inframed} 更适合在正文中使用，因为它能与文字基线对齐。事实上，\type{\inframed} 与 \type{\framed[location=low]} 等效，故而前者是后者的特例。例如
+
+\starttyping[option=TEX]
+\framed[location=low]{\type{\framed[location=low]{...}}}
+\stoptyping
+
+\noindent 结果为 \framed[location=low]{\type{\framed[location=low]{...}}}。上述示例中的 \type{\type} 用于排版代码，它会自动将字体切换为等宽字体（\type{\tt}）原样显示它所接受的文字。顺便多言，若是排版一段代码，可使用 \type{\starttyping[option=TEX] ... \stoptyping}。
+
+如果不希望 \type{\framed} 显示边框，只需 \type{\framed[frame=off]{...}}，也可以单独显示某条边线，并设定边线粗度和颜色：
+
+\starttyping[option=TEX]
+\line{
+  \framed[frame=off,leftframe=on,rulethickness=4pt,framecolor=red]{foo}
+  \framed[frame=off,topframe=on,rulethickness=4pt,framecolor=green]{foo}
+  \framed[frame=off,rightframe=on,rulethickness=4pt,framecolor=blue]{foo}
+  \framed[frame=off,bottomframe=on,rulethickness=4pt,framecolor=magenta]{foo}
+}
+\stoptyping
+\line{
+  \framed[frame=off,leftframe=on,rulethickness=4pt,framecolor=red]{foo}
+  \framed[frame=off,topframe=on,rulethickness=4pt,framecolor=green]{foo}
+  \framed[frame=off,rightframe=on,rulethickness=4pt,framecolor=blue]{foo}
+  \framed[frame=off,bottomframe=on,rulethickness=4pt,framecolor=magenta]{foo}
+}
+
+\blank
+
+可以设定盒子的宽度和高度，例如宽 10cm，高 2 cm 的盒子：
+
+\starttyping[option=TEX]
+\hbox to \textwidth{\hfill\framed[width=10cm,height=2cm]{foo}\hfill}
+\stoptyping
+\hbox to \textwidth{\hfill\framed[width=10cm,height=2cm]{foo}\hfill}
+
+\section{对齐}
+
+\ConTeXt\ 盒子的内容默认居中，即 \type{align=center}，此外还有 8 种对齐方式：
+
+\starttyping[option=TEX]
+\line{
+  \setupframed[width=1.95cm,height=1.95cm]
+  \framed[align={flushleft,high}]{A}
+  \framed[align={middle,high}]{A}
+  \framed[align={flushright,high}]{A}
+  \framed[align={flushright,lohi}]{A}
+  \framed[align={flushright,low}]{A}
+  \framed[align={middle,low}]{A}
+  \framed[align={flushleft,low}]{A}
+  \framed[align={flushleft,lohi}]{A}
+}
+\stoptyping
+\line{
+  \setupframed[width=1.95cm,height=1.95cm]
+  \framed[align={flushleft,high}]{A}
+  \framed[align={middle,high}]{A}
+  \framed[align={flushright,high}]{A}
+  \framed[align={flushright,lohi}]{A}
+  \framed[align={flushright,low}]{A}
+  \framed[align={middle,low}]{A}
+  \framed[align={flushleft,low}]{A}
+  \framed[align={flushleft,lohi}]{A}
+}
+
+\type{\setupframed} 所作的设定会影响到其后的所有 \type{\framed}，但是不会影响到其所处编组\footnote{还记得 \TeX\ 编组吗？即 \type[escape=no]{{...}}。}之外的 \type{\framed}。
+
+\section{背景}
+
+可将颜色作为 \type{\framed} 的背景。例如
+
+\starttyping[option=TEX]
+\inframed
+  [background=color,
+   backgroundcolor=lightgray,
+   width=2cm,
+   frame=off]{\bf foo}
+\stoptyping
+
+\noindent 结果为 \inframed[background=color,backgroundcolor=lightgray,width=2cm,frame=off]{\bf foo}。
+
+通过 overlay，可将一些代码片段的排版结果作为 \type{\framed} 的背景。例如
+
+\starttyping[option=TEX]
+\defineoverlay
+  [foo]
+  [{\framed[width=3cm,frame=off,bottomframe=on]{}}]
+\midaligned{\inframed[background=foo,frame=off]{你好啊！}}
+\stoptyping
+
+\defineoverlay
+  [foo]
+  [{\framed[width=3cm,frame=off,bottomframe=on]{}}]
+\midaligned{\inframed[background=foo,frame=off]{你好啊！}}
+\blank
+
+通过上述示例，现在你应该能有有七八分明白 \in[item-sym-diy] 节中带圈数字是如何实现的了，其关键代码如下：
+
+\starttyping[option=TEX]
+\startuseMPgraphic{foo}
+  path p;
+  p := fullcircle scaled 12pt;
+  draw p withpen pencircle scaled .4pt
+         withcolor darkred;
+\stopuseMPgraphic
+\defineoverlay[rsquare][\useMPgraphic{foo}]
+\def\fooframe#1{%
+  \inframed[frame=off,background=rsquare]{#1}%
+}
+\stoptyping
+\startuseMPgraphic{foo}
+  path p;
+  p := fullcircle scaled 12pt;
+  draw p withpen pencircle scaled .4pt
+         withcolor darkred;
+\stopuseMPgraphic
+\defineoverlay[rsquare][\useMPgraphic{foo}]
+\def\fooframe#1{%
+  \inframed[frame=off,background=rsquare]{#1}%
+}
+\noindent 无非是将一个圆圈图形作为 \type{\inframed} 的背景罢了，而且对圈内的文字的长度有限制，字数略多一些，便出圈了，例如 \type{\fooframe{123}}，结果为 \fooframe{123}。不过，只需对上述代码略加修改，
+
+\starttyping[option=TEX]
+  p := fullcircle scaled \overlaywidth;
+\stoptyping
+\startuseMPgraphic{foo}
+  path p;
+  p := fullcircle scaled \overlaywidth;
+  draw p withpen pencircle scaled .4pt
+         withcolor darkred;
+\stopuseMPgraphic
+\defineoverlay[rsquare][\useMPgraphic{foo}]
+\def\fooframe#1{%
+  \inframed[frame=off,background=rsquare]{#1}%
+}
+
+\noindent 便可解除该限制。技巧是，用 overlay 的实际宽度作为单位圆的放大倍数，故而可保证圆圈的直径即圈内文字的长度，例如 \type{\fooframe{我有一个大房子}}，结果为 \fooframe{我有一个大房子}。
+
+\section{盒子的深度}
+
+如果你仔细观察，\ConTeXt\ 盒子里的内容在水平方向是精确居中的，但是在并非如此。例如
+
+\starttyping[option=TEX]
+\inframed{ajk\framed{我看到一棵樱桃树}}。
+\stoptyping
+
+\noindent 结果为 \inframed{\framed{我看到一棵樱桃树}}。可见 \type{\inframed} 内部的 \type{\framed} 的底部有着看似多余的空白。使用盒子的参数 \type{depth} 可以消除这些空白，但问题在于这处空白从何而来及其高度是多少。该问题与底层 \TeX\ 的西文排版机制有关。
+
+首先，我们需要明白，西文排版，一行文字是有基线的，但基线并非位于该行文字的最底端，而是距最底端有一段较小的距离，否则所有西文字母都在同一条线上了。在上述示例中，\type{\framed} 的底线便是其外围的 \type{\inframed} 所在行的基线。西文字体在设计时，每个字形（Glyph）是有基线位置，因此在排版时可根据实际的基线位置对字形进行对齐。一行文字的基线到该行的最底端的这段距离称为深度。一行文字的基线到该行最顶端的这段距离称为高度。因此，一行文字的真正高度等于深度 + 高度；在 \ConTeXt\ 中，它等于我们使用 \type{\setupinterlinespace} 设定的尺寸。
+
+无论是 \TeX\ 还是 \ConTeXt\ 盒子，它们本身是没有深度的，但是当它们里面的文字或盒子有深度时，它们便有了深度。至于深度值具体是多大，可以借助 \TeX\ 的盒子寄存器进行测量。例如，定义一个盒子寄存器 box0：
+
+\starttyping[option=TEX]
+\setbox0\hbox{\inframed{\framed{我看到一棵樱桃树}}}
+\stoptyping
+
+\noindent 现在我们有了一个 0 号盒子，使用 \type{\wd}，\type{\ht} 和 \type{\dp} 可分别测量该盒子的宽度、高度和深度……顺便复习一下表格的用法：
+
+\starttyping[option=TEX]
+\placetable[force]{box0 的几何信息}{\tfx
+  \starttabulate[|c|c|c|]
+  \HL
+  \NC 宽度 \NC 高度 \NC 深度 \NC\NR
+  \HL
+  \NC \the\wd0 \NC \the\ht0 \NC \the\dp0 \NC\NR
+  \HL
+  \stoptabulate
+}
+\stoptyping
+\setbox0\hbox{\inframed{\framed{我看到一棵樱桃树}}}
+\setupcaption[table][location=top]
+\placetable[force]{box0 的几何信息}{\tfx
+  \starttabulate[|c|c|c|]
+  \HL
+  \NC 宽度 \NC 高度 \NC 深度 \NC\NR
+  \HL
+  \NC \the\wd0 \NC \the\ht0 \NC \the\dp0 \NC\NR
+  \HL
+  \stoptabulate
+}
+
+将上述所得深度信息取负作为 \type{\inframed} 的参数 \type{depth} 的值，即
+
+\starttyping[option=TEX]
+\inframed[depth=-\dp0]{\framed{我看到一棵樱桃树}}
+\stoptyping
+
+\noindent 便可消除深度，结果为 \inframed[depth=-\dp0]{\framed{我看到一棵樱桃树}}。
+
+\section{小结}
+
+\TeX\ 盒子是无形的。\ConTeXt\ 盒子是有形的。老子曾说过，恒无欲，以观其妙；恒有欲，以观其所徼。故而，\TeX\ 要懂一些，\ConTeXt\ 也要懂一些。

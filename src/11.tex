@@ -103,7 +103,7 @@ draw (fullsquare xscaled 3cm yscaled 1cm) randomized 2mm withcolor darkred;
 \framed[frame=off,background=晃晃]{光辉岁月}
 \stoptyping
 \defineoverlay[晃晃][\useMPgraphic{随机晃动的矩形}]
-\framed[frame=off,background=晃晃]{光辉岁月}
+\dontleavehmode\kern .25em\framed[frame=off,background=晃晃]{光辉岁月}
 
 在 \ConTeXt\ 为 \MetaPost\ 提供的作图环境里，可分别通过 \type{\overlaywidth} 和 \type{\overlayheight} 获得 overlay 的宽度和高度。在将 overlay 作为 \type{\framed} 的背景时，\type{\framed} 的宽度和高度便是 overlay 的宽度和高度。基于这一特性，便可实现 \MetaPost\ 绘制的图形能够自动适应 \type{\framed} 的宽度和高度的变化。例如
 
@@ -165,6 +165,648 @@ draw p withcolor darkred;
 \stopMPcode
 \noindent 注意，对于封闭路径，应当先填充颜色，再绘制路径，否则所填充的颜色会覆盖一部分路径线条。
 
+\section{颜色}
+
+\MetaPost\ 以含有三个分量的向量表示颜色。向量的三个分量分别表示红色、绿色和蓝色，取值范围为 [0, 1]，例如 \type{(0.4, 0.5, 0.6)}。可将颜色保存到 color 类型的变量中，以备绘图中重复使用。例如定义一个值为暗红色的颜色变量：
+
+\starttyping[option=MP]
+color foo;
+foo := (0.3, 0, 0);
+\stoptyping
+
+由于 MetaPost 内部已经定义了用于表示红色的变量 \type{red}，因此 \type{foo} 的定义也可写为
+
+\starttyping[option=MP]
+color foo;
+foo := 0.3 * red;
+\stoptyping
+
+\noindent 小于 1 的倍数，可以忽略前缀 0，且可以直接作用于颜色：
+
+\starttyping[option=MP]
+foo := .3red;
+\stoptyping
+
+使用 \type{transparent} 宏可用于构造带有透明度的颜色值。例如
+
+\starttyping[option=MP]
+path p; p := fullsquare scaled 1cm;
+color foo; foo := .3red;
+pickup pencircle scaled 4pt;
+draw p withcolor transparent (1, 0.3, foo);
+draw p shifted (.5cm, .5cm) withcolor transparent (1, 0.25, blue);
+\stoptyping
+\startMPcode
+path p; p := fullsquare scaled 1cm;
+color foo; foo := .3red;
+pickup pencircle scaled 4pt;
+draw p withcolor transparent (1, 0.3, foo);
+draw p shifted (.5cm, .5cm) withcolor transparent (1, 0.25, blue);
+\stopMPcode
+\noindent \type{transparent} 的第一个参数表示选用的颜色透明方法，共有 12 种方法可选：
+
+\startitemize[n,packed,columns,four]
+\item normal
+\item multiply
+\item screen
+\item overlay
+\item softlight
+\item hardlight
+\item colordodge
+\item colorburn
+\item darken
+\item lighten
+\item difference
+\item exclusion
+\stopitemize
+\noindent 第二个参数表示透明度，取值范围 [0, 1]，其值越大，透明程度越低。第三个参数为颜色值。需要注意的是，\MetaPost\ 并不支持以 \type{color} 类型的变量保存带透明度的颜色值，而且 \MetaPost\ 里也没有与之对应的变量类型。
+
+\section{文字}
+
+使用 \MetaFun\ 宏 \type{textext} 可在 \MetaPost\ 图形中插入文字，且基于 \MetaPost\ 图形变换命令可对文字进行定位、缩放、旋转。例如
+
+\starttyping[option=MP]
+string s; % 字符串类型变量
+s = "\color[darkred]{\bf 江山如此多娇}";
+draw textext(s);
+draw textext(s) shifted (4cm, 0);
+draw textext(s) scaled 1.5 shifted (8cm, 0) ;
+draw textext(s) scaled 1.5 rotated 45 shifted (12cm, 0);
+\stoptyping
+\startMPcode
+string s; s = "\color[darkred]{\bf 江山如此多娇}";
+draw textext(s);
+draw thetextext(s, (4cm, 0));
+draw textext(s) scaled 1.5 shifted (8cm, 0) ;
+draw textext(s) scaled 1.5 rotated 45 shifted (12cm, 0);
+\stopMPcode
+
+也可使用 \type{\thetextext} 宏直接对文字进行定位，从而可省去 \type{shifted} 变换。例如
+
+\starttyping
+string s; s = "{\bf 江山如此多娇}";
+draw (0, 0) withpen pensquare scaled 11pt withcolor darkred;
+draw textext(s, (4cm, 0)) withcolor darkred;
+\stoptyping
+\startMPcode
+string s; s = "{\bf 江山如此多娇}";
+draw (0, 0) withpen pensquare scaled 12pt withcolor darkred;
+draw thetextext(s, (4cm, 0)) withcolor darkred;
+\stopMPcode
+
+\section{方向路径}
+
+\MetaPost\ 宏 \type{drawarrow} 可绘制带箭头的路径。例如
+
+\starttyping[option=MP]
+path p; p := (0, 0) -- (4cm, 0) -- (4cm, 2cm) -- (0, 2cm) -- (0, 1cm);
+pickup pencircle scaled 2pt;
+drawarrow p withcolor darkred;
+drawarrow p shifted (6cm, 0) dashed (evenly scaled .5mm) withcolor darkred;
+\stoptyping
+\startMPcode
+path p; p := (0, 0) -- (4cm, 0) -- (4cm, 2cm) -- (0, 2cm) -- (0, 1cm);
+pickup pencircle scaled 2pt;
+drawarrow p withcolor darkred;
+drawarrow p shifted (6cm, 0) dashed (evenly scaled .5mm) withcolor darkred;
+\stopMPcode
+
+\noindent 上述代码也给出了虚线路径的画法。
+
+\MetaPost\ 的任何一条路径，从起点到终点可基于取值范围为 [0, 1] 的参数选择该路径上的某一点。基于该功能可实现路径标注。例如选择路径参数 0.5 对应的点，在该点右侧放置 \ConTeXt\ 旋转 90 度的文字：
+
+\starttyping[option=MP]
+path p; p := (0, 0) -- (4cm, 0) -- (4cm, 2cm) -- (0, 2cm) -- (0, 1cm);
+pair pos; pos := point .5 along p;
+pickup pencircle scaled 2pt;
+drawarrow p withcolor darkred;
+draw pos withpen pensquare scaled 4pt withcolor darkgreen;
+draw thetextext.rt("\rotate[rotation=-90]{路过}", pos shifted (1mm, 0));
+\stoptyping
+\startMPcode
+path p; p := (0, 0) -- (4cm, 0) -- (4cm, 2cm) -- (0, 2cm) -- (0, 1cm);
+pair pos; pos := point .5 along p;
+pickup pencircle scaled 2pt;
+drawarrow p withcolor darkred;
+draw pos withpen pensquare scaled 4pt withcolor darkgreen;
+draw thetextext.rt("\rotate[rotation=-90]{路过}", pos shifted (1mm, 0));
+\stopMPcode
+
+\noindent 上述代码中出现了 \type{thetextext} 的后缀形式。除了默认形式，\type{thetextext} 还有 4 种后缀形式，后缀名为 \inframed{\type{.lft}}，\inframed{\type{.top}}，\inframed{\type{.rt}} 和 \inframed{\type{.bot}}，分别表示将文字放在指定位置的左侧、上方、右侧和下方。
+
+\section{画面}
+
+\MetaPost\ 有一种变量类型 \type{picture}，可将其用于将一组绘图语句合并为一个图形，然后予以绘制。使用 \MetaPost\ 宏 \type{image} 可构造 \type{picture} 实例。例如
+
+\starttyping[option=MP]
+path a; a := fullsquare xscaled 4cm yscaled 1cm;
+picture p; p := image(fill a withcolor darkgray;
+                      draw a withpen pencircle scaled 2pt withcolor darkblue;);
+draw p;
+\stoptyping
+\startMPcode
+path a; a := fullsquare xscaled 4cm yscaled 1cm;
+picture p; p := image(fill a withcolor darkgray;
+                      draw a withpen pencircle scaled 2pt withcolor darkblue;);
+draw p;
+\stopMPcode
+
+使用 \MetaPost\ 宏 \type{center} 可以获得 \type{picture} 实例的中心坐标，结果可保存于一个 \type{pair} 类型的变量。例如
+
+\starttyping[option=MP]
+picture p; p := image(draw textext("密云不雨，自我西郊"););
+pair c; c := center p;
+draw c withpen pensquare scaled 4pt withcolor darkred;
+draw p withcolor darkblue;
+\stoptyping
+\startMPcode
+picture p; p := image(draw textext("密云不雨，自我西郊"););
+pair c; c := center p;
+draw c withpen pensquare scaled 4pt withcolor darkred;
+draw p withcolor darkblue;
+\stopMPcode
+
+使用 \MetaFun\ 宏 \type{bbwidth} 和 \type{bbheight} 可以获得 \type{picture} 实例的宽度和高度。使用这两个宏，可为任何图形和文字构造边框。例如
+
+\starttyping[option=MP]
+picture p; p := image(draw textext("归妹愆期，迟归有时"));
+numeric w, h; w := bbwidth(p); h := bbheight(p);
+path q; q := fullsquare xscaled w yscaled h;
+\stoptyping
+\starttyping[option=MP]
+fill q withcolor darkgray;
+draw q withpen pencircle scaled 2pt withcolor darkred;
+draw p;
+\stoptyping
+\startMPcode
+picture p; p := image(draw textext("归妹愆期，迟归有时"));
+numeric w, h; w := bbwidth(p); h := bbheight(p);
+path q; q := fullsquare xscaled w yscaled h;
+fill q withcolor darkgray;
+draw q withpen pencircle scaled 2pt withcolor darkred;
+draw p;
+\stopMPcode
+
+上述实例为文字构造的边框太紧了，综合利用现有所学，让它宽松一些并不困难：
+
+\starttyping[option=MP]
+picture p; p := image(draw textext("归妹愆期，迟归有时"));
+numeric w, h; w := bbwidth(p); h := bbheight(p);
+numeric offset; offset := 5mm;
+path q;
+q := fullsquare xscaled (w + offset) yscaled (h + offset) shifted center p;
+
+fill q withcolor darkgray;
+draw q withpen pencircle scaled 2pt withcolor darkred;
+draw p;
+\stoptyping
+\startMPcode
+picture p; p := image(draw textext("归妹愆期，迟归有时"));
+numeric w, h; w := bbwidth(p); h := bbheight(p);
+numeric offset; offset := 5mm;
+path q; q := fullsquare xscaled (w + offset) yscaled (h + offset) shifted center p;
+fill q withcolor darkgray;
+draw q withpen pencircle scaled 2pt withcolor darkred;
+draw p;
+\stopMPcode
+
+\section[macro]{宏}
+
+定义一个宏，令其接受一个字符串类型的参数，返回一个矩形框，并令文字居于矩形框中心：
+
+\starttyping[option=MP]
+vardef framed (expr text, offset) =
+  picture p; p := image(draw textext(text));
+  numeric w, h; w := bbwidth(p); h := bbheight(p);
+  path q;
+  q := fullsquare xscaled (w + offset) yscaled (h + offset) shifted center p;
+  image(fill q withcolor lightgray;
+        draw q withpen pencircle scaled 2pt withcolor darkred;
+        draw p;)
+enddef;
+\stoptyping
+
+\noindent 使用上述定义的宏：
+
+\starttyping[option=MP]
+draw framed("{\bf 亢龙有悔}", 5mm);
+\stoptyping
+\startMPcode
+vardef framed (expr text, offset) =
+  picture p; p := image(draw textext(text));
+  numeric w, h; w := bbwidth(p); h := bbheight(p);
+  path q;
+  q := fullsquare xscaled (w + offset) yscaled (h + offset) shifted center p;
+  image(fill q withcolor lightgray;
+        draw q withpen pencircle scaled 2pt withcolor darkred;
+        draw p;)
+enddef;
+draw framed("{\bf 亢龙有悔}", 5mm);
+\stopMPcode
+
+\MetaPost\ 的 \type{vardef} 用于定义一个有返回值的宏，宏定义的最后一条语句即返回值，该条语句不可以分号作为结尾。\MetaPost\ 还有其他几种宏定义形式，但是对于大多数作图任务而言，\type{vardef} 已足够应付。
+
+\section[sec:flow-chart]{画一幅简单的流程图}
+
+现在，请跟随我敲击键盘的手指，逐步画一幅描述数字求和过程的流程图，希望这次旅程能让你对 \MetaPost\ 的基本语法有一些全面的认识。
+
+首先，构造一个结点，表示数据输入“”
+
+\starttyping[option=MP]
+string f; f := "\framed[frame=off,align=center]";
+picture a;
+a := image(
+  % 符号 & 用于拼接两个字符串
+  draw textext(f & "{$i\leftarrow 1$\\$s\leftarrow 0$}");
+);
+\stoptyping
+
+然后，用 \in[macro] 节定义的 \type{framed} 宏构造两个运算过程结点：
+
+\starttyping[option=MP]
+numeric offset; offset := 5mm;
+picture b; b := framed(f & "{$s\leftarrow s + i$}", offset);
+picture c; c := framed(f & "{$i\leftarrow i + 1$}", offset);
+\stoptyping
+
+还需要定义一个宏，用它构造菱形的条件判断结点：
+
+\starttyping[option=MP]
+vardef diamond (expr text, offset) =
+  picture p; p := image(draw textext(text));
+  numeric w, h; w := bbwidth(p); h := bbheight(p);
+  path q;
+  q := fulldiamond xscaled (w + offset) yscaled (h + offset) shifted center p;
+  image(fill q withcolor darkgray;
+        draw q withpen pencircle scaled 2pt withcolor darkred;
+        draw p withcolor white;)
+enddef;
+picture d; d := diamond(f & "{$i > 100$}", 3 * offset);
+\stoptyping
+
+最后，再构造一个结点表示程序输出：
+
+\starttyping[option=MP]
+picture e;
+e := image(draw textext(f & "{$s$}"););
+\stoptyping
+
+保持结点 \type{a} 不动，对 \type{b}，\type{c}，\type{d} 和 \type{e} 进行定位：
+
+\starttyping[option=MP]
+b := b shifted (0, -2cm);
+c := c shifted (4cm, -4.5cm);
+d := d shifted (0, -4.5cm);
+e := e shifted (0, -7cm);
+\stoptyping
+
+现在可以画出所有结点了，即
+
+\starttyping[option=MP]
+draw a; draw b; draw c; draw d; draw e;
+\stoptyping
+\midaligned{\externalfigure[11-flowchart-1.pdf]}
+\blank
+
+现在开始构造连接各结点的路径。首先构造结点 \type{a} 的底部中点到 \type{b} 的顶部中点的路径：
+
+\starttyping[option=MP]
+path ab;
+ab := .5[llcorner a, lrcorner a] -- .5[ulcorner b, urcorner b];
+\stoptyping
+
+\noindent 其中 \type{llcorner} 用于获取路径或画面实例的最小包围盒的左下角顶点坐标。同理，\type{ulcorner}，\type{urcorner} 和 \type{lrcorner} 分别获取包围盒的左上角、右上角和右下角顶点坐标。\type{.5[..., ...]} 用于计算两个点连线的中点。
+
+用类似的方法可以构造其他连接各结点的路径：
+
+\starttyping[option=MP]
+path bd;
+bd := .5[llcorner b, lrcorner b] -- .5[ulcorner d, urcorner d];
+path dc;
+dc := .5[lrcorner d, urcorner d] -- .5[ulcorner c, llcorner c];
+path cb;
+cb := .5[ulcorner c, urcorner c] -- (4cm, -2cm) -- .5[urcorner b, lrcorner b];
+path de;
+de := .5[llcorner d, lrcorner d] -- .5[ulcorner e, urcorner e];
+\stoptyping
+
+画出所有路径：
+
+\starttyping[option=MP]
+drawarrow ab withcolor darkred; drawarrow bd withcolor darkred;
+drawarrow cb withcolor darkred; drawarrow dc withcolor darkred;
+drawarrow de withcolor darkred;
+\stoptyping
+\midaligned{\externalfigure[11-flowchart-2.pdf]}
+\blank
+
+最后一步，路径标注：
+
+\starttyping[option=MP]
+pair no;  no  := point .4 along dc;
+pair yes; yes := point .5 along de;
+draw thetextext.top("否", no);
+draw thetextext.rt("是", yes);
+\stoptyping
+\midaligned{\externalfigure[11-flowchart-3.pdf]}
+
+\section{代码简化}
+
+\in[sec:flow-chart] 节中用于绘制程序流程图的代码存在许多重复。我们可以尝试使用条件、循环，宏等形式对代码进行简化，但我对它们给出的讲解并不会细致，为的正是走马观花，观其大略。
+
+首先，观察宏 \type{framed} 和 \type{diamond} 的定义，发现二者仅有的不同是前者用 \type{fullsquare} 绘制盒子，后者用 \type{fulldiamond}。因此，可以重新定义一个更为灵活的宏，用于制作结点：
+
+\starttyping[option=MP]
+vardef make_node(expr text, shape, offset) =
+  picture p; p := image(draw textext(text));
+  numeric w, h; w := bbwidth(p); h := bbheight(p);
+  if path shape:
+    path q;
+    q := shape xysized (w + offset, h + offset) shifted center p;
+    image(fill q withcolor lightgray;
+          draw q withpen pencircle scaled 2pt withcolor darkred;
+          draw p;)
+  else:
+    image(draw p;)
+  fi
+enddef;
+\stoptyping
+
+\noindent 由于上述代码使用了 \MetaPost\ 的条件判断语法，以 \type{path shape} 判断 \type{shape} 是否为路径变量，从而使得 \type{make_node} 能构用于构造有无边框和有边框的结点：
+
+\starttyping[option=MP]
+numeric offset; offset := 5mm;
+string f; f := "\framed[frame=off,align=center]";
+picture a, b, c, d, e;
+a := make_node(f & "{$i\leftarrow 1$\\$s\leftarrow 0$}", none, 0);
+b := make_node(f & "{$s\leftarrow s + i$}", fullsquare, offset);
+c := make_node(f & "{$i\leftarrow i + 1$}", fullsquare, offset);
+d := make_node(f & "{$i > 100$}", fulldiamond, offset);
+e := make_node(f & "{$s$}", none, 0);
+\stoptyping
+
+在 \type{vardef} 宏中使用条件语句时需要注意，通常情况下不要条件结束语句 \type{fi} 后面添加分号，否则 \type{vardef} 宏的返回值会带上这个分号。在其他情境下，通常需要在  \type{fi} 加分号。还要注意，我在 \type{make_node} 宏中使用 \type{xysized} 取代了之前的 \type{xscale} 和 \type{yscale}，可直接指定路径或画面的尺寸。之所以如此，是因为我们无法确定 \type{make_node} 宏的第 2 个参数对应的路径是否为标准图形。
+
+在绘制结点和路径时，存在重复使用 \type{draw} 语句的情况，例如
+
+\starttyping[option=MP]
+drawarrow ab withcolor darkred;
+drawarrow bd withcolor darkred;
+drawarrow cb withcolor darkred;
+drawarrow dc withcolor darkred;
+drawarrow de withcolor darkred;
+\stoptyping
+
+\noindent 可使用循环语句予以简化：
+
+\starttyping[option=MP]
+for i = ab, bd, cb, dc, de:
+  draw i withcolor darkred;
+endfor; 
+\stoptyping
+
+为了便于获得路径或画面的包围盒的四边中点，定义以下宏：
+
+\starttyping[option=MP]
+vardef left(expr p) = .5[llcorner p, ulcorner p] enddef;
+vardef top(expr p) = .5[ulcorner p, urcorner p] enddef;
+vardef right(expr p) = .5[lrcorner p, urcorner p] enddef;
+vardef bottom(expr p) = .5[llcorner p, lrcorner p] enddef;
+\stoptyping
+
+\noindent 以绘制结点 \type{b} 的四边中点为测试用例
+
+\starttyping[option=MP]
+for i = left(b), top(b), right(b), bottom(b):
+  draw i withpen pensquare scaled 4pt withcolor darkblue;
+endfor;
+\stoptyping
+\leftaligned{\externalfigure[11-flowchart-4.pdf]}
+\blank
+
+基于上述宏，可以更为简洁地构造连接各结点的路径：
+
+\starttyping[option=MP]
+path ab; ab := bottom(a) -- top(b);
+path bd; bd := bottom(b) -- top(d);
+path dc; dc := right(d) -- left(c);
+path cb; cb := top(c) -- (xpart center c, ypart center b) -- right(b);
+path de; de := bottom(d) -- top(e);
+\stoptyping
+
+\noindent \type{center} 是 \MetaPost\ 宏，可用于获取路径或画面的包围盒中心点坐标。\type{xpart} 和 \type{ypart} 也皆为 \MetaPost\ 宏，用于获取点的坐标分量。
+
+路径标注也可以通过定义一个宏予以简化：
+
+\starttyping[option=MP]
+vardef tag(expr p, text, pos, loc) =
+  if loc = "left":
+    thetextext.lft(text, point pos along p)
+  elseif loc = "right":
+    thetextext.rt(text, point pos along p)
+  elseif loc = "top":
+    thetextext.top(text, point pos along p)
+  elseif loc = "bottom":
+    thetextext.bot(text, point pos along p)
+  else
+    thetextext(text, point pos along p)
+  fi
+enddef;
+\stoptyping
+
+\noindent 其用法为
+
+\starttyping[option=MP]
+draw tag(dc, "否", .5, "top");
+draw tag(de, "是", .5, "right");
+\stoptyping
+
+
 \section{层层叠叠}
 
-待续。
+\ConTeXt\ 有一个以 overlay 为基础的层（Layer）机制。利用层机制，我们可将 \MetaPost\ 图形绘制在页面上的任何一个位置。在学习层之前，我们需要对 overlay 的认识再加深一些。
+
+\subsection{overlay}
+
+实际上 overlay 环境是一个图形「栈」。通过它，可实现图形（包括文字）的叠加。例如，对于以下 \MetaPost\ 图形：
+
+\starttyping[option=MP]
+\startuseMPgraphic{一个矩形}
+path p; p := fullsquare xscaled 4cm yscaled 1cm;
+draw p randomized 3mm
+       withcolor transparent (1, .5 randomized .3, red)
+       withpen pencircle scaled 2pt;
+\stopuseMPgraphic
+\stoptyping
+
+\noindent 上述代码中，\type{transparent (1, .5 randomized .3, red)} 用于构造在一定程度上不确定透明度的红色，透明度在 [0.2, 0.8] 之间，亦即 \type{randomized} 不仅可作用于路径，也可作用于数字或颜色值。由于上述 \MetaPost\ 图形环境包含着随机内容，将其作为插图，在一个 overlay 中多次使用，每次使用都会产生不同的结果，在 overlay 中它们会被叠加到一起：
+
+\starttyping[option=TEX]
+\startoverlay
+  {\useMPgraphic{一个矩形}}
+  {\useMPgraphic{一个矩形}}
+  {\useMPgraphic{一个矩形}}
+\stopoverlay
+\stoptyping
+\startuseMPgraphic{一个矩形}
+path p; p := fullsquare xscaled 4cm yscaled 1cm;
+draw p randomized 3mm
+       withcolor transparent (0, .5 randomized .25, red)
+       withpen pencircle scaled 2pt;
+\stopuseMPgraphic
+\startoverlay
+  {\useMPgraphic{一个矩形}}
+  {\useMPgraphic{一个矩形}}
+  {\useMPgraphic{一个矩形}}
+\stopoverlay
+
+之前在为 \type{\framed} 定义 overlay 时，overlay 中只有单个图形，亦即我们并未充分利用 overlay 的特性。以下代码定义的 \type{\framed} 的背景便包含了三个叠加的 overlay：
+
+\starttyping[option=TEX]
+\defineoverlay
+  [叠叠]
+  [\startoverlay
+   {\useMPgraphic{一个矩形}} {\useMPgraphic{一个矩形}} {\useMPgraphic{一个矩形}}
+   \stopoverlay]
+\stoptyping
+\starttyping[option=TEX]
+\defineframed[foo][frame=off,background={叠叠}]
+\foo{迎接光辉岁月}
+\stoptyping
+\defineoverlay
+  [叠叠]
+  [\startoverlay
+   {\useMPgraphic{一个矩形}}
+   {\useMPgraphic{一个矩形}}
+   {\useMPgraphic{一个矩形}}
+   \stopoverlay]
+\defineframed[foo][frame=off,background={叠叠}]
+\dontleavehmode\kern .25em\foo{迎接光辉岁月}
+
+\type{\framed} 的也可以将多个 overlay 作为背景，以下代码与上例等效：
+
+\starttyping[option=TEX]
+\defineoverlay[叠叠-1]{\useMPgraphic{一个矩形}}
+\defineoverlay[叠叠-2]{\useMPgraphic{一个矩形}}
+\defineoverlay[叠叠-3]{\useMPgraphic{一个矩形}}
+\defineframed[foo][frame=off,background={叠叠-1,重叠-2,重叠-3}]
+\foo{迎接光辉岁月}
+\stoptyping
+
+\noindent 这意味着，\type{\framed} 的背景，本质上也是一个 overlay。
+
+基于 overlay，也可为文档设置水印。例如，若在 \type{\starttext} 之前添加以下代码：
+
+\starttyping[option=TEX]
+\startuseMPgraphic{square}
+path p; p := fullsquare xscaled 4cm yscaled 1cm;
+draw p randomized 3mm
+       withcolor transparent (1, .5 randomized .3, red)
+       withpen pencircle scaled 2pt;
+\stopuseMPgraphic
+\defineoverlay[watermark][\useMPgraphic{square}]
+\setupbackgrounds[page][background=watermark]
+\stoptyping
+\midaligned{\externalfigure[11-watermark.png][width=.6\textwidth]}
+
+\subsection{层}
+
+\ConTeXt\ 的层，本质上是一个可作为全页背景的 overlay，可使用绝对坐标或相对坐标对排版元素在页面上定位放置。例如，定义一个层 foo，在三个不同位置分别放置一幅 \MetaPost\ 图形，并将其作用于当前页面：
+
+\starttyping[option=TEX]
+\definelayer[foo]
+\setlayer[foo][x=0cm,y=0cm]{\useMPgraphic{一个矩形}}
+\setlayer[foo][x=6cm,y=1cm]{\useMPgraphic{一个矩形}}
+\stoptyping
+\starttyping[option=TEX]
+\setlayer
+  [foo]
+  [x=\textwidth,y=2cm,hoffset=-4cm,vhoffset=-.5cm]{\useMPgraphic{一个矩形}}
+\flushlayer[foo]
+\stoptyping
+\definelayer[test]
+\setlayer[test][x=0cm,y=0cm]{\useMPgraphic{一个矩形}}
+\setlayer[test][x=6cm,y=1cm]{\useMPgraphic{一个矩形}}
+\setlayer
+  [test]
+  [x=\textwidth,y=2cm,hoffset=-4cm,voffset=-3cm]{\useMPgraphic{一个矩形}}
+\flushlayer[test]
+\noindent 上述代码定义的层 foo，其坐标原点是层被投放的位置，亦即在本行文字的左上角。$x$ 坐标向右递增，$y$ 坐标向下递增。
+\definelayer[foo]
+\setlayer[foo][x=0cm,y=0cm]{\useMPgraphic{circle}}
+\setlayer[foo][preset=rightbottom]{\useMPgraphic{circle}}
+\setupbackgrounds[page][background=foo]
+
+如果将层的宽度和高度分别设为页面的宽度和高度，并将其设为页面背景，则坐标原点在页面的左上角，且可使用一些预定义位置投放内容。例如以下代码可在当前页面的左上角和右下角位置各放一个圆圈：
+
+\starttyping[option=TEX]
+\startuniqueMPgraphic{circle}
+draw fullcircle scaled 2cm withpen pencircle scaled 2pt withcolor darkgreen;
+\stopuniqueMPgraphic
+\definelayer[foo][width=\paperwidth,height=\paperheight]
+\setlayer[foo][x=0cm,y=0cm]{\uniqueMPgraphic{circle}}
+\setlayer[foo][preset=rightbottom]{\uniqueMPgraphic{circle}}
+\setupbackgrounds[page][background=foo]
+\stoptyping
+\startuniqueMPgraphic{circle}
+draw fullcircle scaled 2cm withpen pencircle scaled 2pt withcolor darkgreen;
+\stopuniqueMPgraphic
+\definelayer[foo][width=\paperwidth,height=\paperheight]
+\setlayer[foo][x=0cm,y=0cm]{\uniqueMPgraphic{circle}}
+\setlayer[foo][preset=rightbottom]{\uniqueMPgraphic{circle}}
+\setupbackgrounds[page][background=foo]
+
+\noindent 需要注意的是，层被使用一次后，便会被清空，因而将其作为页面背景，仅对当前页有效。
+
+通过 \type{preset} 参数可调整层的坐标原点和坐标方向。在上述代码中，\type{rightbottom} 可将层的坐标原点定位于层的右下角，同时 $x$ 坐标方向变为向左递增，$y$ 坐标方向变为向上递增。
+
+\ConTeXt\ 预定义的 \type{preset} 参数值有
+
+\startitemize[packed,columns,five]
+\item lefttop\item righttop\item leftbottom\item rightbottom\item middle\item middletop
+\item middlebottom\item middleleft\item middleright\item lefttopleft\item lefttopright
+\stopitemize
+
+\noindent 使用这些参数值时，要注意坐标方向。例如，若 \type{preset=middleright}，其 $x$ 坐标方向变为向左递增，而 $y$ 坐标方向依然保持向上递增，以下代码可予以验证：
+
+\starttyping[option=TEX]
+\definelayer[bar][width=\paperwidth,height=\paperheight]
+\setlayer[bar][preset=middleright]{
+  \startMPcode
+  draw (0, 0) withpen pensquare scaled 12pt withcolor darkred;
+  \stopMPcode
+}
+\stoptyping
+\starttyping[option=TEX]
+\setlayer[bar][preset=middleright,x=2cm,y=2cm]{
+  \startMPcode
+  draw (0, 0) withpen pensquare scaled 12pt
+              withcolor transparent (1, .3, darkred);
+  \stopMPcode
+}
+\setupbackgrounds[page][background=bar]
+\stoptyping
+
+\definelayer[bar][width=\paperwidth,height=\paperheight]
+\setlayer[bar][preset=middleright]{
+  \startMPcode
+  draw (0, 0) withpen pensquare scaled 12pt withcolor darkred;
+  \stopMPcode
+}
+\setlayer[bar][preset=middleright,x=2cm,y=2cm]{
+  \startMPcode
+  draw (0, 0) withpen pensquare scaled 12pt
+              withcolor transparent (1, .3, darkred);
+  \stopMPcode
+}
+\setupbackgrounds[page][background=bar]
+
+\section{小结}
+
+也许你意犹未尽，甚至觉得我语焉不详。切莫怪我，我原本仅仅是介绍如何使用 \MetaPost\ 绘制一个边框受随机扰动的盒子。
+
+不过，在大致掌握了本章所述的内容的基础上，关于 \MetaPost\ 更多的知识，特别是宏的定义方面，可阅读它的手册\cite[mpman]。此外，\ConTeXt\ 开发者 Hans Hagen 所写的 \MetaFun\ 手册除了讲述 \MetaFun\ 之外也大量介绍了 \MetaPost\ 的基本知识和技巧，该手册在你的 \ConTeXt\ 系统中，使用以下命令查找：
+
+\starttyping
+$ mtxrun --script base --search metafun-s.pdf
+\stoptyping

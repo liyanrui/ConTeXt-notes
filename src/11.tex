@@ -43,7 +43,7 @@ pickup pencircle scaled 2pt;
 draw (0, 0) -- (3cm, 0) -- (3cm, 1cm) -- (0, 1cm) -- cycle withcolor darkred;
 \stopMPcode
 
-上述代码中，\type{(0, 0) -- ... -- cycle} 构造的是一条封闭路径，可将其保存于一个路径变量：
+上述代码中，\type{(0, 0) -- ... -- cycle} 构造的是一条封闭路径，可将其保存于路径变量：
 
 \starttyping[option=MP]
 path p;
@@ -803,9 +803,7 @@ draw fullcircle scaled 2cm withpen pencircle scaled 2pt withcolor darkgreen;
 
 \section{小结}
 
-也许你意犹未尽，甚至觉得我语焉不详。切莫怪我，我原本仅仅是介绍如何使用 \MetaPost\ 绘制一个边框受随机扰动的盒子。
-
-不过，在大致掌握了本章所述的内容的基础上，关于 \MetaPost\ 更多的知识，特别是宏的定义方面，可阅读它的手册\cite[mpman]。此外，\ConTeXt\ 开发者 Hans Hagen 所写的 \MetaFun\ 手册除了讲述 \MetaFun\ 之外也大量介绍了 \MetaPost\ 的基本知识和技巧，该手册在你的 \ConTeXt\ 系统中，使用以下命令查找：
+也许你意犹未尽，甚至觉得我语焉不详。切莫怪我，我原本仅仅是介绍如何使用 \MetaPost\ 绘制一个边框受随机扰动的盒子。不过，在大致掌握了本章所述的内容的基础上，关于 \MetaPost\ 更多的知识，特别本章所有你觉得语焉不详之处，皆可阅读它的手册\cite[mpman]以增进认识。此外，\ConTeXt\ 开发者 Hans Hagen 所写的 \MetaFun\ 手册除了讲述 \MetaFun\ 之外也大量介绍了 \MetaPost\ 的基本知识和技巧，该手册在你的 \ConTeXt\ 系统中，使用以下命令查找：
 
 \starttyping
 $ mtxrun --script base --search metafun-s.pdf

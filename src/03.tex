@@ -286,11 +286,11 @@ Math in display mode:
   {英文字形比较}
   {\externalfigure[bad-latin.pdf][width=.4\textwidth]}
 
-\type{\definefallbackfamily} 可用一种字体中的部分字形替换另一种字体的相应字形，其用法与 \type{\definefontfamily} 类似，只是需要在参数中指定字形覆盖范围。示例 \in[fallbacks] 使用 lmroman10 字族里的每种字体的 Unicode 码位区间 $[0\mathrm{x}0000, 0\mathrm{x}0400]$ 中的所有字形强行替换 nsimsun 字族中每种字体（包括替补字体）的相应字形。也可以使用 \ConTeXt\ 已经定义了名字的 Unicode 码位区间代替 16 进制数字形式的区间。例如，
+\type{\definefallbackfamily} 可用一种字体中的部分字形替换另一种字体的相应字形，其用法与 \type{\definefontfamily} 类似，只是需要在参数中指定字形覆盖范围。示例 \in[fallbacks] 使用 latinmodernroman 字族里的每种字体的 Unicode 码位区间 $[0\mathrm{x}0000, 0\mathrm{x}0400]$ 中的所有字形强行替换 nsimsun 字族中每种字体（包括替补字体）的相应字形。也可以使用 \ConTeXt\ 已经定义了名字的 Unicode 码位区间代替 16 进制数字形式的区间。例如，
 
 \starttyping[option=TEX]
 \definefallbackfamily
-  [myfonts][rm][lmroman10]
+  [myfonts][rm][latinmodernroman]
   [range={basiclatin,latinsupplement},force=yes]
 \stoptyping
 
@@ -298,7 +298,7 @@ Math in display mode:
 
 \startsamplecode\startnarrowtyping
 \definefallbackfamily
-  [myfonts][rm][lmroman10]
+  [myfonts][rm][latinmodernroman]
   [range={0x0000-0x0400},force=yes]
 \definefontfamily
   [myfonts][rm][nsimsun]

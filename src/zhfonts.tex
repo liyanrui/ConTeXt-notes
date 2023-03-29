@@ -37,9 +37,11 @@
 若认真对比图 \in[none-zhfonts] 和图 \in[zhfonts] 中的标点符号的排版结果，则不难发现 zhfonts 模块解决的问题是标点间距微调。
 
 \placefigure[here][none-zhfonts]{未使用 zhfonts 的中文标点排版效果}{%
-  \clip[width=\textwidth,height=5cm,voffset=1.8cm]{\externalfigure[none-zhfonts.pdf][width=\textwidth]}}
+  \clip[width=\textwidth,height=5cm,voffset=1.8cm]{%
+    \externalfigure[zhfonts/none-zhfonts.pdf][width=\textwidth]}}
 \placefigure[here][zhfonts]{使用 zhfonts 的中文标点排版结果}{%
-  \clip[width=\textwidth,height=4.25cm,voffset=1.8cm]{\externalfigure[zhfonts.pdf][width=\textwidth]}}
+  \clip[width=\textwidth,height=4.25cm,voffset=1.8cm]{%
+    \externalfigure[zhfonts/zhfonts.pdf][width=\textwidth]}}
 
 \section{安装 zhfonts 模块}
 
@@ -72,7 +74,7 @@ zhfonts 默认使用 11 pt 正体字（宋体 + Latin Modern Serif）作为正�
 我能吞下玻璃而不伤身体。I can eat glass, it does not hurt me.
 \stopTEXpage
 \stoptyping
-\placefigure[none]{}{\externalfigure[zhfonts-01.pdf]}
+\placefigure[none]{}{\externalfigure[zhfonts/01.pdf]}
 
 使用模块参数 \type{style=ss} 或 \type{style=tt}，可将正文字体切换为模块参数 \type{size} 所设定大小的无衬线字体或等宽字体。例如
 
@@ -83,7 +85,7 @@ zhfonts 默认使用 11 pt 正体字（宋体 + Latin Modern Serif）作为正�
 我能吞下玻璃而不伤身体。I can eat glass, it does not hurt me.
 \stopTEXpage
 \stoptyping
-\placefigure[none]{}{\externalfigure[zhfonts-02.pdf]}
+\placefigure[none]{}{\externalfigure[zhfonts/02.pdf]}
 
 \section{\type{\setupzhfonts}}
 
@@ -139,7 +141,7 @@ zhfonts 并未使用汉字字体中的西文字形，而是是将汉字字体作
 \bf 这是汉字，These are English characters.
 \stopTEXpage
 \stoptyping
-\placefigure[none]{}{\externalfigure[zhfonts-03.pdf]}
+\placefigure[none]{}{\externalfigure[zhfonts/03.pdf]}
 
 \section{小结}
 

@@ -15,10 +15,10 @@ Windows 用户似乎畏惧甚至厌憎命令行环境，甚至很多人认为命
 \startplacefigure[location=none]
 \startfloatcombination[nx=2,ny=1]
 \startplacefigure[title={「\type{Win + R}」 组合键},reference=win-r]
-\externalfigure[win-r.jpg][height=6cm]
+\externalfigure[01/win-r.jpg][height=6cm]
 \stopplacefigure
 \startplacefigure[title={Windows 命令行窗口},reference=cmd-window]
-\externalfigure[cmd-window.png][height=6cm]
+\externalfigure[01/cmd-window.png][height=6cm]
 \stopplacefigure
 \stopfloatcombination
 \stopplacefigure
@@ -207,7 +207,7 @@ D:\context-win64
 > context foo.tex
 \stoptyping
 
-\noindent 倘若在 \type{D:\context\test} 目录下能够得到 \type{foo.pdf} 文件，且其内容为 \lower.3em\hbox{\externalfigure[foo.pdf]}，则意味着已成功安装 \ConTeXt\ LMTX。
+\noindent 倘若在 \type{D:\context\test} 目录下能够得到 \type{foo.pdf} 文件，且其内容为 \lower.3em\hbox{\externalfigure[01/foo.pdf]}，则意味着已成功安装 \ConTeXt\ LMTX。
 
 最后，将 \type{D:\context\tex\texmf-win64\bin} 添加到系统 \type{PATH} 变量，便可在任一目录使用 \type{context} 命令将扩展名为 \type{.tex} 的文本文件编译成 PDF 文件了。
 
@@ -229,7 +229,7 @@ D:\context-win64
 
 在一个桌面操作系统中，命令行环境能完成的工作，图形界面通常也能完成，但对于有些任务，命令行环境比图形界面更为高效，反之亦然，原本无需厚此薄彼，但尺有所短，寸有所长，Windows，Linux 和 macOS 也是如此。
 
-\startitemize
+\startitemize[packed]
 \item Windows 系统的命令行环境，前身是 MS DOS 系统，长期未得进化，现在用起来，捉襟见肘。现代的 PowerShell 更为适用，但因 \ConTeXt\ 目前不能直接在 PowerShell 环境里完成安装，故而上文未曾言及。
 \item macOS 无论图形界面还是命令行环境皆胜于 Windows 和 Linux，但其缺点是在不违法的情况下，它只能运行于苹果公司的计算机，费用不菲。
 \item Linux 系统的图形界面不及 Windows 和 macOS，但命令行环境优于 Windows\footnote{自 Windows 10 开始，微软在 Windows 系统中构建了 Linux 子系统（WSL），允许用户在 Windows 系统中使用 Linux 命令行环境，但是该环境无法利用 Windows 和 Linux 的图形界面功能。}，与 macOS 相当，但 Linux 最显著的特点是，它能帮助每一个使用计算机的人，让他深刻觉察自己以往所宣称的那样热爱自由是否真实。

@@ -13,13 +13,13 @@
 \stoptyping
 
 
-\noindent 便可将 ctxnotes.png 作为插图，即 \externalfigure[ctxnotes.png]。显然，这是插图，但很可能并非是我们想要的插图形式。我们想要的是，独占一行且居中放置的插图，这个要求这并不难实现：
+\noindent 便可将 ctxnotes.png 作为插图，即 \externalfigure[08/ctxnotes.png]。显然，这是插图，但很可能并非是我们想要的插图形式。我们想要的是，独占一行且居中放置的插图，这个要求这并不难实现：
 
 \starttyping[option=TEX]
 \midaligned{\externalfigure[ctxnotes.png]}
 \stoptyping
 
-\midaligned{\externalfigure[ctxnotes.png]}
+\midaligned{\externalfigure[08/ctxnotes.png]}
 
 如果需要让插图更大一些，例如宽度为 8 cm，高度按图片原有比例自动放大，只需
 
@@ -33,7 +33,7 @@
 \midaligned{\externalfigure[ctxnotes.png][width=.4\textwidth]}
 \stoptyping
 
-\midaligned{\externalfigure[ctxnotes.png][width=.4\textwidth]}
+\midaligned{\externalfigure[08/ctxnotes.png][width=.4\textwidth]}
 
 如法炮制，给图片加上标题也很容易：
 
@@ -42,7 +42,7 @@
 \midaligned{\tfx \ConTeXt\ 学习笔记封面截图}
 \stoptyping
 
-\midaligned{\externalfigure[ctxnotes.png][width=.4\textwidth]}
+\midaligned{\externalfigure[08/ctxnotes.png][width=.4\textwidth]}
 \midaligned{\tfx\ConTeXt\ 学习笔记封面截图}
 
 \indentation 如果你还希望插图能有编号，对于篇幅较小的文章，手工输入即可，建议在编号后，使用 \type{\quad} 插入一个字宽的空白作为间隔，因为普通的空格只有半个字宽。例如
@@ -52,7 +52,7 @@
 \midaligned{\tfx 图 1\quad\ConTeXt\ 学习笔记封面截图}
 \stoptyping
 
-\midaligned{\externalfigure[ctxnotes.png][width=.4\textwidth]}
+\midaligned{\externalfigure[08/ctxnotes.png][width=.4\textwidth]}
 \midaligned{\tfx 图 1\quad\ConTeXt\ 学习笔记封面截图}
 
 如果你担心，插图太多，手工输入图片编号难免会出错，可以使用 \ConTeXt\ 的计数器功能，让 \ConTeXt\ 为你自动递增图片序号。首先，定义一个计数器：
@@ -74,10 +74,10 @@
 \stoptyping
 
 \definenumber[myfig][prefix=no]
-\midaligned{\externalfigure[ctxnotes.png][width=.4\textwidth]}
+\midaligned{\externalfigure[08/ctxnotes.png][width=.4\textwidth]}
 \incrementnumber[myfig]
 \midaligned{\tfx 图 \getnumber[myfig]\quad\ConTeXt\ 学习笔记封面截图}
-\midaligned{\externalfigure[ctxnotes-2.png][width=.4\textwidth]}
+\midaligned{\externalfigure[08/ctxnotes-2.png][width=.4\textwidth]}
 \incrementnumber[myfig]
 \midaligned{\tfx 图 \getnumber[myfig]\quad 涂鸦版 Hilbert 曲线}
 
@@ -137,7 +137,7 @@
   {涂鸦版 Hilbert 曲线}
   {\externalfigure[ctxnotes-2.png][width=.3\textwidth]}
 \stoptyping
-\midaligned{\externalfigure[hibert.pdf]}
+\midaligned{\externalfigure[08/hibert.pdf]}
 
 \subsection{插图标题样式}
 
@@ -147,14 +147,14 @@
 \setupcaption[figure][style=\tfx,headstyle=\rm]
 \setuplabeltext[en][figure={图 }]
 \stoptyping
-\midaligned{\externalfigure[hibert-1.pdf]}
+\midaligned{\externalfigure[08/hibert-1.pdf]}
 
 上述设定的样式，已基本符合我们的要求。根据排版结果，很容易能猜出来，\type{\setupcaption} 的 \type{style} 参数用于设定插图字体样式，\type{headstyle} 则用于设定插图编号样式。至于 \type{\setuplabeltext}，与 \ConTeXt\ 的语言界面有关，但现在不必涉及太多细节，仅需知道，它可将插图标题的前缀「\type{Figure}」替换为「\type[space=on]{图 }」。不过，依然存在一个细微的问题，标题里的汉字之间的粘连的伸长特性又被 \ConTeXt\ 触发了，导致汉字分布有些疏松。该问题的解决方法与第 \in[post] 章的示例 \in[zaoshu-5] 相似，用将对齐参数设为 \type{center}，即
 
 \starttyping[option=TEX]
 \setupcaption[figure][style=\tfx,headstyle=\normal,align=center]
 \stoptyping
-\midaligned{\externalfigure[hibert-2.pdf]}
+\midaligned{\externalfigure[08/hibert-2.pdf]}
 
 \subsection{插图位置}
 
@@ -190,7 +190,7 @@
   [][Hilbert 曲线]
   {涂鸦版 Hilbert 曲线}{\externalfigure[ctxnotes-2.png][width=.3\textwidth]}
 \stoptyping
-\midaligned{\blueframed{\externalfigure[hibert-3.pdf]}}
+\midaligned{\blueframed{\externalfigure[08/hibert-3.pdf]}}
 
 \section[figure-matrix]{阵列}
 
@@ -202,7 +202,7 @@
 \placefigure{}{}
 \stopfloatcombination
 \stoptyping
-\leftaligned{\externalfigure[05-floatcomb.pdf]}
+\leftaligned{\externalfigure[08/floatcomb.pdf]}
 
 \noindent 然后将所得阵列作为插图，便可得到居中放置的插图阵列：
 
@@ -214,7 +214,7 @@
   \stopfloatcombination
 }
 \stoptyping
-\midaligned{\externalfigure[05-floatcomb-2.pdf]}
+\midaligned{\externalfigure[08/floatcomb-2.pdf]}
 
 上述示例用了 \type{\placefigure} 一个小技巧：当 \type{\placefigure} 的第一个参数含有 \type{none} 时，可以消除插图编号和标题。此外，你应该发现了，\type{\placefigure} 的参数为空时，\ConTeXt\ 会以一个矩形框表示插图，还应当注意到，方括号形式的参数，通常是可以省略的。
 
@@ -228,7 +228,7 @@
   \stopfloatcombination
 }
 \stoptyping
-\midaligned{\externalfigure[05-floatcomb-3.pdf]}
+\midaligned{\externalfigure[08/floatcomb-3.pdf]}
 
 基于 \type{combination} 环境可实现与上例等效的插图阵列，只是所用代码略多一些，但形式上更为结构化且应用范围更广。例如
 
@@ -242,7 +242,7 @@
   \stopcombination
 }
 \stoptyping
-\midaligned{\externalfigure[05-floatcomb-4.pdf]}
+\midaligned{\externalfigure[08/floatcomb-4.pdf]}
 
 \section{图片目录}
 
@@ -272,7 +272,7 @@ drawpoints p;
 \stopuseMPgraphic
 \placefigure{\MetaFun\ example}{\useMPgraphic{metapost 图形}}
 \stoptyping
-\midaligned{\externalfigure[05-metapost.pdf]}
+\midaligned{\externalfigure[08/metapost.pdf]}
 
 上述示例在排版插图标题时，涉及 \TeX\ 宏在使用时即宏调用时的一个细节。例如，\type{\TeX} 之后跟随一个或多个空格，即 \type[space=on]{\TeX    }，这些空格会被 \TeX\ 引擎吞掉，不会显示在排版结果中，原因是默认情况下，空格是 \TeX\ 引擎需要知道宏的名字的结束符。如果需要在一个宏调用之后插入空格，需要对空格进行转义，即 \type[space=on]{\ }，亦即反斜线后跟随一个空格。
 

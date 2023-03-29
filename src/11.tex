@@ -465,7 +465,7 @@ e := e shifted (0, -7cm);
 \starttyping[option=MP]
 draw a; draw b; draw c; draw d; draw e;
 \stoptyping
-\midaligned{\externalfigure[11-flowchart-1.pdf]}
+\midaligned{\externalfigure[11/flowchart-1.pdf]}
 \blank
 
 现在开始构造连接各结点的路径。首先构造结点 \type{a} 的底部中点到 \type{b} 的顶部中点的路径：
@@ -497,7 +497,7 @@ drawarrow ab withcolor darkred; drawarrow bd withcolor darkred;
 drawarrow cb withcolor darkred; drawarrow dc withcolor darkred;
 drawarrow de withcolor darkred;
 \stoptyping
-\midaligned{\externalfigure[11-flowchart-2.pdf]}
+\midaligned{\externalfigure[11/flowchart-2.pdf]}
 \blank
 
 最后一步，路径标注：
@@ -508,7 +508,7 @@ pair yes; yes := point .5 along de;
 draw thetextext.top("否", no);
 draw thetextext.rt("是", yes);
 \stoptyping
-\midaligned{\externalfigure[11-flowchart-3.pdf]}
+\midaligned{\externalfigure[11/flowchart-3.pdf]}
 
 \section{代码简化}
 
@@ -581,7 +581,7 @@ for i = left(b), top(b), right(b), bottom(b):
   draw i withpen pensquare scaled 4pt withcolor darkblue;
 endfor;
 \stoptyping
-\leftaligned{\externalfigure[11-flowchart-4.pdf]}
+\leftaligned{\externalfigure[11/flowchart-4.pdf]}
 \blank
 
 基于上述宏，可以更为简洁地构造连接各结点的路径：
@@ -707,7 +707,7 @@ draw p randomized 3mm
 \defineoverlay[watermark][\useMPgraphic{square}]
 \setupbackgrounds[page][background=watermark]
 \stoptyping
-\midaligned{\externalfigure[11-watermark.png][width=.6\textwidth]}
+\midaligned{\externalfigure[11/watermark.png][width=.6\textwidth]}
 
 \subsection[layer]{层}
 

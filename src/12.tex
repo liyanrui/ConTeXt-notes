@@ -35,7 +35,7 @@
 \fakewords{50}{100}
 \stoptext
 \stoptyping
-\midaligned{\externalfigure[12-slides-1.pdf][width=.6\textwidth,frame=on]}
+\midaligned{\externalfigure[12/slides-1.pdf][width=.6\textwidth,frame=on]}
 
 \section{页面布局}
 
@@ -47,9 +47,9 @@
 
 \noindent 可在页面上显示当前的页面布局，结果如图 \in[12-layout-1] 所示。可根据图 \in[ConTeXt-layout] 理解页面布局中各区域名称和尺寸参数名称。
 
-\placefigure[here][12-layout-1]{\ConTeXt\ 默认的页面布局}{\externalfigure[12-layout-1.pdf][width=.6\textwidth]}
+\placefigure[here][12-layout-1]{\ConTeXt\ 默认的页面布局}{\externalfigure[12/layout-1.pdf][width=.6\textwidth]}
 
-\placefigure[here][ConTeXt-layout]{页面布局注解}{\externalfigure[ConTeXt-layout.svg][width=.8\textwidth]}
+\placefigure[here][ConTeXt-layout]{页面布局注解}{\externalfigure[12/ConTeXt-layout.svg][width=.8\textwidth]}
 
 使用 \type{\setlayout} 可对各区域尺寸进行调整，例如让版心居中，即图 \in[ConTeXt-layout] 所示的 \type{width} 和 \type{textheight} 确定的区域居中，因为在默认情况下，它有些偏左。我们已经知道，页面的横向尺寸是 640 pt，按照以下设定便可将问题解决：
 
@@ -184,7 +184,7 @@ topspace=0pt,height=middle,bottom=0pt
 \dorecurse{10}{\getbuffer[foo]}
 \stoptext
 \stoptyping
-\midaligned{\externalfigure[12-slides-2.pdf][width=.6\textwidth,frame=on]}
+\midaligned{\externalfigure[12/slides-2.pdf][width=.6\textwidth,frame=on]}
 
 \noindent 上述代码使用了 \ConTeXt\ 的 \type{buffer} 环境和循环宏 \type{\dorecurse}。所谓 \type{buff}，是一个可以设定名字的缓存，它可以包含 \ConTeXt\ 排版代码。\type{\getbuffer} 可获得指定名字的缓存中所包含的全部代码。\type{\dorecurse} 可以将其所含内容重复指定次数。上述代码所产生的效果是生成十页内容相同的幻灯片。
 
@@ -193,7 +193,7 @@ topspace=0pt,height=middle,bottom=0pt
 \starttyping[option=TEX]
 \setuphead[chapter][conversion=chinesenumerals,alternative=inmargin]
 \stoptyping
-\midaligned{\externalfigure[12-slides-3.pdf][width=.6\textwidth,frame=on]}
+\midaligned{\externalfigure[12/slides-3.pdf][width=.6\textwidth,frame=on]}
 \blank
 
 \noindent 如果你还需要二级、三级标题，可参照上述设定制作适合的样式。
@@ -211,7 +211,7 @@ topspace=0pt,height=middle,bottom=0pt
 \setupfootertexts[margin][][\hss\userpagenumber/\lastuserpage]
 \stoptyping
 \noindent 结果如图 \in[页码进度] 所示。
-\placefigure[here][页码进度]{第 4 页幻灯片}{\externalfigure[12-slides-4.pdf][page=4,width=.6\textwidth,frame=on]}
+\placefigure[here][页码进度]{第 4 页幻灯片}{\externalfigure[12/slides-4.pdf][page=4,width=.6\textwidth,frame=on]}
 
 现在，我们已经有了一个基本可用的幻灯片样式了。倘若使用刚学过的 \METAPOST\ 语言，琢磨一下，给幻灯片增加些许不庸俗又实用的装饰，也许会让人觉得你的幻灯片颇为用心。
 
@@ -245,7 +245,7 @@ draw q xsized w;
 
 \noindent 上述代码唯一需要解释之处是，当 \type{\setupfootertexts} 只有一个参数时，该参数的值会被安置在页脚的中间区域。所构造的进度条效果如图 \in[processbar] 所示。
 
-\placefigure[here][processbar]{第 3 页幻灯片}{\externalfigure[slides.pdf][width=.6\textwidth,page=4,frame=on]}
+\placefigure[here][processbar]{第 3 页幻灯片}{\externalfigure[12/slides.pdf][width=.6\textwidth,page=4,frame=on]}
 
 \section{封面和致谢}
 
@@ -263,7 +263,7 @@ draw q xsized w;
 \noindent 结果如图 \in[cover] 所示。
 
 之所以使用 \type{standardmakeup} 环境，是因为它是完全的空白页，且不会参与页码计数。
-\placefigure[here][cover]{封面}{\externalfigure[slides.pdf][width=.6\textwidth,page=1,frame=on]}
+\placefigure[here][cover]{封面}{\externalfigure[12/slides.pdf][width=.6\textwidth,page=1,frame=on]}
 
 \section{不要太刺眼}
 
@@ -273,7 +273,7 @@ draw q xsized w;
 \setupbackgrounds[page][backgroundcolor=lightgray,background=color]
 \stoptyping
 \noindent 结果如图 \in[slide-background] 所示。
-\placefigure[here][slide-background]{浅灰色背景}{\externalfigure[slides-finished.pdf][width=.6\textwidth,page=1,frame=on]}
+\placefigure[here][slide-background]{浅灰色背景}{\externalfigure[12/slides-finished.pdf][width=.6\textwidth,page=1,frame=on]}
 
 \section{小结}
 

@@ -66,7 +66,7 @@
 
 \section[item-sym-diy]{自定义符号列表}
 
-你可能会觉得 \ConTeXt\ 为无序号列表提供的列表项符号无法体现你的气质，\ConTeXt\ 说，Do it yourself! 下面我用 \MetaPost\ 代码绘制了一个小正方形，并令其边线略微受到随机扰动，然后将该图形定义为列表项符号：
+你可能会觉得 \ConTeXt\ 为无序号列表提供的列表项符号无法体现你的气质，\ConTeXt\ 说，Do it yourself! 下面我用 \METAPOST\ 代码绘制了一个小正方形，并令其边线略微受到随机扰动，然后将该图形定义为列表项符号：
 
 \startsamplecode\startnarrowtyping
 \startuseMPgraphic{foo}
@@ -85,7 +85,7 @@
 \stopnarrowtyping\stopsamplecode
 \mysample[rsquare]{自定义符号的无序号列表}{05-todo-list-5.pdf}
 
-\noindent 现在你不懂上述代码的具体细节也无妨，观其大略即可，知道有一种可以画画的语言，叫 \MetaPost，它的代码可嵌入 \ConTeXt\ 环境作为插图使用，便已足够。
+\noindent 现在你不懂上述代码的具体细节也无妨，观其大略即可，知道有一种可以画画的语言，叫 \METAPOST，它的代码可嵌入 \ConTeXt\ 环境作为插图使用，便已足够。
 
 对于有序号列表，有时会需要使用带圈的数字作为序号。虽然 Unicode 有相应的带圈字符的码位，例如 \char"2460，\char"2461……对应的 \TeX\ 命令是
 
@@ -93,7 +93,7 @@
 \char"2460，\char"2461……
 \stoptyping
 
-\noindent 但是这些带圈数字都是文字，并非数字。带圈的数字，无非是数字外面画个圆圈。画圆圈，用 \MetaPost\ 做此事，完全是不费吹灰之力，然后借助 \ConTeXt\ 的 overlay 机制\cite[overlay]，将圆圈作为 inframed\cite[inframed] 的背景，再用 inframed 套住列表项序号即可，详见
+\noindent 但是这些带圈数字都是文字，并非数字。带圈的数字，无非是数字外面画个圆圈。画圆圈，用 \METAPOST\ 做此事，完全是不费吹灰之力，然后借助 \ConTeXt\ 的 overlay 机制\cite[overlay]，将圆圈作为 inframed\cite[framed] 的背景，再用 inframed 套住列表项序号即可，详见
 
 \startsamplecode\startnarrowtyping
 \startuseMPgraphic{foo}

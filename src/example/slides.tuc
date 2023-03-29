@@ -1,0 +1,2415 @@
+local utilitydata = { }
+
+utilitydata.comment={
+ ["escape"]="[===[ ... ]===]",
+ ["file"]="slides",
+ ["format"]="cont-en",
+ ["stamp"]="2023.03.20 17:07",
+ ["version"]=0x1.547ae147ae148p+0,
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.variables then utilitydata.job.variables = { } end
+
+utilitydata.job.variables.checksums={
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.variables then utilitydata.job.variables = { } end
+
+utilitydata.job.variables.collected={
+ ["macros"]={},
+ ["randomseed"]=0x1.ff52ad1480ecfp-1,
+ ["sectionblockorder"]={},
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.structure then utilitydata.job.structure = { } end
+
+utilitydata.job.structure.collected={
+ ["branches"]={},
+ ["name"]="",
+ ["type"]="text",
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.positions then utilitydata.job.positions = { } end
+
+utilitydata.job.positions.collected={
+ ["shared"]={
+  ["x_h_d"]={},
+  ["x_h_d_hs"]={},
+  ["x_y_w_h"]={},
+  ["y_w_h_d"]={},
+ },
+ ["user"]={},
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.passes then utilitydata.job.passes = { } end
+
+utilitydata.job.passes.collected={
+ ["itemgroup:itemize:1"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:10"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:11"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:12"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:13"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:14"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:15"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:16"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:17"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:18"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:19"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:2"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:20"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:21"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:22"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:23"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:24"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:25"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:26"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:27"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:28"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:29"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:3"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:30"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:31"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:32"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:33"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:34"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:35"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:36"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:37"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:38"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:39"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:4"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:40"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:41"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:42"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:43"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:44"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:45"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:46"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:47"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:48"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:49"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:5"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:50"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:6"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:7"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:8"]={
+  { 6, 0 },
+ },
+ ["itemgroup:itemize:9"]={
+  { 6, 0 },
+ },
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.datasets then utilitydata.job.datasets = { } end
+
+utilitydata.job.datasets.collected={
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.pagestates then utilitydata.job.pagestates = { } end
+
+utilitydata.job.pagestates.collected={
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.specials then utilitydata.structures.specials = { } end
+
+utilitydata.structures.specials.collected={
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.sections then utilitydata.structures.sections = { } end
+
+utilitydata.structures.sections.collected={
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=1,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=2,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=3,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=4,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=5,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=6,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=7,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=8,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=9,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=10,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=11,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=12,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=13,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=14,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=15,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=16,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=17,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=18,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=19,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=20,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=21,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=22,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=23,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=24,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=25,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=26,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=27,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=28,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=29,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=30,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=31,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=32,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=33,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=34,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=35,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=36,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=37,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=38,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=39,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=40,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=41,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=42,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=43,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=44,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=45,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=46,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=47,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=48,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=49,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversion"]="chinesenumerals",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=50,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.counters then utilitydata.structures.counters = { } end
+
+utilitydata.structures.counters.collected={
+ ["chemical"]={
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+ },
+ ["combination"]={
+  { 0 },
+ },
+ ["endnote"]={
+  { 0 },
+ },
+ ["figure"]={
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+ },
+ ["footnote"]={
+  { 0 },
+ },
+ ["formula"]={
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+ },
+ ["graphic"]={
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+ },
+ ["intermezzo"]={
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+ },
+ ["itemgroup:itemize"]={
+  { 0, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6, 0, 6 },
+ },
+ ["itemgroup:itemize:note"]={
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+ },
+ ["linenote"]={
+  { 0 },
+ },
+ ["paragraph"]={
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+ },
+ ["realpage"]={
+  { 52 },
+ },
+ ["subpage"]={
+  { 52 },
+ },
+ ["table"]={
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+ },
+ ["textnote:note"]={
+  { 0 },
+ },
+ ["userpage"]={
+  { 50 },
+ },
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.lists then utilitydata.structures.lists = { } end
+
+utilitydata.structures.lists.collected={
+ {
+  ["metadata"]=51,
+  ["numberdata"]=52,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=1,
+   ["realpage"]=2,
+   ["section"]=1,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=53,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=2,
+   ["realpage"]=3,
+   ["section"]=2,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=54,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=3,
+   ["realpage"]=4,
+   ["section"]=3,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=55,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=4,
+   ["realpage"]=5,
+   ["section"]=4,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=56,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=5,
+   ["realpage"]=6,
+   ["section"]=5,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=57,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=6,
+   ["realpage"]=7,
+   ["section"]=6,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=58,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=7,
+   ["realpage"]=8,
+   ["section"]=7,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=59,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=8,
+   ["realpage"]=9,
+   ["section"]=8,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=60,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=9,
+   ["realpage"]=10,
+   ["section"]=9,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=61,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=10,
+   ["realpage"]=11,
+   ["section"]=10,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=62,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=11,
+   ["realpage"]=12,
+   ["section"]=11,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=63,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=12,
+   ["realpage"]=13,
+   ["section"]=12,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=64,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=13,
+   ["realpage"]=14,
+   ["section"]=13,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=65,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=14,
+   ["realpage"]=15,
+   ["section"]=14,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=66,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=15,
+   ["realpage"]=16,
+   ["section"]=15,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=67,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=16,
+   ["realpage"]=17,
+   ["section"]=16,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=68,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=17,
+   ["realpage"]=18,
+   ["section"]=17,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=69,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=18,
+   ["realpage"]=19,
+   ["section"]=18,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=70,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=19,
+   ["realpage"]=20,
+   ["section"]=19,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=71,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=20,
+   ["realpage"]=21,
+   ["section"]=20,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=72,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=21,
+   ["realpage"]=22,
+   ["section"]=21,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=73,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=22,
+   ["realpage"]=23,
+   ["section"]=22,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=74,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=23,
+   ["realpage"]=24,
+   ["section"]=23,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=75,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=24,
+   ["realpage"]=25,
+   ["section"]=24,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=76,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=25,
+   ["realpage"]=26,
+   ["section"]=25,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=77,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=26,
+   ["realpage"]=27,
+   ["section"]=26,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=78,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=27,
+   ["realpage"]=28,
+   ["section"]=27,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=79,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=28,
+   ["realpage"]=29,
+   ["section"]=28,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=80,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=29,
+   ["realpage"]=30,
+   ["section"]=29,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=81,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=30,
+   ["realpage"]=31,
+   ["section"]=30,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=82,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=31,
+   ["realpage"]=32,
+   ["section"]=31,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=83,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=32,
+   ["realpage"]=33,
+   ["section"]=32,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=84,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=33,
+   ["realpage"]=34,
+   ["section"]=33,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=85,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=34,
+   ["realpage"]=35,
+   ["section"]=34,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=86,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=35,
+   ["realpage"]=36,
+   ["section"]=35,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=87,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=36,
+   ["realpage"]=37,
+   ["section"]=36,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=88,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=37,
+   ["realpage"]=38,
+   ["section"]=37,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=89,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=38,
+   ["realpage"]=39,
+   ["section"]=38,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=90,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=39,
+   ["realpage"]=40,
+   ["section"]=39,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=91,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=40,
+   ["realpage"]=41,
+   ["section"]=40,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=92,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=41,
+   ["realpage"]=42,
+   ["section"]=41,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=93,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=42,
+   ["realpage"]=43,
+   ["section"]=42,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=94,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=43,
+   ["realpage"]=44,
+   ["section"]=43,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=95,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=44,
+   ["realpage"]=45,
+   ["section"]=44,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=96,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=45,
+   ["realpage"]=46,
+   ["section"]=45,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=97,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=46,
+   ["realpage"]=47,
+   ["section"]=46,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=98,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=47,
+   ["realpage"]=48,
+   ["section"]=47,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=99,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=48,
+   ["realpage"]=49,
+   ["section"]=48,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=100,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=49,
+   ["realpage"]=50,
+   ["section"]=49,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+ {
+  ["metadata"]=51,
+  ["numberdata"]=101,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=50,
+   ["realpage"]=51,
+   ["section"]=50,
+  },
+  ["titledata"]={
+   ["label"]="chapter",
+   ["title"]="蒙",
+  },
+ },
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.pages then utilitydata.structures.pages = { } end
+
+utilitydata.structures.pages.collected={
+ {
+  ["block"]="bodypart",
+  ["number"]=1,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="stop",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=1,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=2,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=3,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=4,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=5,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=6,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=7,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=8,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=9,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=10,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=11,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=12,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=13,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=14,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=15,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=16,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=17,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=18,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=19,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=20,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=21,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=22,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=23,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=24,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=25,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=26,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=27,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=28,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=29,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=30,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=31,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=32,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=33,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=34,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=35,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=36,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=37,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=38,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=39,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=40,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=41,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=42,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=43,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=44,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=45,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=46,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=47,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=48,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=49,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=50,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=50,
+  ["numberdata"]=102,
+  ["prefixdata"]=103,
+  ["state"]="stop",
+ },
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.references then utilitydata.structures.references = { } end
+
+utilitydata.structures.references.collected={
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.references then utilitydata.structures.references = { } end
+
+utilitydata.structures.references.referred={
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.parwrappers then utilitydata.job.parwrappers = { } end
+
+utilitydata.job.parwrappers.collected={
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.objects then utilitydata.job.objects = { } end
+
+utilitydata.job.objects.collected={
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.synonyms then utilitydata.structures.synonyms = { } end
+
+utilitydata.structures.synonyms.collected={
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.registers then utilitydata.structures.registers = { } end
+
+utilitydata.structures.registers.collected={
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.blocks then utilitydata.structures.blocks = { } end
+
+utilitydata.structures.blocks.collected={
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.files then utilitydata.job.files = { } end
+
+utilitydata.job.files.collected={
+}
+
+if not utilitydata.publications then utilitydata.publications = { } end
+
+utilitydata.publications.collected={
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.fileobjreferences then utilitydata.job.fileobjreferences = { } end
+
+utilitydata.job.fileobjreferences.collected={
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.embedded then utilitydata.job.embedded = { } end
+
+utilitydata.job.embedded.collected={
+}
+
+utilitydata.job.packed={
+ ["index"]={
+  { 0, 1 },
+  { 0, 2 },
+  { 0, 3 },
+  { 0, 4 },
+  { 0, 5 },
+  { 0, 6 },
+  { 0, 7 },
+  { 0, 8 },
+  { 0, 9 },
+  { 0, 10 },
+  { 0, 11 },
+  { 0, 12 },
+  { 0, 13 },
+  { 0, 14 },
+  { 0, 15 },
+  { 0, 16 },
+  { 0, 17 },
+  { 0, 18 },
+  { 0, 19 },
+  { 0, 20 },
+  { 0, 21 },
+  { 0, 22 },
+  { 0, 23 },
+  { 0, 24 },
+  { 0, 25 },
+  { 0, 26 },
+  { 0, 27 },
+  { 0, 28 },
+  { 0, 29 },
+  { 0, 30 },
+  { 0, 31 },
+  { 0, 32 },
+  { 0, 33 },
+  { 0, 34 },
+  { 0, 35 },
+  { 0, 36 },
+  { 0, 37 },
+  { 0, 38 },
+  { 0, 39 },
+  { 0, 40 },
+  { 0, 41 },
+  { 0, 42 },
+  { 0, 43 },
+  { 0, 44 },
+  { 0, 45 },
+  { 0, 46 },
+  { 0, 47 },
+  { 0, 48 },
+  { 0, 49 },
+  { 0, 50 },
+  {
+   ["catcodes"]=9,
+   ["coding"]="tex",
+   ["increment"]="yes",
+   ["kind"]="section",
+   ["level"]=2,
+   ["name"]="chapter",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=1,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=2,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=3,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=4,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=5,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=6,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=7,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=8,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=9,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=10,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=11,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=12,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=13,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=14,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=15,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=16,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=17,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=18,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=19,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=20,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=21,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=22,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=23,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=24,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=25,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=26,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=27,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=28,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=29,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=30,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=31,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=32,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=33,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=34,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=35,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=36,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=37,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=38,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=39,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=40,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=41,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=42,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=43,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=44,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=45,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=46,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=47,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=48,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=49,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversion"]="chinesenumerals",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=50,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["conversionset"]="pagenumber",
+  },
+  {
+   ["connector"]="–",
+   ["prefix"]="no",
+   ["set"]="part",
+  },
+ },
+ ["keys"]={
+  ["directives"]=true,
+  ["metadata"]=true,
+  ["numberdata"]=true,
+  ["numbers"]=true,
+  ["ownnumbers"]=true,
+  ["pagedata"]=true,
+  ["prefixdata"]=true,
+  ["processors"]=true,
+  ["sectiondata"]=true,
+  ["specification"]=true,
+ },
+ ["skip"]={
+  ["datasets"]=true,
+  ["positions"]=true,
+  ["userdata"]=true,
+ },
+ ["version"]=0x1.051eb851eb852p+0,
+}
+
+return utilitydata

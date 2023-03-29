@@ -1,95 +1,16 @@
 \environment doc-env
 \usebtxdataset[ctxnotes.bib]
 \starttext
-% 封面
-\startMPinclusions
-vardef hilbert(expr sidelength, n) = 
-  numeric u; u := 0.5sidelength;
-  pair a, b, c, d;
-  a := (-0.5, -0.5) * u;
-  b := (-0.5, 0.5) * u;
-  c := (0.5, 0.5) * u;
-  d := (0.5, -0.5) * u;
-  path p; 
-  p := a -- b -- c -- d;
-  transform sw, nw, ne, se;
-  sw := identity
-        scaled 0.5
-        reflectedabout ((0, 0), (1, 1))
-        shifted (-0.5u, -0.5u);
-  nw := identity
-        scaled 0.5
-        shifted (-0.5u, 0.5u);
-  ne := identity
-        scaled 0.5
-        shifted (0.5u, 0.5u);
-  se := identity
-        scaled 0.5
-        reflectedabout ((0, 0), (1, -1))
-        shifted (0.5u, -0.5u);
-
-  for i := 2 upto n:
-    p := p transformed sw for j := nw, ne, se: -- p transformed j endfor;
-  endfor;
-  p
-enddef;
-\stopMPinclusions
-\startuseMPgraphic{TitleGraphic}
-path p; p := hilbert(OverlayWidth, 5) randomized 1mm;
-pickup pencircle scaled 1mm;
-draw p yscaled(OverlayHeight / OverlayWidth) withcolor \MPcolor{tan};
-\stopuseMPgraphic
-\defineoverlay[TitleGraphic][\useMPgraphic{TitleGraphic}]
-
-%% 阴影盒
-\startuniqueMPgraphic{shade box}
-numeric u, w, h, roundcorner, offset;
-path p, q;
-color shade;
-u := 1cm; w := \overlaywidth; h := \overlayheight;
-p := unitsquare xyscaled (w, h);
-offset := 7pt;
-shade := darkgray;
-pickup pencircle scaled offset;
-for i = 0 step .1 until 1:
-    q := unitsquare xyscaled (w, h) shifted (i * offset, -i * offset);
-    fill q withcolor transparent (1, .1, shade);
-    draw q withcolor transparent (1, .1, shade);
-endfor;
-q := p shifted (-offset, offset);
-draw q withcolor transparent (1, 0, white);
-fill p withcolor \MPcolor{dimgray};
-draw p withcolor \MPcolor{lightsteelblue};
-\stopuniqueMPgraphic
-\defineoverlay[shade box][\uniqueMPgraphic{shade box}]
-\defineframedtext[coverbox][frame=off,background={shade box}]
-
-% 前文
 \startfrontmatter
-\setupbackgrounds[page][background=TitleGraphic]
-\startstandardmakeup
-  \startcolor[white]
-    \startcoverbox[middle][width=.6\textwidth,height=5cm,toffset=.8cm]
-      \strut
-      \hfil \bfd\ConTeXt\ 蹊径\hfil
-      \blank[1cm]
-      \hfil\bfa 李延瑞\hfil
-      \blank[.25cm]
-      \hfil\bf 2023 年 3 月 8 日\hfil
-    \stopcoverbox
-  \stopcolor
-  \blank[14cm]
-\stopstandardmakeup
-\setupbackgrounds[page][background=]
+\input cover
 \setuppagenumber[number=1]
 \setupuserpagenumber[numberconversion=romannumerals]
 \setups{FrontHeaderFooter}
 \input preface % 自序
-\title{目\kern 1em 录}\blank
-\placecontent
+\TOC{目录}
+\definelistextra[page][before=\page]
+\placecontent[extras={page=10}]  % 强行在第 10 章之前分页
 \stopfrontmatter
-
-% 正文
 \startbodymatter
 \setuppagenumber[number=1]
 \setupuserpagenumber[numberconversion=number]
@@ -106,18 +27,14 @@ draw p withcolor \MPcolor{lightsteelblue};
 \input 10
 \input 11
 \input 12
+\input 13
 \stopbodymatter
-
-% 附录
+\startbackmatter
+\input postscript
+\stopbackmatter
 \startappendices
+\input zhfonts
 \title{参考文献}
 \placelistofpublications
 \stopappendices
-
-% 后文
-\startbackmatter
-\null
-\stopbackmatter
-
-%\stopproduct
 \stoptext

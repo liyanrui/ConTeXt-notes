@@ -88,7 +88,7 @@ D:\foo> echo %PATH%
 D:\foo> setx /M PATH "%PATH%d:\foo;"
 \stoptyping
 
-\noindent 务必注意，该命令仅在「以管理员身份」启动的命令行窗口中起效。在 Windows 开始菜单里的搜索栏，输入「cmd」并单击「Enter」键提交，然后鼠标右键单击如图 \in[search] 所示的搜索结果，在弹出的菜单中选择「以管理员身份运行」。以这种方式开启的命令行窗口方可执行上述的「\type{setx}」命令。
+\noindent 务必注意，该命令仅在「以管理员身份」启动的命令行窗口中起效。在 Windows 开始菜单里的搜索栏，输入「cmd」并单击「Enter」键提交，然后鼠标右键单击搜索结果，在弹出的菜单中选择「以管理员身份运行」。以这种方式开启的命令行窗口方可执行上述的「\type{setx}」命令。
 
 验证「\type{D:\foo}」是否被成功添加到系统 \type{PATH} 变量，只需在除 \type{D:\foo} 之外的任一目录验证能否执行 foo.bat，例如
 

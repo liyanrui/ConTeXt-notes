@@ -24,7 +24,7 @@
 }
 \stoptyping
 
-在示例 \in[rsquare] 中，\type{\hbox} 用于包含一副使用 \MetaPost\ 语言绘制的矢量插图，关键代码如下：
+在示例 \in[rsquare] 中，\type{\hbox} 用于包含一副使用 \METAPOST\ 语言绘制的矢量插图，关键代码如下：
 
 \starttyping[option=TEX]
 \startuseMPgraphic{foo}
@@ -33,7 +33,7 @@
 \lower.2ex\hbox{\useMPgraphic{foo}}
 \stoptyping
 
-\noindent 其中 \type{useMPgraphic} 环境中的 \MetaPost\ 代码会被 \type{\useMPgraphic{foo}} 提交给 \TeX\ 引擎。\TeX\ 引擎会调用 metapost 程序将 \MetaPost\ 代码编译成 PDF 格式的图片，然后交给 \ConTeXt。最后由 \ConTeXt\ 将图片插入到 \type{\useMPgraphic{foo}} 所在的横向盒子里。\type{\lower .2ex} 可令位于其后的横向盒子下沉 0.2 ex。长度单位 ex 类似于 em，也是一个相对尺寸，它是当前所用字体中的字母 x 对应的字形的高度。从现在开始要记住，横向距离用 em，竖向距离用 ex，不过这只是建议，并非 \TeX\ 世界的法律。
+\noindent 其中 \type{useMPgraphic} 环境中的 \METAPOST\ 代码会被 \type{\useMPgraphic{foo}} 提交给 \TeX\ 引擎。\TeX\ 引擎会调用 metapost 程序将 \METAPOST\ 代码编译成 PDF 格式的图片，然后交给 \ConTeXt。最后由 \ConTeXt\ 将图片插入到 \type{\useMPgraphic{foo}} 所在的横向盒子里。\type{\lower .2ex} 可令位于其后的横向盒子下沉 0.2 ex。长度单位 ex 类似于 em，也是一个相对尺寸，它是当前所用字体中的字母 x 对应的字形的高度。从现在开始要记住，横向距离用 em，竖向距离用 ex，不过这只是建议，并非 \TeX\ 世界的法律。
 
 还有一种横向盒子 \type{\line}，它的宽度是当前段落的宽度，可让其中的文字向两边伸展并与边界对齐，例如
 

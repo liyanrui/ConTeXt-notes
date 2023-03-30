@@ -30,29 +30,29 @@
 \noindent 通常更建议使用相对尺寸，例如 0.3 倍的版心宽度（满行文字的最大宽度）：
 
 \starttyping[option=TEX]
-\midaligned{\externalfigure[ctxnotes.png][width=.4\textwidth]}
+\midaligned{\externalfigure[ctxnotes.png][width=.375\textwidth]}
 \stoptyping
 
-\midaligned{\externalfigure[08/ctxnotes.png][width=.4\textwidth]}
+\midaligned{\externalfigure[08/ctxnotes.png][width=.375\textwidth]}
 
 如法炮制，给图片加上标题也很容易：
 
 \starttyping[option=TEX]
-\midaligned{\externalfigure[ctxnotes.png][width=.4\textwidth]}
+\midaligned{\externalfigure[ctxnotes.png][width=.375\textwidth]}
 \midaligned{\tfx \ConTeXt\ 学习笔记封面截图}
 \stoptyping
 
-\midaligned{\externalfigure[08/ctxnotes.png][width=.4\textwidth]}
+\midaligned{\externalfigure[08/ctxnotes.png][width=.375\textwidth]}
 \midaligned{\tfx\ConTeXt\ 学习笔记封面截图}
 
 \indentation 如果你还希望插图能有编号，对于篇幅较小的文章，手工输入即可，建议在编号后，使用 \type{\quad} 插入一个字宽的空白作为间隔，因为普通的空格只有半个字宽。例如
 
 \starttyping[option=TEX]
-\midaligned{\externalfigure[ctxnotes.png][width=.4\textwidth]}
+\midaligned{\externalfigure[ctxnotes.png][width=.375\textwidth]}
 \midaligned{\tfx 图 1\quad\ConTeXt\ 学习笔记封面截图}
 \stoptyping
 
-\midaligned{\externalfigure[08/ctxnotes.png][width=.4\textwidth]}
+\midaligned{\externalfigure[08/ctxnotes.png][width=.375\textwidth]}
 \midaligned{\tfx 图 1\quad\ConTeXt\ 学习笔记封面截图}
 
 如果你担心，插图太多，手工输入图片编号难免会出错，可以使用 \ConTeXt\ 的计数器功能，让 \ConTeXt\ 为你自动递增图片序号。首先，定义一个计数器：
@@ -64,20 +64,20 @@
 \noindent 然后，每次在给插图添加加标题时，将该计数器增 1，并获取它的当前的值：
 
 \starttyping[option=TEX]
-\midaligned{\externalfigure[ctxnotes.png][width=.4\textwidth]}
+\midaligned{\externalfigure[ctxnotes.png][width=.375\textwidth]}
 \incrementnumber[myfig]
 \midaligned{\tfx 图 \getnumber[myfig]\quad\ConTeXt\ 学习笔记封面截图}
 \blank[line]
-\midaligned{\externalfigure[ctxnotes-2.png][width=.4\textwidth]}
+\midaligned{\externalfigure[ctxnotes-2.png][width=.375\textwidth]}
 \incrementnumber[myfig]
 \midaligned{\tfx 图 \getnumber[myfig]\quad 涂鸦版 Hilbert 曲线}
 \stoptyping
 
 \definenumber[myfig][prefix=no]
-\midaligned{\externalfigure[08/ctxnotes.png][width=.4\textwidth]}
+\midaligned{\externalfigure[08/ctxnotes.png][width=.375\textwidth]}
 \incrementnumber[myfig]
 \midaligned{\tfx 图 \getnumber[myfig]\quad\ConTeXt\ 学习笔记封面截图}
-\midaligned{\externalfigure[08/ctxnotes-2.png][width=.4\textwidth]}
+\midaligned{\externalfigure[08/ctxnotes-2.png][width=.375\textwidth]}
 \incrementnumber[myfig]
 \midaligned{\tfx 图 \getnumber[myfig]\quad 涂鸦版 Hilbert 曲线}
 
@@ -116,7 +116,7 @@
 \starttyping[option=TEX]
 \placemyfigure
   {涂鸦版 Hilbert 曲线}
-  {\externalfigure[ctxnotes-2.png][width=.4\textwidth]}
+  {\externalfigure[ctxnotes-2.png][width=.375\textwidth]}
 \stoptyping
 
 你可能并不能完全理解 \type{\palcemyfigure} 的定义，但是基于上一节的一些示例，应该能猜出其要义。这已经足够了，日后倘若你觉得有些经常重复使用的排版代码，它们只存在少许差异，便可尝试为它们定义一个宏，用宏的参数代替差异。现在也许你已经隐隐感觉到了，\ConTeXt\ 的排版命令也是 \TeX\ 宏。
@@ -264,11 +264,8 @@
 
 \starttyping[option=TEX]
 \startuseMPgraphic{metapost 图形}
-path p;
-u := 7cm; v := 3cm;
-p := fullsquare xyscaled (u, v) randomized 0.07u;
-drawpath p;
-drawpoints p;
+path p; p := fullsquare xyscaled (7cm, 3cm) randomized 0.07u;
+drawpath p; drawpoints p;
 \stopuseMPgraphic
 \placefigure{\MetaFun\ example}{\useMPgraphic{metapost 图形}}
 \stoptyping

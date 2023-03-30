@@ -110,7 +110,10 @@
 \definedescription
   [definition]
   [location=top,hang=20,width=broad,indenting=always,style=\ss,headstyle=\bf]
-
+% 表格标题
+\setupcaption
+  [table]
+  [headstyle=normal,style=small,location=top]
 
 % 抄录
 \setuplinenumbering[style=small]
@@ -168,22 +171,41 @@ draw p randomized s withcolor \MPcolor{lightsteelblue};
   \inframed[frame=off,background=color,backgroundcolor=indianred,offset=4pt]{#1}%
 }
 
-% sample
+% ---------- sample ----------------------
 \definebuffer[sample]
 \definefloat[Sample][Samples]
 \setuplabeltext[en][Sample={示例 }]
-\def\sample[#1]#2#3{%
-  \setbox\scratchbox\hbox{#3}
+% 参数为一个放在页面右侧的盒子，基于该盒子的宽度，计算其左侧空间宽度
+\def\defineLeftWidth#1{%
   \newdimen\LeftWidth
   \LeftWidth=\textwidth
-  \advance\LeftWidth by -\wd\scratchbox
+  \newdimen\RightObjectWidth
+  \RightObjectWidth=\wd#1
+  \ifdim\RightObjectWidth>0pt
+  \advance\LeftWidth by -\RightObjectWidth
   \advance\LeftWidth by -1em
-  \placeSample[here][#1]{#2}{%
+  \fi
+}
+\def\sample[#1][#2]#3#4{%
+  \setbox\scratchbox\hbox{#4}%
+  \defineLeftWidth{\scratchbox}%
+  \placeSample[here][#2]{#3}{%
     \hbox to \textwidth{%
-      \hbox{\typesample[option=TEX,
+      \hbox{\typesample[option=#1,
                         before={\startblueframe[width=\LeftWidth]},
                         after={\stopblueframe}]}\hss\unhbox\scratchbox}%
   }%
+}
+\def\simplesample[#1]#2{%
+  \setbox\scratchbox\hbox{#2}%
+  \defineLeftWidth{\scratchbox}%
+  \placeSample[here,none][]{}{%
+    \hbox to \textwidth{%
+      \hbox{\typesample[option=#1,
+                        before={\startblueframe[width=\LeftWidth]},
+                        after={\stopblueframe}]}\hss\unhbox\scratchbox}%
+  }%
+  \blank[back]
 }
 
 % 修改 MPcode 代码部分高亮颜色

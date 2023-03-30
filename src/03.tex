@@ -72,7 +72,7 @@ simsunregular    simsun       simsun     simsun.ttc   1
 \kaiti 君子终日乾乾，夕惕若厉，无咎。
 \stopTEXpage
 \stopsample
-\sample[hello-hanzi]{三种汉字字体}{\externalfigure[03/qian.pdf]}
+\sample[TEX][hello-hanzi]{三种汉字字体}{\externalfigure[03/qian.pdf]}
 
 需要注意的是，第一次在 \ConTeXt\ 中使用新安装的汉字字体，源文件编译过程会较为缓慢，因为 \ConTeXt\ 需要解析字体文件中的一些编码信息并将解析结果存到它的字体缓存目录。待下一次使用经过缓存后字体时，编译速度便会正常，因此不应急切宣判 \ConTeXt\ 不适合处理中文文档。我的计算机 CPU 是 \type{Intel i5-4300U @ 1.90GHz}。这份文档写至此处，已有 20 页内容，其源文件单次编译时间不到 3 秒。我感觉 \ConTeXt\ 处理中文文档，并不是很慢，但是应当承认，肯定是比基于 \pdfTeX 或 \XeTeX 等引擎的 \TeX\ 要慢一些。
 
@@ -88,7 +88,7 @@ simsunregular    simsun       simsun     simsun.ttc   1
 君子终日乾乾，夕惕若厉，无咎。
 \stopTEXpage
 \stopsample
-\sample[无法断行]{中文段落无法断行}{\externalfigure[03/breakinglines-1.pdf]}
+\sample[TEX][无法断行]{中文段落无法断行}{\externalfigure[03/breakinglines-1.pdf]}
 
 需要注意示例 \in[无法断行] 中的注释符的用法。虽然注释内容为空，但注释符可令 \TeX\ 引擎忽略其后的所有空白字符（包括换行符）。倘若将该示例中的注释符去掉，第一行汉字和第二行汉字之间的换行符会被 \TeX\ 引擎视为空白字符，从而让 \ConTeXt\ 觉得，它面对的是两个较长的单词，它们之间可以断行，结果见示例 \in[将错就错]，可以断行，但属于误打误撞。
 
@@ -100,7 +100,7 @@ simsunregular    simsun       simsun     simsun.ttc   1
 君子终日乾乾，夕惕若厉，无咎。
 \stopTEXpage
 \stopsample
-\sample[将错就错]{中文段落无法断行}{\externalfigure[03/breakinglines-2.pdf]}
+\sample[TEX][将错就错]{中文段落无法断行}{\externalfigure[03/breakinglines-2.pdf]}
 
 现在，我们可以灵机一动，既然换行符被 \TeX\ 引擎视为空白字符从而使得 \ConTeXt\ 误打误撞对汉字进行了一次断行，那么倘若在汉字之间手工插入空格字符，\ConTeXt\ 能否实现汉字断行呢？答案是，可行，见源文档显现了空格字符（以 \type[space=on]{ } 表示）的示例 \in[手工断行]，只是空格的存在，导致排版结果中的汉字分布较为蓬松。
 
@@ -112,7 +112,7 @@ simsunregular    simsun       simsun     simsun.ttc   1
 君 子 终 日 乾 乾， 夕 惕 若 厉， 无 咎。
 \stopTEXpage
 \stopsample
-\sample[手工断行]{中文段落手工插入空格进行断行}{\externalfigure[03/breakinglines-3.pdf]}
+\sample[TEX][手工断行]{中文段落手工插入空格进行断行}{\externalfigure[03/breakinglines-3.pdf]}
 
 位于 \ConTeXt\ 底层的 \TeX\ 系统提供了粘连（Glue）机制，我们可以用它定义给定宽度且有些许弹性的空格。例如，定义一个宽度为 0，最大可伸展 2 pt 且不可收缩的粘连：
 
@@ -148,7 +148,7 @@ simsunregular    simsun       simsun     simsun.ttc   1
 \foo 夕\foo 惕\foo 若\foo 厉，\foo 无\foo 咎。
 \stopTEXpage
 \stopsample
-\sample[手工插入粘连断行]{中文段落手工插入粘连进行断行}{\externalfigure[03/breakinglines-4.pdf]}
+\sample[TEX][手工插入粘连断行]{中文段落手工插入粘连进行断行}{\externalfigure[03/breakinglines-4.pdf]}
 
 \section{写一封真正的信}
 
@@ -171,7 +171,7 @@ simsunregular    simsun       simsun     simsun.ttc   1
 \rightaligned{2035.10.1}
 \stopTEXpage
 \stopsample
-\sample[孙悟空的信]{孙悟空的信}{\externalfigure[03/breakinglines-5.pdf]}
+\sample[TEX][孙悟空的信]{孙悟空的信}{\externalfigure[03/breakinglines-5.pdf]}
 
 从现在开始，在提供示例时，为了节省篇幅，我有时会省略一部分经常重复使用的代码，仅给出关键代码以突出重点，在有兴致动手试验这些代码时，需要你自己动手添加被省略的代码。
 
@@ -202,7 +202,7 @@ Math in display mode:
 \int_a^b f(x)dx
 \stopformula
 \stopsample
-\sample[默认字体]{\ConTeXt\ 默认字体}{\externalfigure[03/defaultfonts.pdf]}
+\sample[TEX][默认字体]{\ConTeXt\ 默认字体}{\externalfigure[03/defaultfonts.pdf]}
 
 \ConTeXt\ 默认正文字体的大小为 12 pt，并以该尺寸为基准，定义了 6 种不同级别的字体尺寸，从小到大依序为：\type{xx}，\type{x}，\type{a}，\type{b}，\type{c}，\type{d}。\type{x} 级比正文字体小，\type{a} 级比正文字体大。示例 \in[fontsize-level] 演示了无衬线字族的正体字体 7 种大小级别的切换。
 
@@ -210,7 +210,7 @@ Math in display mode:
 \ss {\tfxx A} {\tfx A} A or {\tf A}
 {\tfa A} {\tfb A} {\tfc A} {\tfd A}
 \stopsample
-\sample[fontsize-level]{字体大小的 7 种级别}{\externalfigure[03/fontsize-level.pdf]}
+\sample[TEX][fontsize-level]{字体大小的 7 种级别}{\externalfigure[03/fontsize-level.pdf]}
 
 此外，还需要注意的是，尺寸单位 em 的含义。之前我对它给出解释是字母 \type{M} 宽度，恰好等于 1 个汉字的宽度，这是针对当前所的字体环境而言的。例如，在示例 \in[em-1] 和 \in[em-2] 中，段落首行缩进设定命令出现的位置不同，导致段落缩进距离产生了差异。这是因为，在示例 \in[em-1] 中，设定段落首行缩进时，em 的值是基于 \ConTeXt\ 默认的正文字体尺寸确定的，其值为 12 pt，而在 示例 \in[em-1] 中，em 的值是基于我们自定义的字体 \type{\songti} 的尺寸确定的，其值为 9 pt。
 
@@ -222,7 +222,7 @@ Math in display mode:
 我现在五指山挺好的。
 虽然我很少写信，其实我很怀念花果山。
 \stopsample
-\sample[em-1]{段落缩进距离是 24 pt}{\externalfigure[03/indenting-1.pdf]}
+\sample[TEX][em-1]{段落缩进距离是 24 pt}{\externalfigure[03/indenting-1.pdf]}
 
 \startsample
 \setscript[hanzi]
@@ -232,7 +232,7 @@ Math in display mode:
 我现在五指山挺好的。
 虽然我很少写信，其实我很怀念花果山。
 \stopsample
-\sample[em-2]{段落缩进距离是 18 pt}{\externalfigure[03/indenting-2.pdf]}
+\sample[TEX][em-2]{段落缩进距离是 18 pt}{\externalfigure[03/indenting-2.pdf]}
 
 \section[define-family]{定义汉字字族}
 
@@ -248,7 +248,7 @@ Math in display mode:
 虽然我很少写信，其实我很怀念花果山。
 \stopTEXpage
 \stopsample
-\sample[setupbodyfont]{定义正文字体并启用}{\externalfigure[03/setupbodyfont.pdf]}
+\sample[TEX][setupbodyfont]{定义正文字体并启用}{\externalfigure[03/setupbodyfont.pdf]}
 
 示例 \in[setupbodyfont] 仅定义了 \type{myfonts} 的衬线字族（\type{rm}）为 \type{nsimsun}，且需要注意的是，此处的 \type{nsimsun} 并非字体名，而是字族名。在 \in[fonts-installation] 节中，将 simsun.ttc 安装至 \ConTeXt\ 环境之后，我们曾查询过它的相关信息，其中有一栏信息是 \type{familyname}，其中罗列的便是字体所属的字族名。\ConTeXt\ 会根据字族名自动搜索字体的 \type{identifier} 信息，若某字体，其 identifier 的末尾是 \type{regular} 或 \type{normal}\footnote{identifier 名的末尾为 regular 和 normal 的字体通常是同一个字体。}，则该字体会被 \ConTeXt\ 自动作为该字体所属字族的正体。同理，若某字体的 identifier 的末尾是 \type{bold}，\type{italic} 或 \type{bolditalic}，则该字体会被 \ConTeXt\ 自动作为该字体所属字族的粗体、斜体或粗斜体。
 
@@ -308,7 +308,7 @@ Math in display mode:
 \it 爱因斯坦 Einstein\\ \bi 爱因斯坦 Einstein
 \stopTEXpage
 \stopsample
-\sample[fallbacks]{字形替换}{\externalfigure[03/fallbacks.pdf]}
+\sample[TEX][fallbacks]{字形替换}{\externalfigure[03/fallbacks.pdf]}
 
 \section{小结}
 

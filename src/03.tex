@@ -22,7 +22,9 @@
 
 为了便于描述，从现在开始，以虚构的类 Unix 环境变量风格的 \type{$TEXROOT} 指代 \TeX\ 根目录，不再使用具体路径，因为后者严重依赖于操作系统和用户偏好而缺乏一致性。此外，路径中的目录间隔符也统一使用类 Unix 风格进行表示，即使用「\type{/}」而非 Windows 风格的「\type{\}」，例如 \type{$TEXROOT/texmf} 表示 \TeX\ 根目录的子目录 \type{texmf}。
 
-向 \ConTeXt\ 安装宋体（simsun.ttc）、黑体（simhei.ttf）和楷体（simkai.ttf）的具体过程如下：
+以上关于 \TEX\ 根目录的讨论，仅针对 \CONTEXT\ 开发者提供的 \CONTEXT\ 包。对于 \TEX\ Live 而言，可将 \type{texmf-local} 目录的上级目录作为 \type{$TEXROOT}。
+
+为 \ConTeXt\ 安装宋体（simsun.ttc）、黑体（simhei.ttf）和楷体（simkai.ttf）的具体过程如下：
 
 \startitemize[n,packed][stopper=,left=(,right=)]
 \item 将上述字体文件复制到 \type{$TEXROOT/texmf-local/fonts/truetype/msfonts} 目录，若该目录不存在，则自行创建；
@@ -32,11 +34,9 @@
 
 字体安装完毕后，可以通过查询字体文件名确认字体是否安装成功，例如查询 simhei.ttf：
 
-
 \starttyping
 $ mtxrun --script fonts --list --file simhei.ttf
 familyname   weight   style    width    variant   fontname   filename     ...
-
 simhei       normal   normal   normal   normal    simhei     simhei.ttf
 \stoptyping
 
@@ -47,7 +47,6 @@ simhei       normal   normal   normal   normal    simhei     simhei.ttf
 \starttyping
 $ mtxrun --script fonts --list --all simsun
 identifier       familyname   fontname   filename     subfont   instances
-
 nsimsunnormal    nsimsun      nsimsun    simsun.ttc   2
 nsimsunregular   nsimsun      nsimsun    simsun.ttc   2
 simsun           simsun       simsun     simsun.ttc   1
@@ -123,20 +122,6 @@ simsunregular    simsun       simsun     simsun.ttc   1
 
 \noindent 然后用该粘连代替空格，插入到汉字之间，便基本可实现汉字断行，结果见示例 \in[手工插入粘连断行]，需要注意的是，\TeX\ 会自动忽略排版命令之后尾随的空格，因此 \type{\foo} 之后虽然有一个空格，但该空格不会在排版结果里出现。
 
-\startsamplecode\startnarrowtyping[space=on]
-\startTEXpage[frame=on,width=5cm,offset=4pt]
-\definefont[songti][name:simsun at 12pt]
-\def\foo{\hskip 0pt plus 2pt minus 0pt}
-\songti
-潜\foo 龙\foo 勿\foo 用。%
-\foo 见\foo 龙\foo 在\foo 田，\foo 利\foo 见%
-\foo 大\foo 人。%
-\foo 君\foo 子\foo 终\foo 日\foo 乾\foo 乾，%
-\foo 夕\foo 惕\foo 若\foo 厉，\foo 无\foo 咎。
-\stopTEXpage
-\stopnarrowtyping\stopsamplecode
-\mysample[手工插入粘连断行]{中文段落手工插入粘连进行断行}{03/breakinglines-4.pdf}
-
 由于没有人愿意像示例 \in[手工插入粘连断行] 那样排版汉字，因此 \ConTeXt\ 提供了一个可以自动在汉字之间插入粘连的命令，即
 
 \starttyping[option=TEX]
@@ -150,6 +135,20 @@ simsunregular    simsun       simsun     simsun.ttc   1
 \stoptyping
 
 \noindent 倘若你擅长定义你所需要的 \TeX\ 宏，便可以自己创造一个可与 \ConTeXt\ 媲美的宏包。现在，已经隐隐知道了\ConTeXt\ 的一些真相了吧。
+
+\startsamplecode\startnarrowtyping[space=on]
+\startTEXpage[frame=on,width=5cm,offset=4pt]
+\definefont[songti][name:simsun at 12pt]
+\def\foo{\hskip 0pt plus 2pt minus 0pt}
+\songti
+潜\foo 龙\foo 勿\foo 用。%
+\foo 见\foo 龙\foo 在\foo 田，\foo 利\foo 见%
+\foo 大\foo 人。%
+\foo 君\foo 子\foo 终\foo 日\foo 乾\foo 乾，%
+\foo 夕\foo 惕\foo 若\foo 厉，\foo 无\foo 咎。
+\stopTEXpage
+\stopnarrowtyping\stopsamplecode
+\mysample[手工插入粘连断行]{中文段落手工插入粘连进行断行}{03/breakinglines-4.pdf}
 
 \section{写一封真正的信}
 
@@ -286,12 +285,11 @@ Math in display mode:
   {英文字形比较}
   {\externalfigure[03/bad-latin.pdf][width=.4\textwidth]}
 
-\type{\definefallbackfamily} 可用一种字体中的部分字形替换另一种字体的相应字形，其用法与 \type{\definefontfamily} 类似，只是需要在参数中指定字形覆盖范围。示例 \in[fallbacks] 使用 latinmodernroman 字族里的每种字体的 Unicode 码位区间 $[0\mathrm{x}0000, 0\mathrm{x}0400]$ 中的所有字形强行替换 nsimsun 字族中每种字体（包括替补字体）的相应字形。也可以使用 \ConTeXt\ 已经定义了名字的 Unicode 码位区间代替 16 进制数字形式的区间。例如，
+\type{\definefallbackfamily} 可用一种字体中的部分字形替换另一种字体的相应字形。示例 \in[fallbacks] 使用 latinmodernroman 字族里的每种字体的 Unicode 码位区间 $[0\mathrm{x}0000, 0\mathrm{x}0400]$ 中的所有字形强行替换 nsimsun 字族中每种字体（包括替补字体）的相应字形。也可以使用 \ConTeXt\ 已经定义了名字的 Unicode 码位区间代替 16 进制数字形式的区间。例如，
 
 \starttyping[option=TEX]
-\definefallbackfamily
-  [myfonts][rm][latinmodernroman]
-  [range={basiclatin,latinsupplement},force=yes]
+\definefallbackfamily[myfonts][rm][latinmodernroman]
+                     [range={basiclatin,latinsupplement},force=yes]
 \stoptyping
 
 \noindent 指定了 Unicode 码位区间 $\mathrm{[0x0000, 0x00FF]}$ 中的字形作为替换字形。Unicode 码位区间的名字见文档「List of Unicode blocks」\cite[unicode-blocks]。
@@ -306,10 +304,8 @@ Math in display mode:
 \setupbodyfont[myfonts,16pt]
 \setscript[hanzi]
 \startTEXpage[frame=on,offset=4pt]
-爱因斯坦 Einstein\\
-\bf 爱因斯坦 Einstein\\
-\it 爱因斯坦 Einstein\\
-\bi 爱因斯坦 Einstein
+爱因斯坦 Einstein\\ \bf 爱因斯坦 Einstein\\
+\it 爱因斯坦 Einstein\\ \bi 爱因斯坦 Einstein
 \stopTEXpage
 \stopnarrowtyping\stopsamplecode
 \mysample[fallbacks]{字形替换}{03/fallbacks.pdf}

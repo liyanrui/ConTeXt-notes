@@ -1,6 +1,6 @@
 \chapter[Installation]{不怕命令行 }
 
-无论是安装还是使用 \ConTeXt，皆需要对命令行环境有所了解。原本未有介绍这方面知识的计划，但是考虑到我正在写一份世上最好的 \ConTeXt\ 入门文档，便有了些许动力。本章先分别介绍 Windows、Linux 和 macOS 系统的命令行环境的基本用法，以刚好满足安装和运行 \ConTeXt\ 的需求为要。倘若对命令行环境已颇为熟悉，可直接阅读 \in[installation] 和 \in[quick-installation] 节。
+无论是安装还是使用 \ConTeXt，皆需要对命令行环境有所了解。原本未有介绍这方面知识的计划，但是考虑到我正在写一份世上最好的 \ConTeXt\ 入门文档，便有了些许动力。本章先分别介绍 Windows、Linux 和 macOS 系统的命令行环境的基本用法，以刚好满足安装和运行 \ConTeXt\ 的需求为要。倘若对命令行环境已颇为熟悉，可直接阅读 \in[installation] 和 \in[ctx-in-texlive] 节。
 
 \section{任务}
 
@@ -166,10 +166,12 @@ $ echo 'export PATH=$HOME/foo:$PATH' >> .zshrc
 $ source .zshrc
 \stoptyping
 
-\section[installation]{安装 \ConTeXt\ LMTX}
+\section[installation]{安装 \ConTeXt\ LMTX 最新版本}
+
+安装 \CONTEXT\ LMTX 有两种方式，一种是安装 \CONTEXT\ 开发者提供的 \CONTEXT\ 包，该包仅包含 \CONTEXT\ 环境；另一种是安装 \TEX\ Live 中的 \CONTEXT\ 包。本节介绍前者，下一节介绍后者。
 
 \useURL[installation][https://wiki.contextgarden.net/Installation]
-\ConTeXt\ 的最新版本是 \ConTeXt\ LMTX，目前尚在开发和试验阶段，功能虽不稳定，但对于入门而言并无妨碍。从 \bluebox{\from[installation]} 下载对应操作系统类型的 \ConTeXt\ LMTX 安装包，按照该网址的相关介绍进行安装即可。授人以鱼，不如授人以渔，安装过程所需要的全部知识皆已在上文介绍完毕。不过，我总担心 Windows 用户无法安装成功，下文以 Windows 64 位系统为例，给出完整的安装过程。
+\ConTeXt\ 的最新版本是 \ConTeXt\ LMTX，目前尚在开发和试验阶段，功能虽不稳定，但对于入门而言并无妨碍。从 \bluebox{\from[installation]} 下载对应操作系统类型的 \ConTeXt\ LMTX 安装包，按照该网址的相关介绍进行安装即可，安装过程所需要的全部知识皆已在上文介绍完毕。下文以 Windows 64 位系统为例，给出详细的的安装过程。
 
 \useURL[win-64-version][http://lmtx.pragma-ade.com/install-lmtx/context-win64.zip]
 首先，从链接 \bluebox{\from[win-64-version]} 获得面向 Windows 64 位系统的安装包 \type{context-win64.zip} 并假设将其放在 \type{D:\} 解开，所得目录为 \type{context-win64}，其结构如下：
@@ -211,19 +213,9 @@ D:\context-win64
 
 最后，将 \type{D:\context\tex\texmf-win64\bin} 添加到系统 \type{PATH} 变量，便可在任一目录使用 \type{context} 命令将扩展名为 \type{.tex} 的文本文件编译成 PDF 文件了。
 
-\section[quick-installation]{投机取巧}
+\section[ctx-in-texlive]{\TEX\ Live 中的 \CONTEXT}
 
-倘若因为网络不畅甚至不通等问题无法成功安装 \ConTeXt\ LMTX，可以考虑下载我打包的整个 \ConTeXt\ LMTX 环境，目前仅有 Windows 64 位和 Linux 64 位版本，下载地址为：
-
-\useURL[win64v][https://pan.baidu.com/s/1r5gMqsk-peGQhOmcp_dNlw?pwd=eejf]
-\useURL[linux64v][https://pan.baidu.com/s/1iBHN-8Zroyd9rGOjRpQrYg?pwd=r2hp]
-\startitemize[packed]
-\item Windows amd64 版本：\bluebox{\from[win64v]}
-\item Linux amd64 版本：\bluebox{\from[linux64v]}
-\stopitemize
-
-\useURL[quick-installation][https://www.bilibili.com/video/BV1q84y1c7Je/]
-以 Windows 系统为例，从上述链接获得压缩包，以 \type{D:\} 作为解压缩目录，解压后可得 \type{D:\context} 目录，然后按照上一节所述方式修改系统 \type{PATH} 变量即可得到完整的 \ConTeXt\ LMTX 环境，日后依然可执行 \type{D:\context\install.bat} 对其进行更新。我已将该过程录制为视频，网络链接为 \bluebox{\from[quick-installation]}。
+若你熟悉 \TEX\ Live，推荐使用它提供的 \CONTEXT\ 版本，其功能较为稳定，且国内有镜像网站，在线安装更为便捷。若是新安装 \TEX\ Live，在安装时可直接选择 \type{ConTeXt scheme} 或在 \type{collections} 列表中选择 \type{ConTeXt and packages}。若你的系统中已安装 \TEX\ Live，只是无 \CONTEXT，可使用 TeXLive 包管理器 \type{tlmgr} 安装 \type{collection-context} 即可。
 
 \section{小结}
 

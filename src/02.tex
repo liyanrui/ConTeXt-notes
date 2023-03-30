@@ -186,13 +186,13 @@ This is the first line.\\ This is the second line.
 
 不过，我发现示例 \in[pars-5] 的行间距设定语句若放在 \type{\startTEXpage} 语句之前则无效\footnote{在 \in[context-world] 节中会介绍 \type{\starttext ... \stoptext}，直接以默认行距倍数的方式设置行间距，若设定语句位于 \type{\starttext} 之前则同样无效。}，也许是当前的 \ConTeXt\ LMTX 版本存在 bug。
 
-不过，还有一种段落内行间距设定方法。等到掌握第 \in[chinese-fonts] 章中讲述的设定 \ConTeXt\ 字体的方法，在你已经清楚正文字体的大小时，例如 11 pt，可采取以下方式设定 1.75 倍行距：
+还有一种行间距设定方法。待你掌握第 \in[chinese-fonts] 章中讲述的 \ConTeXt\ 字体设定方法，并清楚正文字体的大小时，可使用 \type{line} 参数设定最大行高。例如，若正文字体大小为 11 pt，以下代码可设定行间距为 1.75 倍：
 
 \starttyping[option=TEX]
 \setupinterlinespace[line=19.25pt]
 \stoptyping
 
-\noindent 之所以是 19.25 pt，是因它等于 $1.75\times 11$ pt。上述代码设定的是一行文字的最大高度。在后文中，本文档皆使用这种方式设定段落内行间距。
+\noindent 之所以是 19.25 pt，是因它等于 $1.75\times 11$ pt。最大行高即行间距，因为在 \CONTEXT\ 中，行间距是相邻两行文字的基线距离，恰好等于一行文字的最大高度。本文档在后文示中皆使用该方式设定段落内行间距。
 
 \section{对齐}
 

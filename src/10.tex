@@ -8,12 +8,12 @@
 
 在 \TeX\ 系统中，盒子是很重要的部件。例如，在 \ConTeXt\ 的排版的每一个段落，是一个竖向盒子，即 \type{\vbox}，该盒子之内又有一些横向盒子，即 \type{\hbox}，它们是段落的每一行。我们可以直接用这两种盒子构造一个不甚规整的段落：
 
-\startsamplecode\startnarrowtyping
+\startsample
 \vbox{
   \hbox{离离原上草}\hbox{一岁一枯荣}\hbox{野火烧不尽}\hbox{春风吹又生}
 }
-\stopnarrowtyping\stopsamplecode
-\mysample[todo-list]{竖向盒子和横向盒子}{10/vbox-and-hbox.pdf}
+\stopsample
+\sample[todo-list]{竖向盒子和横向盒子}{\externalfigure[10/vbox-and-hbox.pdf]}
 
 横向盒子可以指定它的长度，竖向盒子可以指定它的高度。例如，
 

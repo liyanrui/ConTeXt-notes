@@ -9,8 +9,9 @@
 \input preface % 自序
 \TOC{目录}
 \definelistextra[page][before=\page]
-\placecontent[extras={page=10}]  % 强行在第 10 章之前分页
+\placecontent[extras={page=10}]  % 按 wiki 的办法，强行在第 10 章之前分页，无效……
 \stopfrontmatter
+
 \startbodymatter
 \setuppagenumber[number=1]
 \setupuserpagenumber[numberconversion=number]
@@ -30,11 +31,13 @@
 \input 13
 \input zhfonts
 \stopbodymatter
+
 \startbackmatter
 \input postscript
 \title{参考文献}
 \placelistofpublications
 \stopbackmatter
+
 \startappendices
 \null
 \stopappendices

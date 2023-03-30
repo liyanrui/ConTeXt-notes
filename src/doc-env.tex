@@ -169,16 +169,23 @@ draw p randomized s withcolor \MPcolor{lightsteelblue};
 }
 
 % sample
+\definebuffer[sample]
 \definefloat[Sample][Samples]
-\setuplabeltext[en][Sample={示例\;}]
-\definebuffer[samplecode]
-\def\mysample[#1]#2#3{%
-  \placeSample[force][#1]{#2}{%
+\setuplabeltext[en][Sample={示例 }]
+\def\sample[#1]#2#3{%
+  \setbox\scratchbox\hbox{#3}
+  \newdimen\LeftWidth
+  \LeftWidth=\textwidth
+  \advance\LeftWidth by -\wd\scratchbox
+  \advance\LeftWidth by -1em
+  \placeSample[here][#1]{#2}{%
     \hbox to \textwidth{%
-      \hbox to .45\textwidth{\getsamplecode}\hfill\externalfigure[#3][maxwidth=.45\textwidth]%
-    }%
+      \hbox{\typesample[option=TEX,
+                        before={\startblueframe[width=\LeftWidth]},
+                        after={\stopblueframe}]}\hss\unhbox\scratchbox}%
   }%
 }
+
 % 修改 MPcode 代码部分高亮颜色
 \definestartstop
     [MetapostSnippetName]

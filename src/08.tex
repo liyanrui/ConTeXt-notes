@@ -143,7 +143,7 @@
 
 对于 \type{\placefigure} 的结果，可能你已经觉得有些不满意了。在中文排版中，图片的编号前缀不应该是 Figure，而应该是「图」，此外，编号也没必要粗体，而且标题字号应当比正文字体小一级。没有办法，\ConTeXt\ 一切默认的样式，皆针对西文排版。不过，我们可以通过以下命令，将插图标题样式设置成我们所期望的样式：
 
-\starttyping[option=TEX][space=on]
+\starttyping[option=TEX,space=on]
 \setupcaption[figure][style=\tfx,headstyle=\rm]
 \setuplabeltext[en][figure={图 }]
 \stoptyping

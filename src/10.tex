@@ -13,7 +13,7 @@
   \hbox{离离原上草}\hbox{一岁一枯荣}\hbox{野火烧不尽}\hbox{春风吹又生}
 }
 \stopsample
-\sample[TEX][todo-list]{竖向盒子和横向盒子}{\externalfigure[10/vbox-and-hbox.pdf]}
+\sample[option=TEX][todo-list]{竖向盒子和横向盒子}{\externalfigure[10/vbox-and-hbox.pdf]}
 
 横向盒子可以指定它的长度，竖向盒子可以指定它的高度。例如，
 
@@ -90,7 +90,7 @@
 \framed[location=low]{\type{\framed[location=low]{...}}}
 \stoptyping
 
-\noindent 结果为 \framed[location=low]{\type{\framed[location=low]{...}}}。上述示例中的 \type{\type} 用于排版代码，它会自动将字体切换为等宽字体（\type{\tt}）原样显示它所接受的文字。顺便多言，若是排版一段代码，可使用 \type{\starttyping[option=TEX] ... \stoptyping}。
+\noindent 结果为 \framed[location=low]{\type{\framed[location=low]{...}}}。上述示例中的 \type{\type{...}} 用于排版代码，它会自动将字体切换为等宽字体（\type{\tt}）原样显示它所接受的文字。顺便多言，若是排版一段代码，可使用 \type{\starttyping ... \stoptyping}。
 
 如果不希望 \type{\framed} 显示边框，只需 \type{\framed[frame=off]{...}}，也可以单独显示某条边线，并设定边线粗度和颜色：
 
@@ -250,7 +250,7 @@
 \HL
 \stoptabulate
 \stopsample
-\simplesample[TEX]{\getsample}
+\simplesample[option=TEX]{\getsample}
 
 将上述所得深度信息取负作为 \type{\inframed} 的参数 \type{depth} 的值，即
 

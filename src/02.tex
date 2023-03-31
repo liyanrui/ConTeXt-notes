@@ -33,7 +33,7 @@ $ context foo.tex
 Hello \ConTeXt!
 \stopTEXpage
 \stopsample
-\sample[TEX][starting-area]{新手村}{\externalfigure[02/starting-area.pdf]}
+\sample[option=TEX][starting-area]{新手村}{\externalfigure[02/starting-area.pdf]}
 
 之所以称 \type{TEXpage} 环境为新手村，是因它足够简单，将其用于观察大多数排版命令的效果时无需关心版面的天头、地脚、订口、翻口、版心、页码等元素的设定。
 
@@ -50,7 +50,7 @@ This is the first line.\\ % 强制换行
 This is the second line.
 \stopTEXpage
 \stopsample
-\sample[TEX][true-words]{两行真实文字}{\externalfigure[02/true-words.pdf]}
+\sample[option=TEX][true-words]{两行真实文字}{\externalfigure[02/true-words.pdf]}
 
 \startsample
 \usemodule[visual]
@@ -59,7 +59,7 @@ This is the second line.
 \fakewords{3}{5}
 \stopTEXpage
 \stopsample
-\sample[TEX][fakewords]{两行伪文字}{\externalfigure[02/fakewords.pdf]}
+\sample[option=TEX][fakewords]{两行伪文字}{\externalfigure[02/fakewords.pdf]}
 
 \section{注释}
 
@@ -96,7 +96,7 @@ This is the first line.\\ This is the second line.
 \stoplines
 \stopTEXpage
 \stopsample
-\sample[TEX][lines]{排版多行文本}{\externalfigure[02/lines.pdf]}
+\sample[option=TEX][lines]{排版多行文本}{\externalfigure[02/lines.pdf]}
 
 \section{分段}
 
@@ -111,7 +111,7 @@ This is the first line.\\ This is the second line.
 \stoplines
 \stopTEXpage
 \stopsample
-\sample[TEX][pars]{分段}{\externalfigure[02/pars.pdf]}
+\sample[option=TEX][pars]{分段}{\externalfigure[02/pars.pdf]}
 
 通常很少使用分段符对文本进行分段，因为在 \ConTeXt\ 源文档中，只需在两段文字之间空一行便可实现分段。示例 \in[pars-2] 使用空行进行分段，并通过限定「新手村」的宽度为 6 cm，从而在促狭的空间里展示了多行伪文字构成的段落。
 
@@ -123,7 +123,7 @@ This is the first line.\\ This is the second line.
 \fakewords{9}{15}
 \stopTEXpage
 \stopsample
-\sample[TEX][pars-2]{多行文本构成的段落}{\externalfigure[02/pars-2.pdf]}
+\sample[option=TEX][pars-2]{多行文本构成的段落}{\externalfigure[02/pars-2.pdf]}
 
 段落可以设置首行缩进。中文排版的惯例是，段落首行需缩进 2 个汉字的宽度，示例 \in[pars-3] 实现了该需求，排版结果中段落开头的蓝色矩形区域表示文字缩进后产生的空白区域。尺寸 2em 即英文字母 \type{M} 的宽度的 2 倍，刚好与两个汉字的宽度相同。还有一个常用的尺寸单位 ex，它是英文字母 \type{x} 的高度。
 
@@ -136,7 +136,7 @@ This is the first line.\\ This is the second line.
 \fakewords{9}{15}
 \stopTEXpage
 \stopsample
-\sample[TEX][pars-3]{设置段落首行缩进}{\externalfigure[02/pars-3.pdf]}
+\sample[option=TEX][pars-3]{设置段落首行缩进}{\externalfigure[02/pars-3.pdf]}
 
 根据文档「Faking text and more」\cite[faking-text]的提示，可将段落缩进区域的颜色定义为白色，从而可避免蓝色矩形块对视觉的干扰，见示例 \in[parindentcolor]。
 
@@ -151,7 +151,7 @@ This is the first line.\\ This is the second line.
 \fakewords{9}{15}
 \stopTEXpage
 \stopsample
-\sample[TEX][parindentcolor]{消除段落缩进色块}{\externalfigure[02/parindentcolor.pdf]}
+\sample[option=TEX][parindentcolor]{消除段落缩进色块}{\externalfigure[02/parindentcolor.pdf]}
 
 在设定段落首行缩进后，若不希望某个段落的首行被缩进，可在段落开头放置命令 \type{\noindent}。示例 \in[noindent]，第二段消除了第二段文字的首行缩进。
 
@@ -165,7 +165,7 @@ This is the first line.\\ This is the second line.
 \noindent\fakewords{9}{15}
 \stopTEXpage
 \stopsample
-\sample[TEX][noindent]{消除第二段的首行缩进}{\externalfigure[02/pars-4.pdf]}
+\sample[option=TEX][noindent]{消除第二段的首行缩进}{\externalfigure[02/pars-4.pdf]}
 
 \section[interlinespace]{行间距}
 
@@ -182,7 +182,7 @@ This is the first line.\\ This is the second line.
 \fakewords{9}{15}
 \stopTEXpage
 \stopsample
-\sample[TEX][pars-5]{多行文本构成的段落}{\externalfigure[02/pars-5.pdf]}
+\sample[option=TEX][pars-5]{多行文本构成的段落}{\externalfigure[02/pars-5.pdf]}
 
 不过，我发现示例 \in[pars-5] 的行间距设定语句若放在 \type{\startTEXpage} 语句之前则无效\footnote{在 \in[context-world] 节中会介绍 \type{\starttext ... \stoptext}，直接以默认行距倍数的方式设置行间距，若设定语句位于 \type{\starttext} 之前则同样无效。}，也许是当前的 \ConTeXt\ LMTX 版本存在 bug。
 
@@ -207,7 +207,7 @@ This is the first line.\\ This is the second line.
 \rightaligned{\fakewords{1}{2}}
 \stopTEXpage
 \stopsample
-\sample[TEX][aligned-1]{多行文本构成的段落}{\externalfigure[02/aligned-1.pdf]}
+\sample[option=TEX][aligned-1]{多行文本构成的段落}{\externalfigure[02/aligned-1.pdf]}
 
 如果是一段文字需要居左、居中或居右排版，可使用 \type{alignment} 环境，通过该环境的参数控制对齐形式。示例 \in[aligned-2] 展示了段落的三种对齐形式。
 
@@ -225,7 +225,7 @@ This is the first line.\\ This is the second line.
 \stopalignment
 \stopTEXpage
 \stopsample
-\sample[TEX][aligned-2]{段落对齐}{\externalfigure[02/aligned-2.pdf]}
+\sample[option=TEX][aligned-2]{段落对齐}{\externalfigure[02/aligned-2.pdf]}
 
 \section{写一封谁也看不懂的信}
 
@@ -248,7 +248,7 @@ This is the first line.\\ This is the second line.
 \rightaligned{\fakewords{1}{1}}
 \stopTEXpage
 \stopsample
-\sample[TEX][letter]{一封谁也看不懂的信}{\externalfigure[02/letter.pdf][width=.425\textwidth]}
+\sample[option=TEX][letter]{一封谁也看不懂的信}{\externalfigure[02/letter.pdf][width=.425\textwidth]}
 
 \section{小结}
 

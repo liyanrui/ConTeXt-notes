@@ -12,7 +12,7 @@
 \NC 4 \NC 5 \NC 6\NC\NR
 \stoptabulate
 \stopsample
-\simplesample[TEX]{\null}
+\simplesample[option=TEX]{\null}
 \getsample
 
 \noindent 结果第 3 列跑到版面最右侧了。这是因为我们尚未定义表格各列的对齐方式。对齐方式不外乎三种，左、中、右，Tabulate 分别使用缩写 \type{l}，\type{c} 和 \type{r} 指代它们。例如，若令表格第 1 列居左，第 2 列居中，第 3 列居右，只需
@@ -23,7 +23,7 @@
 \NC 4 \NC 5 \NC 6\NC\NR
 \stoptabulate
 \stopsample
-\simplesample[TEX]{\getsample}
+\simplesample[option=TEX]{\getsample}
 \noindent 现在看上去像表格了，但是由于表格尚无边框线，无法看出表格各列内容的对齐状态。
 
 想必你已经猜测出了，\type{\NC} 用于在表格的某一行构造一个单元格，上述示例中，表格内容的每一行最后一个 \type{\NC} 实际上是多余的，\ConTeXt\ 会忽略它，但是你可以将它理解为表格的单元格的边界。\type{\NR} 用于构造一个新行，即下一行。上述示例里，表格只有两行，实际上第 2 个 \type{\NR} 也是多余的，只是为了形式上更整齐而保留，\ConTeXt\ 会忽略它，你可以将它理解为表格一行的结束。
@@ -36,7 +36,7 @@
 \VL 4 \VL 5 \VL 6\VL\NR
 \stoptabulate
 \stopsample
-\simplesample[TEX]{\getsample}
+\simplesample[option=TEX]{\getsample}
 
 \noindent 在表格每一行的开始放上 \type{\HL}，可画出表格各行横线，即
 
@@ -49,7 +49,7 @@
 \HL
 \stoptabulate
 \stopsample
-\simplesample[TEX]{\getsample}
+\simplesample[option=TEX]{\getsample}
 
 \noindent 可能你已经发现了，表格的竖线将被横线截断了。不必担心是你的问题，而是 Tabulate 主要用于排版横线表，例如图 \in[three-line table] 所示的在科技论文中常用的三线表。
 
@@ -66,7 +66,7 @@
 \HL
 \stoptabulate
 \stopsample
-\simplesample[TEX]{\getsample}
+\simplesample[option=TEX]{\getsample}
 
 \section{间距调整}
 
@@ -81,7 +81,7 @@
 \HL
 \stoptabulate
 \stopsample
-\simplesample[TEX]{\getsample}
+\simplesample[option=TEX]{\getsample}
 
 若希望文档中所有表格实例的 \type{distance} 参数皆为 \type{none}，可用 \type{\setuptabulate} 进行设定：
 
@@ -102,7 +102,7 @@
 \HL
 \stoptabulate
 \stopsample
-\simplesample[TEX]{\getsample}
+\simplesample[option=TEX]{\getsample}
 
 \noindent \type{\TB} 也可以使用相对尺寸，例如 \type{2*line}，\type{line}，\type{halfline} 和 \type{quarterline} 分别为一行文字的高度的 2 倍，1 倍，1/2 倍和 1/4 倍。
 
@@ -167,7 +167,7 @@
 \HL
 \stoptabulate
 \stopsample
-\simplesample[TEX]{\externalfigure[09/04.pdf]}
+\simplesample[option=TEX]{\externalfigure[09/04.pdf]}
 
 \noindent 但是，如果我们只想让表格的顶线和底线是粗度 2 pt，中间那条横线让它是 Tabulate 的默认粗度，该如何实现呢？
 
@@ -234,7 +234,7 @@ $ mtxrun --script base --search tabl-tbl.mkxl
 \BL
 \stoptabulate
 \stopsample
-\sample[TEX][HL example]{修改表格线粗度和颜色}{\getsample}
+\sample[option=TEX][HL example]{修改表格线粗度和颜色}{\getsample}
 
 \section{小结}
 

@@ -8,8 +8,8 @@
   focus=standard,
   color=darkblue,
   title={ConTeXt 蹊径},
-  author={李延瑞},
-  keyword={TeX, ConTeXt, LMTX, MkIV, LuaTeX, LuaMetaTeX}]
+  author={李延瑞 (lyr.m2@live.cn)},
+  keyword={TeX, ConTeXt MkIV, ConTeXt LMTX, LuaTeX, LuaMetaTeX}]
 % 书签
 \setupinteractionscreen[option=bookmark]
 \placebookmarks[title,chapter,section][chapter]
@@ -66,8 +66,9 @@
   [section]
   [alternative=d,
    style=normal,
+   numberstyle=bold, 
    pagecommand=\PageNumber,
-   pagestyle=smallbold]
+   pagestyle=smallitalic]
 
 % 页眉：通用
 \startsetups HeaderFooter
@@ -175,6 +176,7 @@ draw p randomized s withcolor \MPcolor{lightsteelblue};
 \definebuffer[sample]
 \definefloat[Sample][Samples]
 \setuplabeltext[en][Sample={示例 }]
+
 % 参数为一个放在页面右侧的盒子，基于该盒子的宽度，计算其左侧空间宽度
 \def\defineLeftWidth#1{%
   \newdimen\LeftWidth
@@ -182,8 +184,8 @@ draw p randomized s withcolor \MPcolor{lightsteelblue};
   \newdimen\RightObjectWidth
   \RightObjectWidth=\wd#1
   \ifdim\RightObjectWidth>0pt
-  \advance\LeftWidth by -\RightObjectWidth
-  \advance\LeftWidth by -1em
+    \advance\LeftWidth by -\RightObjectWidth
+    \advance\LeftWidth by -1em
   \fi
 }
 \def\sample[#1][#2]#3#4{%
@@ -191,7 +193,7 @@ draw p randomized s withcolor \MPcolor{lightsteelblue};
   \defineLeftWidth{\scratchbox}%
   \placeSample[here][#2]{#3}{%
     \hbox to \textwidth{%
-      \hbox{\typesample[option=#1,
+      \hbox{\typesample[#1,
                         before={\startblueframe[width=\LeftWidth]},
                         after={\stopblueframe}]}\hss\unhbox\scratchbox}%
   }%
@@ -201,7 +203,7 @@ draw p randomized s withcolor \MPcolor{lightsteelblue};
   \defineLeftWidth{\scratchbox}%
   \placeSample[here,none][]{}{%
     \hbox to \textwidth{%
-      \hbox{\typesample[option=#1,
+      \hbox{\typesample[#1,
                         before={\startblueframe[width=\LeftWidth]},
                         after={\stopblueframe}]}\hss\unhbox\scratchbox}%
   }%

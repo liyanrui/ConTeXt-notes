@@ -39,7 +39,7 @@ draw (0, 0) -- (3cm, 0) -- (3cm, 1cm)
      -- (0, 1cm) -- cycle withcolor darkred;
 \stopMPcode
 \stopsample
-\simplesample[MP]{\getsample}
+\simplesample[option=MP]{\getsample}
 
 \noindent 上述代码中，\type{(0, 0) -- ... -- cycle} 构造的是一条封闭路径，可将其保存于路径变量：
 
@@ -62,7 +62,7 @@ draw p withcolor darkred;
 draw p shifted (2cm, .5cm) withcolor darkblue;
 \stopMPcode
 \stopsample
-\simplesample[MP]{\getsample}
+\simplesample[option=MP]{\getsample}
 
 \noindent 路径 \type{p} 被向右平移了 2 cm，继而被向上平移动了 0.5 cm。
 
@@ -75,7 +75,7 @@ draw fullsquare xscaled 3cm yscaled 1cm
                 withcolor darkred;
 \stopMPcode
 \stopsample
-\simplesample[MP]{\getsample}
+\simplesample[option=MP]{\getsample}
 
 \MetaFun\ 宏 \type{randomized} 可用于对路径随机扰动。例如，对一个宽为 3 cm，高为 1cm 的矩形路径以幅度 2mm 的程度予以扰动：
 
@@ -87,7 +87,7 @@ draw (fullsquare xscaled 3cm yscaled 1cm)
 \stopuseMPgraphic
 \useMPgraphic{随机晃动的矩形}
 \stopsample
-\simplesample[MP]{\getsample}
+\simplesample[option=MP]{\getsample}
 
 还记得 overlay 吗？只要将上述 useMPgraphic 环境构造的图形制作为 overlay，便可将其作为 \type{\framed} 的背景，从而可以得到一种外观颇为别致的盒子。
 
@@ -95,7 +95,7 @@ draw (fullsquare xscaled 3cm yscaled 1cm)
 \defineoverlay[晃晃][\useMPgraphic{随机晃动的矩形}]
 \framed[frame=off,background=晃晃,width=3cm]{光辉岁月}
 \stopsample
-\simplesample[TEX]{\getsample}
+\simplesample[option=TEX]{\getsample}
 
 在 \ConTeXt\ 为 \METAPOST\ 提供的作图环境里，可分别通过 \type{\overlaywidth} 和 \type{\overlayheight} 获得 overlay 的宽度和高度。在将 overlay 作为 \type{\framed} 的背景时，\type{\framed} 的宽度和高度便是 overlay 的宽度和高度。基于这一特性，便可实现 \METAPOST\ 绘制的图形能够自动适应 \type{\framed} 的宽度和高度的变化。例如
 
@@ -142,7 +142,7 @@ fill p withcolor darkgray;
 draw p withcolor darkred;
 \stopMPcode
 \stopsample
-\simplesample[MP]{\getsample}
+\simplesample[option=MP]{\getsample}
 
 \noindent 注意，对于封闭路径，应当先填充颜色，再绘制路径，否则所填充的颜色会覆盖一部分路径线条。
 
@@ -179,7 +179,7 @@ draw p withcolor transparent (1, 0.3, foo);
 draw p shifted (.5cm, .5cm) withcolor transparent (1, 0.25, blue);
 \stopMPcode
 \stopsample
-\simplesample[MP]{\getsample}
+\simplesample[option=MP]{\getsample}
 
 \noindent \type{transparent} 的第一个参数表示选用的颜色透明方法，共有 12 种方法可选：
 
@@ -260,7 +260,7 @@ draw thetextext.rt("\rotate[rotation=-90]{路过}",
                    pos shifted (1mm, 0));
 \stopMPcode
 \stopsample
-\simplesample[MP]{\getsample}
+\simplesample[option=MP]{\getsample}
 
 \noindent 上述代码中出现了 \type{thetextext} 的后缀形式。除了默认形式，\type{thetextext} 还有 4 种后缀形式，后缀名为 \inframed{\type{.lft}}，\inframed{\type{.top}}，\inframed{\type{.rt}} 和 \inframed{\type{.bot}}，分别表示将文字放在指定位置的左侧、上方、右侧和下方。
 
@@ -278,7 +278,7 @@ picture p; p := image(
 draw p;
 \stopMPcode
 \stopsample
-\simplesample[MP]{\getsample}
+\simplesample[option=MP]{\getsample}
 
 使用 \METAPOST\ 宏 \type{center} 可以获得 \type{picture} 实例的中心坐标，结果可保存于一个 \type{pair} 类型的变量。例如
 
@@ -290,7 +290,7 @@ draw c withpen pensquare scaled 4pt withcolor darkred;
 draw p withcolor darkblue;
 \stopMPcode
 \stopsample
-\simplesample[MP]{\getsample}
+\simplesample[option=MP]{\getsample}
 
 使用 \MetaFun\ 宏 \type{bbwidth} 和 \type{bbheight} 可以获得 \type{picture} 实例的宽度和高度。使用这两个宏，可为任何图形和文字构造边框。例如
 
@@ -304,7 +304,7 @@ draw q withpen pencircle scaled 2pt withcolor darkred;
 draw p;
 \stopMPcode
 \stopsample
-\simplesample[MP]{\getsample}
+\simplesample[option=MP]{\getsample}
 
 \noindent 上述实例为文字构造的边框太紧了，利用现有所学，让它宽松一些并不困难：
 
@@ -322,7 +322,7 @@ draw q withpen pencircle scaled 2pt withcolor darkred;
 draw p;
 \stopMPcode
 \stopsample
-\simplesample[MP]{\getsample}
+\simplesample[option=MP]{\getsample}
 
 \section[macro]{宏}
 
@@ -342,7 +342,7 @@ enddef;
 draw framed("{\bf 亢龙有悔}", 5mm);
 \stopMPcode
 \stopsample
-\simplesample[MP]{\getsample}
+\simplesample[option=MP]{\getsample}
 
 \METAPOST\ 的 \type{vardef} 用于定义一个有返回值的宏，宏定义的最后一条语句即返回值，该条语句不可以分号作为结尾。\METAPOST\ 还有其他几种宏定义形式，但是对于大多数作图任务而言，\type{vardef} 已足够应付。
 
@@ -576,7 +576,7 @@ draw p randomized 3mm
   {\useMPgraphic{一个矩形}}
 \stopoverlay
 \stopsample
-\simplesample[MP]{\getsample}
+\simplesample[option=MP]{\getsample}
 
 \noindent 上述代码中，\type{transparent (1, .5 randomized .3, red)} 用于构造在一定程度上不确定透明度的红色，透明度在 [0.2, 0.8] 之间，亦即 \type{randomized} 不仅可作用于路径，也可作用于数字或颜色值。由于上述 \METAPOST\ 图形环境包含着随机内容，将其作为插图，在一个 overlay 中多次使用，每次使用都会产生不同的结果，在 overlay 中它们会被叠加到一起。
 
@@ -595,7 +595,7 @@ draw p randomized 3mm
   [frame=off,background={叠叠},width=4cm]
 \foo{迎接光辉岁月}
 \stopsample
-\simplesample[TEX]{\getsample}
+\simplesample[option=TEX]{\getsample}
 
 \noindent \type{\framed} 的背景支持多个 overlay 叠加，以下代码与上例等效：
 

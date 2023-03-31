@@ -76,11 +76,11 @@ zhfonts 默认使用 11 pt 正体字（宋体 + Latin Modern Serif）作为正�
 \stoptyping
 \placefigure[none]{}{\externalfigure[zhfonts/01.pdf]}
 
-使用模块参数 \type{style=ss} 或 \type{style=tt}，可将正文字体切换为模块参数 \type{size} 所设定大小的无衬线字体或等宽字体。例如
+使用模块参数 \type{family=ss} 或 \type{family=tt}，可将正文字体切换为模块参数 \type{size} 所设定大小的无衬线字体或等宽字体。例如
 
 \starttyping[option=TEX]
 % 以 12 pt 的无衬线字体作为正文字体 
-\usemodule[zhfonts][style=ss,size=12pt]
+\usemodule[zhfonts][family=ss,size=12pt]
 \startTEXpage[frame=on,offset=4pt,width=12cm]
 我能吞下玻璃而不伤身体。I can eat glass, it does not hurt me.
 \stopTEXpage

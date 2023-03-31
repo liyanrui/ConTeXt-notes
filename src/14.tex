@@ -1,0 +1,271 @@
+\chapter{写一本书？}
+
+至此，你所掌握的关于 \CONTEXT\ 的所有知识，无论是用于撰写书信，随笔，论文，还是制作幻灯片，皆已游刃有余。现在再掌握 \ConTeXt\ 对文档逻辑结构的划分以及为文档添加目录等功能，便可写书了，这是 \TEX\ 系统一直以来最为擅长的事情，也是 \TEX\ 系统为何复杂到令很多人畏惧的原因，他们从未想过自己有一天会写一本书。
+
+\section{书的内容结构}
+
+一本书，通常是由一组文章构成的，可分为序、前言、目录、正文篇章、跋、参考文献、索引、附录等内容，再加上封面，衬页、扉页等页面。对于书籍制作，\CONTEXT\ 对 \type{text} 环境进行了更为细致的划分：
+
+\starttyping[option=TEX]
+\starttext
+\startfrontmatter
+% 封面、扉页、序、前言、目录等内容
+\stopfrontmatter
+\startbodymatter
+% 正文篇章
+\stopbodymatter
+\startbackmatter
+% 跋，参考文献列表、索引等内容
+\stopbackmatter
+\startappendices
+% 附录
+\stopappendices
+\stoptext
+\stoptyping
+
+\section{文件结构}
+
+将一本书的内容全部放在一份 \CONTEXT\ 源文件中并不违法，但是数十万甚至上百万字的内容，无论是撰写还是修改必定极为不便。通常是将按照内容结构，将每部分内容制作为单独的 \type{.tex} 源文件，然后使用 \type{\input} 载入到主文件中。例如，主文档的主文件内容如下：
+
+\starttyping[option=TEX]
+\starttext
+\startfrontmatter
+\input cover  % cover.tex：封面
+\input preface  % preface.tex：序
+\stopfrontmatter
+\stoptyping
+\starttyping[option=TEX]
+\startbodymatter
+\input 01  % 01.tex：第一章
+\input 02  % 02.tex：第二章
+% ... ...
+\stopbodymatter
+\startbackmatter
+\title{参考文献}
+\placelistofpublications  % 参考文献列表
+\stopbackmatter
+\startappendices
+\null  % 暂时为空
+\stopappendices
+\stoptext
+\stoptyping
+
+\noindent 主文件 \type{\input} 的所有文件皆与主文件在同一目录。
+
+\section{样式}
+
+原则上，书籍的所有排版样式皆应在单独的文件中设定，然后使用 \type{\input} 或 \type{\environment} 命令在 \type{text} 环境之前将其载入。例如
+
+\starttyping[option=TEX]
+\environment book-style  % 载入book-style.tex
+\starttext
+% ... ... ...
+\stoptext
+\stoptyping
+
+\section{目录}
+
+\type{\placecontent} 可将全文章节标题及其所在页码等信息汇总为一个列表，以方便读者查阅。例如
+
+\starttyping[option=TEX]
+\usemodule[visual]
+\starttext
+\title{\fakewords{3}{5}}
+\placecontent
+\section{\fakewords{3}{5}}
+... ... ...
+\section{\fakewords{3}{5}}
+... ... ...
+\stoptext
+\stoptyping
+\midaligned{%
+  \clip[width=\textwidth,height=6cm,voffset=3cm]{%
+    \externalfigure[14/toc.pdf][width=\textwidth,frame=on]%
+  }%
+}
+
+使用 \type{\setupcombinedlist} 可设定目录样式，例如设定可在目录中出现的标题级别以及列表样式。若得到常见的目录样式，只需作以下设定：
+
+\starttyping[option=TEX]
+\setupcombinedlist[content][alternative=c]
+\stoptyping
+\midaligned{%
+  \clip[width=\textwidth,height=6cm,voffset=3cm]{%
+    \externalfigure[14/toc-2.pdf][width=\textwidth,frame=on]%
+  }%
+}
+\blank
+\noindent 目录列表样式参数 \type{alternative} 有 \type{a}，\type{b}，\type{c}，\type{d} 四个值可选，默认是 \type{b}。本文档目录使用的是 \type{d}。
+
+\type{\setupcombinedlist} 亦可用于指定可出现在目录列表中的标题级别，例如
+
+\starttyping[option=TEX]
+\setupcombinedlist[content][list={chapter,section}]
+\stoptyping
+
+注意，当 \type{\placecontent} 出现在 \type{\chapter} 之后时，生成的目录仅针对该章之内的各节。若是写书，需将 \type{\placecontent} 放在 \type{frontmatter} 环境，例如：
+
+\starttyping[option=TEX]
+\startfrontmatter
+\title{目录}
+\placecontent
+\stopfrontmatter
+\stoptyping
+
+\noindent 可对全篇被列入目录列表的章节生成目录。
+
+使用 \type{\setuplist} 可对出现在目录列表中相应级别的标题样式分别予以设定，例如
+
+\starttyping[option=TEX]
+\setuplist[chapter]
+          [alternative=a,
+           before={\blank[halfline]},after={\blank[halfline]},style=bold]
+\setuplist[section]
+          [alternative=d,style=normal,pagestyle=smallbold]
+\stoptyping
+
+\section{让无编号标题进入目录}
+
+\CONTEXT\ 默认不允许无编号标题出现在目录中，但是倘若对无编号标题，例如 \type{\title} 作以下设定
+
+\starttyping[option=TEX]
+\setuphead[title][incrementnumber=list]
+\stoptyping
+
+\noindent 之后便可将 \type{\title} 添加到目录列表，即
+
+\starttyping[option=TEX]
+\setupcombinedlist[content][list={title,chapter,section}]
+\stoptyping
+
+需要注意的是，在 \type{frontmatter} 环境中放置目录列表时，若使用以下代码
+
+\starttyping[option=TEX]
+\startfrontmatter
+\title{目录}
+\placecontent
+\stopfrontmatter
+\stoptyping
+
+\noindent 由于此时 \type{\title} 已被列入目录列表，因此 \type{\title{目录}} 本身会出现在目录列表中。为避免这一问题，需要为目录页单独定义一个标题。\CONTEXT\ 支持我们定义自己的标题，例如
+
+\starttyping[option=TEX]
+\definehead[TOC][title]
+\stoptyping
+
+\noindent 定义了一个新的标题 \type{\TOC}，它与 \type{\title} 的样式相同。在 \type{frontmatter} 环境中使用 \type{\TOC}：
+
+\starttyping[option=TEX]
+\startfrontmatter
+\TOC{目录}
+\placecontent
+\stopfrontmatter
+\stoptyping
+
+\noindent 由于我们并未将 \type{\TOC} 列入目录列表，因此上述问题得以解决。
+
+\section{书签}
+
+对于内容较多的 PDF 文档，提供书签（Bookmark）可更加便于他人阅读。书签通常显示于 PDF 阅读器的侧栏，如图 \in[13-bookmarks] 所示，点击某个书签便可跳转至其关联的页面。
+
+\placefigure[here][13-bookmarks]{PDF 书签}{\externalfigure[14/bookmarks.png][width=.6\textwidth]}
+
+为 \ConTeXt\ 生成的 PDF 文件制作书签，非常简单，只需在样式文件中添加以下语句，
+
+\starttyping[option=TEX]
+\setupinteraction[state=start,focus=standard]
+\setupinteractionscreen[option=bookmark]
+\placebookmarks[title,chapter,section][title,chapter]
+\stoptyping
+
+\noindent 其中，\type{\setupinteraction} 用于开启 PDF 的用户交互特性。\type{\setupinteractionscreen} 用于设定 PDF 文件被阅读器打开后，以何种形式如何呈现在屏幕上，若其 \type{option} 值为 \type{bookmark}，则文件打开后，会自动开启阅读器的侧边栏并显示书签；若设置 \type{option} 为 \type{max}，则文件在被打开后会全屏显示。上述 \type{\placebookmarks} 语句的用途是设置可出现在书签栏的标题级别，且仅允许 \type{\title} 和 \type{\chapter} 级别的标题，其子标题列表可被展开。
+
+需要注意的是，\CONTEXT\ 同样默认无编号标题不被列入书签，但是倘若做以下设定
+
+\starttyping[option=TEX]
+\setuphead[title][incrementnumber=list]
+\stoptyping
+
+\noindent 则 \type{\title} 亦可出现在书签列表中。
+
+还需要注意一点， 书签功能取决于你所用的 PDF 阅读器是否支持。此外，你的 PDF 阅读器可能会将 \ConTeXt\ 生成的书签视为索引（Index），而其本身则提供了另一个叫作书签的功能，允许用户手动在侧边栏为文档的某一页建立链接，与 \CONTEXT\ 的书签原理相同。
+
+\section[reference]{引用}
+
+在本文档的插图、表格、数学公式等章节中，已简略介绍了 \CONTEXT\ 引用的用法。\CONTEXT\ 的标题和列表也支持引用。例如，本节的标题对应的排版命令是
+
+\starttyping[option=TEX]
+\section[reference]{引用}
+\stoptyping
+
+可以在文章几乎任何一个位置，像下面这样引用本节：
+
+\starttyping[option=TEX]
+我在 \at[reference] 页 \in[reference] 节\about[reference]中的一些内容。
+\stoptyping
+
+\noindent 结果为
+\blank[line]
+\blueframed{我引用了本文档 \at[reference] 页 \in[reference] 节\about[reference]中的一些内容。}
+\blank[line]
+
+使用 \type{\textreference} 可在文档几乎任何位置插入引用。例如
+
+\starttyping[option=TEX]
+我在此处放置了一个引用\textreference[myref]{一个引用}。
+\stoptyping
+\blank[line]
+\blueframed{我在此处放置了一个引用\textreference[myref]{一个引用}。}
+\blank[line]
+\noindent 注意，一个引用，其内容是不会显示在排版结果中的。然后在文档某处使用该引用，
+
+\starttyping[option=TEX]
+我在此处使用一个引用，它是 \at[myref] 的「\in[myref]」。
+\stoptyping
+\blank[line]
+\blueframed{我在此处使用一个引用，它是第 \at[myref] 页的「\in[myref]」。}
+\blank[line]
+
+如果你希望一个引用，其内容不仅出现在排版结果中，且想给他加个外框，只需定义一个宏来帮助你实现这一需求。例如
+
+\starttyping[option=TEX]
+\def\framedref[#1]#2{\inframed{#2}\textreference[#1]{#2}}
+\stoptyping
+\starttyping[option=TEX]
+我在此处放置了一个引用\textreference[myref]{一个引用}。
+\stoptyping
+\blank[line]
+\def\framedref[#1]#2{\inframed{#2}\textreference[#1]{#2}}
+\blueframed{我在此处放置了\framedref[myref]{一个引用}。}
+\blank[line]
+
+\section{索引}
+
+索引通常放在 \type{backmatter} 环境，即附在书的正文之后，
+
+\starttyping[option=TEX]
+\startbackmatter
+\title{索引}
+\placeindex
+\stopbackmatter
+\stoptyping
+
+\noindent 以便检索在正文某页检索一些关键词这些关键词在正文中需由 \type{\index} 给出。例如
+
+\starttyping[option=TEX]
+我在此演示 \type{\placeindex}\index[placeindex]{\type{\placeindex}}
+和 \type{\index}\index[index]{\type{\index}} 的用法。
+\stoptyping
+\blank[line]
+\blueframed{我在此演示 \type{\placeindex}\index[placeindex]{\type{\placeindex}} 和 \type{\index}\index[index]{\type{\index}} 的用法。}
+\blank[line]
+
+\noindent \tex{placeindex} 产生的结果为
+
+\blank[line]
+\blueframed{\placeindex}
+\blank[line]
+
+\section{小结}
+
+用 \CONTEXT\ 排版一本书并不难，难的是书该如何写。

@@ -1,280 +1,724 @@
-\chapter{幻灯片}
+\chapter{学一点 \METAPOST}
 
-现在你已经领略甚至可能全部掌握了 \ConTeXt\ 常用的的排版元素，若不使用它们而是依然使用 Microsoft PowerPoint 制作幻灯片甚为可惜。如果你已决意使用 \ConTeXt\ 制作幻灯片，你会发现，你几乎不需要再学习多少新的 \ConTeXt\ 命令便可随心所欲地制作清新质朴的幻灯片了。
+想必你已迫不及待想学习 \METAPOST\ 了。这大概是来自人类上古基因的冲动。人类先学会的是绘画，而后才是文字。只是不要妄图通过这区区一章内容掌握 \METAPOST，因为关于它的全部内容，足够写一本至少三百多页的书籍了。不过，本章内容足以给你打开一扇窗户，让 \METAPOST\ 的优雅气息拂过时常过于严肃的 \ConTeXt\ 世界。
 
-\section{纸面尺寸}
+\section{作图环境}
 
-纸面尺寸是每一页的打印尺寸。至此为止，本文档之前所有的示例，在 \type{TEXpage} 环境里的，纸面尺寸取决于文档内容的多少，而在 \type{text} 环境里的，纸面尺寸默认是 A4，即 $21\,{\rm cm}\times 29.7\,{\rm cm}$，如果你需要将该尺寸换成 A5，只需在样式文件中作以下设定
+\METAPOST\ 是一种计算机作图语言，与 \TeX\ 一样，皆为宏编程语言。使用 \METAPOST\ 语言编写的代码可被 mpost 程序编译成 PS 格式的图形文件。自 \LuaTeX\ 开始，mpost 的核心功能集成到了 \LuaTeX\ 中，从此以后，在 \TeX\ 环境中使用 \METAPOST\ 语言作图便不需依赖外部程序了。
 
-\starttyping[option=TEX]
-\setuppapersize[A5]
+\ConTeXt\ 为 \METAPOST\ 代码提供了五种环境：
+
+\starttyping
+\startMPcode ... \stopMPcode
+\startMPpage ... \stopMPpage
+\startuseMPgraphic{name} ... \stopuseMPgraphic
+\startuniqueMPgraphic{name} ... \stopuniqueMPgraphic
+\startreusableMPgraphic{name} ... \stopreusableMPgraphic
 \stoptyping
 
-制作幻灯片通常不需要太大的纸面尺寸。\ConTeXt\ 提供了 S4 尺寸（$400\,{\rm pt}\times 300\,{\rm pt}$），可将其作为幻灯片的纸面尺寸。也可以自己定义纸面尺寸并使用，例如
+\noindent 第一种环境用于临时作图，生成的图形会被插入到代码所在位置。第二种环境是生成单独的图形文件，以作其他用途。后面三种环境，生成的图形可根据环境的名称作为文章插图随处使用，但它们又有三种不同用途：
 
-\starttyping[option=TEX]
-\definepapersize[foo][width=640pt,height=480pt]
-\setuppapersize[foo]
-\stoptyping
+\startitemize[nowhite]
+\item useMPgraphic：每被使用一次，对应的 \METAPOST\ 代码便会被重新编译一次。
+\item uniqueMPgraphic：只要图形所处环境不变，\METAPOST\ 代码只会被编译一次。
+\item reusableMPgraphic：无论如何使用，其 \METAPOST\ 只会被编译一次。
+\stopitemize
 
-实际上，纸面尺寸仅对排版结果的打印很重要，倘若只是在计算机（或投影仪）屏幕上观看排版结果，我们总是可以通过调整正文字体大小去应对过大或过小的纸面尺寸，但是纸面尺寸的宽高比例，对于屏幕非常重要。通常，幻灯片的宽高比应当与屏幕的分辨率相适应为最佳。例如，我的屏幕分辨率是 $1600\times 900$，那么我要制作的幻灯片页面的宽高比也应当是 $16:9$，故而纸面尺寸可设定为
+\noindent 大多数情况下，建议选用 uniqueMPgraphic，但若图形中存在一些需要每次使用时都要有所变化的内容，可选用 useMPgraphic。
 
-\starttyping[option=TEX]
-\definepapersize[foo][width=640pt,height=360pt]
-\setuppapersize[foo]
-\stoptyping
+另外需要注意，在 \ConTeXt\ 中使用 \METAPOST\ 时，通常会使用 \ConTeXt\ 定义的一些 \METAPOST\ 宏，这些宏构成的集合，名曰 \MetaFun。
 
-现在，我们可以制作幻灯片的最原始的形式：
+\section{画一个盒子}
 
-\starttyping[option=TEX]
-\usemodule[visual]
-\definepapersize[foo][width=640pt,height=360pt]
-\setuppapersize[foo]
-\starttext
-\title{\fakewords{3}{5}}
-\fakewords{50}{100}
-\stoptext
-\stoptyping
-\midaligned{\externalfigure[12/slides-1.pdf][width=.6\textwidth,frame=on]}
+\METAPOST\ 作图语句遵守基本的英文语法，理解起来颇为简单。例如，用粗度为 2 pt 的圆头笔用暗红色绘制一条经过 $(0, 0)$，$(3\,{\rm cm}, 0)$，$(3\,{\rm cm}, 1\,{\rm cm})$，$(0, 1\,{\rm cm})$ 的封闭路径，
 
-\section{页面布局}
+\startsample
+\startMPcode
+pickup pencircle scaled 2pt;
+draw (0, 0) -- (3cm, 0) -- (3cm, 1cm)
+     -- (0, 1cm) -- cycle withcolor darkred;
+\stopMPcode
+\stopsample
+\simplesample[option=MP]{\getsample}
 
-在 \type{text} 环境之前添加以下代码
-
-\starttyping[option=TEX]
-\showframe
-\stoptyping
-
-\noindent 可在页面上显示当前的页面布局，结果如图 \in[12-layout-1] 所示。可根据图 \in[ConTeXt-layout] 理解页面布局中各区域名称和尺寸参数名称。
-
-\placefigure[here][12-layout-1]{\ConTeXt\ 默认的页面布局}{\externalfigure[12/layout-1.pdf][width=.6\textwidth]}
-
-\placefigure[here][ConTeXt-layout]{页面布局注解}{\externalfigure[12/ConTeXt-layout.svg][width=.8\textwidth]}
-
-使用 \type{\setlayout} 可对各区域尺寸进行调整，例如让版心居中，即图 \in[ConTeXt-layout] 所示的 \type{width} 和 \type{textheight} 确定的区域居中，因为在默认情况下，它有些偏左。我们已经知道，页面的横向尺寸是 640 pt，按照以下设定便可将问题解决：
-
-\starttyping[option=TEX]
-\setuplayout
-  [leftedge=0pt,leftedgedistance=0pt,
-   leftmargin=80pt,leftmargindistance=10pt,
-   backspace=90pt,
-   rightedge=0pt,rightedgedistance=0pt,
-   rightmargin=80pt,rightmargindistance=10pt,
-   width=460pt]
-\stoptyping
-
-\noindent 上述设定，实现了页面布局中页面总宽度值 640 pt 的分配，但是要注意一点，\type{backspace} 的值等于 4 个以 \type{left} 为前缀的参数值之和，虽然在设定了它的各个分量后，但 \ConTeXt\ 在遇到默认的 \type{backspace} 值与实际的 \type{left...} 参数值之和不符时，会根据 \type{backspace} 值进行页面布局。倘若我们不关心 \type{left...} 参数，即 \ConTeXt\ 默认对页面左侧留白区域默认如何分配，仅需要让 \ConTeXt\ 知道 \type{backspace=90pt}，则上述代码可简化为
-
-\starttyping[option=TEX]
-\setuplayout
-  [backspace=90pt,
-   rightedge=0pt,rightedgedistance=0pt,
-   rightmargin=80pt,rightmargindistance=10pt,
-   width=460pt]
-\stoptyping
-
-\noindent 还可以进一步简化，因为 \ConTeXt\ 对 \type{rightedge} 和 \type{rightedgedistance} 赋予的默认值原本就是 0，因此有
-
-\starttyping[option=TEX]
-\setuplayout
-  [backspace=90pt,
-   rightmargin=80pt,rightmargindistance=10pt,
-   width=460pt]
-\stoptyping
-
-如果我们只关心版心的横向居中问题，并不关心左右留白区域的尺寸，最为简单的布局方式是
-
-\starttyping[option=TEX]
-\setuplayout[width=middle]
-\stoptyping
-
-以上设置的是页面横向布局。对于纵向布局，存在与 \type{backspace} 类似的问题，即 \type{topspace} 的设定。\type{tospace} 的值是 \type{top} + \type{topdistance}，但是在 \type{\setuplayout} 中只对后者进行设定是无效的，必须先设定 \type{tospace}，然后再将其值分配给 \type{top} 和 \type{topdistance}，或让 \ConTeXt\ 自动分配。
-
-对于页面纵向布局参数，我要去掉页面顶部和底部留白，只需作以下设定
-
-\starttyping[option=TEX]
-topspace=0pt,height=middle,bottom=0pt
-\stoptyping
-
-\noindent 现在全部的页面布局设定如下：
-
-\starttyping[option=TEX]
-\setuplayout[width=middle,topspace=0pt,height=middle,footer=40pt]
-\stoptyping
-
-完成页面布局设定后，别忘记去掉 \type{text} 环境之前的 \type{\showframe} 语句。此外，我建议你在 \type{text} 环境里动手试验一番 \type{\showlayout}。
-
-\section[slide-fonts]{字体}
-
-在 \ConTeXt\ 使用汉字字体，对此估计你已经颇为熟悉了。在幻灯片中，我使用以下字体：
-
-\starttyping[option=TEX]
-\definefallbackfamily
-  [myfonts][ss][latinmodernsans][range={0x0000-0x0400},force=yes]
-\definefontfamily[myfonts][ss][simhei][bf=simhei,it=kaiti,bi=simhei]
-\setscript[hanzi]
-\setupbodyfont[myfonts,ss,16pt]
-\stoptyping
-
-\noindent 上述字体设定并不完整，尚未设定衬线字族和等宽字族，这些待需要时再予以设定。
-
-\section[regular-style]{常规样式}
-
-首先，消除 \ConTeXt\ 默认在页面顶部设置的页码：
-
-\starttyping[option=TEX]
-\setuppagenumbering[location=]
-\stoptyping
-
-\noindent 幻灯片通常不需要页码，即使需要页码，默认的页码出现的位置和字号皆不合适。
-
-设置行间距为 1.75 倍，即 $1.75\times 16\,{\rm pt}$：
-
-\starttyping[option=TEX]
-\setupinterlinespace[line=28pt]
-\stoptyping
-
-以下代码设置了了第 1 级列表样式，（1）定义一个新的列表项符号，将其设置列表项默认符号；（2）消除列表项之间的额外间距；（3）列表项的符号和内容之间插入 .5em 的间距；（4）列表前后各空 1/4 行，因为在幻灯片中，纵向空间颇为珍贵。
+\noindent 上述代码中，\type{(0, 0) -- ... -- cycle} 构造的是一条封闭路径，可将其保存于路径变量：
 
 \starttyping[option=MP]
-\startuseMPgraphic{square}
-  path a, b;
-  a := (-.5, 0) -- (-.5, .5) -- (.5, .5);
-  b := (-.5, -.5) -- (.5, -.5) -- (.5, 0);
-  for i = a, b:
-    draw i scaled 10pt withpen pencircle scaled 2pt withcolor darkred;
-  endfor;
-  draw (0, 0) withpen pensquare scaled 4pt withcolor darkred;
+path p;
+p := (0, 0) -- (3cm, 0) -- (3cm, 1cm) -- (0, 1cm) -- cycle;
+pickup pencircle scaled 2pt;
+draw p withcolor darkred;
+\stoptyping
+
+\noindent 将路径保存在变量中，是为了更便于对路径进行一些运算，例如
+
+\startsample
+\startMPcode
+path p;
+p := (0, 0) -- (3cm, 0)
+     -- (3cm, 1cm) -- (0, 1cm) -- cycle;
+pickup pencircle scaled 2pt;
+draw p withcolor darkred;
+draw p shifted (2cm, .5cm) withcolor darkblue;
+\stopMPcode
+\stopsample
+\simplesample[option=MP]{\getsample}
+
+\noindent 路径 \type{p} 被向右平移了 2 cm，继而被向上平移动了 0.5 cm。
+
+还有一种构造矩形路径的方法：先构造一个单位正方形，然后对其缩放。例如
+
+\startsample
+\startMPcode
+pickup pencircle scaled 2pt;
+draw fullsquare xscaled 3cm yscaled 1cm
+                withcolor darkred;
+\stopMPcode
+\stopsample
+\simplesample[option=MP]{\getsample}
+
+\MetaFun\ 宏 \type{randomized} 可用于对路径随机扰动。例如，对一个宽为 3 cm，高为 1cm 的矩形路径以幅度 2mm 的程度予以扰动：
+
+\startsample
+\startuseMPgraphic{随机晃动的矩形}
+pickup pencircle scaled 2pt;
+draw (fullsquare xscaled 3cm yscaled 1cm)
+                 randomized 2mm withcolor darkred;
 \stopuseMPgraphic
-\stoptyping
+\useMPgraphic{随机晃动的矩形}
+\stopsample
+\simplesample[option=MP]{\getsample}
+
+还记得 overlay 吗？只要将上述 useMPgraphic 环境构造的图形制作为 overlay，便可将其作为 \type{\framed} 的背景，从而可以得到一种外观颇为别致的盒子。
+
+\startsample
+\defineoverlay[晃晃][\useMPgraphic{随机晃动的矩形}]
+\framed[frame=off,background=晃晃,width=3cm]{光辉岁月}
+\stopsample
+\simplesample[option=TEX]{\getsample}
+
+在 \ConTeXt\ 为 \METAPOST\ 提供的作图环境里，可分别通过 \type{\overlaywidth} 和 \type{\overlayheight} 获得 overlay 的宽度和高度。在将 overlay 作为 \type{\framed} 的背景时，\type{\framed} 的宽度和高度便是 overlay 的宽度和高度。基于这一特性，便可实现 \METAPOST\ 绘制的图形能够自动适应 \type{\framed} 的宽度和高度的变化。例如
+
+\startsample
+\startuseMPgraphic{新的随机晃动的矩形}
+path p;
+p := fullsquare xscaled \overlaywidth yscaled \overlayheight;
+pickup pencircle scaled 2pt;
+draw p randomized 2mm withcolor darkred;
+\stopuseMPgraphic
+
+\defineoverlay[新的晃晃][\useMPgraphic{新的随机晃动的矩形}]
+\framed
+  [frame=off,background=新的晃晃]
+  {今天只有残留的躯壳，迎接光辉岁月，风雨中抱紧自由。}
+\stopsample
+\typesample[option=MP]  
+\midaligned{\getsample}
+
+对于需要重复使用的盒子，为了避免每次重复设置其样式，可以将它定义为专用盒子。例如
+
 \starttyping[option=TEX]
-\definesymbol[10][{\lower.15ex\hbox{\useMPgraphic{square}}}]
-\setupitemize
-  [1][10,packed]
-  [distance=0.4em,
-   before={\blank[quarterline]},after={\blank[quarterline]}]
-\stoptyping
-\noindent 如果你还需要二级、三级列表，可参照上述设定制作适合的样式。
-
-将幻灯片一级无编号标题和有编号标题均设置为居中对齐，字号级别为 \type{b}，颜色为 \type{darkred}，前后各空半行：
-
-\starttyping[option=TEX]
-\setuphead
-  [title,chapter]
-  [align=center,style=\ssb,color=darkred,
-   before={\blank[halfline]},after={\blank[halfline]}]
+\defineframed[funnybox][frame=off,background=新的晃晃]
+\funnybox{今天只有残留的躯壳，迎接光辉岁月，风雨中抱紧自由。}
 \stoptyping
 
-现在，在 \type{text} 环境中随便写点什么，察验上述设定是否起效。
+\METAPOST\ 可以为一条封闭路径填充颜色。在此需要明确，何为封闭路径。例如
 
-\starttyping[option=TEX]
-\starttext
-\startbuffer[foo]
-\chapter{蒙}
-亨。匪我求童蒙，童蒙求我；初筮告，再三渎，渎则不告。利贞。
-\startitemize
-\item 初六，发蒙，利用刑人，用说桎梏；以往吝。
-\item 九二，包蒙，吉。纳妇，吉；子克家。
-\item 六三，勿用取女，见金夫，不有躬，无攸利。
-\item 六四，困蒙，吝。
-\item 六五，童蒙，吉。
-\item 上九，击蒙，不利为寇，利御寇。
+\starttyping[option=MP]
+path p, q, r;
+p := (0, 0) -- (1, 0) -- (1, 1) -- (0, 0) -- (0, 0);
+q := (0, 0) -- (1, 0) -- (1, 1) -- (0, 0) -- cycle;
+r := fullsquare;
+\stoptyping
+
+\noindent 其中路径 \type{p} 的终点的坐标恰好是其起点，但它并非封闭路径，而路径 \type{q} 和 \type{r} 皆为封闭路径。下面示例，为封闭路径填充颜色：
+
+\startsample
+\startMPcode
+path p;
+p := (fullsquare xscaled 3cm yscaled 1cm) randomized 2mm;
+pickup pencircle scaled 2pt;
+fill p withcolor darkgray;
+draw p withcolor darkred;
+\stopMPcode
+\stopsample
+\simplesample[option=MP]{\getsample}
+
+\noindent 注意，对于封闭路径，应当先填充颜色，再绘制路径，否则所填充的颜色会覆盖一部分路径线条。
+
+\section{颜色}
+
+\METAPOST\ 以含有三个分量的向量表示颜色。向量的三个分量分别表示红色、绿色和蓝色，取值范围为 [0, 1]，例如 \type{(0.4, 0.5, 0.6)}。可将颜色保存到 color 类型的变量中，以备绘图中重复使用。例如定义一个值为暗红色的颜色变量：
+
+\starttyping[option=MP]
+color foo;
+foo := (0.3, 0, 0);
+\stoptyping
+
+由于 METAPOST 内部已经定义了用于表示红色的变量 \type{red}，因此 \type{foo} 的定义也可写为
+
+\starttyping[option=MP]
+color foo;
+foo := 0.3 * red;
+\stoptyping
+
+\noindent 小于 1 的倍数，可以忽略前缀 0，且可以直接作用于颜色：
+
+\starttyping[option=MP]
+foo := .3red;
+\stoptyping
+
+使用 \type{transparent} 宏可用于构造带有透明度的颜色值。例如
+
+\startsample
+\startMPcode
+path p; p := fullsquare scaled 1cm;
+color foo; foo := .3red;
+pickup pencircle scaled 4pt;
+draw p withcolor transparent (1, 0.3, foo);
+draw p shifted (.5cm, .5cm) withcolor transparent (1, 0.25, blue);
+\stopMPcode
+\stopsample
+\simplesample[option=MP]{\getsample}
+
+\noindent \type{transparent} 的第一个参数表示选用的颜色透明方法，共有 12 种方法可选：
+
+\startitemize[n,packed,columns,four]
+\item normal
+\item multiply
+\item screen
+\item overlay
+\item softlight
+\item hardlight
+\item colordodge
+\item colorburn
+\item darken
+\item lighten
+\item difference
+\item exclusion
 \stopitemize
-\stopbuffer
-\dorecurse{10}{\getbuffer[foo]}
-\stoptext
+\noindent 第二个参数表示透明度，取值范围 [0, 1]，其值越大，透明程度越低。第三个参数为颜色值。需要注意的是，\METAPOST\ 并不支持以 \type{color} 类型的变量保存带透明度的颜色值，而且 \METAPOST\ 里也没有与之对应的变量类型。
+
+\section{文字}
+
+使用 \MetaFun\ 宏 \type{textext} 可在 \METAPOST\ 图形中插入文字，且基于 \METAPOST\ 图形变换命令可对文字进行定位、缩放、旋转。例如
+
+\startsample
+\startMPcode
+string s; % 字符串类型变量
+s = "\color[darkred]{\bf 江山如此多娇}";
+draw textext(s);
+draw textext(s) shifted (4cm, 0);
+draw textext(s) scaled 1.5 shifted (8cm, 0) ;
+draw textext(s) scaled 1.5 rotated 45 shifted (12cm, 0);
+\stopMPcode
+\stopsample
+\typesample[option=MP]
+\midaligned{\getsample}
+
+也可使用 \type{\thetextext} 宏直接对文字进行定位，从而可省去 \type{shifted} 变换。例如
+
+\startsample
+\startMPcode
+string s; s = "{\bf 江山如此多娇}";
+draw (0, 0) withpen pensquare scaled 11pt withcolor darkred;
+draw thetextext(s, (4cm, 0)) withcolor darkred;
+\stopMPcode
+\stopsample
+\typesample[option=MP]
+\getsample
+
+\section{方向路径}
+
+\METAPOST\ 宏 \type{drawarrow} 可绘制带箭头的路径。例如
+
+\startsample
+\startMPcode
+path p; p := (0, 0) -- (4cm, 0) -- (4cm, 2cm) -- (0, 2cm) -- (0, 1cm);
+pickup pencircle scaled 2pt;
+drawarrow p withcolor darkred;
+drawarrow p shifted (6cm, 0) dashed (evenly scaled .5mm) withcolor darkred;
+\stopMPcode
+\stopsample
+\typesample[option=MP]
+\midaligned{\getsample}
+
+\noindent 上述代码也给出了虚线路径的画法。
+
+\METAPOST\ 的任何一条路径，从起点到终点可基于取值范围为 [0, 1] 的参数选择该路径上的某一点。基于该功能可实现路径标注。例如选择路径参数 0.5 对应的点，在该点右侧放置 \ConTeXt\ 旋转 90 度的文字：
+
+\startsample
+\startMPcode
+path p; p := (0, 0) -- (4cm, 0)
+             -- (4cm, 2cm) -- (0, 2cm) -- (0, 1cm);
+pair pos; pos := point .5 along p;
+pickup pencircle scaled 2pt;
+drawarrow p withcolor darkred;
+draw pos withpen pensquare scaled 4pt
+         withcolor darkgreen;
+draw thetextext.rt("\rotate[rotation=-90]{路过}",
+                   pos shifted (1mm, 0));
+\stopMPcode
+\stopsample
+\simplesample[option=MP]{\getsample}
+
+\noindent 上述代码中出现了 \type{thetextext} 的后缀形式。除了默认形式，\type{thetextext} 还有 4 种后缀形式，后缀名为 \inframed{\type{.lft}}，\inframed{\type{.top}}，\inframed{\type{.rt}} 和 \inframed{\type{.bot}}，分别表示将文字放在指定位置的左侧、上方、右侧和下方。
+
+\section{画面}
+
+\METAPOST\ 有一种变量类型 \type{picture}，可将其用于将一组绘图语句合并为一个图形，然后予以绘制。使用 \METAPOST\ 宏 \type{image} 可构造 \type{picture} 实例。例如
+
+\startsample
+\startMPcode
+path a; a := fullsquare xscaled 4cm yscaled 1cm;
+picture p; p := image(
+  fill a withcolor darkgray;
+  draw a withpen pencircle scaled 2pt withcolor darkblue;
+);
+draw p;
+\stopMPcode
+\stopsample
+\simplesample[option=MP]{\getsample}
+
+使用 \METAPOST\ 宏 \type{center} 可以获得 \type{picture} 实例的中心坐标，结果可保存于一个 \type{pair} 类型的变量。例如
+
+\startsample
+\startMPcode
+picture p; p := image(draw textext("密云不雨，自我西郊"););
+pair c; c := center p;
+draw c withpen pensquare scaled 4pt withcolor darkred;
+draw p withcolor darkblue;
+\stopMPcode
+\stopsample
+\simplesample[option=MP]{\getsample}
+
+使用 \MetaFun\ 宏 \type{bbwidth} 和 \type{bbheight} 可以获得 \type{picture} 实例的宽度和高度。使用这两个宏，可为任何图形和文字构造边框。例如
+
+\startsample
+\startMPcode
+picture p; p := image(draw textext("归妹愆期，迟归有时"));
+numeric w, h; w := bbwidth(p); h := bbheight(p);
+path q; q := fullsquare xscaled w yscaled h;
+fill q withcolor darkgray;
+draw q withpen pencircle scaled 2pt withcolor darkred;
+draw p;
+\stopMPcode
+\stopsample
+\simplesample[option=MP]{\getsample}
+
+\noindent 上述实例为文字构造的边框太紧了，利用现有所学，让它宽松一些并不困难：
+
+\startsample
+\startMPcode
+picture p; p := image(draw textext("归妹愆期，迟归有时"));
+numeric w, h; w := bbwidth(p); h := bbheight(p);
+numeric offset; offset := 5mm;
+path q;
+q := fullsquare xscaled (w + offset)
+                yscaled (h + offset)
+                shifted center p;
+fill q withcolor darkgray;
+draw q withpen pencircle scaled 2pt withcolor darkred;
+draw p;
+\stopMPcode
+\stopsample
+\simplesample[option=MP]{\getsample}
+
+\section[macro]{宏}
+
+定义一个宏，令其接受一个字符串类型的参数，返回一个矩形框，并令文字居于矩形框中心：
+
+\startsample
+\startMPcode
+vardef framed (expr text, offset) =
+  picture p; p := image(draw textext(text));
+  numeric w, h; w := bbwidth(p); h := bbheight(p);
+  path q;
+  q := fullsquare xscaled (w + offset) yscaled (h + offset) shifted center p;
+  image(fill q withcolor lightgray;
+        draw q withpen pencircle scaled 2pt withcolor darkred;
+        draw p;)
+enddef;
+draw framed("{\bf 亢龙有悔}", 5mm);
+\stopMPcode
+\stopsample
+\simplesample[option=MP]{\getsample}
+
+\METAPOST\ 的 \type{vardef} 用于定义一个有返回值的宏，宏定义的最后一条语句即返回值，该条语句不可以分号作为结尾。\METAPOST\ 还有其他几种宏定义形式，但是对于大多数作图任务而言，\type{vardef} 已足够应付。
+
+\section[sec:flow-chart]{画一幅简单的流程图}
+
+现在，请跟随我敲击键盘的手指，逐步画一幅描述数字求和过程的流程图，希望这次旅程能让你对 \METAPOST\ 的基本语法有一些全面的认识。
+
+首先，构造一个结点，表示数据输入“”
+
+\starttyping[option=MP]
+string f; f := "\framed[frame=off,align=center]";
+picture a;
+a := image(
+  % 符号 & 用于拼接两个字符串
+  draw textext(f & "{$i\leftarrow 1$\\$s\leftarrow 0$}");
+);
 \stoptyping
-\midaligned{\externalfigure[12/slides-2.pdf][width=.6\textwidth,frame=on]}
 
-\noindent 上述代码使用了 \ConTeXt\ 的 \type{buffer} 环境和循环宏 \type{\dorecurse}。所谓 \type{buff}，是一个可以设定名字的缓存，它可以包含 \ConTeXt\ 排版代码。\type{\getbuffer} 可获得指定名字的缓存中所包含的全部代码。\type{\dorecurse} 可以将其所含内容重复指定次数。上述代码所产生的效果是生成十页内容相同的幻灯片。
+然后，用 \in[macro] 节定义的 \type{framed} 宏构造两个运算过程结点：
 
-截止至此，我们第一次在示例中使用有编号标题。对于 \type{\chapter} 建议在幻灯片样式中增加以下设定，将其数字编号更改为中文编号，另外设置编号不参与对齐，亦即只有标题内容参与对齐：
-
-\starttyping[option=TEX]
-\setuphead[chapter][conversion=chinesenumerals,alternative=inmargin]
+\starttyping[option=MP]
+numeric offset; offset := 5mm;
+picture b; b := framed(f & "{$s\leftarrow s + i$}", offset);
+picture c; c := framed(f & "{$i\leftarrow i + 1$}", offset);
 \stoptyping
-\midaligned{\externalfigure[12/slides-3.pdf][width=.6\textwidth,frame=on]}
+
+还需要定义一个宏，用它构造菱形的条件判断结点：
+
+\starttyping[option=MP]
+vardef diamond (expr text, offset) =
+  picture p; p := image(draw textext(text));
+  numeric w, h; w := bbwidth(p); h := bbheight(p);
+  path q;
+  q := fulldiamond xscaled (w + offset) yscaled (h + offset) shifted center p;
+  image(fill q withcolor darkgray;
+        draw q withpen pencircle scaled 2pt withcolor darkred;
+        draw p withcolor white;)
+enddef;
+picture d; d := diamond(f & "{$i > 100$}", 3 * offset);
+\stoptyping
+
+最后，再构造一个结点表示程序输出：
+
+\starttyping[option=MP]
+picture e;
+e := image(draw textext(f & "{$s$}"););
+\stoptyping
+
+保持结点 \type{a} 不动，对 \type{b}，\type{c}，\type{d} 和 \type{e} 进行定位：
+
+\starttyping[option=MP]
+b := b shifted (0, -2cm);
+c := c shifted (4cm, -4.5cm);
+d := d shifted (0, -4.5cm);
+e := e shifted (0, -7cm);
+\stoptyping
+
+现在可以画出所有结点了，即
+
+\starttyping[option=MP]
+draw a; draw b; draw c; draw d; draw e;
+\stoptyping
+\midaligned{\externalfigure[12/flowchart-1.pdf][frame=on]}
 \blank
 
-\noindent 如果你还需要二级、三级标题，可参照上述设定制作适合的样式。
-
-\section{页脚}
-
-在 \in[regular-style] 节中，我关闭了 \ConTeXt\ 好意提供的页码。因为我希望页码出现在页面的右下角，且除以总页数，以便清楚幻灯片的进度。
-
-\ConTeXt\ 提供了 \type{\setupfootertexts} 命令，可以在页脚左、右区域放入文字、盒子或图形等内容，同时提供了 \type{\setupfooter} 用于设定页脚区域的文字样式。另外，\type{\userpagenumber} 和 \type{\lastuserpage} 可分别用于获取当前页的页码和最后一页的页码。基于这些命令，便可实现能够表示进度的页码。例如
-
-\starttyping[option=TEX]
-\showframe
-\setupfooter[style=small,color=darkred]
-% 页脚左侧区域为空，右侧区域放置用于表示进度的页码
-\setupfootertexts[margin][][\hss\userpagenumber/\lastuserpage]
-\stoptyping
-\noindent 结果如图 \in[页码进度] 所示。
-\placefigure[here][页码进度]{第 4 页幻灯片}{\externalfigure[12/slides-4.pdf][page=4,width=.6\textwidth,frame=on]}
-
-现在，我们已经有了一个基本可用的幻灯片样式了。倘若使用刚学过的 \METAPOST\ 语言，琢磨一下，给幻灯片增加些许不庸俗又实用的装饰，也许会让人觉得你的幻灯片颇为用心。
-
-\section{进度条}
-
-现在，我们放弃使用当前页码除以总页数的方式表示进度，而是颇为用心地用 \METAPOST\ 在页面底部绘制一个进度条。实际上，用不了几行代码便可实现：
+现在开始构造连接各结点的路径。首先构造结点 \type{a} 的底部中点到 \type{b} 的顶部中点的路径：
 
 \starttyping[option=MP]
-\startuseMPgraphic{processbar}
-numeric w, n, s, t;
-w := \overlaywidth; n := \lastuserpage;
-s := .5w / (n + 2); t := \userpagenumber - 1;
-path p; p := (fullsquare scaled \overlayheight);
-pickup pencircle scaled 2pt;
-picture q;
-q := image(for i = 0 upto n - 1:
-             p := (p shifted (2s, 0)) randomized .5pt;
-             if t = i: fill p withcolor darkgreen; fi;
-             draw p withcolor transparent(1, 0.5, darkgray);
-           endfor;);
-draw q xsized w;
+path ab;
+ab := .5[llcorner a, lrcorner a] -- .5[ulcorner b, urcorner b];
+\stoptyping
+
+\noindent 其中 \type{llcorner} 用于获取路径或画面实例的最小包围盒的左下角顶点坐标。同理，\type{ulcorner}，\type{urcorner} 和 \type{lrcorner} 分别获取包围盒的左上角、右上角和右下角顶点坐标。\type{.5[..., ...]} 用于计算两个点连线的中点。
+
+用类似的方法可以构造其他连接各结点的路径：
+
+\starttyping[option=MP]
+path bd;
+bd := .5[llcorner b, lrcorner b] -- .5[ulcorner d, urcorner d];
+path dc;
+dc := .5[lrcorner d, urcorner d] -- .5[ulcorner c, llcorner c];
+path cb;
+cb := .5[ulcorner c, urcorner c] -- (4cm, -2cm) -- .5[urcorner b, lrcorner b];
+path de;
+de := .5[llcorner d, lrcorner d] -- .5[ulcorner e, urcorner e];
+\stoptyping
+
+画出所有路径：
+
+\starttyping[option=MP]
+drawarrow ab withcolor darkred; drawarrow bd withcolor darkred;
+drawarrow cb withcolor darkred; drawarrow dc withcolor darkred;
+drawarrow de withcolor darkred;
+\stoptyping
+\midaligned{\externalfigure[12/flowchart-2.pdf][frame=on]}
+\blank
+
+最后一步，路径标注：
+
+\starttyping[option=MP]
+pair no;  no  := point .4 along dc;
+pair yes; yes := point .5 along de;
+draw thetextext.top("否", no);
+draw thetextext.rt("是", yes);
+\stoptyping
+\midaligned{\externalfigure[12/flowchart-3.pdf][frame=on]}
+
+\section{代码简化}
+
+\in[sec:flow-chart] 节中用于绘制程序流程图的代码存在许多重复。我们可以尝试使用条件、循环，宏等形式对代码进行简化，但我对它们给出的讲解并不会细致，为的正是走马观花，观其大略。
+
+首先，观察宏 \type{framed} 和 \type{diamond} 的定义，发现二者仅有的不同是前者用 \type{fullsquare} 绘制盒子，后者用 \type{fulldiamond}。因此，可以重新定义一个更为灵活的宏，用于制作结点：
+
+\starttyping[option=MP]
+vardef make_node(expr text, shape, offset) =
+  picture p; p := image(draw textext(text));
+  numeric w, h; w := bbwidth(p); h := bbheight(p);
+  if path shape:
+    path q;
+    q := shape xysized (w + offset, h + offset) shifted center p;
+    image(fill q withcolor lightgray;
+          draw q withpen pencircle scaled 2pt withcolor darkred;
+          draw p;)
+  else:
+    image(draw p;)
+  fi
+enddef;
+\stoptyping
+
+\noindent 由于上述代码使用了 \METAPOST\ 的条件判断语法，以 \type{path shape} 判断 \type{shape} 是否为路径变量，从而使得 \type{make_node} 能构用于构造有无边框和有边框的结点：
+
+\starttyping[option=MP]
+numeric offset; offset := 5mm;
+string f; f := "\framed[frame=off,align=center]";
+picture a, b, c, d, e;
+a := make_node(f & "{$i\leftarrow 1$\\$s\leftarrow 0$}", none, 0);
+b := make_node(f & "{$s\leftarrow s + i$}", fullsquare, offset);
+c := make_node(f & "{$i\leftarrow i + 1$}", fullsquare, offset);
+d := make_node(f & "{$i > 100$}", fulldiamond, offset);
+e := make_node(f & "{$s$}", none, 0);
+\stoptyping
+
+在 \type{vardef} 宏中使用条件语句时需要注意，通常情况下不要条件结束语句 \type{fi} 后面添加分号，否则 \type{vardef} 宏的返回值会带上这个分号。在其他情境下，通常需要在  \type{fi} 加分号。还要注意，我在 \type{make_node} 宏中使用 \type{xysized} 取代了之前的 \type{xscale} 和 \type{yscale}，可直接指定路径或画面的尺寸。之所以如此，是因为我们无法确定 \type{make_node} 宏的第 2 个参数对应的路径是否为标准图形。
+
+在绘制结点和路径时，存在重复使用 \type{draw} 语句的情况，例如
+
+\starttyping[option=MP]
+drawarrow ab withcolor darkred;
+drawarrow bd withcolor darkred;
+drawarrow cb withcolor darkred;
+drawarrow dc withcolor darkred;
+drawarrow de withcolor darkred;
+\stoptyping
+
+\noindent 可使用循环语句予以简化：
+
+\starttyping[option=MP]
+for i = ab, bd, cb, dc, de:
+  draw i withcolor darkred;
+endfor; 
+\stoptyping
+
+为了便于获得路径或画面的包围盒的四边中点，定义以下宏：
+
+\starttyping[option=MP]
+vardef left(expr p) = .5[llcorner p, ulcorner p] enddef;
+vardef top(expr p) = .5[ulcorner p, urcorner p] enddef;
+vardef right(expr p) = .5[lrcorner p, urcorner p] enddef;
+vardef bottom(expr p) = .5[llcorner p, lrcorner p] enddef;
+\stoptyping
+
+\noindent 以绘制结点 \type{b} 的四边中点为测试用例
+
+\starttyping[option=MP]
+for i = left(b), top(b), right(b), bottom(b):
+  draw i withpen pensquare scaled 4pt withcolor darkblue;
+endfor;
+\stoptyping
+\midaligned{\externalfigure[12/flowchart-4.pdf]}
+
+基于上述宏，可以更为简洁地构造连接各结点的路径：
+
+\starttyping[option=MP]
+path ab; ab := bottom(a) -- top(b);
+path bd; bd := bottom(b) -- top(d);
+path dc; dc := right(d) -- left(c);
+path cb; cb := top(c) -- (xpart center c, ypart center b) -- right(b);
+path de; de := bottom(d) -- top(e);
+\stoptyping
+
+\noindent \type{center} 是 \METAPOST\ 宏，可用于获取路径或画面的包围盒中心点坐标。\type{xpart} 和 \type{ypart} 也皆为 \METAPOST\ 宏，用于获取点的坐标分量。
+
+路径标注也可以通过定义一个宏予以简化：
+
+\starttyping[option=MP]
+vardef tag(expr p, text, pos, loc) =
+  if loc = "left": thetextext.lft(text, point pos along p)
+  elseif loc = "right": thetextext.rt(text, point pos along p)
+  elseif loc = "top": thetextext.top(text, point pos along p)
+  elseif loc = "bottom": thetextext.bot(text, point pos along p)
+  else thetextext(text, point pos along p)
+  fi
+enddef;
+\stoptyping
+
+\noindent 其用法为
+
+\starttyping[option=MP]
+draw tag(dc, "否", .5, "top"); draw tag(de, "是", .5, "right");
+\stoptyping
+
+
+\section{层层叠叠}
+
+\ConTeXt\ 有一个以 overlay 为基础的层（Layer）机制。利用层机制，我们可将 \METAPOST\ 图形绘制在页面上的任何一个位置。在学习层之前，我们需要对 overlay 的认识再加深一些。
+
+\subsection{overlay}
+
+实际上 overlay 环境是一个图形「栈」。通过它，可实现图形（包括文字）的叠加。例如，对于以下 \METAPOST\ 图形：
+
+\startsample
+\startuseMPgraphic{一个矩形}
+path p; p := fullsquare xscaled 4cm yscaled 1cm;
+draw p randomized 3mm
+       withcolor transparent (1, .5 randomized .25, red)
+       withpen pencircle scaled 2pt;
 \stopuseMPgraphic
-\stoptyping
+\startoverlay
+  {\useMPgraphic{一个矩形}}
+  {\useMPgraphic{一个矩形}}
+  {\useMPgraphic{一个矩形}}
+\stopoverlay
+\stopsample
+\simplesample[option=MP]{\getsample}
+
+\noindent 上述代码中，\type{transparent (1, .5 randomized .3, red)} 用于构造在一定程度上不确定透明度的红色，透明度在 [0.2, 0.8] 之间，亦即 \type{randomized} 不仅可作用于路径，也可作用于数字或颜色值。由于上述 \METAPOST\ 图形环境包含着随机内容，将其作为插图，在一个 overlay 中多次使用，每次使用都会产生不同的结果，在 overlay 中它们会被叠加到一起。
+
+之前在为 \type{\framed} 定义 overlay 时，overlay 中只有单个图形，亦即我们并未充分利用 overlay 的特性。以下代码定义的 \type{\framed} 的背景便包含了三个叠加的 overlay：
+
+\startsample
+\defineoverlay
+  [叠叠]
+  [\startoverlay
+     {\useMPgraphic{一个矩形}}
+     {\useMPgraphic{一个矩形}}
+     {\useMPgraphic{一个矩形}}
+   \stopoverlay]
+\defineframed
+  [foo]
+  [frame=off,background={叠叠},width=4cm]
+\foo{迎接光辉岁月}
+\stopsample
+\simplesample[option=TEX]{\getsample}
+
+\noindent \type{\framed} 的背景支持多个 overlay 叠加，以下代码与上例等效：
 
 \starttyping[option=TEX]
-\defineoverlay[process][\useMPgraphic{processbar}]
-\setupfootertexts[{\framed[frame=off,offset=0pt,
-                           width=\makeupwidth,height=.8em,
-                           background=process,empty=yes]{}}]
+\defineoverlay[叠叠-1]{\useMPgraphic{一个矩形}}
+\defineoverlay[叠叠-2]{\useMPgraphic{一个矩形}}
+\defineoverlay[叠叠-3]{\useMPgraphic{一个矩形}}
+\defineframed[foo][frame=off,background={叠叠-1,重叠-2,重叠-3}]
+\foo{迎接光辉岁月}
 \stoptyping
 
-\noindent 上述代码唯一需要解释之处是，当 \type{\setupfootertexts} 只有一个参数时，该参数的值会被安置在页脚的中间区域。所构造的进度条效果如图 \in[processbar] 所示。
+\noindent 这意味着，\type{\framed} 的背景，本质上也是一个 overlay。
 
-\placefigure[here][processbar]{第 3 页幻灯片}{\externalfigure[12/slides.pdf][width=.6\textwidth,page=4,frame=on]}
-
-\section{封面和致谢}
-
-幻灯片的封面和最后的致谢页皆可使用 \type{sandardmakeup} 环境制作。例如
+基于 overlay，也可为文档设置水印。例如，若在 \type{\starttext} 之前添加以下代码：
 
 \starttyping[option=TEX]
-\startstandardmakeup[align=center]
-\ssd \color[darkred]{如何用 \ConTeXt\ 制作幻灯片}
-\blank[2*line]
-\ssb 李某人
-\blank[line]
-2023 年 3 月 28 日
-\stopstandardmakeup
+\startuseMPgraphic{square}
+path p; p := fullsquare xscaled 4cm yscaled 1cm;
+draw p randomized 3mm
+       withcolor transparent (1, .5 randomized .3, red)
+       withpen pencircle scaled 2pt;
+\stopuseMPgraphic
+\defineoverlay[watermark][\useMPgraphic{square}]
+\setupbackgrounds[page][background=watermark]
 \stoptyping
-\noindent 结果如图 \in[cover] 所示。
+\midaligned{\externalfigure[12/watermark.png][width=.6\textwidth]}
 
-之所以使用 \type{standardmakeup} 环境，是因为它是完全的空白页，且不会参与页码计数。
-\placefigure[here][cover]{封面}{\externalfigure[12/slides.pdf][width=.6\textwidth,page=1,frame=on]}
+\subsection[layer]{层}
 
-\section{不要太刺眼}
-
-白色背景，往往过于刺眼。我们可将幻灯片背景色设置为浅灰色：
+\ConTeXt\ 的层，本质上是一个可作为全页背景的 overlay，可使用绝对坐标或相对坐标对排版元素在页面上定位放置。例如，定义一个层 foo，在三个不同位置分别放置一幅 \METAPOST\ 图形，并将其作用于当前页面：
 
 \starttyping[option=TEX]
-\setupbackgrounds[page][backgroundcolor=lightgray,background=color]
+\definelayer[foo]
+\setlayer[foo][x=0cm,y=0cm]{\useMPgraphic{一个矩形}}
+\setlayer[foo][x=6cm,y=1cm]{\useMPgraphic{一个矩形}}
 \stoptyping
-\noindent 结果如图 \in[slide-background] 所示。
-\placefigure[here][slide-background]{浅灰色背景}{\externalfigure[12/slides-finished.pdf][width=.6\textwidth,page=1,frame=on]}
+\starttyping[option=TEX]
+\setlayer
+  [foo]
+  [x=\textwidth,y=2cm,hoffset=-4cm,vhoffset=-.5cm]{\useMPgraphic{一个矩形}}
+\flushlayer[foo]
+\stoptyping
+\definelayer[test]
+\setlayer[test][x=0cm,y=0cm]{\useMPgraphic{一个矩形}}
+\setlayer[test][x=6cm,y=1cm]{\useMPgraphic{一个矩形}}
+\setlayer
+  [test]
+  [x=\textwidth,y=2cm,hoffset=-4cm,voffset=-3cm]{\useMPgraphic{一个矩形}}
+\flushlayer[test]
+\noindent 上述代码定义的层 foo，其坐标原点是层被投放的位置，亦即在本行文字的左上角。$x$ 坐标向右递增，$y$ 坐标向下递增。
+\definelayer[foo]
+\setlayer[foo][x=0cm,y=0cm]{\useMPgraphic{circle}}
+\setlayer[foo][preset=rightbottom]{\useMPgraphic{circle}}
+\setupbackgrounds[page][background=foo]
+
+如果将层的宽度和高度分别设为页面的宽度和高度，并将其设为页面背景，则坐标原点在页面的左上角，且可使用一些预定义位置投放内容。例如以下代码可在当前页面的左上角和右下角位置各放一个圆圈：
+
+\starttyping[option=TEX]
+\startuniqueMPgraphic{circle}
+draw fullcircle scaled 2cm withpen pencircle scaled 2pt withcolor darkgreen;
+\stopuniqueMPgraphic
+\definelayer[foo][width=\paperwidth,height=\paperheight]
+\setlayer[foo][x=0cm,y=0cm]{\uniqueMPgraphic{circle}}
+\setlayer[foo][preset=rightbottom]{\uniqueMPgraphic{circle}}
+\setupbackgrounds[page][background=foo]
+\stoptyping
+\startuniqueMPgraphic{circle}
+draw fullcircle scaled 2cm withpen pencircle scaled 2pt withcolor darkgreen;
+\stopuniqueMPgraphic
+\definelayer[foo][width=\paperwidth,height=\paperheight]
+\setlayer[foo][x=0cm,y=0cm]{\uniqueMPgraphic{circle}}
+\setlayer[foo][preset=rightbottom]{\uniqueMPgraphic{circle}}
+\setupbackgrounds[page][background=foo]
+
+\noindent 需要注意的是，层被使用一次后，便会被清空，因而将其作为页面背景，仅对当前页有效。
+
+通过 \type{preset} 参数可调整层的坐标原点和坐标方向。在上述代码中，\type{rightbottom} 可将层的坐标原点定位于层的右下角，同时 $x$ 坐标方向变为向左递增，$y$ 坐标方向变为向上递增。
+
+\ConTeXt\ 预定义的 \type{preset} 参数值有
+
+\startitemize[packed,columns,five]
+\item lefttop\item righttop\item leftbottom\item rightbottom\item middle\item middletop
+\item middlebottom\item middleleft\item middleright\item lefttopleft\item lefttopright
+\stopitemize
+
+\noindent 使用这些参数值时，要注意坐标方向。例如，若 \type{preset=middleright}，其 $x$ 坐标方向变为向左递增，而 $y$ 坐标方向依然保持向上递增，以下代码可予以验证：
+
+\starttyping[option=TEX]
+\definelayer[bar][width=\paperwidth,height=\paperheight]
+\setlayer[bar][preset=middleright]{
+  \startMPcode
+  draw (0, 0) withpen pensquare scaled 12pt withcolor darkred;
+  \stopMPcode
+}
+\stoptyping
+\starttyping[option=TEX]
+\setlayer[bar][preset=middleright,x=2cm,y=2cm]{
+  \startMPcode
+  draw (0, 0) withpen pensquare scaled 12pt
+              withcolor transparent (1, .3, darkred);
+  \stopMPcode
+}
+\setupbackgrounds[page][background=bar]
+\stoptyping
+
+\definelayer[bar][width=\paperwidth,height=\paperheight]
+\setlayer[bar][preset=middleright]{
+  \startMPcode
+  draw (0, 0) withpen pensquare scaled 12pt withcolor darkred;
+  \stopMPcode
+}
+\setlayer[bar][preset=middleright,x=2cm,y=2cm]{
+  \startMPcode
+  draw (0, 0) withpen pensquare scaled 12pt
+              withcolor transparent (1, .3, darkred);
+  \stopMPcode
+}
+\setupbackgrounds[page][background=bar]
 
 \section{小结}
 
-本章仅介绍了非常基本的幻灯片制作过程。一份精致的幻灯片样式，值得你用心设计，但是切记，不要喧宾夺主。质胜文则野，文胜质则史。孔子说，好的幻灯片样式，总是是文质彬彬的。本文制作的幻灯片示例，路数偏野。
+也许你意犹未尽，甚至觉得我语焉不详。切莫怪我，我原本仅仅是介绍如何使用 \METAPOST\ 绘制一个边框受随机扰动的盒子。不过，在大致掌握了本章所述的内容的基础上，关于 \METAPOST\ 更多的知识，特别本章所有你觉得语焉不详之处，皆可阅读它的手册\cite[mpman]以增进认识。此外，\ConTeXt\ 开发者 Hans Hagen 所写的 \MetaFun\ 手册除了讲述 \MetaFun\ 之外也大量介绍了 \METAPOST\ 的基本知识和技巧，该手册在你的 \ConTeXt\ 系统中，使用以下命令查找：
+
+\starttyping
+$ mtxrun --script base --search metafun-s.pdf
+\stoptyping

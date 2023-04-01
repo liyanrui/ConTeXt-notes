@@ -37,6 +37,7 @@
 
 还有一种横向盒子 \type{\line}，它的宽度是当前段落的宽度，可让其中的文字向两边伸展并与边界对齐，例如
 
+\cmdindex{line}
 \starttyping[option=TEX]
 \line{\darkred\bf 我能吞下玻璃而不伤身体。}
 \stoptyping
@@ -66,6 +67,7 @@
   }
 }
 
+\index[hfil-hfill-hss]{\type{\hfil}，\type{\hfill} 和 \type{\hss}}
 \type{\hfill} 和 \type{\hss}，都是可无限伸缩的粘连，还有一个伸缩能力弱于 \type{\hfill} 的 \type{\hfil}。竖向的可无限伸缩的粘连有 \type{\vfil}，\type{\vfill} 和 \type{\vss}。
 
 \section{\ConTeXt\ 盒子}
@@ -74,12 +76,14 @@
 
 \type{\inframed} 用于正文，可用于给一行文字增加边框，例如
 
+\cmdindex{inframed}
 \starttyping[option=TEX]
 \type{\inframed{\type{\inframed{...}}}}
 \stoptyping
 
 \noindent 结果为 \inframed{\type{\inframed{...}}}。倘若使用 \type{\framed}，例如
 
+\cmdindex{framed}
 \starttyping[option=TEX]
 \type{\framed{\type{\framed{...}}}}
 \stoptyping
@@ -165,6 +169,7 @@
 
 通过 overlay，可将一些代码片段的排版结果作为 \type{\framed} 的背景。例如
 
+\index[overlay]{overlay}
 \starttyping[option=TEX]
 \defineoverlay
   [foo]
@@ -234,6 +239,7 @@
 
 无论是 \TeX\ 还是 \ConTeXt\ 盒子，它们本身是没有深度的，但是当它们里面的文字或盒子有深度时，它们便有了深度。至于深度值具体是多大，可以借助 \TeX\ 的盒子寄存器进行测量。例如，定义一个盒子寄存器 box0：
 
+\cmdindex{setbox}
 \starttyping[option=TEX]
 \setbox0\hbox{\inframed{\framed{我看到一棵樱桃树}}}
 \stoptyping

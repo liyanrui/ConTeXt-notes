@@ -18,7 +18,7 @@
 
 \noindent 第一种环境用于临时作图，生成的图形会被插入到代码所在位置。第二种环境是生成单独的图形文件，以作其他用途。后面三种环境，生成的图形可根据环境的名称作为文章插图随处使用，但它们又有三种不同用途：
 
-\startitemize[nowhite]
+\startitemize[packed]
 \item useMPgraphic：每被使用一次，对应的 \METAPOST\ 代码便会被重新编译一次。
 \item uniqueMPgraphic：只要图形所处环境不变，\METAPOST\ 代码只会被编译一次。
 \item reusableMPgraphic：无论如何使用，其 \METAPOST\ 只会被编译一次。
@@ -26,12 +26,13 @@
 
 \noindent 大多数情况下，建议选用 uniqueMPgraphic，但若图形中存在一些需要每次使用时都要有所变化的内容，可选用 useMPgraphic。
 
-另外需要注意，在 \ConTeXt\ 中使用 \METAPOST\ 时，通常会使用 \ConTeXt\ 定义的一些 \METAPOST\ 宏，这些宏构成的集合，名曰 \MetaFun。
+在 \ConTeXt\ 中使用 \METAPOST\ 时，通常会使用 \ConTeXt\ 定义的一些 \METAPOST\ 宏，这些宏构成的集合，名曰 \MetaFun。
 
 \section{画一个盒子}
 
-\METAPOST\ 作图语句遵守基本的英文语法，理解起来颇为简单。例如，用粗度为 2 pt 的圆头笔用暗红色绘制一条经过 $(0, 0)$，$(3\,{\rm cm}, 0)$，$(3\,{\rm cm}, 1\,{\rm cm})$，$(0, 1\,{\rm cm})$ 的封闭路径，
+\METAPOST\ 作图语句遵守基本的英文语法，理解起来颇为简单。例如，用粗度为 2 pt 的圆头笔用暗红色绘制一条经过 $(0, 0)$，$(3\,{\rm cm}, 0)$，$(3\,{\rm cm}, 1\,{\rm cm})$，$(0, 1\,{\rm cm})$ 的封闭路径，只需以下代码：
 
+\index[MPcode]{\type{\start...\stopMPcode}}
 \startsample
 \startMPcode
 pickup pencircle scaled 2pt;
@@ -68,6 +69,8 @@ draw p shifted (2cm, .5cm) withcolor darkblue;
 
 还有一种构造矩形路径的方法：先构造一个单位正方形，然后对其缩放。例如
 
+\index[xscaled]{\type{xsclaed}：\METAPOST\ 原语}
+\index[yscaled]{\type{ysclaed}：\METAPOST\ 原语}
 \startsample
 \startMPcode
 pickup pencircle scaled 2pt;
@@ -79,6 +82,7 @@ draw fullsquare xscaled 3cm yscaled 1cm
 
 \MetaFun\ 宏 \type{randomized} 可用于对路径随机扰动。例如，对一个宽为 3 cm，高为 1cm 的矩形路径以幅度 2mm 的程度予以扰动：
 
+\index[randomized]{randomized}
 \startsample
 \startuseMPgraphic{随机晃动的矩形}
 pickup pencircle scaled 2pt;
@@ -91,6 +95,7 @@ draw (fullsquare xscaled 3cm yscaled 1cm)
 
 还记得 overlay 吗？只要将上述 useMPgraphic 环境构造的图形制作为 overlay，便可将其作为 \type{\framed} 的背景，从而可以得到一种外观颇为别致的盒子。
 
+\index[overlay]{overlay}
 \startsample
 \defineoverlay[晃晃][\useMPgraphic{随机晃动的矩形}]
 \framed[frame=off,background=晃晃,width=3cm]{光辉岁月}
@@ -203,6 +208,7 @@ draw p shifted (.5cm, .5cm) withcolor transparent (1, 0.25, blue);
 
 使用 \MetaFun\ 宏 \type{textext} 可在 \METAPOST\ 图形中插入文字，且基于 \METAPOST\ 图形变换命令可对文字进行定位、缩放、旋转。例如
 
+\index[textext]{\type{textext}：\METAFUN\ 宏}
 \startsample
 \startMPcode
 string s; % 字符串类型变量
@@ -216,8 +222,9 @@ draw textext(s) scaled 1.5 rotated 45 shifted (12cm, 0);
 \typesample[option=MP]
 \midaligned{\getsample}
 
-也可使用 \type{\thetextext} 宏直接对文字进行定位，从而可省去 \type{shifted} 变换。例如
+也可使用 \type{thetextext} 宏直接对文字进行定位，从而可省去 \type{shifted} 变换。例如
 
+\index[thetextext]{\type{thetextext}：\METAFUN\ 宏}
 \startsample
 \startMPcode
 string s; s = "{\bf 江山如此多娇}";
@@ -262,12 +269,15 @@ draw thetextext.rt("\rotate[rotation=-90]{路过}",
 \stopsample
 \simplesample[option=MP]{\getsample}
 
+\index[thetextext]{\type{thetextext}：\METAFUN\ 宏}
 \noindent 上述代码中出现了 \type{thetextext} 的后缀形式。除了默认形式，\type{thetextext} 还有 4 种后缀形式，后缀名为 \inframed{\type{.lft}}，\inframed{\type{.top}}，\inframed{\type{.rt}} 和 \inframed{\type{.bot}}，分别表示将文字放在指定位置的左侧、上方、右侧和下方。
 
 \section{画面}
 
 \METAPOST\ 有一种变量类型 \type{picture}，可将其用于将一组绘图语句合并为一个图形，然后予以绘制。使用 \METAPOST\ 宏 \type{image} 可构造 \type{picture} 实例。例如
 
+\index[picture]{\type{picture}：\METAPOST\ 类型}
+\index[image]{\type{image}：\METAPOST\ 宏}
 \startsample
 \startMPcode
 path a; a := fullsquare xscaled 4cm yscaled 1cm;
@@ -294,6 +304,8 @@ draw p withcolor darkblue;
 
 使用 \MetaFun\ 宏 \type{bbwidth} 和 \type{bbheight} 可以获得 \type{picture} 实例的宽度和高度。使用这两个宏，可为任何图形和文字构造边框。例如
 
+\index[center]{\type{center}：\METAFUN\ 宏}
+\index[bbwidth-height]{\type{bbwidth}，\type{bbheight}：\METAFUN\ 宏}
 \startsample
 \startMPcode
 picture p; p := image(draw textext("归妹愆期，迟归有时"));
@@ -456,6 +468,7 @@ draw thetextext.rt("是", yes);
 
 首先，观察宏 \type{framed} 和 \type{diamond} 的定义，发现二者仅有的不同是前者用 \type{fullsquare} 绘制盒子，后者用 \type{fulldiamond}。因此，可以重新定义一个更为灵活的宏，用于制作结点：
 
+\index[xysized]{\type{xysized}：\METAFUN\ 宏}
 \starttyping[option=MP]
 vardef make_node(expr text, shape, offset) =
   picture p; p := image(draw textext(text));

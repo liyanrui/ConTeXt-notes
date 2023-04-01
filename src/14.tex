@@ -67,6 +67,7 @@
 
 \type{\placecontent} 可将全文章节标题及其所在页码等信息汇总为一个列表，以方便读者查阅。例如
 
+\cmdindex{placecontent}
 \starttyping[option=TEX]
 \usemodule[visual]
 \starttext
@@ -124,8 +125,6 @@
           [alternative=d,style=normal,pagestyle=smallbold]
 \stoptyping
 
-\section{让无编号标题进入目录}
-
 \CONTEXT\ 默认不允许无编号标题出现在目录中，但是倘若对无编号标题，例如 \type{\title} 作以下设定
 
 \starttyping[option=TEX]
@@ -164,11 +163,88 @@
 
 \noindent 由于我们并未将 \type{\TOC} 列入目录列表，因此上述问题得以解决。
 
+\section[reference]{引用}
+
+在本文档的插图、表格、数学公式等章节中，已简略介绍了 \CONTEXT\ 引用的用法。\CONTEXT\ 的标题和列表也支持引用。例如，本节的标题对应的排版命令是
+
+\starttyping[option=TEX]
+\section[reference]{引用}
+\stoptyping
+
+可以在文章几乎任何一个位置，像下面这样引用本节：
+
+\startsample
+我在 \at[reference] 页 \in[reference] 节\about[reference]中的一些内容。
+\stopsample
+\typesample[optio=TEX]
+\blueframed{\getsample}
+
+使用 \type{\textreference} 可在文档几乎任何位置插入引用。例如
+
+\cmdindex{textreference}
+\startsample
+我在此处放置了一个引用\textreference[myref]{一个引用}。
+\stopsample
+\typesample[option=TEX]
+\blueframed{\getsample}
+
+\startsample
+我在此处使用一个引用，它是 \at[myref] 的「\in[myref]」。
+\stopsample
+\typesample[option=TEX]
+\blueframed{\getsample}
+
+\section{脚注}
+
+若需要对书籍内容中一些文字进行注解，可采用脚注形式。\type{\footnote{...}} 可在待注解的文字之后插入脚注，并自动生成序号。例如
+
+\startsample
+我以脚注的形式告诉你一个关于 \CONTEXT\ 脚注的秘密\footnote{\CONTEXT\ 的脚注默认不支持中文断行，详见 \CONTEXT\ 邮件列表上的一次讨论\cite[chinese-footnotes]。}。
+\stopsample
+\typesample[option=TEX]
+\blueframed{\getsample}
+
+解决脚注中较长的中文无法断行这一问题，一种方法是在脚注中使用 \type{\setscript[hanzi]} 强行开启中文断行功能，为了简便，可以专门定义一个宏替代 \type{\footnote}：
+
+\starttyping[option=TEX]
+\def\zhfootnote#1{\setscript[hanzi]#1}
+\stoptyping
+
+\noindent 另一种方法是 \CONTEXT\ 超人 Wolfgang Schuster 提供的，使用了 \CONTEXT\ 的 \type{setups} 机制\cite[setups]：
+
+\starttyping[option=TEX]
+\startsetups footnote:hanzi
+\setscript[hanzi]
+\stopsetups
+\setupnote[footnote][setups={footnote:hanzi}]
+\stoptyping
+
+\noindent 将上述代码添加到样式文件中即可。
+
+\section{索引}
+
+索引通常放在 \type{backmatter} 环境，即附在书的正文之后，以便检索在正文某页检索一些关键词。这些关键词在正文中需由 \type{\index} 给出。例如
+
+\starttyping[option=TEX]
+\startbackmatter
+\title{索引}
+\placeindex
+\stopbackmatter
+\stoptyping
+
+\startsample
+我在此演示 \type{\placeindex}\index[placeindex]{\type{\placeindex}}
+和 \type{\index}\index[index]{\type{\index}} 的用法。
+\stopsample
+\typesample[option=TEX]
+\blueframed{\getsample}
+\noindent \tex{placeindex} 产生的结果见本文档附录部分的「索引」。
+
 \section{书签}
 
-对于内容较多的 PDF 文档，提供书签（Bookmark）可更加便于他人阅读。书签通常显示于 PDF 阅读器的侧栏，如图 \in[13-bookmarks] 所示，点击某个书签便可跳转至其关联的页面。
+与目录类似，对于内容较多的 PDF 文档，提供书签（Bookmark）亦可便于他人阅读。书签通常显示于 PDF 阅读器的侧栏，如图 \in[13-bookmarks] 所示，点击某个书签便可跳转至其关联的页面。
 
-\placefigure[here][13-bookmarks]{PDF 书签}{\externalfigure[14/bookmarks.png][width=.6\textwidth]}
+\placefigure[here][13-bookmarks]{PDF 书签}{\externalfigure[14/bookmarks.png][width=.7\textwidth]}
 
 为 \ConTeXt\ 生成的 PDF 文件制作书签，非常简单，只需在样式文件中添加以下语句，
 
@@ -189,82 +265,6 @@
 \noindent 则 \type{\title} 亦可出现在书签列表中。
 
 还需要注意一点， 书签功能取决于你所用的 PDF 阅读器是否支持。此外，你的 PDF 阅读器可能会将 \ConTeXt\ 生成的书签视为索引（Index），而其本身则提供了另一个叫作书签的功能，允许用户手动在侧边栏为文档的某一页建立链接，与 \CONTEXT\ 的书签原理相同。
-
-\section[reference]{引用}
-
-在本文档的插图、表格、数学公式等章节中，已简略介绍了 \CONTEXT\ 引用的用法。\CONTEXT\ 的标题和列表也支持引用。例如，本节的标题对应的排版命令是
-
-\starttyping[option=TEX]
-\section[reference]{引用}
-\stoptyping
-
-可以在文章几乎任何一个位置，像下面这样引用本节：
-
-\starttyping[option=TEX]
-我在 \at[reference] 页 \in[reference] 节\about[reference]中的一些内容。
-\stoptyping
-
-\noindent 结果为
-\blank[line]
-\blueframed{我引用了本文档 \at[reference] 页 \in[reference] 节\about[reference]中的一些内容。}
-\blank[line]
-
-使用 \type{\textreference} 可在文档几乎任何位置插入引用。例如
-
-\starttyping[option=TEX]
-我在此处放置了一个引用\textreference[myref]{一个引用}。
-\stoptyping
-\blank[line]
-\blueframed{我在此处放置了一个引用\textreference[myref]{一个引用}。}
-\blank[line]
-\noindent 注意，一个引用，其内容是不会显示在排版结果中的。然后在文档某处使用该引用，
-
-\starttyping[option=TEX]
-我在此处使用一个引用，它是 \at[myref] 的「\in[myref]」。
-\stoptyping
-\blank[line]
-\blueframed{我在此处使用一个引用，它是第 \at[myref] 页的「\in[myref]」。}
-\blank[line]
-
-如果你希望一个引用，其内容不仅出现在排版结果中，且想给他加个外框，只需定义一个宏来帮助你实现这一需求。例如
-
-\starttyping[option=TEX]
-\def\framedref[#1]#2{\inframed{#2}\textreference[#1]{#2}}
-\stoptyping
-\starttyping[option=TEX]
-我在此处放置了一个引用\textreference[myref]{一个引用}。
-\stoptyping
-\blank[line]
-\def\framedref[#1]#2{\inframed{#2}\textreference[#1]{#2}}
-\blueframed{我在此处放置了\framedref[myref]{一个引用}。}
-\blank[line]
-
-\section{索引}
-
-索引通常放在 \type{backmatter} 环境，即附在书的正文之后，
-
-\starttyping[option=TEX]
-\startbackmatter
-\title{索引}
-\placeindex
-\stopbackmatter
-\stoptyping
-
-\noindent 以便检索在正文某页检索一些关键词这些关键词在正文中需由 \type{\index} 给出。例如
-
-\starttyping[option=TEX]
-我在此演示 \type{\placeindex}\index[placeindex]{\type{\placeindex}}
-和 \type{\index}\index[index]{\type{\index}} 的用法。
-\stoptyping
-\blank[line]
-\blueframed{我在此演示 \type{\placeindex}\index[placeindex]{\type{\placeindex}} 和 \type{\index}\index[index]{\type{\index}} 的用法。}
-\blank[line]
-
-\noindent \tex{placeindex} 产生的结果为
-
-\blank[line]
-\blueframed{\placeindex}
-\blank[line]
 
 \section{小结}
 

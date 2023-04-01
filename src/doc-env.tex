@@ -93,7 +93,7 @@
 \startsetups footnote:hanzi
 \setscript[hanzi]
 \stopsetups
-\setupnote[footnote][textstyle=\bold,setups={footnote:hanzi}]
+\setupnote[footnote][textstyle=bold,setups={footnote:hanzi}]
 \setupnotation[footnote][way=bypage] % 来自 wolfgang 的 tip
 
 % 汉化
@@ -102,6 +102,8 @@
 \setuplabeltext[en][table={表 }]
 \setupheadtext[en][pubs={\bfc 参考文献}]
 \setupheadtext[en][content={\bfc 目录}]
+% 索引
+\def\cmdindex#1{\index[#1]{\type[escape=yes]{\/BTEX #1/ETEX}}}
 %---- 列表 ----
 \setupfloats[indentnext=yes] 
 \setupcaptions[style=\tfx, headstyle=\normal, align=center]
@@ -115,7 +117,6 @@
 \setupcaption
   [table]
   [headstyle=normal,style=small,location=top]
-
 % 抄录
 \setuplinenumbering[style=small]
 %\setuptyping[option=color,palet=graypretty,

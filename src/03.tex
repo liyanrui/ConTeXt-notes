@@ -32,21 +32,23 @@
 \item 执行「\type{mtxrun --script fonts --reload --force}」命令，载入新添加的字体：
 \stopitemize
 
-字体安装完毕后，可以通过查询字体文件名确认字体是否安装成功，例如查询 simhei.ttf：
+字体安装完毕后，可以通过查询字体文件名确认字体是否安装成功，例如查询 simsun.ttc：
 
 \starttyping
-$ mtxrun --script fonts --list --file simhei.ttf
-familyname   weight   style    width    variant   fontname   filename     ...
-simhei       normal   normal   normal   normal    simhei     simhei.ttf
+$ mtxrun --script font --list --file simsun.ttc
+familyname  weight  style   width   variant  fontname  filename    subfont  ...
+simsun      normal  normal  normal  normal   simsun    simsun.ttc        1
+nsimsun     normal  normal  normal  normal   nsimsun   simsun.ttc        2
 \stoptyping
 
-\noindent 查询结果中的 \type{fontname} 栏很重要，因为在排版时，通常要使用字体名字指代某个字体。上述命令也可用于查询 simkai.ttf 的信息，但是无法用于查询 TTC 字体 simsun.ttc，可能是因 TTC 字体文件较为特殊，但无论如何，这是 \type{mtxrun} 的 \type{fonts} 脚本的一个 bug，希望日后能被修复。
+\noindent 查询结果中的 \type{fontname} 栏很重要，因为在排版时，通常要使用字体名字指代某个字体。\type{subfont} 栏表明 simsun.ttc 文件包含了两种字体，一种是 \type{simsun}（宋体），另一种是 \type{nsimsun}（新宋体）。
 
-查询 simsun.ttc 对应的字体名，可以使用以下命令：
+如果你依稀记得某个已安装到 \CONTEXT\ 中的字体的名字，可以使用上述字体查询命令的模糊查询形式获得字体信息。例如你只记得有个字体的名字含有 \type{sun}，可用以下命令进行查询：
 
 \starttyping
-$ mtxrun --script fonts --list --all simsun
-identifier       familyname   fontname   filename     subfont   instances
+$ mtxrun --script font --list -all --pattern=sun
+identifier       familyname   fontname   filename     subfont   ...
+nsimsun          nsimsun      nsimsun    simsun.ttc   2
 nsimsunnormal    nsimsun      nsimsun    simsun.ttc   2
 nsimsunregular   nsimsun      nsimsun    simsun.ttc   2
 simsun           simsun       simsun     simsun.ttc   1
@@ -54,7 +56,7 @@ simsunnormal     simsun       simsun     simsun.ttc   1
 simsunregular    simsun       simsun     simsun.ttc   1
 \stoptyping
 
-\noindent\type{subfont} 栏表明 simsun.ttc 里包含了两种字体，一种是 \type{simsun}（宋体），另一种是 \type{nsimsun}（新宋体）。此外，请对 \type{identifier} 和 \type{familyname} 栏略加留意，\in[define-family] 节需要这些信息。
+\noindent 请对上述命令输出信息 \type{identifier} 和 \type{familyname} 栏略加留意，因为 \in[define-family] 节需要这些信息。
 
 需要注意，上述过程安装的字体都是有版权的，倘若作商业用途，需要向开发这些字体的公司支付授权费用。本文档之所以选择使用它们，主要是为了兼容国内在文档字体选用上的积习。网络上能够找到 Google 公司开发的一系列免费的汉字字体，例如 Noto 系列，其安装方式可参考上述过程，无须赘述。此外，若安装扩展名为「\type{.otf}」的字体，即 OpenType 字体，建议将它们安装到 \type{$TEXROOT/texmf-local/fonts/opentype} 目录，若无该目录，可自行创建。
 

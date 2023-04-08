@@ -4,12 +4,7 @@
 
 \usecolors[svg]
 %\showgrid
-\setupinteraction[state=start,
-  focus=standard,
-  color=darkblue,
-  title={ConTeXt 蹊径},
-  author={李延瑞 (lyr.m2@live.cn)},
-  keyword={TeX, ConTeXt MkIV, ConTeXt LMTX, LuaTeX, LuaMetaTeX}]
+\setupinteraction[state=start,focus=standard,color=darkblue]
 % 书签
 \setupinteractionscreen[option=bookmark]
 \placebookmarks[title,chapter,section][chapter]
@@ -39,6 +34,7 @@
 \setuphead[subsubject,subsection][style=\bf,before={\blank},after={\blank}]
 \definehead[TOC][title]
 \setuphead[TOC][before={\blank[quarterline]},after={\blank[quarterline]}]
+
 % 目录列表
 \setupcombinedlist[content][list={title,chapter,section},criterium=text]
 \def\PageNumber#1{\underbars{#1}.}  % 给页码增加下划线
@@ -49,7 +45,7 @@
    after={\blank[halfline]},
    style=bold,
    pagecommand=\PageNumber,
-   pagestyle=smallbold,
+   pagestyle=smallitalic,
    width=fit]
 \def\ChapterNumber#1{\doiftext{#1}{第 #1 章\quad}}  % 若 #1 是存在，则将其中文化
 \setuplist
@@ -66,7 +62,7 @@
   [section]
   [alternative=d,
    style=normal,
-   numberstyle=bold, 
+   numberstyle=normal, 
    pagecommand=\PageNumber,
    pagestyle=smallitalic]
 
@@ -96,12 +92,6 @@
 \setupnote[footnote][textstyle=bold,setups={footnote:hanzi}]
 \setupnotation[footnote][way=bypage] % 来自 wolfgang 的 tip
 
-% 汉化
-\setuplabeltext[en][chapter={第 , 章\kern.5em}]
-\setuplabeltext[en][figure={图 }]
-\setuplabeltext[en][table={表 }]
-\setupheadtext[en][pubs={\bfc 参考文献}]
-\setupheadtext[en][content={\bfc 目录}]
 % 索引
 \def\cmdindex#1{\index[#1]{\type[escape=yes]{\/BTEX #1/ETEX}}}
 %---- 列表 ----

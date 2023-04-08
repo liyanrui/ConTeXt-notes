@@ -4,7 +4,7 @@
 
 \section{\BibTeX}
 
-大多数 \TeX\ 系统在排版参考文献时，皆需依赖 bibtex 程序。由 bibtex 基于文献数据文件生成参考文献列表信息，然后交由 \TeX\ 进行排版，这一过程通常是自动进行的，并不需要用户了解和干预。\ConTeXt\ 现在不需要依赖 bibtex 程序，它已自身内部实现了 bibtex 的全部功能。本文档在谈及 \BibTeX 时，主要指其文献数据格式。
+大多数 \TeX\ 系统在排版参考文献时，皆需依赖 bibtex 程序。由 bibtex 基于文献数据文件生成参考文献列表信息，然后交由 \TeX\ 进行排版，这一过程通常是自动进行的，并不需要用户了解和干预。\ConTeXt\ 现在不需要依赖 bibtex 程序，它已自身内部实现了 bibtex 的全部功能。本文档在谈及 \BibTeX\ 时，主要指其文献数据格式。
 
 \BibTeX\ 文献数据文件是纯文本文件，其中包含着论文、专著和手册等文献数据。例如，一篇期刊论文，其数据格式为
 
@@ -174,6 +174,28 @@ Knuth 发明了文学编程语言 WEB\cite[knuth-1984-literate]。
 \blank[line]
 \midaligned{\externalfigure[06/bibtex-example-04.pdf]}
 
+\section{廉价方案}
+
+倘若你仅仅是在写一份笔记或手册，若半个小时依然未能学会如何为 \ConTeXt\ 定义参考文献样式，我建议随便选一个 \ConTeXt\ 预定义的样式使用。待文章最终定稿后，手工用 \ConTeXt\ 列表将参考文献列表制作成你喜欢的样式，与创作正文内容相比，所费时间通常可忽略不计。例如
+
+\startsample
+\def\Cite[#1]{[\in[#1]]}
+著名废话学家李某人\Cite[limouren]说过，正经人谁会看参考文献啊！
+\startitemize[n,joinedup][left={[},right={]},stopper=]
+\item[limouren] 李某人．如何说正确的废话[J]．废话学报, 2023, 1(1): 1-10000．
+\stopitemize
+\stopsample
+\typesample
+\startblueframedtext
+\getsample
+\stopblueframedtext
+
 \section{小结}
 
-参考文献的样式，我总觉得是学术界拿来唬人的东西。写一篇论文，即使附上几十篇参考文献，用 \ConTeXt\ 列表进行排版，与写文章内容的所耗费的时间相比，完全可以忽略不计。然而在学术界，参考文献如何排版，却成了一门学问。倘若你半个小时依然未能学会如何为 \ConTeXt\ 定义参考文献样式，我建议随便选一个 \ConTeXt\ 预定义的样式使用。待文章最终定稿后，再手工用 \ConTeXt\ 列表将参考文献制作成你需要的样式。
+在学术界，参考文献如何排版，似乎是一门学问，不仅催生了 \BibTeX\ 数据格式以及五花八门的宏包和工具链，Hans Hagen 专门为 \ConTeXt\ 的参考文献功能写了一份约 100 页的手册：
+
+\starttyping
+$ mtxrun --script base --search mkiv-publications.pdf
+\stoptyping
+
+\noindent 我国甚至还为参考文献制定了标准。我总觉得，本可不必如此。

@@ -76,60 +76,71 @@ Knuth 基于文学编程\cite[knuth-1984-literate]技术开发了
 
 也许 \ConTeXt\ 提供的参考文献列表样式并不符合你的需求，因此你会忍不住想自己定义一种样式。对此，我的看法是，文献列表样式当由期刊编辑部或专著出版商负责定义，个人无需如此刻意。不过，倘若你正是此类机构工作人员，需要为 \ConTeXt\ 定义符合自己单位要求的文献样式，下文仅能为你提供一个简单的示例，希望对你有所帮助。
 
-现在，假设我们要定义一种名字叫作 foo 的文献列表样式。首先，需要按照 \ConTeXt\ 的文件命名约定，建立两份文件，一份是 publ-imp-foo.lua，一份是 publ-imp-foo.tex。
-
-在 publ-imp-foo.lua 里写入以下内容：
+现在，假设我们要定义一种名字叫作 foo 的文献列表样式。首先，按照 \ConTeXt\ 的文件命名约定，建立两份文件，一份是 publ-imp-foo.lua，一份是 publ-imp-foo.tex。在 publ-imp-foo.lua 里写入以下内容：
 
 \starttyping[option=LUA]
 local specification = {
-  name      = "foo",
-  categories = {},
+    name = "foo",
+    categories = {},
 }
 local categories = specification.categories
-categories.book = {
-  required = { "title" },
-  optional = {"author", "editor",
-              "year",
-              "edition", "series", "volume", "number",
-              "address", "publisher",
-  },
+categories.article = {
+    required = {"author"},
+    optional = {
+        "year",
+        "title", "journal", "volume", "number", "pages"
+    }
 }
 return specification
 \stoptyping
 
-\noindent 上述代码是 Lua 代码，定义了一个表。\ConTeXt\ 可通过该表明白 \BibTeX\ 文献数据里哪些信息是必须的，哪些信息是可选的。
+\noindent 上述代码是 Lua 代码，定义了一个表 \type{specification}，设定了期刊论文必要和可选元素。
 
 在 publ-imp-foo.tex 文件中写入以下内容
 
 \starttyping[option=TEX]
-\startbtxrenderingdefinitions[foo]
-\definebtx
-  [foo]
-  [default=default,specification=foo]
-
-\definebtxrendering
-  [foo]
-  [specification=foo,numbering=yes]
-\stopbtxrenderingdefinitions
+\definebtx[foo][specification=foo]
+\definebtxrendering[foo][specification=foo]
 \stoptyping
 
-\noindent 上述代码定义了 foo 环境及其默认样式。此外，\ConTeXt\ 实际上是通过上述代码获知你在 publ-imp-foo.lua 文件里定义的数据表。
+\noindent 上述代码定义了新的文献数据格式 \type{foo} 及其样式。注意，这两处定义皆需要让 \type{specification} 指向 publ-imp-foo.lua 文件中的名字为 \type{foo} 的 \type{specification} 表。
 
-下面在 publ-imp-foo.tex 文件为期刊论文定义文献列表样式：
+继而，为期刊论文设置文献列表样式，在 publ-imp-foo.tex 文件中添加以下内容：
 
 \starttyping[option=TEX]
 \startsetups btx:foo:list:article
-  \btxdoif {author} {
-    \color[blue]{\btxflush{author}}\btxperiod\btxspace
-  }
-  \btxdoifelse {title} {
-     \color[red]{\btxflush{title}}\btxperiod\btxspace
-  }{
-     No title\btxperiod\btxspace
-  }
+  \texdefinition{btx:foo:author}
+  \texdefinition{btx:foo:title}
+  \texdefinition{btx:foo:journal}
+  \btxperiod % 表示西文句号
+\stopsetups
+\stoptyping
+
+\noindent 上述代码定义了期刊论文的构成，并以西文句号作为每一项期刊论文数据的结尾标点。
+
+在 publ-imp-foo.tex 文件中添加期刊论文各元素的构成：
+
+\starttyping[option=TEX]
+\starttexdefinition btx:foo:author
+  \btxdoifelse{author}{\color[blue]{\btxflush{author}}}{No name}
+  \btxperiod\btxspace
+\stoptexdefinition
+\stoptyping
+
+\starttyping[option=TEX]
+\starttexdefinition btx:foo:title
+  \btxdoifelse{title}
+              {\color[red]{\btxflush{title}}\btxperiod\btxspace}
+              {No title}
+  \btxperiod\btxspace
+\stoptexdefinition
+\stoptyping
+
+\starttyping[option=TEX]
+\starttexdefinition btx:foo:journal
   \btxdoif {journal} {
     \color[magenta]{\btxflush{journal}}\btxcomma\btxspace
-    \btxflush{year}，\nospace
+    \btxflush{year},\nospace
     \btxdoifelse {volume} {
       \btxspace
       \btxflush{volume}
@@ -141,30 +152,24 @@ return specification
       }
     }{
       \btxdoif {number} {
-        \btxlabeltext{default:number}
-        \btxspace
-        \btxflush{number}
+        \btxlabeltext{default:number}\btxspace\btxflush{number}
       }
     }
-    \btxdoif {pages} {
-     \nospace\btxcolon\btxspace\btxflush{pages}
-    }
-    \btxperiod
+    \btxdoif {pages} {\nospace\btxcolon\btxspace\btxflush{pages}}
   }
-  \removeunwantedspaces
-\stopsetups
+\stoptexdefinition
 \stoptyping
 
-这是本文档截止至此最为复杂的 \TeX\ 代码，但是所表达的内容非常简单，仅仅是针对期刊论文设定文献列表应当出现作者、文章名称、期刊名称、时间、卷号、期号以及页码等信息。其中，\type{\btxflush} 命令可将 \ConTeXt\ 从 \BibTeX\ 数据格式中解析出的信息输出到排版结果中；\type{\btxcomma}，\type{\btxperiod} 之类的命令皆为西文逗号，句号等标点符号；\type{\btxspace} 是西文空格；\type{\btxdoif} 之类的命令是判断 \ConTeXt\ 对 \BibTeX\ 数据格式的解析结果中是否包含某项。
+\noindent 上述代码看似复杂，但逻辑较为简单，其中 \type{\btxdoif} 和 \type{btxdoifelse} 用于判断 \ConTeXt\ 对 \BibTeX\ 数据格式的解析结果中是否包含某项并作相应处理，亦即 \CONTEXT\ 的参考文献功能在一定程度上具备可编程特性。\type{\btxflush} 可将 \ConTeXt\ 从 \BibTeX\ 数据格式中解析出的信息输出到排版结果中。\type{\btxcomma} 为西文逗号，\type{\btxspace} 为西文空格。\type{\ignorespaces} 用于忽略空格。\type{\btxleftparenthesis} 和 \type{\btxrightparenthesis} 分别为「\type{(}」和「\type{)}」。
 
-在 publ-imp-foo.lua 和 publ-imp-foo.tex 文件同一目录下，建立测试文件，例如 foo.tex，其内容为
+在 publ-imp-foo.lua 和 publ-imp-foo.tex 文件所在目录下，建立测试文件 foo.tex，其内容为
 
 \starttyping[option=TEX]
 \usebtxdataset[foo.bib] % 加载 foo.bib
 \starttext
 Knuth 发明了文学编程语言 WEB\cite[knuth-1984-literate]。
 \blank
-\usebtxdefinitions[foo]
+\usebtxdefinitions[foo] % 使用上文定义的参考文献列表样式 foo
 \placelistofpublications
 \stoptext
 \stoptyping

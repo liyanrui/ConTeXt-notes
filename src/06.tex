@@ -51,9 +51,9 @@ Knuth 基于文学编程\cite[knuth-1984-literate]技术开发了
 \midaligned{\externalfigure[06/bibtex-example-01.pdf]}
 \blank[line]
 
-\section{文献列表样式}
+\section{文献样式}
 
-上一节示例中的文献列表是 \ConTeXt\ 默认样式，除此之外，还有其他三种预定义的文献列表样式：apa，aps 和 chicago，可在 \type{\placelistofpublications} 之前使用 \type{\usebtxdefinitions} 进行切换。例如使用 aps 样式，
+上一节示例中的文献样式是 \ConTeXt\ 默认样式，除此之外，还有其他三种预定义的文献样式：apa，aps 和 chicago，可在 \type{\placelistofpublications} 之前使用 \type{\usebtxdefinitions} 进行切换。例如使用 aps 样式，
 
 \starttyping[option=TEX]
 ... ... ...
@@ -74,7 +74,7 @@ Knuth 基于文学编程\cite[knuth-1984-literate]技术开发了
 
 \section{自定义文献列表样式}
 
-也许 \ConTeXt\ 提供的参考文献列表样式并不符合你的需求，因此你会忍不住想自己定义一种样式。对此，我的看法是，文献列表样式当由期刊编辑部或专著出版商负责定义，个人无需如此刻意。不过，倘若你正是此类机构工作人员，需要为 \ConTeXt\ 定义符合自己单位要求的文献样式，下文仅能为你提供一个简单的示例，希望对你有所帮助。
+也许 \ConTeXt\ 提供的参考文献列表样式并不符合你的需求，因此你会忍不住想自己定义一种样式。我的看法是，文献列表样式当由期刊编辑部或专著出版商负责定义，个人无需如此刻意。不过，倘若你正是此类机构工作人员，需要为 \ConTeXt\ 定义符合自己单位要求的文献样式，下文仅能为你提供一个简单的示例，希望有所帮助。
 
 现在，假设我们要定义一种名字叫作 foo 的文献列表样式。首先，按照 \ConTeXt\ 的文件命名约定，建立两份文件，一份是 publ-imp-foo.lua，一份是 publ-imp-foo.tex。在 publ-imp-foo.lua 里写入以下内容：
 
@@ -87,8 +87,7 @@ local categories = specification.categories
 categories.article = {
     required = {"author"},
     optional = {
-        "year",
-        "title", "journal", "volume", "number", "pages"
+        "title", "journal", "year", "volume", "number", "pages"
     }
 }
 return specification
@@ -99,73 +98,112 @@ return specification
 在 publ-imp-foo.tex 文件中写入以下内容
 
 \starttyping[option=TEX]
-\definebtx[foo]
-\definebtxrendering[foo]
+\definebtx[foo][specification=foo]
+\definebtxrendering[foo][specification=foo]
 \stoptyping
 
-\noindent 上述代码定义了命名空间为 \type{foo} 的新的文献数据格式及其样式 \type{foo}。
+\noindent 上述代码定义了两个命名空间，第一个用于定义文献的内容结构，第二个用于定义文献的排版样式，它们的文献规格皆为 publ-imp-foo.lua 中定义的名字为 \type{foo} 的表 \type{specification}。这两个命名空间的上层命名空间皆为 \type{btx}，而且它们默认会继承 ConTeXt 默认的参考文献内容结构和排版样式的各层子命名空间，亦即我们无需再定义诸如 \type{btx:foo:list}，\type{btx:foo:article} 等子命名空间。由于 ConTeXt 参考文献手册中并未对此细致介绍（或者我没有注意到），故而这些内容皆为我的猜测，若有谬误，敬请斧正。
 
-继而，为期刊论文设置文献列表样式，在 publ-imp-foo.tex 文件中添加以下内容：
+倘若并不清楚自定义的命名空间继承了 ConTeXt 默认的命名空间里的哪些子空间，亦可根据自己需要定义一些子空间。例如，为命名空间 \type{foo} 定义子命名空间 \type{list} 和 \type{list:article}：
+
+\starttyping[option=TEX]
+\definebtx[foo:list][foo]
+\definebtx[foo:list:article][foo:list]
+\stoptyping
+
+现在，为期刊论文设置文献列表样式，在 publ-imp-foo.tex 文件中添加以下内容：
 
 \starttyping[option=TEX]
 \startsetups btx:foo:list:article
-  \texdefinition{btx:foo:author}
-  \texdefinition{btx:foo:title}
-  \texdefinition{btx:foo:journal}
-  \btxperiod % 表示西文句号
+  % \btxcomma，\btxperiod，\btxcolon，\btxspace
+  % 分别为西文的逗号，句号，冒号和空格，用宏是为了醒目。
+  \texdefinition{btx:foo:list:author}\btxperiod\btxspace
+  \texdefinition{btx:foo:list:title}\btxperiod\btxspace
+  \texdefinition{btx:foo:list:journal}[J]\btxcomma\btxspace
+  \texdefinition{btx:foo:list:year}\btxcomma\btxspace
+  \texdefinition{btx:foo:list:volume}
+  \texdefinition{btx:foo:list:number}\btxcolon\btxspace
+  \texdefinition{btx:foo:list:pages}\btxperiod
 \stopsetups
 \stoptyping
 
-\noindent 上述代码定义了期刊论文的构成，并以西文句号作为每一项期刊论文数据的结尾标点。
-
-在 publ-imp-foo.tex 文件中添加期刊论文各元素的构成：
+\noindent 上述代码定义了期刊论文的构成，其中 \type{\btxcomma}，\type{\btxperiod}，\type{\btxcolon}，\type{\btxspace} 分别为西文的逗号，句号，冒号和空格，用宏是为了醒目。倘若需要使用中文标点，亦可自行定义，例如：
 
 \starttyping[option=TEX]
-\starttexdefinition btx:foo:author
-  \btxdoifelse{author}{\color[blue]{\btxflush{author}}}{No name}
-  \btxperiod\btxspace
+\def\btxchinesecomma{，}
+\def\btxchineseperiod{．}
+\def\btxchinesecolon{：}
+\stoptyping
+
+在 publ-imp-foo.tex 文件中添加期刊论文各元素的样式定义：
+
+\starttyping[option=TEX]
+\starttexdefinition btx:foo:list:author
+  \color[blue]{\btxflush{author}}
 \stoptexdefinition
 \stoptyping
 
 \starttyping[option=TEX]
-\starttexdefinition btx:foo:title
-  \btxdoifelse{title}
-              {\color[red]{\btxflush{title}}\btxperiod\btxspace}
-              {No title}
-  \btxperiod\btxspace
+\starttexdefinition btx:foo:list:title
+  \color[red]{\btxflush{title}}
 \stoptexdefinition
 \stoptyping
 
 \starttyping[option=TEX]
-\starttexdefinition btx:foo:journal
-  \btxdoif {journal} {
-    \color[magenta]{\btxflush{journal}}\btxcomma\btxspace
-    \btxflush{year},\nospace
-    \btxdoifelse {volume} {
-      \btxspace
-      \btxflush{volume}
-      \btxdoif {number} {
-        \ignorespaces
-        \btxleftparenthesis
-        \btxflush{number}
-        \btxrightparenthesis
-      }
-    }{
-      \btxdoif {number} {
-        \btxlabeltext{default:number}\btxspace\btxflush{number}
-      }
-    }
-    \btxdoif {pages} {\nospace\btxcolon\btxspace\btxflush{pages}}
-  }
+\starttexdefinition btx:foo:list:journal
+    \color[magenta]{\btxflush{journal}}
 \stoptexdefinition
 \stoptyping
 
-\noindent 上述代码看似复杂，但逻辑较为简单，其中 \type{\btxdoif} 和 \type{btxdoifelse} 用于判断 \ConTeXt\ 对 \BibTeX\ 数据格式的解析结果中是否包含某项并作相应处理，亦即 \CONTEXT\ 的参考文献功能在一定程度上具备可编程特性。\type{\btxflush} 可将 \ConTeXt\ 从 \BibTeX\ 数据格式中解析出的信息输出到排版结果中。\type{\btxcomma} 为西文逗号，\type{\btxspace} 为西文空格。\type{\ignorespaces} 用于忽略空格。\type{\btxleftparenthesis} 和 \type{\btxrightparenthesis} 分别为「\type{(}」和「\type{)}」。
-
-在 publ-imp-foo.lua 和 publ-imp-foo.tex 文件所在目录下，建立测试文件 foo.tex，其内容为
+\starttyping[option=TEX]
+\starttexdefinition btx:foo:list:year
+    \btxflush{year}
+\stoptexdefinition
+\stoptyping
 
 \starttyping[option=TEX]
-\usebtxdataset[foo.bib] % 加载 foo.bib
+\starttexdefinition btx:foo:list:volume
+    \btxflush{volume}
+\stoptexdefinition
+\stoptyping
+
+\starttyping[option=TEX]
+\starttexdefinition btx:foo:list:number
+  \ignorespaces  % 忽略空白字符
+  \btxleftparenthesis  % 左括号 (
+  \btxflush{number}
+  \btxrightparenthesis  % 右括号 )
+\stoptexdefinition
+\stoptyping
+
+\starttyping[option=TEX]
+\starttexdefinition btx:foo:list:pages
+  \btxflush{pages}
+\stoptexdefinition
+\stoptyping
+
+倘若需要调整参考文献列表序号到列表内容之间的距离，并为序号套上方括号，可在 publ-imp-foo.tex 文件中增加以下设定：
+
+\starttyping[option=TEX]
+\setupbtxlist[foo][width=auto,distance=1em,startter={[},stopper={]}]
+\stoptyping
+
+如果对西方作者的姓名有一些要求，譬如姓氏在前，名字在后且简写，可在　publ-imp-foo.tex 文件中作以下设定：
+
+\starttyping[option=TEX]
+\definebtx[foo:list:author][foo:list]
+\setupbtx
+  [foo:list:author]
+  [authorconversion=invertedshort,
+   separator:invertedinitials=\btxspace,  % 将名字之后默认的逗号替换为空格
+   stopper:initials=\btxspace  % 将简写的名字之后后默认的句点替换为空格
+  ]
+\stoptyping
+
+最后，在 publ-imp-foo.lua 和 publ-imp-foo.tex 文件所在目录下，建立测试文件 foo.tex 用于验证上述定义参考文献类表样式 foo 是否可用：
+
+\starttyping[option=TEX]
+\usebtxdataset[foo] % 加载 foo.bib
 \starttext
 Knuth 发明了文学编程语言 WEB\cite[knuth-1984-literate]。
 \blank
@@ -174,7 +212,7 @@ Knuth 发明了文学编程语言 WEB\cite[knuth-1984-literate]。
 \stoptext
 \stoptyping
 
-用于验证上述定义参考文献类表样式 foo 是否可用。结果为
+\noindent 结果为
 
 \blank[line]
 \midaligned{\externalfigure[06/bibtex-example-04.pdf]}
@@ -203,4 +241,4 @@ Hans Hagen 为 \ConTeXt\ 对参考文献的支持专门写了一份约 100 页�
 $ mtxrun --script base --search mkiv-publications.pdf
 \stoptyping
 
-\noindent 若有兴致，不妨一睹。
+\noindent 若有兴致，不妨一睹，特别是在不理解本文自定义文献样式所用的各命令及其参数的含义时，可从该手册获得更多的理解。

@@ -1,0 +1,9 @@
+\usemodule[zhfonts]
+\usebtxdataset[foo.bib] % 加载 foo.bib
+\loadbtxdefinitionfile[foo]
+\setupbtx[specification=foo]
+\startTEXpage[offset=4pt,frame=on]
+Knuth 发明了文学编程语言 WEB\cite[knuth-1984-literate]。
+\blank
+\placelistofpublications
+\stopTEXpage

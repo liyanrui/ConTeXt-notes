@@ -94,16 +94,16 @@ categories.article = {
 return specification
 \stoptyping
 
-\noindent 上述代码是 Lua 代码，定义了一个表 \type{specification}，设定了期刊论文必要和可选元素。
+\noindent 上述代码是 Lua 代码，定义了一个表 \type{specification}，设定了期刊论文必需和可选元素。事实上，对于定义新的参考文献样式而言，Lua 文件并非必须，只是倘若没有它，BibTeX 数据文件的所有字段皆为可选，而无必需了。
 
 在 publ-imp-foo.tex 文件中写入以下内容
 
 \starttyping[option=TEX]
-\definebtx[foo][specification=foo]
-\definebtxrendering[foo][specification=foo]
+\definebtx[foo]
+\definebtxrendering[foo]
 \stoptyping
 
-\noindent 上述代码定义了新的文献数据格式 \type{foo} 及其样式。注意，这两处定义皆需要让 \type{specification} 指向 publ-imp-foo.lua 文件中的名字为 \type{foo} 的 \type{specification} 表。
+\noindent 上述代码定义了命名空间为 \type{foo} 的新的文献数据格式及其样式 \type{foo}。
 
 继而，为期刊论文设置文献列表样式，在 publ-imp-foo.tex 文件中添加以下内容：
 

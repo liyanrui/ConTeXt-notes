@@ -1,0 +1,89 @@
+% \definebtxrendering[gb] % 没有这行似乎也不会出问题
+\definebtxrendering[gb:list][gb]
+
+\setupbtxlist
+  [gb]
+  [width=auto, % 注意 width 是列表项序号所占宽度，并非列表项宽度
+    distance=1em,
+    align={normal,verytolerant,stretch},
+    before={\blank[quarterline]},
+    after={\blank[quarterline]}] 
+\definebtx[gb:list:numbering:num][left={[\kern1pt},right={\kern1pt]}]
+\setupbtxrendering[gb][separator={\hfill\break}]
+
+\definebtx[gb:list:author][gb:list]
+\setupbtx
+  [gb:list:author]
+  [authorconversion=invertedshort,
+   separator:invertedinitials=\btxspace,
+   stopper:initials=,
+   separator:names:2={\btxchinesecomma},
+   separator:names:3={\btxchinesecomma},
+   separator:names:4={\btxchinesecomma}]
+
+\def\btxchinesecomma{，}
+\def\btxchineseperiod{．}
+\def\btxchinesesemicolon{：}
+
+\startsetups btx:gb:list:article
+  \texdefinition{btx:gb:list:author}
+  \texdefinition{btx:gb:list:title}\btxchineseperiod
+  \texdefinition{btx:gb:list:journal}
+  \texdefinition{btx:gb:list:year}\btxchinesecomma
+  \texdefinition{btx:gb:list:volume}
+  \texdefinition{btx:gb:list:number}
+  \texdefinition{btx:gb:list:pages}
+  \btxchineseperiod
+\stopsetups
+
+\startsetups btx:gb:list:online
+  \texdefinition{btx:gb:list:title}\btxchineseperiod
+  \texdefinition{btx:gb:list:url}
+  \btxchineseperiod
+\stopsetups
+
+\starttexdefinition btx:gb:list:author
+  \btxdoif{language}{
+    \doifelse{\btxfield{language}}{Chinese}
+         {\setupbtx
+           [gb:list:author]
+           [otherstext={\btxchinesecomma 等}]
+         }{\setupbtx
+           [gb:list:author]
+           [otherstext={\btxchinesecomma et al}]
+         }
+  }
+  \btxflush{author}
+  \btxchineseperiod
+\stoptexdefinition
+
+\starttexdefinition btx:gb:list:title
+  \btxflush{title}
+\stoptexdefinition
+
+\starttexdefinition btx:gb:list:journal
+  \btxflush{journal}
+  \btxchinesecomma
+\stoptexdefinition
+
+\starttexdefinition btx:gb:list:year
+  \btxflush{year}
+\stoptexdefinition
+
+\starttexdefinition btx:gb:list:volume
+  \btxflush{volume}
+\stoptexdefinition
+
+\starttexdefinition btx:gb:list:number
+  % \nospace 用于消除多于的空白字符
+  % \btx{left/right}parenthesis 英文括号 ()
+  \nospace\btxleftparenthesis\btxflush{number}\btxrightparenthesis\nospace
+\stoptexdefinition
+
+\starttexdefinition btx:gb:list:pages
+  \btxchinesesemicolon\btxflush{pages}
+\stoptexdefinition
+
+\starttexdefinition btx:gb:list:url
+  「\underbar{\goto{\tt\hyphenatedurl{\btxflush{url}}}[url(\btxflush{url})]}」
+\stoptexdefinition

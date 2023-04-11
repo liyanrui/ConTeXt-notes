@@ -16,7 +16,7 @@
   [gb:list:author]
   [authorconversion=invertedshort,
    separator:invertedinitials=\btxspace,
-   stopper:initials=,
+   stopper:initials=\btxspace,
    separator:names:2={\btxchinesecomma},
    separator:names:3={\btxchinesecomma},
    separator:names:4={\btxchinesecomma}]
@@ -27,7 +27,7 @@
 
 \startsetups btx:gb:list:article
   \texdefinition{btx:gb:list:author}
-  \texdefinition{btx:gb:list:title}\btxchineseperiod
+  \texdefinition{btx:gb:list:title}[J]\btxchineseperiod
   \texdefinition{btx:gb:list:journal}
   \texdefinition{btx:gb:list:year}\btxchinesecomma
   \texdefinition{btx:gb:list:volume}
@@ -37,8 +37,10 @@
 \stopsetups
 
 \startsetups btx:gb:list:online
-  \texdefinition{btx:gb:list:title}\btxchineseperiod
-  \texdefinition{btx:gb:list:url}
+  \texdefinition{btx:gb:list:author}
+  \texdefinition{btx:gb:list:title}[EB/OL]\btxchineseperiod
+  \texdefinition{btx:gb:list:url}\btxchinesecomma
+  \texdefinition{btx:gb:list:year}
   \btxchineseperiod
 \stopsetups
 
@@ -54,7 +56,7 @@
          }
   }
   \btxflush{author}
-  \btxchineseperiod
+  \nospace\btxchineseperiod
 \stoptexdefinition
 
 \starttexdefinition btx:gb:list:title

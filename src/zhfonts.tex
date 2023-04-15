@@ -8,8 +8,12 @@
 
 \starttyping[option=TEX]
 \definefallbackfamily
-  [foo][rm][latinmodernroman][range={0x0000-0x0400},force=yes]
-\definefontfamily[myfonts][rm][nsimsun][bf=simhei,it=kaiti,bi=simhei]
+  [foo][rm]
+  [latinmodernroman]
+  [range={0x0000-0x0400},force=yes]
+\definefontfamily
+  [myfonts][rm][nsimsun]
+  [bf=simhei,it=kaiti,bi=simhei]
 \setscript[hanzi]
 \setupbodyfont[foo,12pt]
 \setuppapersize[S4]
@@ -19,9 +23,7 @@
 小知不及大知，小年不及大年 [... 省略很多字 ...] 此小大之辩也。
 \stoptext
 \stoptyping
-\noindent 对应的排版结果如图 \in[none-zhfonts] 所示。
-
-若使用 zhfonts 模块，则上述示例可改写为
+\noindent 对应的排版结果如图 \in[none-zhfonts] 所示。若使用 zhfonts 模块，则上述示例可改写为
 
 \starttyping[option=TEX]
 \usemodule[zhfonts][size=12pt]
@@ -32,14 +34,12 @@
 小知不及大知，小年不及大年 [... 省略很多字 ...] 此小大之辩也。
 \stoptext
 \stoptyping
-\noindent 对应的排版结果如图 \in[zhfonts] 所示。
-
-若认真对比图 \in[none-zhfonts] 和图 \in[zhfonts] 中的标点符号的排版结果，则不难发现 zhfonts 模块解决的问题是标点间距微调。
+\noindent 对应的排版结果如图 \in[fig:zhfonts] 所示。认真对比图 \in[none-zhfonts] 和图 \in[fig:zhfonts] 中的标点符号的排版结果，则不难发现 zhfonts 模块解决的问题是标点间距微调。
 
 \placefigure[here][none-zhfonts]{未使用 zhfonts 的中文标点排版效果}{%
   \clip[width=\textwidth,height=5cm,voffset=1.8cm]{%
     \externalfigure[zhfonts/none-zhfonts.pdf][width=\textwidth]}}
-\placefigure[here][zhfonts]{使用 zhfonts 的中文标点排版结果}{%
+\placefigure[here][fig:zhfonts]{使用 zhfonts 的中文标点排版结果}{%
   \clip[width=\textwidth,height=4.25cm,voffset=1.8cm]{%
     \externalfigure[zhfonts/zhfonts.pdf][width=\textwidth]}}
 
@@ -52,7 +52,7 @@
 \starttyping
 $TEXROOT/texmf-local/tex/context/third
 \stoptyping
-\noindent 若无该目录\footnote{\type{$TEXROOT} 的含义详见 \in[fonts-installation] 节。}，可自行创建。
+\noindent 若无该目录，可自行创建。至于 \type{$TEXROOT} 的含义，详见 \in[fonts-installation] 节。
 
 然后执行以下命令刷新 \CONTEXT\ 文件系统，
 
@@ -62,9 +62,18 @@ $ context --generate
 
 \noindent 以使 \CONTEXT\ 能够通过 \type{\usemodule[zhfonts]} 搜索并加载 zhfonts 模块的相关文件。
 
-zhfonts 模块默认使用 simsun.ttc，simhei.ttf，simkai.ttf 这三款汉字字体——想必你早已按照 \in[fonts-installation] 节的介绍安装了它们——，西文字体默认使用随 \CONTEXT\ 发行的 Latin Modern 系列字体。
+如果你的系统中装有 git，可在 \bluebox{\type{$TEXROOT/texmf-local/tex/context/third}} 目录执行以下命令安装 zhfonts模块：
+
+\starttyping
+$ git clone https://github.com/liyanrui/zhfonts.git
+$ context --generate
+\stoptyping
+
+\noindent 日后若要更新 zhfonts，只需将上述的 \bluebox{\type{git clone ...}} 换成 \bluebox{\type{git pull}}。
 
 \section{基本用法}
+
+zhfonts 模块默认使用 simsun.ttc，simhei.ttf，simkai.ttf 这三款汉字字体——想必你早已按照 \in[fonts-installation] 节的介绍安装了它们——，西文字体则使用随 \CONTEXT\ 发行的 Latin Modern 系列字体。
 
 zhfonts 默认使用 11 pt 正体字（宋体 + Latin Modern Serif）作为正文字体：
 
@@ -92,10 +101,7 @@ zhfonts 默认使用 11 pt 正体字（宋体 + Latin Modern Serif）作为正�
 使用 \type{\setupzhfonts} 可替换 zhfonts 默认的中文和西文字体。例如，将默认的汉字的衬线字族的粗体更换为 NotoSerifCJK-Bold.ttc\footnote{Google 开发的 Noto 字体中的一款，需要你去网络上搜索获取并按照 \in[fonts-installation] 节所介绍的方式予以安装。}：
 
 \starttyping[option=TEX]
-\setupzhfonts
-  [serif]
-  [bold=notoserifcjkscbold,
-   bolditalic=notoserifcjkscbold]
+\setupzhfonts[serif][bold=notoserifcjkscbold,bolditalic=notoserifcjkscbold]
 \stoptyping
 
 亦可将默认的汉字字族全部替换为其他字体，例如替换衬线字族：

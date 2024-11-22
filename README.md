@@ -1,8 +1,8 @@
-This is an introductory tutorial on ConTeXt in Chinese written by Li Yanrui.
+This is a tutorial on the usage of ConTeXt written in Chinese by Li Yanrui.
 
-This tutorial is completely rewritten fourteen years later after its predecessor was released. Now it comprehensively introduces how to use ConTeXt (>= MkIV) to typeset Simplified Chinese documents, mainly including the installation of ConTeXt LMTX, how to use Chinese fonts, and how to typeset lists, references, figures, tables, verbatim text and framed text. Furthermore, it is described how to use the MetaPost language for drawing in ConTeXt. Finally, how to make slides and books is introduced.
+The previous version of this tutorial was released fourteen years ago, and this current version is a complete rewrite. It comprehensively introduces how to use ConTeXt (>= MkIV) for typesetting simplified Chinese documents. The content covers the installation of ConTeXt LMTX, how to use Chinese fonts, how to typeset basic elements such as lists, citations, figures, source code, and text frames, and further introduces how to use the MetaPost language to draw illustrations. Finally, it covers how to create slides and typeset books.
 
-This package is licensed in GPL v3 (The GNU General Public License v3.0). The document ctxnotes.pdf is licensed in GFDL (The GNU Free Documentation License).
+The document ctxnotes.pdf is licensed in GFDL (The GNU Free Documentation License). Its source documents are licensed in GPL v3 (The GNU General Public License v3.0). 
 
 If you are interested in the process of development you may observe https://github.com/liyanrui/ConTeXt-notes
 

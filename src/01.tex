@@ -193,6 +193,8 @@ D:\context-win64
 > d:
 > cd context
 > install.bat
+> setpath.bat
+> mtxrun --generate
 \stoptyping
 
 \noindent 批处理文件 install.bat 能够自动从网络上下载 \ConTeXt\ LMTX 的所有文件，并将其安装在 \type{D:\context} 目录。安装时长取决于网络下载速度。由于服务器在境外，文件下载速度缓慢，可能需要很久方能安装完毕。当安装过程结束后，目前需要再次执行 install.bat，将 \ConTeXt\ LMTX 更新到最新版本。这些都是 \bluebox{\from[installation]} 未告诉我们的。此外，即使安装过程中断，再次运行 install.bat 可继续安装，而不会导致前功尽弃。
@@ -200,7 +202,6 @@ D:\context-win64
 验证 \ConTeXt\ LMTX 是否安装成功的方法是，在 \type{D:\context} 目录中执行以下命令：
 
 \starttyping
-> setpath.bat
 > md test
 > cd test
 > echo \startTEXpage[frame=on,offset=1pt] > foo.tex

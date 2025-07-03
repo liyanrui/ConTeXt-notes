@@ -218,7 +218,7 @@ Math in display mode:
 \stopsample
 \sample[option=TEX][fontsize-level]{字体大小的 7 种级别}{\externalfigure[03/fontsize-level.pdf]}
 
-此外，还需要注意的是，尺寸单位 em 的含义。之前我对它给出解释是字母 \type{M} 宽度，恰好等于 1 个汉字的宽度，这是针对当前所的字体环境而言的。例如，在示例 \in[em-1] 和 \in[em-2] 中，段落首行缩进设定命令出现的位置不同，导致段落缩进距离产生了差异。这是因为，在示例 \in[em-1] 中，设定段落首行缩进时，em 的值是基于 \ConTeXt\ 默认的正文字体尺寸确定的，其值为 12 pt，而在 示例 \in[em-1] 中，em 的值是基于我们自定义的字体 \type{\songti} 的尺寸确定的，其值为 9 pt。
+此外，还需要注意的是，尺寸单位 em 的含义。之前我对它给出解释是字母 \type{M} 宽度，恰好等于 1 个汉字的宽度，这是针对当前所的字体环境而言的。例如，在示例 \in[em-1] 和 \in[em-2] 中，段落首行缩进设定命令出现的位置不同，导致段落缩进距离产生了差异。这是因为，在示例 \in[em-1] 中，设定段落首行缩进时，em 的值是基于 \ConTeXt\ 默认的正文字体尺寸确定的，其值为 12 pt，故而缩进为 24 pt，而在 示例 \in[em-1] 中，我们自定义的字体 \type{\songti} 其尺寸为 9 pt。
 
 \startsample
 \setscript[hanzi]

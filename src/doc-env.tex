@@ -135,12 +135,10 @@ path p;
 numeric s;
 w := \overlaywidth; h := \overlayheight;
 p := (0, 0) -- (0, h) -- (w, h) -- (w, 0) -- cycle;
-pickup pencircle scaled 2pt;
-s := .1 * h;
-if s < 2mm:
-  s := 2mm;
-fi
-draw p randomized s withcolor \MPcolor{lightsteelblue};
+pickup pencircle scaled 1pt;
+s := .1h;
+if s < 1mm: s := 1mm; fi
+draw p randomized s withcolor \MPcolor{darkgray};
 \stopuniqueMPgraphic
 \defineoverlay[blue box2][\uniqueMPgraphic{blue box2}]
 \def\bluebox#1{%

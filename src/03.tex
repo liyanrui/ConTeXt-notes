@@ -4,13 +4,17 @@
 
 \section[fonts-installation]{安装字体}
 
-首先，需要找到一款汉字字体文件，否则只有学仓颉，自己造字。倘若你或你的朋友的计算机中装有 Windows 系统，可从如图 \in[msfonts] 所示的 \type{C:\Windows\Fonts} 目录下获得宋体（simsun.ttc）、黑体（simhei.ttf）和楷体（simkai.ttf）等字体文件。有了它们，足以胜任常规的排版工作。
+首先，需要找到一款汉字字体文件，否则只有学仓颉，自己造字。
+
+倘若你或你的朋友的计算机中装有 Windows 系统，可从如图 \in[msfonts] 所示的 \type{C:\Windows\Fonts} 目录下获得宋体（simsun.ttc）、黑体（simhei.ttf）和楷体（simkai.ttf）等字体文件。有了它们，足以胜任常规的排版工作。
 
 \placefigure
   [here,force]
   [msfonts]
   {\type{C:\Windows\Fonts}}
   {\externalfigure[03/msfonts.png][width=.6\textwidth]}
+
+需要注意的是，我只是以这几个中文字体为例，讲解如何为 \ConTeXt\ 安装中文字体，并不意味着你只能用这些字体。实际上，在 Linux 系统里，用这些字体，是侵权的。
 
 在开始安装字体之前，需要给出一个术语，\TeX\ 根目录。以 Windows 系统为例，若 \ConTeXt\ 安装在 \type{D:\context} 目录，则该目录中的子目录和文件当如图 \in[tex-root] 所示。在这种情况下，\type{D:\context\tex} 目录即为 \TeX\ 根目录。同理，对于 Linux 和 macOS 系统，若 \ConTeXt\ 安装在 \type{$HOME/context} 目录，则 \type{$HOME/context/tex} 为 \TeX\ 根目录。
 
@@ -314,7 +318,7 @@ Math in display mode:
 
 \section{小结}
 
-当你读到此处，我想悄悄告诉你，\ConTeXt\ 里最难的知识，你已基本掌握。现在，你完全可以在新手村的春天里扬眉吐气了。
+当你读到此处，我想悄悄告诉你，\ConTeXt\ 里最难的知识，你已基本掌握。现在，你完全可以在新手村的春天里扬眉吐气了。不过，此时，也许你有必要阅读本文档的第 \in[zhfonts] 章。
 
 这部分知识有多难呢，难到 Hans Hagen 需要为之撰写一本长达 228 页的手册，若有兴趣，不妨拜读。我可以很诚实地说，该手册我只读过寥寥数页。由于你已经安装了 \ConTeXt，这份手册就在你的 \ConTeXt\ 环境里，执行以下命令可以找到它：
 
@@ -322,6 +326,6 @@ Math in display mode:
 $ mtxrun --script base --find-file fonts-mkiv.pdf
 \stoptyping
 
-\noindent 若你能读懂这份手册，则本文档的第 \in[zhfonts] 章则不必看了，而且我还需要你指点一些在我心里徘徊已久的迷津。另外，请顺便浏览一番这份手册所在的目录里的其他 PDF 文件吧。
+\noindent 如果你能读懂这份手册，我可能需要你指点一些在我心里徘徊已久的迷津。此外，请顺便浏览一番这份手册所在的目录里的其他 PDF 文件吧。
 
 

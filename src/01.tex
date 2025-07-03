@@ -1,14 +1,14 @@
-\chapter[Installation]{不怕命令行 }
+\chapter[Installation]{不怕命令行}
 
-无论是安装还是使用 \ConTeXt，皆需要对命令行环境有所了解。原本未有介绍这方面知识的计划，但是考虑到我正在写一份世上最好的 \ConTeXt\ 入门文档，便有了些许动力。本章先分别介绍 Windows、Linux 和 macOS 系统的命令行环境的基本用法，以刚好满足安装和运行 \ConTeXt\ 的需求为要。倘若对命令行环境已颇为熟悉，可直接阅读 \in[installation] 和 \in[ctx-in-texlive] 节。
+无论是安装还是使用 \ConTeXt，皆需要对命令行环境有所了解。原本未有介绍这方面知识的计划，但是考虑到我正在写一份世上最好的 \ConTeXt\ 入门文档，便有了些许动力。本章先分别介绍 Windows、Linux 和 macOS 系统的命令行环境的基本用法，以刚好满足安装和运行 \ConTeXt\ 的需求为要。若你对命令行环境已颇为熟悉，可直接阅读 \in[installation] 和 \in[ctx-in-texlive] 节。
 
 \section{任务}
 
-使用命令行环境，在文件系统中，创建一个名为 foo 的目录，在该目录内创建一份 Shell 脚本，令其可在命令行窗口中输出「不怕命令行」，执行该脚本，查看其输出。
+使用命令行环境，在文件系统中，创建 foo 目录，并在该目录内创建一份 Shell 脚本，令其可在命令行窗口中输出「不怕命令行」。
 
 \section{Windows 命令行}
 
-Windows 用户似乎畏惧甚至厌憎命令行环境，甚至很多人认为命令行环境是早已被淘汰的上个世纪的产物，因此要教会他们如何使用命令行环境，通常会有些麻烦，我当勉力为之。
+Windows 用户似乎畏惧甚至厌憎命令行环境，甚至很多人认为命令行环境是早已被淘汰的上个世纪的产物，因此要教会他们如何使用命令行环境，通常会有些麻烦，我勉力为之。
 
 在 Windows 系统中打开一个命令行窗口，有很多种方法，其中最快的应当是使用如图 \in[win-r] 所示快捷键「Win + R」，打开「运行」对话框，在其中输入「cmd」后点击「确定」按钮或单击「Enter」键，即可打开与图 \in[cmd-window] 类似的命令行窗口。
 
@@ -23,7 +23,7 @@ Windows 用户似乎畏惧甚至厌憎命令行环境，甚至很多人认为命
 \stopfloatcombination
 \stopplacefigure
 
-所有要执行的命令皆是在「\type{>}」符号后输入，因而该符号名曰「命令提示符」。命令提示符左侧的内容是一个文件目录，名曰「当前目录」或「工作目录」。在命令行环境里，任何命令皆是在某个目录中执行的。在开始尝试输入命令之前，请将输入法切换为英文输入状态。
+所有要执行的命令皆在「\type{>}」符号后输入，故而该符号叫作「命令提示符」。在命令行环境里，任何命令皆是在某个目录中执行的。命令提示符左侧的内容是一个文件目录，它是我们当前所在当前目录或工作目录。在开始尝试输入命令之前，请查看输入法状态，将其切换为英文输入状态。
 
 在命令行窗口中输入命令「d:」，然后单击「Enter」键执行该命令，可将当前目录切换为 D 盘。在命令行环境里，输入命令后，必须单击「Enter」键，方能使命令得以执行。
 
@@ -85,7 +85,7 @@ D:\foo> echo %PATH%
 使用以下「\type{setx}」命令可以将上述示例创建的批处理文件 foo.bat 所在目录 \type{D:\foo} 追加至 \type{PATH} 变量现有路径集的尾部：
 
 \starttyping
-D:\foo> setx /M PATH "%PATH%d:\foo;"
+D:\foo> setx /M PATH "%PATH;%d:\foo"
 \stoptyping
 
 \noindent 务必注意，该命令仅在「以管理员身份」启动的命令行窗口中起效。在 Windows 开始菜单里的搜索栏，输入「cmd」并单击「Enter」键提交，然后鼠标右键单击搜索结果，在弹出的菜单中选择「以管理员身份运行」。以这种方式开启的命令行窗口方可执行上述的「\type{setx}」命令。
@@ -170,7 +170,7 @@ $ source .zshrc
 
 安装 \CONTEXT\ LMTX 有两种方式，一种是安装 \CONTEXT\ 开发者提供的 \CONTEXT\ 包，该包仅包含 \CONTEXT\ 环境；另一种是安装 \TEX\ Live 中的 \CONTEXT\ 包。本节介绍前者，下一节介绍后者。
 
-\useURL[installation][https://wiki.contextgarden.net/Installation]
+\useURL[installation][https://wiki.contextgarden.net/Introduction/Installation]
 \ConTeXt\ 的最新版本是 \ConTeXt\ LMTX，目前尚在开发和试验阶段，功能虽不稳定，但对于入门而言并无妨碍。从 \bluebox{\from[installation]} 下载对应操作系统类型的 \ConTeXt\ LMTX 安装包，按照该网址的相关介绍进行安装即可，安装过程所需要的全部知识皆已在上文介绍完毕。下文以 Windows 64 位系统为例，给出详细的的安装过程。
 
 \useURL[win-64-version][http://lmtx.pragma-ade.com/install-lmtx/context-win64.zip]
@@ -224,5 +224,5 @@ D:\context-win64
 \startitemize[packed]
 \item Windows 系统的命令行环境，前身是 MS DOS 系统，长期未得进化，现在用起来，捉襟见肘。现代的 PowerShell 更为适用，但因 \ConTeXt\ 目前不能直接在 PowerShell 环境里完成安装，故而上文未曾言及。
 \item macOS 在图形界面和命令行环境方面的综合性胜过 Windows 和 Linux，但其缺点是在不违法的情况下，它只能运行于苹果公司的计算机，费用不菲。
-\item Linux 系统的图形界面不及 Windows 和 macOS，但命令行环境通常优于 Windows\footnote{自 Windows 10 开始，微软在 Windows 系统中构建了 Linux 子系统（WSL），允许用户在 Windows 系统中使用 Linux 命令行环境。}，与 macOS 相当。不过，Linux 最为显著的特点是，它能帮助每一个使用计算机的人，让他深刻觉察自己以往所宣称的那样热爱自由是否真实。
+\item Linux 系统的图形界面不及 Windows 和 macOS，但命令行环境通常优于 Windows\footnote{自 Windows 10 开始，微软在 Windows 系统中构建了 Linux 子系统（WSL），允许用户在 Windows 系统中使用 Linux 命令行环境。}，与 macOS 相当。不过，Linux 环境是自由的，即便这种自由至今仍被许多人理解为免费。如果你真的如你所说的那样是一个热爱自由的人，不妨在 Linux 环境里学习 ConTeXt。
 \stopitemize

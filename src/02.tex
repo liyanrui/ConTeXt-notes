@@ -1,10 +1,12 @@
 \chapter{沙盘游戏}
 
-先不要急于学习使用 \ConTeXt\ 写论文，出专著，虽然它极为擅长这类任务，但是我还是希望先将它当成一个可爱的朋友，慢慢去熟悉它，而不是功利主义视角下的工具。
+先不要急于学习使用 \ConTeXt\ 写论文，出专著，虽然它极为擅长这类任务，但是我还是希望先将它当成一个可爱的小朋友，慢慢去熟悉它。相信我，它值得你如此。
 
 \section{新手村}
 
-在第 \in[Installation] 章中，为了验证 \ConTeXt\ LMTX 是否已成功安装，我使用三条 \type{echo} 命令构造了一份简单的 \ConTeXt\ 源文件 foo.tex。事实上，可以使用任何一个文本编辑器来做此事。foo.tex 文件内容如下：
+在第 \in[Installation] 章中，为了验证 \ConTeXt\ LMTX 是否已成功安装，我使用三条 \type{echo} 命令构造了一份简单的 \ConTeXt\ 源文件 foo.tex。事实上，可以使用任何一个文本编辑器来做此事。
+
+foo.tex 文件内容如下：
 
 \starttyping[option=TEX]
 \startTEXpage[offset=1cm]
@@ -12,21 +14,23 @@ Hello \ConTeXt!
 \stopTEXpage
 \stoptyping
 
-\noindent 执行以下命令\footnote{从本章开始，一直使用 Linux 风格的命令提示符 \type{$}。}，调用 \type{context} 程序，可将 foo.tex 编译成 PDF 文件 foo.pdf：
+\noindent 执行以下命令\footnote{从本章开始，一直使用 Linux 风格的命令提示符 \type{$}。}，可将 foo.tex 编译成 PDF 文件 foo.pdf。
 
 \starttyping
 $ context foo.tex
 \stoptyping
 
-\noindent 在使用 \type{context} 命令编译 ConTeXt 源文件时，可省略文件扩展名「\type{.tex}」，因此下面的命令与上述命令等效：
+\noindent 在使用 \type{context} 命令编译 ConTeXt 源文件时，可省略文件扩展名 \type{.tex}，故而上述命令可略微简写为
 
 \starttyping
-$ context foo.tex
+$ context foo
 \stoptyping
 
 想必你已敏锐觉察到了，凡是开头为反斜线「\type{\}」的英文单词，都是排版命令。的确如此。
 
-排版命令 \type{\startTEXpage...\stopTEXpage} 称为 \type{TEXpage} 环境，我将其称为新手村。这一对排版命令所包含的内容，例如「\type{Hello \ConTeXt!}」会被排版于一个恰好能包含它的矩形排版空间。\type{frame} 参数用于控制边框是否开启，其值为 \type{off} 或省略对它的设定时，关闭边框。\type{offset} 参数可用于对排版空间进行扩大或缩小，如示例 \in[starting-area] 所示，排版空间从中心向四周被扩大 2.5 mm。
+排版命令 \type{\startTEXpage...\stopTEXpage} 称为 \type{TEXpage} 环境。这对排版命令所包含的内容，例如「\type{Hello \ConTeXt!}」会被安排在一个恰好能包含它的矩形排版空间。
+
+\type{TEXpage} 环境的 \type{frame} 参数用于控制边框是否开启，若该参数不存在，或其值为 \type{off}，表示无边框。\type{offset} 参数可用于对排版空间进行扩大或缩小，如示例 \in[starting-area] 所示，排版空间从中心向四周被扩大 2.5 mm。
 
 \startsample
 \startTEXpage[frame=on,offset=2.5mm]
@@ -35,11 +39,11 @@ Hello \ConTeXt!
 \stopsample
 \sample[option=TEX][starting-area]{新手村}{\externalfigure[02/starting-area.pdf]}
 
-之所以称 \type{TEXpage} 环境为新手村，是因它足够简单，将其用于观察大多数排版命令的效果时无需关心版面的天头、地脚、订口、翻口、版心、页码等元素的设定。
+本章将 \type{TEXpage} 称为新手村，因它足够简单，便于我们观察大多数基本排版命令的效用，无需关心天头、地脚、订口、翻口、版心、页码等排版元素的设定。
 
 \section{伪文字}
 
-\ConTeXt\ 有一个可视化模块，提供了伪造单词的排版命令，使用该命令可以生成一些黑色的长短随机的矩形块，可将它们当成文字，从而在沙盘上可以更加随心所欲一些。
+\ConTeXt\ 自带了一个可视化模块 visual，它提供了一些伪造单词的命令，可以生成一些黑色的长短随机的矩形块，将它们视为文字，我们在新手村的举止会为随心所欲。
 
 如示例 \in[true-words] 所示，排版两行文字，每行由 5 个单词组成。示例 \in[true-words] 给出了伪文字的效果。同样是两行文字，每一行由 3～5 个单词构成。
 
@@ -63,7 +67,7 @@ This is the second line.
 
 \section{注释}
 
-在示例 \in[true-words] 的源代码中，「\type{%}」及其后面的同一行文字，是 \TeX\ 注释文本，它们会被 \type{context} 程序忽略，故而不会出现在排版结果中。注释是为了便于人类阅读 \ConTeXt\ 源代码而存在的。
+在示例 \in[true-words] 的源代码中，「\type{%}」及其后面的同一行文字，是 \TeX\ 注释文本，它们会被 \type{context} 程序忽略，故而不会出现在排版结果中。除了便于人类理解 \ConTeXt\ 源代码之外，注释符有时也会用于消除其后的换行符，在你打算亲手实现一些 \TeX\ 命令时会用到这个功能。
 
 \section{换行符}
 
@@ -192,7 +196,7 @@ This is the first line.\\ This is the second line.
 \setupinterlinespace[line=19.25pt]
 \stoptyping
 
-\noindent 之所以是 19.25 pt，是因它等于 $1.75\times 11$ pt。最大行高即行间距，因为在 \CONTEXT\ 中，行间距是相邻两行文字的基线距离，恰好等于一行文字的最大高度。本文档在后文示中皆使用该方式设定段落内行间距。
+\noindent 之所以是 19.25 pt，是因它等于 $1.75\times 11$ pt。最大行高即行间距，因为在 \CONTEXT\ 中，行间距是相邻两行文字的基线距离，恰好等于一行文字的最大高度。本文档在后文示例中皆使用该方式设定行间距。
 
 \section{对齐}
 

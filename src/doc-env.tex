@@ -113,15 +113,37 @@
 %\setuptyping[option=color,palet=graypretty,
 %	     before={\blank[.5em]\setupinterlinespace[line=1.2em]},
 %             after={\blank[.5em]}]
-\startuniqueMPgraphic{blue box}
+
+\startuseMPgraphic{common}
+def myfancybox(expr u) =
+
+enddef;
+\stopuseMPgraphic
+
+\startuseMPgraphic{blue box}
+numeric w, h, u;
+w := OverlayWidth; h := OverlayHeight; u := .75BodyFontSize;
+color framecolor; framecolor := white randomized (.7, .7, .7);
+drawoptions(withpen pencircle scaled 1pt withcolor framecolor);
 path p, q;
-w := \overlaywidth; h := \overlayheight;
-p := (3mm, 0) -- (0, 0) -- (0, h) -- (3mm, h);
-q := (w - 3mm, 0) -- (w, 0) -- (w, h) -- (w - 3mm, h);
-pickup pencircle scaled 2pt;
-draw p withcolor \MPcolor{lightsteelblue};
-draw q withcolor \MPcolor{lightsteelblue};
-\stopuniqueMPgraphic
+% 左上角
+p := ((0, h) -- (2u, h));
+q := ((0, h) -- (0, h - u));
+draw p; draw q;
+% 左下角
+p := ((0, 0) -- (2u, 0));
+q := ((0, 0) -- (0, u));
+draw p; draw q;
+% 右上角
+p := ((w - 2u, h) -- (w, h));
+q := ((w, h) -- (w, h - u));
+draw p; draw q;
+
+% 右下角
+p := ((w - 2u, 0) -- (w, 0));
+q := ((w, 0) -- (w, u));
+draw p; draw q;
+\stopuseMPgraphic
 \defineoverlay[blue box][\uniqueMPgraphic{blue box}]
 \defineframedtext
   [blueframe]
@@ -131,14 +153,24 @@ draw q withcolor \MPcolor{lightsteelblue};
   [before={\startblueframe[width=\textwidth]},after={\stopblueframe},escape=yes]
 
 \startuniqueMPgraphic{blue box2}
-path p;
-numeric s;
-w := \overlaywidth; h := \overlayheight;
-p := (0, 0) -- (0, h) -- (w, h) -- (w, 0) -- cycle;
+path p, q;
+numeric w, h, u;
+u := BodyFontSize;
+w := OverlayWidth; h := .85OverlayHeight;
+color framecolor; framecolor := white randomized (.7, .7, .7);
 pickup pencircle scaled 1pt;
-s := .1h;
-if s < 1mm: s := 1mm; fi
-draw p randomized s withcolor \MPcolor{darkgray};
+
+% 左上角
+p := ((0, h) -- (2u, h)) shifted (-.25u, 0);
+q := ((0, h) -- (0, h - u)) shifted (0, .25u);
+draw p withcolor framecolor;
+draw q withcolor framecolor;
+
+% 右下角
+p := ((w - 2u, 0) -- (w, 0)) shifted (.25u, 0);
+q := ((w, 0) -- (w, u)) shifted (0, -.25u);
+draw p withcolor framecolor;
+draw q withcolor framecolor;
 \stopuniqueMPgraphic
 \defineoverlay[blue box2][\uniqueMPgraphic{blue box2}]
 \def\bluebox#1{%

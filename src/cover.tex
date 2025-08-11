@@ -37,9 +37,9 @@ vardef hilbert(expr sidelength, n) =
 enddef;
 \stopMPinclusions
 \startuseMPgraphic{TitleGraphic}
-path p; p := hilbert(OverlayWidth, 5) randomized 1mm;
-pickup pencircle scaled 1mm;
-draw p yscaled(OverlayHeight / OverlayWidth) withcolor transparent(1, .5, darkgray); %\MPcolor{tan};
+path p; p := hilbert(OverlayWidth, 5) randomized 4pt;
+pickup pencircle scaled 2pt;
+draw p yscaled(OverlayHeight / OverlayWidth) withcolor \MPcolor{tan}; %transparent(1, .5, darkgray); %\MPcolor{tan};
 \stopuseMPgraphic
 \defineoverlay[TitleGraphic][\useMPgraphic{TitleGraphic}]
 
@@ -60,7 +60,7 @@ for i = 0 step .1 until 1:
 endfor;
 q := p shifted (-offset, offset);
 draw q withcolor transparent (1, 0, white);
-fill p withcolor \MPcolor{dimgray};
+fill p withcolor transparent(1, .375, \MPcolor{dimgray});
 draw p withcolor \MPcolor{lightsteelblue};
 \stopuniqueMPgraphic
 \defineoverlay[shade box][\uniqueMPgraphic{shade box}]
@@ -68,7 +68,7 @@ draw p withcolor \MPcolor{lightsteelblue};
 
 \setupbackgrounds[page][background=TitleGraphic]
 \startstandardmakeup
-  \startcolor[white]
+  \startcolor[lightgreen]
     \startcoverbox[middle][width=.6\textwidth,height=5cm,toffset=.8cm]
       \strut
       \hfil \bfd\ConTeXt\ 蹊径\hfil

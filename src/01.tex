@@ -179,7 +179,9 @@ $ source .zshrc
 \useURL[win-64-version][https://lmtx.pragma-ade.com/install-lmtx/context-win64.zip]
 首先，从 \boxquote{\from[win-64-version]} 下载面向 Windows 64 位系统的安装包 \type{context-win64.zip}，假设在 \type{d:\} 将其解开，得目录 \type{context-win64}，其结构当如图 \in[win64] 所示。完成解包工作，context-win64.zip 包就没用了，可以删除。
 
-然后，将 \type{context-win64} 目录改名为 \type{context}，继而打开命令行窗口，依序执行以下命令：
+\placefigure[force][win64]{\CONTEXT\ LMTX 的 windows 64 位安装包结构}{\externalfigure[01/context-win64.pdf][width=.7\textwidth]}
+
+将 \type{context-win64} 目录改名为 \type{context}，然后在命令行窗口依序执行以下命令：
 
 \startmycmd
 > d:
@@ -188,8 +190,6 @@ $ source .zshrc
 > setpath.bat
 > mtxrun --generate
 \stopmycmd
-
-\placefigure[here][win64]{\CONTEXT\ LMTX 的 windows 64 位安装包结构}{\externalfigure[01/context-win64.pdf][width=.8\textwidth]}
 
 上述命令里，批处理文件 install.bat 可从网络上下载 \CONTEXT\ LMTX 的所有文件，存放在工作目录。安装时长取决于网络下载速度。\CONTEXT\ LMTX 的服务器在境外，由于国内众所周知的原因，导致文件下载速度可能会非常缓慢，而且安装过程甚至可能中断，需要你多次执行 install.bat 文件，方能完成整个安装过程。幸好 install.bat 是增量安装，即使有所中断，每次它会从中断处开始安装，而非从头重新安装。后文会给出符合国情的快捷方案。
 

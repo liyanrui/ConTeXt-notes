@@ -1,207 +1,293 @@
-\chapter{一字不差}
+\chapter{盒子}
 
-在这个信息时代，文档出现一些计算机程序源码片段，是很常见的事。这些代码需要以等宽字体原样显示，像是过去的打字机的输出，故而名曰文本抄录（Verbatim text）。为了让代码更为易读，通常需要根据相应语法对其进行着色渲染。有时，还需要在代码中插入一些其他排版元素。
+在 \in[drawing-sym] 节中，你已经见过盒子了，只是那时可能你还不知其究竟，本章将揭开它们的一些端倪。也有可能你早已钻研过 Donald Knuth 的《The \TeX\ Book》，对盒子的研究之深已经让我望风而拜，但是也许你未必熟悉 \CONTEXT\ 的盒子，故而本章仍有部分内容值得一观。
 
-\section{抄录}
+\section{\TEX\ 盒子}
 
-抄录有两种形式，一种是位于一行文字之内，用 \type{\type{...}} 排版，另一种是位于段落之间，用 \type{\starttyping ... \stoptyping} 排版。例如
+前面已经多次暗示和明示，\TEX\ 系统是 \CONTEXT\ 的底层，二者的关系犹如引擎（发动机）和汽车的关系。对 \TEX\ 引擎丝毫不懂，并不影响你学习和使用 \CONTEXT\ 排版一份精致的文档，但是懂一些引擎层面工作原理，未必会有用处，但是你现在也并不能确定将来会不会成为一名 \TEX\ 黑客，如同你从前也从未想过有一天会学习 \CONTEXT。
 
-\startsample
-\startframedtext[width=\textwidth]
-用 C 语言写一个程序，让它在屏幕上显示「\type{Hello world!}」，代码如下
-\starttyping
-#include <stdio.h>
-int main(void)
-{
-    printf("Hello world!\n");
-    return 0;
+在 \TEX\ 系统中，盒子是很重要的事物。例如，在 \CONTEXT\ 的排版的每一个段落，是一个竖向盒子，即 \type{\vbox}，该盒子之内又有一些横向盒子，即 \type{\hbox}，它们是段落的每一行。我们可以直接用这两种盒子构造一个不甚规整的段落：
+
+\startexample
+\vbox{
+  \hbox{离离原上草}\hbox{一岁一枯荣}\hbox{野火烧不尽}\hbox{春风吹又生}
+}
+\stopexample
+\example[option=TEX][todo-list]{竖向盒子和横向盒子}{\externalfigure[10/vbox-and-hbox.pdf]}
+
+横向盒子可以指定它的长度，竖向盒子可以指定它的高度。例如，
+
+\starttyping[option=TEX]
+\hbox to 5cm {赋得古原草送别}
+\vbox to 3cm {
+  \hbox{离离原上草}\hbox{一岁一枯荣}\hbox{野火烧不尽}\hbox{春风吹又生}
 }
 \stoptyping
+
+还有一种横向盒子 \type{\line}，其宽度是正文的宽度，该盒子内的文字会向两边伸展并与正文两侧边界对齐，例如
+
+\cmdindex{line}
+\starttyping[option=TEX]
+\line{\darkred\bf 我能吞下玻璃而不伤身体。}
+\stoptyping
+\line{\darkred\bf 我能吞下玻璃而不伤身体。}
+
+看到上述示例，想必你想起了 \in[essay] 节在设定文章标题的样式时，汉字之间的粘连被触发后的样子，与\type{\line} 的效果非常相似。使用 \type{\hfill} 或 \type{\hss} 可对横向盒子里的内容进行挤压。例如
+
+\starttyping[option=TEX]
+\line{\hfill 我能吞下玻璃而不伤身体。}
+\line{我能吞下玻璃而不伤身体。\hfill}
+\line{\hfill 我能吞下玻璃而不伤身体。\hfill}
+\line{\hss 我能吞下玻璃而不伤身体。}
+\line{我能吞下玻璃而不伤身体。\hss}
+\line{\hss 我能吞下玻璃而不伤身体。\hss}
+\stoptyping
+
+\startframedtext[width=broad]
+\vbox{
+\line{\hfill 我能吞下玻璃而不伤身体。}
+\line{我能吞下玻璃而不伤身体。\hfill}
+\line{\hfill 我能吞下玻璃而不伤身体。\hfill}
+\line{\hss 我能吞下玻璃而不伤身体。}
+\line{我能吞下玻璃而不伤身体。\hss}
+\line{\hss 我能吞下玻璃而不伤身体。\hss}
+}
 \stopframedtext
-\stopsample
-\typesample
 
-\noindent 结果为
+\index[hfil-hfill-hss]{\type{\hfil}，\type{\hfill} 和 \type{\hss}}
+\type{\hfill} 和 \type{\hss}，都是可无限伸缩的粘连，还有一个伸缩能力弱于 \type{\hfill} 的 \type{\hfil}。竖向的可无限伸缩的粘连有 \type{\vfil}，\type{\vfill} 和 \type{\vss}。
 
-\start
-\setuptyping[before={\blank[line]},after={\blank[line]}]
-\getsample
-\stop
+\section{\CONTEXT\ 盒子}
 
-上述示例，不仅演示了抄录命令的基本用法，你应该也学会了如何使用 \type{framedtext} 环境给一些内容添加朴素的边框。
+在 \CONTEXT\ 层面，通常很少使用 \TEX\ 盒子，而是使用 \type{\inframed} 和 \type{\framed}——前者是后者的特例。与 \TEX\ 盒子相比，\CONTEXT\ 层面的盒子可以显示边框，且有非常多的参数可以定制它们的外观。
 
-\section{外框}
+\type{\inframed} 用于正文，可用于给一行文字增加边框，例如
 
-也许你也想要一个像本文档中有着巨大的淡蓝色方括号的 \type{typing} 环境，但是需要事先对第 \in[metapost] 章中介绍的 \METAPOST\ 语言的基本用法有所了解方可。给 \type{typing} 环境添加朴素的外框很容易做到，而且它也是实现巨大淡蓝色方括号的基础，方法是
-
-\startsample
-\setuptyping
-  [before={\startframedtext[width=\textwidth]},
-   after={\stopframedtext}]
-
-\starttyping
-带外框的 \starttyping ... \stoptyping
+\cmdindex{inframed}
+\starttyping[option=TEX]
+\type{\inframed{\type{\inframed{...}}}}
 \stoptyping
-\stopsample
-\typesample
-\start
-\getsample
-\stop
 
-在 \type{\setuptyping} 的 \type{before} 和 \type{after} 参数中，也可以根据自己的需求，添加其他排版命令或你自己定义的宏。\CONTEXT\ 很多命令带有 \type{before} 和 \type{after} 参数。
+\noindent 结果为 \inframed{\type{\inframed{...}}}。倘若使用 \type{\framed}，例如
 
-\section{行号}
+\cmdindex{framed}
+\starttyping[option=TEX]
+\type{\framed{\type{\framed{...}}}}
+\stoptyping
 
-\type{\setuptyping} 的 \type{line} 参数可用于设定代码行号。通过 \type{\setuplinenumbering} 可调整行号样式。以下示例开启代码行号，并将行号到 \type{typing} 环境的距离设为 0.5 em：
+\noindent 结果为 \framed{\type{\framed{...}}}。可以发现，\type{\inframed} 更适合在正文中使用，因为它能与文字基线对齐。事实上，\type{\inframed} 与 \type{\framed[location=low]} 等效，故而前者是后者的特例。例如
 
-\startsample
-\setuplinenumbering[typing][distance=.5em]
-\setuptyping
-  [numbering=line,
-   before={\startframedtext[width=\textwidth]},
-   after={\stopframedtext}]
+\starttyping[option=TEX]
+\framed[location=low]{\type{\framed[location=low]{...}}}
+\stoptyping
 
-\starttyping
-#include <stdio.h>
-int main(void)
-{
-    printf("Hello world!\n");
-    return 0;
+\noindent 结果为 \framed[location=low]{\type{\framed[location=low]{...}}}。
+
+如果不希望 \type{\framed} 显示边框，只需 \type{\framed[frame=off]{...}}，也可以单独显示某条边线，并设定边线粗度和颜色：
+
+\starttyping[option=TEX]
+\line{
+  \framed[frame=off,leftframe=on,rulethickness=4pt,framecolor=red]{foo}
+  \framed[frame=off,topframe=on,rulethickness=4pt,framecolor=green]{foo}
+  \framed[frame=off,rightframe=on,rulethickness=4pt,framecolor=blue]{foo}
+  \framed[frame=off,bottomframe=on,rulethickness=4pt,framecolor=magenta]{foo}
 }
 \stoptyping
-\stopsample
-\typesample
-\start
-\getsample
-\stop
+\line{
+  \framed[frame=off,leftframe=on,rulethickness=4pt,framecolor=red]{foo}
+  \framed[frame=off,topframe=on,rulethickness=4pt,framecolor=green]{foo}
+  \framed[frame=off,rightframe=on,rulethickness=4pt,framecolor=blue]{foo}
+  \framed[frame=off,bottomframe=on,rulethickness=4pt,framecolor=magenta]{foo}
+}
 
-\section{着色}
+\blank
 
-\CONTEXT\ 提供了代码语法着色功能，例如对 \TEX\ 代码进行着色，
+可以设定盒子的宽度和高度，例如宽 10cm，高 2 cm 的盒子：
 
-\startsample
 \starttyping[option=TEX]
-\starttext
-Hello \CONTEXT!
-\stoptext
+\hbox to \textwidth{\hfill\framed[width=10cm,height=2cm]{foo}\hfill}
 \stoptyping
-\stopsample
-\typesample
-\start
-\setuplinenumbering[typing][distance=.5em]
-\setuptyping
-  [numbering=line,
-   before={\startframedtext[width=\textwidth]},
-   after={\stopframedtext}]
-\getsample
-\stop
+\hbox to \textwidth{\hfill\framed[width=10cm,height=2cm]{foo}\hfill}
 
-不幸的是，目前 \CONTEXT\ 仅实现了 \TEX，\METAPOST，Lua，XML 等代码的着色。不过，对于 \CONTEXT\ 尚不支持的语言，\CONTEXT\ 提供了扩展机制，若你对 Lua 语言及其 Lpeg 库有所了解，可自己动手，丰衣足食\cite[code-render]。
+\section{对齐}
 
-\section{逃逸}
+\CONTEXT\ 盒子的内容默认居中，即 \type{align=center}，此外还有 8 种对齐方式：
 
-即使不懂  Lua 和 Lpeg，倘若你不嫌麻烦，利用 \type{\type} 和 \type{typing} 环境的逃逸（Escape）机制，也能实现代码着色。例如
-
-\starttyping[escape=no,option=TEX]
-\starttyping[escape=yes]
-/BTEX\darkgreen \#include/ETEX <stdio.h>
-/BTEX\darkblue int/ETEX main(/BTEX\darkblue void/ETEX)
-{
-    printf("/BTEX\darkred Hello world!\n/ETEX");
-    /BTEX\darkblue return/ETEX 0;
+\starttyping[option=TEX]
+\line{
+  \setupframed[width=1.75cm,height=1.75cm]
+  \framed[align={flushleft,high}]{A}
+  \framed[align={middle,high}]{A}
+  \framed[align={flushright,high}]{A}
+  \framed[align={flushright,lohi}]{A}
+  \framed[align={flushright,low}]{A}
+  \framed[align={middle,low}]{A}
+  \framed[align={flushleft,low}]{A}
+  \framed[align={flushleft,lohi}]{A}
 }
 \stoptyping
+\line{
+  \setupframed[width=1.75cm,height=1.75cm]
+  \framed[align={flushleft,high}]{A}
+  \framed[align={middle,high}]{A}
+  \framed[align={flushright,high}]{A}
+  \framed[align={flushright,lohi}]{A}
+  \framed[align={flushright,low}]{A}
+  \framed[align={middle,low}]{A}
+  \framed[align={flushleft,low}]{A}
+  \framed[align={flushleft,lohi}]{A}
+}
+
+\noindent 注意，上述代码中的 \tex{setupframed}\index[setupframed]{\tex{setupframed}} 命令可以设定 \tex{framed} 盒子的样式，所作设定会影响到该命令之后的所有 \type{\framed} 盒子，但是，如果是在编组内设定盒子样式，所作设定不会影响编组之外的盒子。上述嗲吗中的 \tex{line} 命令之后跟随的便是编组。
+
+\section[framebg]{背景}
+
+可将颜色作为 \type{\framed} 的背景。例如
+
+\starttyping[option=TEX]
+\inframed
+  [background=color,
+   backgroundcolor=lightgray,
+   width=2cm,
+   frame=off]{\bf foo}
 \stoptyping
 
-\noindent 结果为
+\noindent 结果为 \inframed[background=color,backgroundcolor=lightgray,width=2cm,frame=off]{\bf foo}。
 
-\start
-\setuptyping
-  [before={\startframedtext[width=\textwidth]},
-   after={\stopframedtext}]
-\starttyping[escape=yes]
-/BTEX\darkgreen \#include/ETEX <stdio.h>
-/BTEX\darkblue int/ETEX main(/BTEX\darkblue void/ETEX)
-{
-    printf("/BTEX\darkred Hello world!\n/ETEX");
-    /BTEX\darkblue return/ETEX 0;
+通过 overlay，可将一些排版元素作为 \type{\framed} 的背景。例如
+
+\index[overlay]{overlay}
+\starttyping[option=TEX]
+\defineoverlay[foo][{\framed[width=3cm,frame=off,bottomframe=on]{}}]
+\midaligned{\inframed[background=foo,frame=off]{你好啊！}}
+\stoptyping
+
+\defineoverlay
+  [foo]
+  [{\framed[width=3cm,frame=off,bottomframe=on]{}}]
+\midaligned{\inframed[background=foo,frame=off]{你好啊！}}
+\blank
+
+也能在 overlay 里插入 \METAPOST\ 代码绘制的矢量图形，将其作为盒子的背景，见下例。
+
+\starttyping[option=TEX]
+\startuseMPgraphic{foo}
+path p;
+p := fullcircle scaled OverlayWidth;
+draw p withpen pencircle scaled .4pt withcolor darkred;
+\stopuseMPgraphic
+\defineoverlay[circle][\useMPgraphic{foo}]
+\def\fooframe#1{%
+  \inframed[frame=off,background=circle]{#1}%
 }
 \stoptyping
-\stop
+\startuseMPgraphic{foo}
+path p;
+p := fullcircle scaled OverlayWidth;
+draw p withpen pencircle scaled .4pt withcolor darkred;
+\stopuseMPgraphic
+\defineoverlay[circle][\useMPgraphic{foo}]
+\def\fooframe#1{%
+  \inframed[frame=off,background=circle]{#1}%
+}
 
-我应该一直都没有告诉你，\CONTEXT\ 该如何给文字着色。\CONTEXT\ 预定义了一些标准颜色，可直接使用这些颜色的名字对文字进行着色，例如「\type{{\magenta 紫色}}」，结果为「{\magenta 紫色}」，也可以使用 \type{\color} 命令，例如「\type{\color[lightmagenta]{浅紫色}}」，结果为「\color[lightmagenta]{浅紫色}」。以下代码可用于查看 \CONTEXT\ 预定义颜色，
+上例定义了一个宏 \tex{fooframe}，它能为盒子里的文字套上一个圆，例如 \type{\fooframe{123}}，结果为 \fooframe{12345}，还记得 \in[lua] 节实现带圈数字的方案吗？现在又多了一个方案，而且该方案不依赖于所用字体是否提供带圈字符。
 
-\starttyping[option=TEX]
-\startTEXpage[offset=4pt]
-\showcolor[rgb]
-\stopTEXpage
-\stoptyping
+\section{盒子的深度}
 
-使用 \type{\definecolor} 可以通过设定红（r）、绿（g）、蓝（b）分量定义颜色。例如
-
-\startsample
-\definecolor[myred][r=.8,g=.2,b=.2]
-\framed{\myred 给你点 color see see！}
-\stopsample
-\simplesample[option=TEX]{\getsample}
-
-\noindent 上述代码中可以让你你顺便又学会了另一种给文字增加外框的方法。
-
-亦可使用 \type{\colored} 直接设定 rgb 颜色对文字着色，以下代码与上例等效：
-
-\startsample
-\framed{\colored[r=.8,g=.2,b=.2]{给你点 color see see！}}
-\stopsample
-\typesample[option=TEX]
-
-\section{显示空格}
-
-\starttyping[escape=no,option=TEX]
-\starttyping[space=on]
-H E  L   L    L     O
-\stoptyping
-\stoptyping
-\start
-\setuptyping
-  [before={\startframedtext[width=\textwidth]},
-   after={\stopframedtext}]
-\starttyping[space=on]
-H E  L   L    L     O
-\stoptyping
-\stop
-
-注意，\CONTEXT\ 中文断行需要 \type{\setscript[hanzi]}，但该命令会吞噬汉字之间的空白字符，从而导致一个问题，在 \type{\type} 和 \type{typing} 环境中，汉字之间若存在空白字符，它们不会被输出到排版结果，此时，只有 \type{space=on} 可以救急。
-
-例如，以下 \type{typing} 环境未开启空格显示：
-
-\starttyping
-本 行 每 个 汉 字 之 后 都 有 空 格， 但 是 你 看 不 见 它， 除 非 space=on ！
-\stoptyping
-\noindent 以下 \type{typing} 环境开启了空格显示：
-\starttyping[space=on]
-本 行 每 个 汉 字 之 后 都 有 空 格， 但 是 你 看 不 见 它， 除 非 space=on ！
-\stoptyping
-
-\section{定义}
-
-使用 \type{\definetype} 和 \type{\definetyping} 可定义专用的抄录环境。例如
+如果你仔细观察，\CONTEXT\ 盒子里的内容在水平方向是精确居中的，但是在竖直方向上却并非如此。例如
 
 \starttyping[option=TEX]
-\starttyping[escape=yes,space=on,option=TEX]
-Hello /BTEX\darkred\CONTEXT/ETEX!    
-\stoptyping
+\inframed{\framed{我看到一棵樱桃树}}。
 \stoptyping
 
-\noindent 倘若每次使用该 \type{typing} 环境，可能会让你觉得繁琐，且增加了输入出错的风险，采用以下方法可予以简化：
+\noindent 结果为 \inframed{\framed{我看到一棵樱桃树}}。可见 \type{\inframed} 内部的 \type{\framed} 的底部有着看似多余的空白。使用盒子的参数 \type{depth} 可以消除这些空白，但问题在于这处空白从何而来及其高度是多少。该问题与底层 \TEX\ 的西文排版机制有关。
+
+无论是 \TEX\ 还是 \CONTEXT\ 盒子，它们本身是没有深度的，但是当它们里面的文字或盒子有深度时，它们便有了深度。至于深度值具体是多大，可以借助 \TEX\ 的盒子寄存器进行测量。例如，定义一个盒子寄存器 \type{box0}：
+
+\cmdindex{setbox}
+\starttyping[option=TEX]
+\setbox0\hbox{\inframed{\framed{我看到一棵樱桃树}}}
+\stoptyping
+\setbox0\hbox{\inframed{\framed{我看到一棵樱桃树}}}
+
+\noindent 现在我们有了一个 0 号盒子，使用 \type{\wd}，\type{\ht} 和 \type{\dp} 可分别测量该盒子的宽度、高度和深度……顺便复习一下表格的用法：
+
+\startexample
+\starttabulate[|c|c|c|]
+\TL[3]
+\NC 宽度 \NC 高度 \NC 深度 \NR
+\HL
+\NC \the\wd0 \NC \the\ht0 \NC \the\dp0 \NR
+\BL[3]
+\stoptabulate
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+将上述所得深度信息取负作为 \type{\inframed} 的参数 \type{depth} 的值，即
 
 \starttyping[option=TEX]
-\definetyping[foo][escape=yes,space=on,option=TEX]
-\startfoo
-Hello /BTEX\darkred\CONTEXT/ETEX!
-\stopfoo
+\inframed[depth=-\dp0]{\framed{我看到一棵樱桃树}}
 \stoptyping
 
+\noindent 便可消除深度，结果为 \inframed[depth=-\dp0]{\framed{我看到一棵樱桃树}}。
 
-\section{小结}
+\section{段落盒子}
 
-五色使人目盲。即使 \CONTEXT\ 的代码着色功能未能支持你的程序代码，也许并不值得遗憾。也许真正值得遗憾的是，它未能激发你对 Lua 语言和 Lpeg 库的兴趣，而这正是 \CONTEXT\ 的代码着色功能支持的编程语言过少最重要的原因。
+上文的的示例，盒子里的内容都非常简单。事实上，\tex{framed} 能够容纳段落，只是默认情况下，它不具备段落断行功能，需要将其参数 \type{align} 的值设为 \type{normal} 方能断行，见下例。
+
+\startexample
+\framed[width=6cm, align=normal]{ %
+第一段 ... ... ...\par
+第二段 ... ... ...
+}
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+\noindent 注意，上述代码中，\tex{framed} 的 \type!{! 后面的注释符 \type{%} 是必要的，否则花括号后的换行符会被视为一个不可忽略的空格，从而导致第一段开头是一个空格，请以下例作为对比。
+
+\startexample
+\framed[width=6cm, align=normal]{
+第一段 ... ... ...\par
+第二段 ... ... ...
+}
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+由于 \tex{framed} 用于容纳段落需要注意一些细节，故而对于此类任务，通常用语法形式封闭的 \type{framedtext} 环境来做，例如
+
+\startexample
+\startframedtext[width=\textwidth, rulethickness=4pt, framecolor=darkgray]
+第一段 ... ... ...\par
+第二段 ... ... ...
+\stopframedtext
+\stopexample
+\simpleexample[option=TEX]{\null}
+\getexample
+
+\section{自定义盒子}
+
+类似于 \tex{type} 和 \type{typing} 环境支持用户自定义一些专用的命令，\tex{framed} 盒子也可如此。下例定义了一个专用的盒子，并演示了其样式的设定方法。
+
+\startexample
+\defineframed[mybox]
+\setupframed[mybox][rulethickness=4pt,framecolor=darkred]
+\mybox{自定义盒子}
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+类似地，\type{framedtext} 环境也支持定义专用的段落盒子，例如
+
+\startexample
+\defineframedtext[bluebox]
+\setupframedtext[bluebox][width=\textwidth, rulethickness=4pt,framecolor=blue]
+\startbluebox
+自定义盒子
+\stopbluebox
+\stopexample
+\simpleexample[option=TEX]{\null}
+\getexample
+
+\subject{结语}
+
+\TEX\ 盒子是无形的。\CONTEXT\ 盒子是有形的。老子曾说过，恒无欲，以观其妙；恒有欲，以观其所徼。故而，\TEX\ 要懂一些，\CONTEXT\ 也要懂一些。

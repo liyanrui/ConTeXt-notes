@@ -1,247 +1,194 @@
-\chapter{表格}
+\chapter{一字不差}
 
-\ConTeXt\ 提供了多种表格形式，我们不需要全都学会，可以先学会最为简单的形式 Tabulate，等到将它用到山穷水尽也无法表达你想要的表格时，再考虑其他形式是否够用。简单的未必不好，强大的未必更好，既简单又符合自己需求的，永远都是最好的。
+在现在这个时代，文档出现一些计算机程序代码片段，是很常见的事。通常建议用等宽字体呈现这些代码且原样显示，像是过去打字机的输出结果，故而 Verbatim text，我将其译为\boxquote{文本抄录}。
 
-\section{基本用法}
+\section{抄录}
 
-首先，构造一个 2 行 3 列的表格，第 1 行的内容是 \type{1 2 3}，第二行的内容是 \type{4 5 6}，排版代码和结果如下：
+抄录有两种形式，一种是位于一行文字之内，用 \type{\type{...}} 排版\index[type]{\tex{type}}，另一种是位于段落之间的 \type{typing} 环境\index[typing]{\type{typing} 环境}。例如
 
-\startsample
-\starttabulate
-\NC 1 \NC 2 \NC 3\NC\NR
-\NC 4 \NC 5 \NC 6\NC\NR
-\stoptabulate
-\stopsample
-\simplesample[option=TEX]{\null}
-\getsample
-
-\noindent 结果第 3 列跑到版面最右侧了。这是因为我们尚未定义表格各列的对齐方式。对齐方式不外乎三种，左、中、右，Tabulate 分别使用缩写 \type{l}，\type{c} 和 \type{r} 指代它们。例如，若令表格第 1 列居左，第 2 列居中，第 3 列居右，只需
-
-\startsample
-\starttabulate[|l|c|r|]
-\NC 1 \NC 2 \NC 3\NC\NR
-\NC 4 \NC 5 \NC 6\NC\NR
-\stoptabulate
-\stopsample
-\simplesample[option=TEX]{\getsample}
-\noindent 现在看上去像表格了，但是由于表格尚无边框线，无法看出表格各列内容的对齐状态。
-
-想必你已经猜测出了，\type{\NC} 用于在表格的某一行构造一个单元格，上述示例中，表格内容的每一行最后一个 \type{\NC} 实际上是多余的，\ConTeXt\ 会忽略它，但是你可以将它理解为表格的单元格的边界。\type{\NR} 用于构造一个新行，即下一行。上述示例里，表格只有两行，实际上第 2 个 \type{\NR} 也是多余的，只是为了形式上更整齐而保留，\ConTeXt\ 会忽略它，你可以将它理解为表格一行的结束。
-
-现在，将 \type{\NC} 替换为 \type{\VL}，便可画出单元格的左右边界线，即
-
-\startsample
-\starttabulate[|l|c|r|]
-\VL 1 \VL 2 \VL 3\VL\NR
-\VL 4 \VL 5 \VL 6\VL\NR
-\stoptabulate
-\stopsample
-\simplesample[option=TEX]{\getsample}
-
-\noindent 在表格每一行的开始放上 \type{\HL}，可画出表格各行横线，即
-
-\startsample
-\starttabulate[|l|c|r|]
-\HL
-\VL 1 \VL 2 \VL 3\VL\NR
-\HL
-\VL 4 \VL 5 \VL 6\VL\NR
-\HL
-\stoptabulate
-\stopsample
-\simplesample[option=TEX]{\getsample}
-
-\noindent 可能你已经发现了，表格的竖线将被横线截断了。不必担心是你的问题，而是 Tabulate 主要用于排版横线表，例如图 \in[three-line table] 所示的在科技论文中常用的三线表。
-
-\placefigure[force][three-line table]{三线表}{\externalfigure[09/three-line-table.pdf]}
-
-让表格的横线和竖线完全相交并不困难，只需将单元格之间的纵向间距参数 \type{distance} 设为 \type{0pt} 或 \type{none}：
-
-\startsample
-\starttabulate[|l|c|r|][distance=none]
-\HL
-\VL 1 \VL 2 \VL 3\VL\NR
-\HL
-\VL 4 \VL 5 \VL 6\VL\NR
-\HL
-\stoptabulate
-\stopsample
-\simplesample[option=TEX]{\getsample}
-
-\section{间距调整}
-
-若希望单元格的宽度更宽一些，需要在列格式中设定 \type{w} 参数，例如令单元格宽度为 1 cm，只需 \type{w(1cm)} 即可。例如
-
-\startsample
-\starttabulate[|lw(1cm)|cw(1cm)|rw(1cm)|][distance=none]
-\HL
-\VL 1 \VL 2 \VL 3\VL\NR
-\HL
-\VL 4 \VL 5 \VL 6\VL\NR
-\HL
-\stoptabulate
-\stopsample
-\simplesample[option=TEX]{\getsample}
-
-若希望文档中所有表格实例的 \type{distance} 参数皆为 \type{none}，可用 \type{\setuptabulate} 进行设定：
-
-\starttyping[option=TEX]
-\setuptabulate[distance=none]
-\stoptyping
-
-若想加大单元格的竖向间距，可用 \type{\TB} 命令插入空行予以调整。例如插入 2mm 高的空格，
-
-\startsample
-\starttabulate[|lw(1cm)|cw(1cm)|rw(1cm)|][distance=none]
-\HL
-\VL 1 \VL 2 \VL 3\VL\NR
-\HL
-\TB[2mm]
-\HL
-\VL 4 \VL 5 \VL 6\VL\NR
-\HL
-\stoptabulate
-\stopsample
-\simplesample[option=TEX]{\getsample}
-
-\noindent \type{\TB} 也可以使用相对尺寸，例如 \type{2*line}，\type{line}，\type{halfline} 和 \type{quarterline} 分别为一行文字的高度的 2 倍，1 倍，1/2 倍和 1/4 倍。
-
-由于插图不过是个头较大的文字，因此基于表格理应能实现 \in[figure-matrix] 节所述的排版插图阵列。的确可以如此，例如
-
-\starttyping[option=TEX]
-\def\figA{\externalfigure[ctxnotes.png][height=3cm]}
-\def\figB{\externalfigure[ctxnotes-2.png][height=3cm]}
-\placefigure{}{
-  \starttabulate[|cw(6cm)|cw(6cm)|]
-  \NC \figA \NC \figB \NC\NR
-  \NC a \NC b\NC\NR
-  \stoptabulate
+\startexample
+\startframedtext[width=broad]
+用 C 语言写一个程序，让它在屏幕上显示「\type{Hello world!}」，代码如下
+\starttyping
+#include <stdio.h>
+int main(void) {
+    printf("Hello world!\n");
+    return 0;
 }
 \stoptyping
-\midaligned{\externalfigure[09/01.pdf]}
+\stopframedtext
+\stopexample
+\simpleexample[option=TEX]{\null}
+\start
+\setuptyping[before={\blank[line]},after={\blank[line]}]
+\getexample
+\stop
 
-\section{\type{\placetable}}
+上例不仅演示了抄录命令的基本用法，也演示了如何用 \type{framedtext} 环境构造边框。在 \type{\setuptyping} 命令的 \type{before} 和 \type{after} 参数允许你根据自己的需求，添加可被 \type{typing} 环境自动执行的排版命令。下例可以让 \type{typing} 环境自带边框。
 
-类似于插图，表格也有一个放置命令 \type{\placetable}，其用法与 \type{\placefigure} 相似。例如
+\startexample
+\setuptyping[before={\startframedtext[width=broad]}, after={\stopframedtext}]
+\starttyping
+带外框的 \starttyping ... \stoptyping
+\stoptyping
+\stopexample
+\simpleexample[option=TEX]{\null}
+\start\getexample\stop
 
-\starttyping[option=TEX]
-\placetable[here][表格示例]{简单的表格}{
-  \starttabulate[|cw(2cm)|cw(2cm)|cw(2cm)|][distance=none]
-  \HL
-  \VL 1 \VL 2 \VL 3\VL\NR
-  \HL
-  \VL 4 \VL 5 \VL 6\VL\NR
-  \HL
-  \stoptabulate
+\type{\setuptyping} 的 \type{line} 参数可用于设定代码行号。通过 \type{\setuplinenumbering}\index[setuplinenumbering]{\tex{setuplinenumbering}} 可定制行号样式。下例开启代码行号，并将行号到 \type{typing} 环境的距离设为 0.5em：
+
+\startexample
+\setuptyping[numbering=line,
+             before={\startframedtext[width=broad]},
+             after={\stopframedtext}]
+\setuplinenumbering[typing][distance=.5em]
+\starttyping
+#include <stdio.h>
+int main(void) {
+    printf("Hello world!\n");
+    return 0;
 }
 \stoptyping
-\midaligned{\externalfigure[09/02.pdf]}
+\stopexample
+\simpleexample[option=TEX]{\null}
+\start\getexample\stop
 
-对于中文排版，表格的标题，默认的设置并不符合我们的习惯，需要作一些定制。首先，将表格编号前缀设定为
+\section{着色}
 
-\starttyping[option=TEX,space=on]
-\setuplabeltext[en][table={表 }]
+\CONTEXT\ 提供了代码语法着色功能，例如对 \TEX\ 代码进行着色，
+
+\startexample
+\starttyping[option=TEX]
+\starttext
+Hello \CONTEXT!
+\stoptext
 \stoptyping
+\stopexample
+\simpleexample[option=TEX]{\null}
+\start
+\setuplinenumbering[typing][distance=.5em]
+\setuptyping
+  [numbering=line,
+   before={\startframedtext[width=\textwidth]},
+   after={\stopframedtext}]
+\getexample
+\stop
 
-\noindent 然后，将表格标题编号设为正体，字号比正文字号小一级，放置于表格上方，并居中对齐：
+不幸的是，目前 \CONTEXT\ 仅实现了 \TEX，\METAPOST，Lua，XML 等代码的着色。
+
+\section{逃逸区}
+
+倘若你不嫌麻烦，利用 \type{\type} 和 \type{typing} 环境的逃逸（Escape）机制，即 \type{/BTEX.../ETEX}\index[BTEX]{\type{/BTEX ... /ETEX}}，也能实现代码着色。例如
+
+\startTEX[escape=no]
+\starttyping[escape=yes]
+/BTEX\darkgreen \#include/ETEX <stdio.h>
+/BTEX\darkblue int/ETEX main(/BTEX\darkblue void/ETEX) {
+    printf("/BTEX\darkred Hello world!\n/ETEX");
+    /BTEX\darkblue return/ETEX 0;
+}
+\stoptyping
+\stopTEX
+\setupinterlinespace[line=3.75ex]
+
+\start
+\setuptyping
+  [before={\startframedtext[width=\textwidth]},
+   after={\stopframedtext}]
+\starttyping[escape=yes]
+/BTEX\darkgreen \#include/ETEX <stdio.h>
+/BTEX\darkblue int/ETEX main(/BTEX\darkblue void/ETEX) {
+    printf("/BTEX\darkred Hello world!\n/ETEX");
+    /BTEX\darkblue return/ETEX 0;
+}
+\stoptyping
+\stop
+
+\noindent \type{/BTEX.../ETEX} 能够在抄录区域构造局部的 \TEX\ 环境，从而允许你用一些 \CONTEXT\ 排版命令制作一些特殊效果，这些命令不会被当成源码显示。
+
+上述示例基于 \TEX\ 逃逸区实现的代码着色胜在简单，失于繁琐，不过如果你熟悉某种编程语言，诸如 Python，Lua 或者 Awk 之类的脚本语言，你可以编写程序，自动生成这类着色代码，然后将其插入到文档里。
+
+我应该一直都没有告诉你，如何给文字着色\index[yanse]{颜色}。\CONTEXT\ 预定义了一些标准颜色，可直接使用这些颜色的名字对文字进行着色，例如\boxquote{\type{{\magenta 紫色}}}，结果为\boxquote{\magenta 紫色}，也可以使用 \type{\color} 命令，例如\boxquote{\type{\color[lightmagenta]{浅紫色}}}，结果为\boxquote{\color[lightmagenta]{浅紫色}}。以下代码可用于查看 \CONTEXT\ 预定义颜色，
 
 \starttyping[option=TEX]
-\setupcaption
-  [table]
-  [headstyle=\tf,style=\tfx,location=top,align=center]
+\startTEXpage[offset=4pt]
+\showcolor[rgb]
+\stopTEXpage
 \stoptyping
-\blank[line]
-\midaligned{\externalfigure[09/03.pdf]}
 
-\section{不传之秘}
+\noindent 使用 \type{\definecolor}\index[definecolor]{\tex{definecolor}} 可以通过设定红（r）、绿（g）、蓝（b）分量定义颜色。例如
 
-在绘制表格的横线和竖线时，线条粗度可通过参数 \type{rulethickness} 进行设定。例如，将线条粗度设为 2 pt：
+\startexample
+\definecolor[myred][r=.8,g=.2,b=.2]
+\framed{\myred 给你点 color see see！}
+\stopexample
+\simpleexample[option=TEX]{\getexample}
 
-\startsample
-\starttabulate[|c|c|c|c|c|][rulethickness=2pt]
-\HL
-\NC 一 \NC 二 \NC 三 \NC 四 \NC 五 \NC\NR
-\HL
-\NC one \NC two \NC three \NC four \NC five \NC\NR
-\NC 1 \NC 2 \NC 3 \NC 4 \NC 5 \NC\NR
-\HL
-\stoptabulate
-\stopsample
-\simplesample[option=TEX]{\externalfigure[09/04.pdf]}
+\noindent 上例可以让你顺便学会另一种给文字增加外框的方法。也可以用 \type{\colored}\index[colored]{\tex{colored}} 直接设定 rgb 颜色对文字着色，以下代码与上例等效：
 
-\noindent 但是，如果我们只想让表格的顶线和底线是粗度 2 pt，中间那条横线让它是 Tabulate 的默认粗度，该如何实现呢？
+\startTEX
+\framed{\colored[r=.8,g=.2,b=.2]{给你点 color see see！}}
+\stopTEX
 
-对于该问题，也许你翻遍 \ConTeXt\ 的 Wiki 或手册，都找不到答案，因为答案在 \ConTeXt\ 的 tabl-tbl.mkxl 文件里。使用以下命令可搜索该文件：
+\section{显示空格}
 
+\CONTEXT\ 中文断行需要 \type{\setscript[hanzi]}，但该命令会吞噬汉字之间的空白字符，从而导致一个问题，在 \type{\type} 和 \type{typing} 环境中，汉字之间若存在空白字符，它们不会被输出到排版结果，此时，只有 \type{space=on} 可以救急。
+
+下例是 \type{typing} 环境未开启空格显示的效果。
+
+\startexample
 \starttyping
-$ mtxrun --search tabl-tbl.mkxl
+本 行 每 个 汉 字 之 后 都 有 空 格， 但 是 你 看 不 见 它， 除 非 space=on ！
+\stoptyping
+\stopexample
+\simpleexample[option=TEX]{\null}
+\getexample
+
+\noindent 作为比较，下例是开启了空格显示的效果。
+
+\startTEX
+\starttyping[space=on]
+本 行 每 个 汉 字 之 后 都 有 空 格， 你 能 看 见 它 。
+\stoptyping
+\stopTEX
+\starttyping[space=on]
+本 行 每 个 汉 字 之 后 都 有 空 格， 你 能 看 见 它 。
 \stoptyping
 
-\noindent 需要注意的是，该文件中关于 \type{\TL}，\type{\LL} 和 \type{\BL} 的注释应该是错的。要解决上述问题，需要先了解以下细节：
+\section{样式设定}
 
-\startitemize[packed]
-\item 表格线粗度默认大概是 0.4 pt；
-\item 横线 \type{\HL} 有着细致的类别划分，从表格的顶线到底线，依次为顶线 \type{\TL}，第一条横线 \type{\FL}，中间的横线 \type{\ML}，最后一条横线 \type{LL}，底线 \type{\BL}；
-\item 若要设定表格横线的不同粗度，则横线必须按照类别使用，不可使用 \type{\HL}；
-\item \type{\HL}\footnote{包括 \type{\TL}，\type{\FL}，……，\type{\BL}。}和 \type{\VL} 可以接受两个参数，一个是表格线既定粗度的倍数，另一个是表格线颜色。
-\stopitemize
+\tex{setuptype}\index[setuptype]{\tex{setuptype}} 和 \tex{setuptyping}\index[setuptyping]{\tex{setuptyping}} 可分别用于设置行内和行间抄录环境的样式。例如将行内抄录的颜色设为深红色，并打开空格显示：
 
-\noindent 然后，将上述示例修改为
+\startTEX
+\setuptype[color=darkred,space=on]
+\stopTEX
+
+下例可将行间抄录的字号设为比正文字号小一号，并且前后留白各半行距离，且开启 \TEX\ 逃逸。注意，\tex{tt} 是等宽字体切换命令，希望你还没有忘记 \in[fontfamily] 节所讲的那些字体切换命令。
+
+\startTEX
+\setuptyping[style=\tfx\tt,
+             before={\blank[halfline]},
+             after={\blank[halfline]}
+             escape=yes]
+\stopTEX
+
+使用 \type{\definetype}\index[definetype]{\tex{definetype}} 和 \type{\definetyping}\index[definetyping]{\tex{definetyping}} 可以定义专用的抄录环境，见下例。
 
 \starttyping[option=TEX]
-\starttabulate[|c|c|c|c|c|][rulethickness=2pt]
-\TL
-\NC 一 \NC 二 \NC 三 \NC 四 \NC 五 \NC\NR
-\FL
-\NC one \NC two \NC three \NC four \NC five \NC\NR
-\NC 1 \NC 2 \NC 3 \NC 4 \NC 5 \NC\NR
-\BL
-\stoptabulate
+\definetyping[foo][escape=yes,space=on,option=TEX]
+\startfoo
+Hello /BTEX\darkred\CONTEXT/ETEX!
+\stopfoo
 \stoptyping
 
-\noindent 由于该表格内容只有三行，因此只有顶线，第一条横线和底线，亦即无中间横线和最后一条横线。为了更加充分演示问题是如何解决的，可以让该表格的内容再丰富一些：
+\tex{setuptype} 和 \tex{setuptyping} 也能用于设定自定义的抄录环境，但是需要提供环境名，例如：
 
 \starttyping[option=TEX]
-\starttabulate[|c|c|c|c|c|][rulethickness=2pt]
-\TL
-\NC 一 \NC 二 \NC 三 \NC 四 \NC 五 \NC\NR
-\FL
-\NC 甲 \NC 乙 \NC 丙 \NC 丁 \NC 戊 \NC\NR
-\ML
-\NC one \NC two \NC three \NC four \NC five \NC\NR
-\LL
-\NC 1 \NC 2 \NC 3 \NC 4 \NC 5 \NC\NR
-\BL
-\stoptabulate
+\setuptyping[foo][style=\tt\tfx]
 \stoptyping
 
-现在要保持 \type{\TL} 和 \type{\BL} 为既定粗度 2 pt，将 \type{\FL}，\type{\ML} 和 \type{\LL} 的粗度设置为 0.2 倍的既定粗度，及 0.4 pt，顺便试验一下颜色是否真的可用，见示例 \in[HL example] 对应的代码，结果只有 \type{\ML} 变成了双线，其他皆符合预期。
+\subject{小结}
 
-为何 \type{\ML} 如此不配合呢？我猜也许它本来就是在绘制双线，因为 Tabulate 支持表格分页断开，即一个表格若处于页面底部且不能完全被当前页面容纳时，\ConTeXt\ 可将其断开，一部分在当前页面，另一部分在下一页面。为了让断开后的表格完整，\type{\ML} 必须是双线。若将示例 \in[HL example] 中的 \type{\ML} 换成 \type{\HL}，结果同样是双线。若不需要双线，可将 \type{\ML} 皆换为 \type{\FL} 或 \type{\LL}。
+抄录环境还有许多功能，本文未予介绍，可以阅读文档 \cite[typing] 获得更全面的认识。
 
-为了避免上述莫名其妙的问题，若只是令表格顶线和底线变粗，不必设定 \type{rulethickness} 参数，而是修改顶线和底线的粗度，令其他表格线的粗度皆为默认值。
-
-\startsample
-\starttabulate[|c|c|c|c|c|][rulethickness=2pt]
-\TL
-\NC 一 \NC 二 \NC 三 \NC 四 \NC 五 \NC\NR
-\FL[0.2,red]
-\NC 甲 \NC 乙 \NC 丙 \NC 丁 \NC 戊 \NC\NR
-\ML[0.2,blue]
-\NC one \NC two \NC three \NC four \NC five \NC\NR
-\LL[0.2,magenta]
-\NC 1 \NC 2 \NC 3 \NC 4 \NC 5 \NC\NR
-\BL
-\stoptabulate
-\stopsample
-\sample[option=TEX][HL example]{修改表格线粗度和颜色}{\getsample}
-
-\section{小结}
-
-除了在设定表格线粗度时不尽人意之外，Tabulate 堪当日常之用。它还有一些功能，本章尚未涉及，诸如跨栏，分页，段落等，这部分功能在后续章节介绍其他排版元素时，将作为搭配示例予以介绍。
-
-待到 Tabulate 用至捉襟见肘之时，可使用「终极表格」，其文档在你的 \ConTeXt\ 环境里，可通过以下命令搜索：
-
-\starttyping
-$ mtxrun --search xtables-mkiv.pdf
-\stoptyping
+面向印刷行业的抄录环境本身并不复杂，只是若是排版面向屏幕阅读的电子文档，代码着色能够更为直观地呈现代码结构，而 \CONTEXT\ 在这方面存在很大欠缺。虽然它提供了扩展机制，但目前只能通过一些示例代码\cite[verb-luatex]去理解这该套机制。如果你要自行尝试为某种编程语言的代码编写着色器，不仅需要熟悉 Lua 语言，还需要熟悉 LPEG 库的用法。如果你对这个主题感兴趣，可以参考我所作的一些尝试\cite[lpeg,code-render]。

@@ -10,19 +10,21 @@
 \placebookmarks[title,chapter,section][chapter]
 % 版式
 \setuppapersize[A4][A4]
-\setuplayout[backspace=2.5cm,width=16.5cm,
+\setuplayout[backspace=3cm,width=15cm,
              topspace=1.5cm,header=1.5cm,
              height=27.2cm,footer=1cm]
+% 双面对开
+%\setuppagenumbering[alternative=doublesided]
 %\showframe
 % 段落首行缩进、行间距
 \setupindenting[first,always,2em]
-\setupinterlinespace[line=3.7ex] 
+\setupinterlinespace[line=1.5\bodyfontsize] 
 % 关闭页码，后面会在页眉设置页码
 \setuppagenumbering[location=]
 % 丑度
 %\setuptolerance[horizontal,stretch]
 % 图片目录
-\setupexternalfigures[directory={./figures}]
+\setupexternalfigures[directory=figures]
 % 标题设置
 \setupheads[indentnext=yes]
 \setuphead[title][incrementnumber=list]
@@ -34,7 +36,21 @@
 \setuphead[subsubject,subsection][style=\bf,before={\blank},after={\blank}]
 \definehead[TOC][title]
 \setuphead[TOC][before={\blank[quarterline]},after={\blank[quarterline]}]
-\setuplabeltext[cn][chapter={{第 },{ 章}}]
+
+% 若各章首页前页是空白页，禁止页眉和页脚
+\definepagebreak
+  [mychapterpagebreak]
+  [yes,header,footer,right]
+\setuphead
+  [chapter,title]
+  [page=mychapterpagebreak]
+
+% 若使用了以下文档结构化环境，需要将其分页设定清空
+% 方能满足下面的页眉和页脚的断页规则。
+%\setupsectionblock [frontpart] [page=]
+%\setupsectionblock [bodypart] [page=]
+%\setupsectionblock [appendix] [page=]
+%\setupsectionblock [backmatter] [page=]
 
 % 目录列表
 \setupcombinedlist[content][list={title,chapter,section},criterium=text]
@@ -48,7 +64,8 @@
    pagecommand=\PageNumber,
    pagestyle=smallitalic,
    width=fit]
-\def\ChapterNumber#1{\doiftext{#1}{第 #1 章\quad}}  % 若 #1 是存在，则将其中文化
+%\def\ChapterNumber#1{\doiftext{#1}{第 #1 章\quad}}  % 若 #1 是存在，则将其中文化
+\def\ChapterNumber#1{第 #1 章\quad}
 \setuplist
   [chapter]
   [alternative=a,
@@ -66,6 +83,9 @@
    numberstyle=normal, 
    pagecommand=\PageNumber,
    pagestyle=smallitalic]
+   
+% 目录强制分页
+\setinjector[list][12][\page]
 
 % 页眉：通用
 \startsetups HeaderFooter
@@ -78,12 +98,16 @@
   第 \headnumber[chapter]\ 章\kern 1em\getmarking[chapter]%
 }
 \def\CurrentSection{%
-  \headnumber[section]%
-  \hbox to 2em{}%
-  \getmarking[section]%
+  \headnumber[section][current]%
+  \quad%
+  \getmarking[section][current]%
 }
 \setupheadertexts[\CurrentChapter][pagenumber][pagenumber][\CurrentSection]
 \setupheader[style=\tfx]
+\stopsetups
+% 页眉：清空
+\startsetups HeaderEmpty
+\setupheadertexts[][][][]
 \stopsetups
 
 % 脚注里的中文断行
@@ -94,136 +118,143 @@
 \setupnotation[footnote][way=bypage] % 来自 wolfgang 的 tip
 
 % 索引
-\def\cmdindex#1{\index[#1]{\type[escape=yes]{\/BTEX #1/ETEX}}}
+\def\cmdindex#1{\index[#1]{\tex{#1}}}
 %---- 列表 ----
 \setupfloats[indentnext=yes] 
-\setupcaptions[style=\tfx, headstyle=\normal, align=center]
+\setupcaptions[style=\tfx, headstyle=\rm, align=center]
 %\setupitemize[each][packed,serried,inmargin][margin=2em]
 \setupitemize[each][distance=.4em]
 \setupinmargin[left,right][style=\tfx]
 \definedescription
   [definition]
   [location=top,hang=20,width=broad,indenting=always,style=\ss,headstyle=\bf]
-% 表格标题
-\setupcaption
-  [table]
-  [headstyle=normal,style=small,location=top]
+  
+% 表格标题（为了第 6 章表格的演示，这部分内容需要在介绍 \placetable 之后才出现，
+% 见 06.tex
+%\setupcaption
+%  [table]
+%  [headstyle=normal,style=small,location=top]
+
 % 抄录
 \setuplinenumbering[style=small]
 %\setuptyping[option=color,palet=graypretty,
 %	     before={\blank[.5em]\setupinterlinespace[line=1.2em]},
 %             after={\blank[.5em]}]
 
-\startuseMPgraphic{common}
-def myfancybox(expr u) =
-
-enddef;
-\stopuseMPgraphic
-
-\startuseMPgraphic{blue box}
-numeric w, h, u;
-w := OverlayWidth; h := OverlayHeight; u := .75BodyFontSize;
-color framecolor; framecolor := white randomized (.7, .7, .7);
-drawoptions(withpen pencircle scaled 1pt withcolor framecolor);
-path p, q;
-% 左上角
-p := ((0, h) -- (2u, h));
-q := ((0, h) -- (0, h - u));
-draw p; draw q;
-% 左下角
-p := ((0, 0) -- (2u, 0));
-q := ((0, 0) -- (0, u));
-draw p; draw q;
-% 右上角
-p := ((w - 2u, h) -- (w, h));
-q := ((w, h) -- (w, h - u));
-draw p; draw q;
-
-% 右下角
-p := ((w - 2u, 0) -- (w, 0));
-q := ((w, 0) -- (w, u));
-draw p; draw q;
-\stopuseMPgraphic
-\defineoverlay[blue box][\uniqueMPgraphic{blue box}]
-\defineframedtext
-  [blueframe]
-  [frame=off,background={blue box},
-    offset=0pt,loffset=.5em,roffset=.5em,before={\blank},after={\blank[.95em]}]
-\setuptyping
-  [before={\startblueframe[width=\textwidth]},after={\stopblueframe},escape=yes]
-
-\startuniqueMPgraphic{blue box2}
+\startuniqueMPgraphic{box quote}
 path p, q;
 numeric w, h, u;
-u := BodyFontSize;
-w := OverlayWidth; h := .85OverlayHeight;
+u := .7BodyFontSize;
+w := OverlayWidth; h := .8OverlayHeight;
 color framecolor; framecolor := white randomized (.7, .7, .7);
 pickup pencircle scaled 1pt;
-
-% 左上角
-p := ((0, h) -- (2u, h)) shifted (-.25u, 0);
-q := ((0, h) -- (0, h - u)) shifted (0, .25u);
+% upper left corner
+p := ((0, h) -- (u, h)) shifted (-.1u, 0);
+q := ((0, h) -- (0, h - .75u)) shifted (0, .1u);
 draw p withcolor framecolor;
 draw q withcolor framecolor;
-
-% 右下角
-p := ((w - 2u, 0) -- (w, 0)) shifted (.25u, 0);
-q := ((w, 0) -- (w, u)) shifted (0, -.25u);
+% lower right corner
+p := ((w - u, 0) -- (w, 0)) shifted (.1u, 0);
+q := ((w, 0) -- (w, .75u)) shifted (0, -.1u);
 draw p withcolor framecolor;
 draw q withcolor framecolor;
 \stopuniqueMPgraphic
-\defineoverlay[blue box2][\uniqueMPgraphic{blue box2}]
-\def\bluebox#1{%
+\defineoverlay[boxquotebg][\uniqueMPgraphic{box quote}]
+\def\boxquote#1{%
   \kern.25em%
-  \inframed[frame=off,background={blue box2},offset=0pt,loffset=.25em,roffset=.25em]{#1}%
+  \inframed[frame=off,
+            background=boxquotebg,
+            offset=0pt,
+            loffset=.25em,
+            roffset=.25em]{#1}%
   \kern.25em%
 }
-\def\blueframed#1{%
-  \kern.25em%
-  \framed[frame=off,background={blue box2},offset=0pt,loffset=.25em,roffset=.25em]{#1}%
-  \kern.25em%
-}
-\defineframedtext[blueframedtext][offset=0pt,frame=off,background={blue box2},width=\textwidth]
 
-% 红色背景框
-\def\redbox#1{%
-  \inframed[frame=off,background=color,backgroundcolor=indianred,offset=4pt]{#1}%
-}
+\startMPinclusions
+def fancybox(expr u) =
+  numeric w, h;
+  w := OverlayWidth; h := OverlayHeight;
+  color framecolor; framecolor := white randomized (.7, .7, .7);
+  drawoptions(withpen pencircle scaled 1.25pt withcolor .3[framecolor, white]);
+  path p, q;
+  % 左上角
+  p := ((0, h) -- (2u, h));
+  q := ((0, h) -- (0, h - 1.25u));
+  draw p; draw q;
+  % 左下角
+  p := ((0, 0) -- (2u, 0));
+  q := ((0, 0) -- (0, 1.25u));
+  draw p; draw q;
+  % 右上角
+  p := ((w - 2u, h) -- (w, h));
+  q := ((w, h) -- (w, h - 1.25u));
+  draw p; draw q;
+  
+  % 右下角
+  p := ((w - 2u, 0) -- (w, 0));
+  q := ((w, 0) -- (w, 1.25u));
+  draw p; draw q;
+enddef;
+\stopMPinclusions
+\startuseMPgraphic{strange box}
+fancybox(.35BodyFontSize);
+\stopuseMPgraphic
+\defineoverlay[strangeboxbg][\uniqueMPgraphic{strange box}]
+\defineframedtext
+  [strangebox]
+  [frame=off,background=strangeboxbg,
+    offset=0pt,loffset=.5em,roffset=.5em,before={\blank},after={\blank[.95em]}]
 
-% ---------- sample ----------------------
-\definebuffer[sample]
-\definefloat[Sample][Samples]
-\setuplabeltext[cn][Sample={示例 }]
+\setuptype[color=darkred]
+\definetyping[mycmd]
+\setuptyping[mycmd]
+  [before={\setupinterlinespace[line=3ex]\startstrangebox[width=\textwidth]},
+   after={\stopstrangebox\setupinterlinespace[line=3.75ex]},
+   style=\switchtobodyfont[tt,10pt],
+   escape=yes]
+\setuptyping
+  [before={\startstrangebox[width=\textwidth]},
+   after={\stopstrangebox},
+   style=\switchtobodyfont[tt,10pt],
+   escape=yes]
+% 抄录环境里的单引号，会被替换为汉字单引号，我需要定义一个
+% 西文等宽字体，将其修正回来，即 /BTEX{\Qt'}/ETEX
+\definefont[Qt][lmmono10regular at 11pt]
 
-% 参数为一个放在页面右侧的盒子，基于该盒子的宽度，计算其左侧空间宽度
-\def\defineLeftWidth#1{%
-  \newdimen\LeftWidth
-  \LeftWidth=\textwidth
-  \newdimen\RightObjectWidth
-  \RightObjectWidth=\wd#1
-  \ifdim\RightObjectWidth>0pt
-    \advance\LeftWidth by -\RightObjectWidth
-    \advance\LeftWidth by -1em
+
+% ---------- example ----------------------
+\definebuffer[example]
+\definefloat[Example][Examples]
+\setuplabeltext[cn][Example={例 }]
+
+\newdimen\LeftExampleWidth
+\newdimen\RightResultWidth
+\def\defineLeftExampleWidth#1{%
+  \LeftExampleWidth=\textwidth
+  \RightResultWidth=\wd#1
+  \ifdim\RightResultWidth>0pt
+    \advance\LeftExampleWidth by -\RightResultWidth
+    \advance\LeftExampleWidth by -1em
   \fi
 }
-\def\sample[#1][#2]#3#4{%
+\def\example[#1][#2]#3#4{%
   \setbox\scratchbox\hbox{#4}%
-  \defineLeftWidth{\scratchbox}%
-  \placeSample[here][#2]{#3}{%
+  \defineLeftExampleWidth{\scratchbox}%
+  \placeExample[force][#2]{#3}{%
     \hbox to \textwidth{%
-      \hbox{\typesample[#1,
-                        before={\startblueframe[width=\LeftWidth]},
-                        after={\stopblueframe}]}\hss\unhbox\scratchbox}%
+      \hbox{\typeexample[#1,
+                        before={\startstrangebox[width=\LeftExampleWidth]},
+                        after={\stopstrangebox}]}\hss\unhbox\scratchbox}%
   }%
 }
-\def\simplesample[#1]#2{%
+\def\simpleexample[#1]#2{%
   \setbox\scratchbox\hbox{#2}%
-  \defineLeftWidth{\scratchbox}%
-  \placeSample[here,none][]{}{%
+  \defineLeftExampleWidth{\scratchbox}%
+  \placeExample[force,none][]{}{%
     \hbox to \textwidth{%
-      \hbox{\typesample[#1,
-                        before={\startblueframe[width=\LeftWidth]},
-                        after={\stopblueframe}]}\hss\unhbox\scratchbox}%
+      \hbox{\typeexample[#1,
+                        before={\startstrangebox[width=\LeftExampleWidth]},
+                        after={\stopstrangebox}]}\hss\unhbox\scratchbox}%
   }%
   \blank[back]
 }

@@ -1,244 +1,357 @@
-\chapter{参考文献}
+\chapter{表格}
 
-稍微严肃一些的文章，往往会附上一些与文章内容密切相关的参考文献。科研论文更是如此，牛顿都说过自己是站在巨人的肩膀上做事情的。参考文献便是巨人。任何一个 \TeX\ 系统皆不敢对支持参考文献排版这一事宜掉以轻心，否则 \TeX\ 无以为科技文献排版软件之先驱和典范。
+表格通常用于呈现一些成行成列的数据，但是不要对此有刻板印象，有时一些非常规的页面布局，若基于表格实现，也许颇具奇效。\CONTEXT\ 有三种表格，从易到难，依次是 tabulate，table 和 xtable，详见文档 \cite[tables]，本章仅讲述 tabulate，而且我也建议你应该先掌握 tabulate，待其难以满足需求时，再考虑学习另外两种。
 
-\section{\BibTeX}
+\section{基本格式}
 
-大多数 \TeX\ 系统在排版参考文献时，皆需依赖 bibtex 程序。由 bibtex 基于文献数据文件生成参考文献列表信息，然后交由 \TeX\ 进行排版，这一过程通常是自动进行的，并不需要用户了解和干预。\ConTeXt\ 现在不需要依赖 bibtex 程序，它已在自身内部实现了 bibtex 的全部功能。本文档在谈及 \BibTeX\ 时，主要指其文献数据格式。
+以下代码构造了一个 2 行 3 列的表格\index[tabulate]{\type{tabulate} 环境}，第 1 列居左（\type{l}），第 2 列居中（\type{c}），第 3 列居右（\type{r}）。
 
-\BibTeX\ 文献数据文件是纯文本文件，其中包含着论文、专著和手册等文献数据。例如，一篇期刊论文，其数据格式为
+\startexample
+\starttabulate[|l|c|r|]
+\NC 1 \NC 2 \NC 3 \NR
+\NC 4 \NC 5 \NC 6 \NR
+\stoptabulate
+\stopexample
+\simpleexample[option=TEX]{\getexample}
 
-\starttyping
-@article{knuth-1984-literate,
-  title={Literate programming},
-  author={Knuth, Donald Ervin},
-  journal={The computer journal},
-  volume={27},
-  number={2},
-  pages={97--111},
-  year={1984},
-  publisher={Oxford University Press}
+\noindent\boxquote{\type{|l|c|r|}}是表格各列的格式声明，你可以不指定各列的对齐方式，例如\boxquote{\type{||||}}，但是格式声明不能省略，否则表格的排版结果可能会变得非常诡异。\tex{NC} 用于构造新的单元格，\type{\NR} 用于构造一个新行。
+
+\section{边线}
+
+将 \type{\NC} 替换为 \type{\VL}，用 \type{\HL} 可以画出单元格的左右边线。例如
+
+\startexample
+\starttabulate[|l|c|r|]
+\HL
+\VL 1 \VL 2 \VL 3\VL\NR
+\HL
+\VL 4 \VL 5 \VL 6\VL\NR
+\HL
+\stoptabulate
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+上例表格的竖线像是被横线打断了，实际上是因为 \type{tabulate} 环境构造的表格，各行之间默认存在一定间距导致的。若想消除该现象，只需将单元格之间的纵向间距参数 \type{distance} 设为 0 尺度，例如 0mm，也可以设成 \type{none}。例如
+
+\startexample
+\starttabulate[|l|c|r|][distance=0mm]
+\HL
+\VL 1 \VL 2 \VL 3 \VL\NR
+\HL
+\VL 4 \VL 5 \VL 6 \VL\NR
+\HL
+\stoptabulate
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+\section{对齐的假象}
+
+在上文的所有示例里，第 1 列和第 3 列的对齐实际上存在假象。即使将它们也设为居中对齐，它们的位置似乎依然不变，见下例，第 1 列依然是居左的，第 3 列依然是居右的。即使将第 1 列设为 \type{r}，将第 3 列设为 \type{l}，结果依然一样。甚至，即使你将第 2 列设为 \type{l} 或 \type{r}，结果它依然是居中的。
+
+\startexample
+\starttabulate[|c|l|c|]
+\VL 1 \VL 2 \VL 3 \VL\NR
+\VL 4 \VL 5 \VL 6 \VL\NR
+\stoptabulate
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+事实上，\type{tabulate} 单元格内容的对齐，并不以单元格空间亦即一个矩形框为基准，而是以这列内容本身为基准。例如，如果某列设为 \type{l}，仅仅是意味着这列内容是左对齐的。上述例子之所以看不到这种效果，是因为单元格的内容过于简单，下例让单元格的内容变得长短不一，便可呈现该效果。
+
+\startexample
+\starttabulate[|r|c|l|]
+\VL 1 \VL 2 \VL 3.14159 \VL\NR
+\VL 3.14159 \VL 5 \VL 6 \VL\NR
+\stoptabulate
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+造成假象的另一个原因是，\type{tabulate} 各列内容之间默认存在间距，而该间距并不属于单元格。你应该将表格的竖线理解成有一些潜在的宽度的线，该宽度值可通过 \type{unit} 参数予以设定，下例将其设为 0 长度，结果虽然丑陋，但如果你真的希望单元格的内容真正位于单元格的左侧、中央还是右侧，则必须如此设定。
+
+\startexample
+\starttabulate[|r|c|l|][unit=0mm]
+\VL 1 \VL 2 \VL 3.14159 \VL\NR
+\VL 3.14159 \VL 5 \VL 6 \VL\NR
+\stoptabulate
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+在上例的基础上，我们只要设定各列宽度，便可以得到你预想的的对齐效果，见下例。设定列宽的格式声明是 \type{w(尺寸)}，可与对齐声明联合使用。
+
+\startexample
+\starttabulate[|rw(2cm)|cw(1cm)|lw(1.5cm)|][unit=0mm]
+\VL 1 \VL 2 \VL 3.14159 \VL\NR
+\VL 3.14159 \VL 5 \VL 6 \VL\NR
+\stoptabulate
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+\section{三线表}
+
+\type{tabulate} 环境主要是为科技文献排版中常用的三线表设计的，这是造成第一节中那些对齐假象的最根本的原因。在三线表中，是不需要表格竖线的，故而默认的 \type{unit} 参数值，不会给你造成任何不适，见下例。
+
+\startexample
+\starttabulate[|c|c|c|]
+\HL
+\NC 甲 \NC 乙 \NC 丙 \NR
+\HL
+\NC 一 \NC 二 \NC 三 \NR
+\NC one \NC two \NC three \NR
+\HL
+\stoptabulate
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+不过，三线表的顶线和底线，粗度要比表格内的线要粗一些。虽然 \tex{\HL} 不能设定粗细，但 \type{tabulate} 环境提供了 \tex{TL} 和 \tex{BL}，可分别用于绘制指定粗细以及颜色的表格顶线和底线，T 表示 Top，B 表示 Bottom，这两种横线命令的用法如下：
+
+\startexample
+\starttabulate[|c|c|c|]
+\TL[3]
+\NC 甲 \NC 乙 \NC 丙 \NR
+\HL
+\NC 一 \NC 二 \NC 三 \NR
+\NC one \NC two \NC three \NR
+\BL[3,darkred]
+\stoptabulate
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+如果表格还需要定制更多横线的粗细， \type{tabulate} 环境还提供了 \tex{FL}、\tex{ML} 和 \tex{LL}，分别用于构造表格顶线之下的第一条横线，中间的横线以及最后一条横线。因而除了默认粗度的 \tex{HL} 之外，共有 5 种可设定粗细的线性备用，对于三线表而言，这些线足够用了，实际上我们只需要两种线，一种是 \tex{HL}，另一种是可设定粗细的，T、F、M、L、B 只是希望横线具有语义。
+
+可设定横线粗细的命令，设定线的粗细的数字参数，其值是表格线默认粗度的倍数。实际上，还有一个数字参数，其值也是表格线默认粗度的倍数，用于构造虚线，即虚线的空白间隔是表格线默认粗度的倍数，见下例。
+
+\startexample
+\starttabulate[|c|c|c|]
+\TL[3]
+\NC 甲 \NC 乙 \NC 丙 \NR
+\FL[1, 2, blue]
+\NC 一 \NC 二 \NC 三 \NR
+\NC one \NC two \NC three \NR
+\BL[3,darkred]
+\stoptabulate
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+\section{段落成列}
+
+单元格里，可以放置含有段落的内容，格式声明为 \type{p} 或 \type{p(尺寸)}，后者可限定段落的宽度。段落本身以及段落所能包含的任何内容，皆能嵌入在单元格内。下例在单元格内嵌入了一个列表。
+
+\startexample
+\starttabulate[|c|p(4cm)|][align=normal]
+\TL[3]
+\NC 列表 \NC
+         \startitemize
+         \item 中午，晒十五分钟太阳
+         \item 晚上，看流浪地球\,\Romannumerals{2}
+         \stopitemize \NR
+\BL[3]
+\stoptabulate
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+若段落的格式声明未提供宽度，单元格的宽度会尽可能地占满页面空间。例如，如果表格只有 1 列，则该列的宽度会占满正文宽度，如果表格有 2 列，则这两列平分正文宽度，见下例。
+
+\startexample
+\starttabulate[|p|p|]
+\TL[3]
+\NC 天下皆知美之为美，斯恶已；皆知善之为善，斯不善已。
+\VL 道冲而用之或不盈。渊兮似万物之宗。
+ \NR
+\BL[3]
+\stoptabulate
+\stopexample
+\simpleexample[option=TEX]{\null}
+\getexample
+
+\section{像插图那样}
+
+虽然我还没有介绍如何在文档中插入图片，但是表格可以像插图那样出现于文档，通常居中放置，并配备标题，\tex{placetable} 命令可做此事，见下例。
+
+\mainlanguage[en]
+\startexample
+\placetable[here][]{道德经里的句子}{
+  \starttabulate[|p|p|]
+  \TL[3]
+  \NC 天下皆知美之为美，斯恶已；皆知善之为善，斯不善已。
+  \VL 道冲而用之或不盈。渊兮似万物之宗。
+  \NR
+  \BL[3]
+  \stoptabulate
 }
-\stoptyping
+\stopexample
+\simpleexample[option=TEX]{\null}
+\getexample
 
-\noindent 再例如一本专著，其数据格式为
+\CONTEXT\ 默认的表格标题的位置以及序号前缀皆不合中文文档的常见格式，存在以下问题：
 
-\starttyping
-@book{knuth-1986-texbook,
-  title={The \TeX\ book},
-  author={Knuth, Donald Ervin and Bibby, Duane},
-  volume={1993},
-  year={1986},
-  publisher={Addison-Wesley Reading, MA}
-}
-\stoptyping
-
-现在，为了学习 \ConTeXt\ 的参考文献排版功能，可将上述文献数据保存为一份文本文件，例如 foo.bib，将该文件作为文献数据文件。
-
-在 foo.bib 相同目录下，建立 \ConTeXt\ 源文件，例如 foo.tex，其内容为
-
-\starttyping[option=TEX]
-\usebtxdataset[foo.bib] % 加载 foo.bib
-\starttext
-Knuth 基于文学编程\cite[knuth-1984-literate]技术开发了
-\TeX\ 系统\cite[knuth-1986-texbook]。
-\blank
-\placelistofpublications
-\stoptext
-\stoptyping
-\noindent 编译 foo.tex，可得以下结果：
-\blank[line]
-\midaligned{\externalfigure[06/bibtex-example-01.pdf]}
-\blank[line]
-
-\section{文献样式}
-
-上一节示例中的文献样式是 \ConTeXt\ 默认样式，除此之外，还有其他三种预定义的文献样式：apa，aps 和 chicago，可在 \type{\placelistofpublications} 之前使用 \type{\usebtxdefinitions} 进行切换。例如使用 aps 样式，
-
-\starttyping[option=TEX]
-... ... ...
-\usebtxdefinitions[aps]
-\placelistofpublications
-\stoptyping
-\blank[line]
-\midaligned{\externalfigure[06/bibtex-example-02.pdf]}
-\blank[line]
-
-对于预定义样式，可以进行调整。例如，缩小文献序号后的空白间距，
-
-\starttyping[option=TEX]
-\setupbtxlist[aps][distance=.5em,width=auto]
-\stoptyping
-\blank[line]
-\midaligned{\externalfigure[06/bibtex-example-03.pdf]}
-
-\section{自定义文献列表样式}
-
-也许 \ConTeXt\ 提供的参考文献列表样式并不符合你的需求，因此你会忍不住想自己定义一种样式。我的看法是，文献列表样式当由期刊编辑部或专著出版商负责定义，个人无需如此刻意。不过，倘若你正是此类机构工作人员，需要为 \ConTeXt\ 定义符合自己单位要求的文献样式，下文仅能为你提供一个简单的示例，希望有所帮助。
-
-现在，假设我们要定义一种名字叫作 foo 的文献列表样式。首先，按照 \ConTeXt\ 的文件命名约定，建立两份文件，一份是 publ-imp-foo.lua，一份是 publ-imp-foo.tex。在 publ-imp-foo.lua 里写入以下内容：
-
-\starttyping[option=LUA]
-local specification = {
-    name = "foo",
-    categories = {},
-}
-local categories = specification.categories
-categories.article = {
-    required = {"author"},
-    optional = {
-        "title", "journal", "year", "volume", "number", "pages"
-    }
-}
-return specification
-\stoptyping
-
-\noindent 上述代码是 Lua 代码，定义了一个表 \type{specification}，设定了期刊论文必需和可选元素。事实上，对于定义新的参考文献样式而言，Lua 文件并非必须，只是倘若没有它，BibTeX 数据文件的所有字段皆为可选，而无必需了。
-
-在 publ-imp-foo.tex 文件中写入以下内容
-
-\starttyping[option=TEX]
-\definebtx[foo][specification=foo]
-\definebtxrendering[foo][specification=foo]
-\stoptyping
-
-\noindent 上述代码定义了两个命名空间，第一个用于定义文献的内容结构，第二个用于定义文献的排版样式，它们的文献规格皆为 publ-imp-foo.lua 中定义的名字为 \type{foo} 的表 \type{specification}。这两个命名空间的上层命名空间皆为 \type{btx}，而且它们默认会继承 ConTeXt 默认的参考文献内容结构和排版样式的各层子命名空间，亦即我们无需再定义诸如 \type{btx:foo:list}，\type{btx:foo:article} 等子命名空间。由于 ConTeXt 参考文献手册中并未对此细致介绍（或者我没有注意到），故而这些内容皆为我的猜测，若有谬误，敬请斧正。
-
-倘若并不清楚自定义的命名空间继承了 ConTeXt 默认的命名空间里的哪些子空间，亦可根据自己需要定义一些子空间。例如，为命名空间 \type{foo} 定义子命名空间 \type{list} 和 \type{list:article}：
-
-\starttyping[option=TEX]
-\definebtx[foo:list][foo]
-\definebtx[foo:list:article][foo:list]
-\stoptyping
-
-现在，为期刊论文设置文献列表样式，在 publ-imp-foo.tex 文件中添加以下内容：
-
-\starttyping[option=TEX]
-\startsetups btx:foo:list:article
-  % \btxcomma，\btxperiod，\btxcolon，\btxspace
-  % 分别为西文的逗号，句号，冒号和空格，用宏是为了醒目。
-  \texdefinition{btx:foo:list:author}\btxperiod\btxspace
-  \texdefinition{btx:foo:list:title}\btxperiod\btxspace
-  \texdefinition{btx:foo:list:journal}[J]\btxcomma\btxspace
-  \texdefinition{btx:foo:list:year}\btxcomma\btxspace
-  \texdefinition{btx:foo:list:volume}
-  \texdefinition{btx:foo:list:number}\btxcolon\btxspace
-  \texdefinition{btx:foo:list:pages}\btxperiod
-\stopsetups
-\stoptyping
-
-\noindent 上述代码定义了期刊论文的构成，其中 \type{\btxcomma}，\type{\btxperiod}，\type{\btxcolon}，\type{\btxspace} 分别为西文的逗号，句号，冒号和空格，用宏是为了醒目。倘若需要使用中文标点，亦可自行定义，例如：
-
-\starttyping[option=TEX]
-\def\btxchinesecomma{，}
-\def\btxchineseperiod{．}
-\def\btxchinesecolon{：}
-\stoptyping
-
-在 publ-imp-foo.tex 文件中添加期刊论文各元素的样式定义：
-
-\starttyping[option=TEX]
-\starttexdefinition btx:foo:list:author
-  \color[blue]{\btxflush{author}}
-\stoptexdefinition
-\stoptyping
-
-\starttyping[option=TEX]
-\starttexdefinition btx:foo:list:title
-  \color[red]{\btxflush{title}}
-\stoptexdefinition
-\stoptyping
-
-\starttyping[option=TEX]
-\starttexdefinition btx:foo:list:journal
-    \color[magenta]{\btxflush{journal}}
-\stoptexdefinition
-\stoptyping
-
-\starttyping[option=TEX]
-\starttexdefinition btx:foo:list:year
-    \btxflush{year}
-\stoptexdefinition
-\stoptyping
-
-\starttyping[option=TEX]
-\starttexdefinition btx:foo:list:volume
-    \btxflush{volume}
-\stoptexdefinition
-\stoptyping
-
-\starttyping[option=TEX]
-\starttexdefinition btx:foo:list:number
-  \ignorespaces  % 忽略空白字符
-  \btxleftparenthesis  % 左括号 (
-  \btxflush{number}
-  \btxrightparenthesis  % 右括号 )
-\stoptexdefinition
-\stoptyping
-
-\starttyping[option=TEX]
-\starttexdefinition btx:foo:list:pages
-  \btxflush{pages}
-\stoptexdefinition
-\stoptyping
-
-倘若需要调整参考文献列表序号到列表内容之间的距离，并为序号套上方括号，可在 publ-imp-foo.tex 文件中增加以下设定：
-
-\starttyping[option=TEX]
-\setupbtxlist[foo][width=auto,distance=1em,startter={[},stopper={]}]
-\stoptyping
-
-如果对西方作者的姓名有一些要求，譬如姓氏在前，名字在后且简写，可在　publ-imp-foo.tex 文件中作以下设定：
-
-\starttyping[option=TEX]
-\definebtx[foo:list:author][foo:list]
-\setupbtx
-  [foo:list:author]
-  [authorconversion=invertedshort,
-   separator:invertedinitials=\btxspace,  % 将名字之后默认的逗号替换为空格
-   stopper:initials=\btxspace  % 将简写的名字之后后默认的句点替换为空格
-  ]
-\stoptyping
-
-最后，在 publ-imp-foo.lua 和 publ-imp-foo.tex 文件所在目录下，建立测试文件 foo.tex 用于验证上述定义参考文献类表样式 foo 是否可用：
-
-\starttyping[option=TEX]
-\usebtxdataset[foo] % 加载 foo.bib
-\starttext
-Knuth 发明了文学编程语言 WEB\cite[knuth-1984-literate]。
-\blank
-\usebtxdefinitions[foo] % 使用上文定义的参考文献列表样式 foo
-\placelistofpublications
-\stoptext
-\stoptyping
-
-\noindent 结果为
-
-\blank[line]
-\midaligned{\externalfigure[06/bibtex-example-04.pdf]}
-
-\section{廉价方案}
-
-倘若你仅仅是在写一份笔记或手册，若半个小时依然未能学会如何为 \ConTeXt\ 定义参考文献样式，我建议随便选一个 \ConTeXt\ 预定义的样式使用。待文章最终定稿后，手工用 \ConTeXt\ 列表将参考文献列表制作成你喜欢的样式，与创作正文内容相比，所费时间通常可忽略不计。例如
-
-\startsample
-\def\Cite[#1]{[\in[#1]]}
-著名废话学家李某人\Cite[limouren]说过，正经人谁会看参考文献啊！
-\startitemize[n,joinedup][left={[},right={]},stopper=]
-\item[limouren] 李某人．如何说正确的废话[J]．废话学报, 2023, 1(1): 1-10000．
+\startitemize[packed]
+\item 序号的前缀应该\boxquote{表}，而非 \boxquote{Table}；
+\item 序号部分不应该是粗体，且字号应当比正文小一号；
+\item 标题中的文字过于蓬松，且应当位于表格上方。
 \stopitemize
-\stopsample
-\typesample
-\startblueframedtext
-\getsample
-\stopblueframedtext
 
-\section{小结}
+以下代码能够让表格标题的样式符合中文排版惯例。希望你还没有忘记 \in[style] 节所讲的内容与样式分离，你应当将这些设定放置于文档的样式文件。
 
-Hans Hagen 为 \ConTeXt\ 对参考文献的支持专门写了一份约 100 页的手册，见
+\startTEX
+% 开启中文界面
+% 将「Table」和「Figure」等序号前缀切换为「表」和「图」等。
+\mainlanguage[cn]/BTEX\index[mainlanguage]{\tex{mainlanguage}}/ETEX
 
-\starttyping
-$ mtxrun --search mkiv-publications.pdf
-\stoptyping
+% 将表格标题改为顶部放置
+\setupcaption
+  [table][headstyle=normal, style=small, align=center, location=top]
+% 上述设定亦可写成
+% \setupcaption
+%   [table]
+%   [headstyle=\rm, style=\tfx, align=center, location=top]
+\stopTEX
 
-\noindent 若有兴致，不妨一睹，特别是在不理解本文自定义文献样式所用的各命令及其参数的含义时，可从该手册获得更多的理解。
+\noindent \tex{setupcaption}\index[setupcaption]{\tex{setupcaption}} 的 \type{headstyle} 参数用于设定表格标题的序号部分（包括前缀）的样式，其值为 \type{normal} 时，表示使用字族中的正体，等效于 \tex{\rm}；该参数的默认值是 bold，即粗体。\type{style} 参数用于设定标题的正体风格，其值 \type{small} 表示用小号字，等效于 \tex{\tfx}。\type{align} 参数，在 \in[essay] 节已经见过了，应当将其设为 \type{center} 方能避免标题汉字之间的粘连被意外激活而导致文字蓬松。\type{location} 参数用于设定标题在表格上方（top）还是在底部（bottom)，还是在其他位置。上述样式设定产生的效果见表 \in[table-cn-style]。
+
+\mainlanguage[cn]
+\setupcaption
+  [table]
+  [headstyle=normal, style=\tfx, align=center, location=top]
+
+\placetable[here][table-cn-style]{道德经里的句子}{
+  \starttabulate[|p|p|]
+  \TL[3]
+  \NC 天下皆知美之为美，斯恶已；皆知善之为善，斯不善已。
+  \VL 道冲而用之或不盈。渊兮似万物之宗。
+  \NR
+  \BL[3]
+  \stoptabulate
+}
+
+\tex{placetable} 命令需要 4 个参数，其形式可抽象为
+
+\startTEX
+\placefigure[位置][引用]{标题}{\starttabulate ... \stoptabulate}
+\stopTEX
+
+上例将\boxquote{位置}设定为 \type{here}，意思是就在 \tex{placetable} 出现的位置插入表格，但并不是强制的，若需要强制，应将 \type{here} 换成 \type{force}。
+
+也许你会有所不解，表格出现的位置还需要设定吗？它难道不是理所应当出现在 \tex{placetable} 所在的位置吗？答案是，\CONTEXT\ 的表格和插图是浮动的，排版引擎会尽量为它们寻找合适的安放空间，而 \type{here} 和 \type{force} 可以禁止排版引擎的自作聪明。\boxquote{位置}参数也可以设定为 \type{left} 和 \type{right}，分别将表格放置于页面的左侧和右侧。
+
+至于 \tex{placetable} 的\boxquote{引用}，其幕后的机制和用法与 \in[itemcite] 节介绍的列表项引用相似。你可以为表格设定一个引用名，例如 \type{foo}，然后在正文里可以用 \tex{\in[foo]} 以序号的形式引用该表格，例如
+
+\startTEX
+如表 \in[foo] 所示，... ... ...\par
+\placefigure[here][foo]{标题}{\starttabulate ... \stoptabulate}
+\stopTEX
+
+\noindent 如果一个表格不需要任何引用，则可像上例，将此项空置即可。
+
+如果你不需要表格带有标题，但是又想利用 \tex{placetable} 的功能，可在该命令的第 1 个参数添加 \type{none}，然后将表格标题置空，例如
+
+\blank[halfline]
+
+\placetable[right,none][]{}{
+  \starttabulate[|c|c||c]
+  \NC 2 \NC 9 \NC 4 \NR
+  \NC 3 \NC 5 \NC 7 \NR
+  \NC 6 \NC 1 \NC 8 \NR
+  \stoptabulate
+}
+
+\startTEX
+\placetable[right,none][]{}{
+  \starttabulate[|c|c||c]
+    \NC 2 \NC 9 \NC 4 \NR
+    \NC 3 \NC 5 \NC 7 \NR
+    \NC 6 \NC 1 \NC 8 \NR
+  \stoptabulate
+}
+\stopTEX
+
+\section{横列表}
+
+也许你是一位教师，经常用 \CONTEXT\ 排版试卷。试卷的选择题，选项较短时，通常是水平排列的四项，序号是 A、B、C、D。你可以用 \type{itemize} 的分列\index[hengxlist]{横向列表}功能来完成该任务，例如
+
+\startexample
+\startitemize[A, columns, four]
+\item 花非花 \item 雾非雾 \item 夜半来 \item 天明去
+\stopitemize
+\stopexample
+\simpleexample[option=TEX]{\null}
+\getexample
+
+若你不知 \type{itemize} 环境具有上述用法，也可以用表格解决这个问题。例如
+
+\startexample
+\starttabulate[|p|p|p|p|]
+\NC A. 花非花 \NC B. 雾非雾 \NC C. 夜半来 \NC D. 天明去 \NR
+\stoptabulate
+\stopexample
+\simpleexample[option=TEX]{\null}
+
+\noindent 虽然表格方案并不比列表更好，但是在略微复杂一些的情况里，例如当你需要将 A 和 B 项放在一行，C 和 D 项放在下一行时，列表方案就会失效，它会将 A 和 B 放在一列，C 和 D 放在一列，见下例。
+
+\startexample
+\startitemize[A, nowhite, columns, two]
+\item 花非花 \item 雾非雾 \item 夜半来 \item 天明去
+\stopitemize
+\stopexample
+\simpleexample[option=TEX]{\null}
+\getexample
+\blank[halfline]
+
+\noindent 之所以如此，是因为 \type{itemize} 环境是纵向优先。要解决这个问题，列表方案必须拆解为两个单行的列表，让第 2 个列表的序号续接第 1 个，见下例。
+
+\startexample
+\startitemize[A, nowhite, columns, two]
+\item 花非花 \item 雾非雾
+\stopitemize
+\startitemize[A, nowhite, columns, two, continue]  
+\item 夜半来 \item 天明去
+\stopitemize
+\stopexample
+\simpleexample[option=TEX]{\null}
+\getexample
+\blank[halfline]
+
+对于上述问题，在表格方案里，就很简单，只需要构造两行两列的表格即可，如下
+
+\startTEX
+\starttabulate[|p|p|]
+\NC A. 花非花 \NC B. 雾非雾 \NR
+\NC C. 夜半来 \NC D. 天明去 \NR
+\stoptabulate
+\stopTEX
+
+\section{样式设定}
+
+\type{tabulate} 环境的第 2 个参数可以设定表格的样式，例如上文设定过 \type{distance} 和 \type{unit} 的值。如果你的所有表格需要使用同一类样式，可以用 \tex{setuptabulate} 命令\index[setuptabulate]{\tex{setuptabulate}}统一设定，无需每个表格都作设定。例如
+
+\startexample
+\setuptabulate[distance=0mm, unit=0mm, rulethickness=4pt]
+\starttabulate[|p|p|]
+\HL
+\NC A. 花非花 \NC B. 雾非雾 \NR
+\NC C. 夜半来 \NC D. 天明去 \NR
+\HL
+\stoptabulate
+\stopexample
+\simpleexample[option=TEX]{\null}
+\start \getexample\stop
+
+\noindent \type{rulethickness} 用于设定表格线条的粗度。
+
+如果你不想让表格的样式设定影响所有表格，而是想让它仅仅影响某类表格，你可以用 \tex{definetabulate}\index[definetabulate]{\tex{definetabulate}} 定义自己的表格类型，然后只为该类型的表格设定样式。例如
+
+\startexample
+\definetabulate[Options][|p|p|]
+\setuptabulate[Options][rulethickness=4pt]
+\startOptions
+\HL
+\NC A. 花非花 \NC B. 雾非雾 \NR
+\NC C. 夜半来 \NC D. 天明去 \NR
+\HL
+\stopOptions
+\stopexample
+\simpleexample[option=TEX]{\null}
+\getexample
+
+\subject{结语}
+
+本文并未介绍 \type{tabulate} 环境的一切用法，例如单元格跨列、表格分页以及前景和背景颜色设置等主题皆未涉及，如果你需要了解这部分功能，可阅读文档 \cite[tabulation]。\type{tabulate} 环境有很多局限性，例如你无法让单元格跨越多行，也难以让单元格的内容能在竖直方向居于单元格空间的中部。如果你遇到了它的这些局限，就意味着你应该学习 \type{table} 环境了，见文档 \cite[natual-table]。

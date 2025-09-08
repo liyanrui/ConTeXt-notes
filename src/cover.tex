@@ -3,8 +3,9 @@
   author={李延瑞 (lyr.m2@live.cn)},
   keyword={TeX, ConTeXt MkIV, ConTeXt LMTX, LuaTeX, LuaMetaTeX}
 ]
+
 % 封面
-\startMPinclusions
+\startMPinclusions[+]
 vardef hilbert(expr sidelength, n) = 
   numeric u; u := 0.5sidelength;
   pair a, b, c, d;
@@ -36,10 +37,20 @@ vardef hilbert(expr sidelength, n) =
   p
 enddef;
 \stopMPinclusions
+
 \startuseMPgraphic{TitleGraphic}
-path p; p := hilbert(OverlayWidth, 5) randomized 4pt;
+path p, q;
+p := hilbert(OverlayWidth, 5) yscaled(OverlayHeight / OverlayWidth);
+p := p randomized 2pt;
+
+numeric u, n; u := 5cm; n := (arclength p) / u;
 pickup pencircle scaled 2pt;
-draw p yscaled(OverlayHeight / OverlayWidth) withcolor \MPcolor{tan}; %transparent(1, .5, darkgray); %\MPcolor{tan};
+for i = 1 upto n:
+  q := p cutafter (point u on p);
+  p := p cutbefore (point u on p);
+  draw q withcolor .5[white randomized (1, 1, 1), white];
+endfor;
+draw p withcolor white randomized (1, 1, 1);
 \stopuseMPgraphic
 \defineoverlay[TitleGraphic][\useMPgraphic{TitleGraphic}]
 
@@ -52,32 +63,30 @@ u := 1cm; w := \overlaywidth; h := \overlayheight;
 p := unitsquare xyscaled (w, h);
 offset := 7pt;
 shade := darkgray;
-pickup pencircle scaled offset;
+pickup pencircle scaled 8pt;
 for i = 0 step .1 until 1:
     q := unitsquare xyscaled (w, h) shifted (i * offset, -i * offset);
     fill q withcolor transparent (1, .1, shade);
     draw q withcolor transparent (1, .1, shade);
 endfor;
 q := p shifted (-offset, offset);
-draw q withcolor transparent (1, 0, white);
-fill p withcolor transparent(1, .375, \MPcolor{dimgray});
+fill p withcolor transparent(8, .5, \MPcolor{dimgray});
 draw p withcolor \MPcolor{lightsteelblue};
 \stopuniqueMPgraphic
 \defineoverlay[shade box][\uniqueMPgraphic{shade box}]
-\defineframedtext[coverbox][frame=off,background={shade box}]
+\defineframed[coverbox][frame=off,background={shade box}]
+
+\defineoverlay[bgimage][{\externalfigure[w.png][width=\overlaywidth, height=\overlayheight]}]
 
 \setupbackgrounds[page][background=TitleGraphic]
 \startstandardmakeup
-  \startcolor[lightgreen]
-    \startcoverbox[middle][width=.6\textwidth,height=5cm,toffset=.8cm]
-      \strut
-      \hfil \bfd\ConTeXt\ 蹊径\hfil
-      \blank[1cm]
-      \hfil\bfa 李延瑞\hfil
-      \blank[.25cm]
-      \hfil\bf 2023 年 4 月 12 日\hfil
-    \stopcoverbox
+\hfil
+  \startcolor[yellow]
+    \coverbox[width=.7\textwidth,height=4cm]{
+      \switchtobodyfont[ss,32pt]{\CONTEXT\, 蹊径}
+    }
   \stopcolor
+  \hfil
   \blank[14cm]
 \stopstandardmakeup
 \setupbackgrounds[page][background=]

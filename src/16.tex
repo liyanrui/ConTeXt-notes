@@ -1,0 +1,415 @@
+\chapter{杂技}
+
+前面章节所述内容足以应对风格不甚讲究的文档排版任务，例如一些个人文档，如日记、随笔、读书笔记之类。从学习的角度而言，我也很建议先用 \CONTEXT\ 完成此类任务，从而逐渐熟悉其基本用法。但现实中总有一些非常规的要求。一些特定的问题，其解决方法难以独立构成章节，故而我将其汇总为一章，并且自由发挥，想到什么，便写什么。可将这部分内容视为 \CONTEXT\ 在微观视角下的形态。
+
+\section{第 x 章}
+
+在排版手册或书籍时，若文档分成多章，则章的序号的形式通常是\boxquote{第 x 章}，若构造该形式的序号，若主语言界面\footnote{\CONTEXT\ 为一些关键词提供了多语言环境，例如英文的 Figure、Table、Chapter 等关键词，在中文界面下分别是图、表、章等。}为英文，则可以像下面这样设定章序号的前缀和后缀。
+
+\startTEX
+\setuplabeltext
+  [en]
+  [chapter={{第\,},{\,章}}]
+\stopTEX
+
+\noindent 若主语言界面是中文，就按中文界面设定，如下：
+
+\startTEX
+\mainlanguage[cn]
+\setuplabeltext
+  [cn]
+  [chapter={{第\,},{\,章}}]
+\stopTEX
+
+\noindent 上述代码中的\boxquote{\tex{,}}，之前讲过，它能够制造一个较小的间距，比它略宽一些的是\boxquote{\tex{;}}，再宽一些便是空格字符。
+
+如果你是用 zhfonts 模块设定字体，该模块里已经为你设置好了章序号的形式，而且这也是 zhfonts 唯一做的额外的事。
+
+\the\availablehsize\relax
+\the\hsize\relax
+
+比章（chapter）更高级别的标题是部分（part），如果你想顺便设定\boxquote{第 x 部分}，只需
+
+\startTEX
+\setuplabeltext
+  [cn]
+  [part={{第\,},{\,部分}}]
+\stopTEX
+
+上述设定的章序号形式，它无法作用于目录，亦即目录里的章序号依然是默认的单纯数字形式。要设定目录中的章节序号，需要用 \tex{setuplist} 命令。所谓目录，本质上是嵌套形式的列表结构，每个层级的列表样式皆可用该命令设定。本文档的目录样式，其中章标题所在层级列表的样式设定如下：
+
+\startTEX
+\def\ChapterNumber#1{第 #1 章\quad}
+% 章标题层级的样式
+\setuplist
+  [chapter]
+  [alternative=a,              % 章标题层级使用目录样式 a
+   before={\blank[halfline]},  % 章标题之前留半行间距
+   after={\blank[halfline]},   % 章标题之后留半行间距
+   style=bold,                 % 设置字体为粗体
+   width=fit,                  % 设定章序号的宽度为自适应
+   pagenumber=no,              % 不显示页码
+   numbercommand=\ChapterNumber]
+\stopTEX
+
+\noindent 上述代码的关键之处在于，通过 \type{numbercommand} 能够传入我们自定义的宏，由后者生成我们所期望的章序号。\CONTEXT\ 的很多样式设定命令支持类似的技法。\tex{setuplist} 命令各项参数的含义见文档\cite[setuplist]。
+
+\section{特定页面}
+
+如果你设定了页眉或页脚，默认情况下，它们除了会出现在普通页面上，也会出现在各章首页，但有些文档格式要求各章首页不需要出现页眉和页脚。要达到这个效果，需要做以下设定：
+
+\startTEX
+\setuphead[title,chapter][header=empty,footer=empty]
+\stopTEX
+
+\noindent \tex{setuphead} 这类样式设定命令，若多次使用，且每次设定不同的参数，则这些设定的结果是叠加的。
+
+如果你的文档是双面排印，每章首页的前一页可能是空白页，这些页面上的页眉和页脚通常也应该消除。解决方法是，为各章首页定义断页策略，例如
+
+\startTEX
+% 双面排印
+\setuppagenumbering [alternative=doublesided]
+% 断页策略
+\definepagebreak[mychapterpagebreak][yes,header,footer,right]
+% 让段页策略生效
+\setuphead[chapter][page=mychapterpagebreak]
+\stopTEX
+
+\noindent 上述的 \tex{definepagebreak} 命令参数，可以解读为：定义断页策略 \type{mychapterpagebreak}，第一个参数 \type{yes} 表示必须断页。后面三个参数的含义是，在右页（\type{right}）上放置页眉和页脚，亦即左页无页眉和页脚。
+
+对于各章首页的前页是空页的断页过程，可以理解为，本来是一个页面，现在需要另起一页，前者的内容转移到后者，然后将前者清空，但是可以设定这个转移过程是否要带走页眉和页脚。由于 \CONTEXT\ 的双面排印默认是将每章断页后的内容放在右页的，故而上述代码中的 \type{right} 可省略。其他类型的标题的样式，也都支持 \type{page} 参数，故而可以用类似的方式为其设定断页策略。
+
+\tex{setuphead} 的 \type{page} 参数，其值默认是 \type{yes}，表示每章都是另起一页，这也是为何 \tex{definepagebreak} 的第一个参数是 \type{yes} 的原因，因为后者会覆盖 \tex{setuphead} 的 \type{page} 参数的原有值，故而需要显式提供 \type{yes} 以维持每章首页的默认的分页样式。
+
+\section{奇怪的间距}
+
+如果你只是单纯的插入一张图片，并让它独占一段且居中，如果你不想用 \tex{placefigure} 命令，可以像下面这样做，但是所得结果可能是你意想不到的，插图顶部距离上一段太近，而底部又有一些间距。
+
+\startexample
+\startTEXpage[width=6cm]
+... some text ...\par
+\midaligned{\externalfigure[foo.png]}
+... some text ...
+\stopTEXpage
+\stopexample
+\example[option=TEX][strange-blank]{上下间距不对称}{\externalfigure[16/foo.pdf][frame=on]}
+
+这种奇怪的现象，实际上在 \in[drawing-sym] 节已经遇到过了，原因是 \tex{externalfigure} 载入的外部图形也是没有基线，结果导致其位置偏上。此时，插图的底线与下一行文字的基线刚好是一行文字的高度，需要让插图下沉半个行高，才能让其上下间距近似对称，见下例。
+
+\startexample
+\startTEXpage[width=6cm]
+... some text ...\par
+\midaligned{\externalfigure[foo.png]}
+\blank[-halfline]
+... some text ...
+\stopTEXpage
+\stopexample
+\example[option=TEX][strange-blank]{上下间距对称}{\externalfigure[16/foo-2.pdf][frame=on]}
+
+\noindent \tex{blank} 命令能在竖直方向上插入负的间距。如果用 \tex{hbox} 将插图包含起来，也可以用 \tex{lower} 命令让插图下沉。
+
+\tex{blank} 命令是 \CONTEXT\ 特有的。构造竖向间距，更为基本的 \TEX\ 命令是 \tex{vskip}，若实现上例等效的负的竖向间距，还需要用 \tex{lineheight} 命令获得行高，即
+
+\startTEX
+\vskip-.5\lineheight
+\stopTEX
+
+构造横向间距的 \TEX\ 基本命令是 \tex{hskip}，其用法已在 \in[breaking-lines] 中涉及，它也支持负的横向间距，例如 \type{a\hskip-1em b} 的结果是\;\;a\hskip-1em b\;\;。
+
+\section{编组}
+
+\TEX\ 默认是以一对花括号构造一个编组（Group）。基于编组，你可以将很多字符、插图、表格等元素组织成一个对象，然后将该对象作为参数值传递给 \TEX\ 命令（或宏）。下面以一个简单的宏为例，阐述编组的重要性。
+
+以下代码定义了一个简单的宏 \tex{foo}，它接受两个参数，然后给每个参数增加方括号，亦即这个宏的展开结果是它所接受的两个参数分别套上了方括号。
+
+\startTEX
+\def\foo#1#2{[#1][#2]}
+\stopTEX
+
+如果像下面这样使用 \tex{foo}：
+
+\startTEX
+\foo 路漫漫其修远兮
+\stopTEX
+
+\noindent 则结果为
+
+\startTEX
+[路][漫]漫其修远兮
+\stopTEX
+
+如果像下面这样使用 \tex{foo}：
+
+\startTEX
+\foo{路漫漫}{其修远兮}
+\stopTEX
+
+\noindent 则结果为
+
+\startTEX
+[路漫漫][其修远兮]
+\stopTEX
+
+通过以上示例，你大概能从直觉上认识到，\TEX\ 会将一个编组视为一个字符，颇似庄子所说的，泰山莫大于秋毫之末。
+
+编组另一个重要的特性是它能构造局部环境，在该环境内所作的任何设定，不会影响编组之外的一切。这个特性，在你需要临时设定一些会影响全局的样式参数时颇为有用。例如，如果你临时想将文本框的颜色设为红色，可以像下面这样做：
+
+\startexample
+... {\setupframed[framecolor=red]\inframed{demo}} ...
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+花括号较为单薄，辨识度太低，而且有些情况下无法使用花括号，例如
+
+\startTEX
+\def\foo{{}
+\def\bar{}}
+\stopTEX
+
+\noindent 也许你会以为 \tex{foo} 的展开结果是左花括号，而 \tex{bar} 的展开结果是右花括号，但这是不可能的。事实上，\tex{foo} 的展开结果是
+
+\starttyping
+{}
+\def\bar{}    
+\stoptyping
+
+\noindent 原因宏定义里出现了未成对的花括号，而 \TEX\ 编译器会努力为其找到配对的花括号。为了解决这类问题，\TEX\ 提供了 \tex{begingroup} 和 \tex{endgroup} 作为左右花括号的替代。\CONTEXT\ 提供了更为简单的等效命令 \tex{start} 和 \tex{stop}，故而上述示例可改写为以下的正确形式：
+
+\startTEX
+\def\foo{\start}
+\def\bar{\stop}
+\stopTEX
+
+\CONTEXT\ 的环境命令，例如 \type{\starttext ...\stoptext}，本质上就是由 \tex{start} 和 \tex{stop} 构成的编组。理解了这一点，就可以断定 \tex{placetable} 这样的命令，实际上无需用花括号包含 \type{tabulate} 这类环境，亦即在文档中插入一个表格，可以像下面这样写。
+
+\startTEX
+\placetable{标题}
+\starttabulate[|c|c|]
+\NC 1 \NC 2 \NR
+\stoptabulate
+\stopTEX
+
+实际上在 \in[placeformula] 节，已经看到了 \tex{placeformula} 省略花括号的写法：
+
+\startTEX
+\placeformula[formula-foo]
+\startformula
+\int_0^{+\infty}f(x) {\rm d}x
+\stopformula
+\stopTEX
+
+\section{样式切换}
+
+使用 \type{setups} 环境能够定义一组样式，便于在文档中根据需要予以切换。下例为盒子定义了两个不同的环境，并演示了环境的切换方法。
+
+\startexample
+% foo 样式
+\startsetups foo
+  \setupframed[framecolor=red, rulethickness=2pt]
+\stopsetups
+% bar 样式
+\startsetups bar
+  \setupframed[framecolor=blue, rulethickness=4pt]
+\stopsetups
+% 切换为 foo 样式
+\setup[foo]\inframed{foo 环境}\quad
+% 切换为 bar 样式
+\setup[bar]\inframed{bar 环境}
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+不过，样式切换也没有太深的玄机，通过定义一些简单的宏，用这些宏封装一些样式设定语句，也能产生类似效用。
+
+\section{非常规序号}
+
+如果一份文档是由多章构成，插图和表格，这些浮动对象的序号默认是每章都会重置，即从 1 开始，且以该章的序号为前缀，例如\boxquote{图 2.3}，表示第 2 章的第 3 幅插图。有些文档格式要求的是插图和表格的序号贯穿全文，亦即序号从 1 开始，一直递增，直至文档结束，要实现这种效果，可以用以下设定：
+
+\startTEX
+\setupcaption[figure][way=bytext,prefix=no]
+\setupcaption[table][way=bytext,prefix=no]
+\stopTEX
+
+若不想为每个浮动对象的标题设定上述样式，也可以用以下命令统一设定：
+
+\startTEX
+\setupcaptions[way=bytext,prefix=no]
+\stopTEX
+
+\noindent \CONTEXT\ 默认的浮动对象序号的样式是\boxquote{\type{way=bychapter, prefix=yes}}。
+
+插图、表格以及公式的序号，有些文档格式认为以短横线作为间隔符会更好看一些，例如\boxquote{\type{2-3}}。Wolfgang Schuster 给出的解决方案是
+
+\startTEX
+\setupcaptions[prefixsegments=chapter,prefixconnector=-]
+\stopTEX
+
+\noindent 上述设定，可将图片、表格的序号转变为 x-y 形式。至于数学公式，亦可作类似设定：
+
+\startTEX
+\setupformulas[prefixsegments=chapter,prefixconnector=-]
+\stopTEX
+
+以下代码在局部环境验证了上述方法是否有效。
+
+\startTEX
+\start
+\setupformulas[prefixsegments=chapter,prefixconnector=-]
+\placeformula
+\startformula
+a^2 + b^2 = c^2
+\stopformula
+\stop
+\stopTEX
+\start
+\setupformulas[prefixsegments=chapter,prefixconnector=-]
+\placeformula
+\startformula
+a^2 + b^2 = c^2
+\stopformula
+\stop
+
+\setupmathematics[integral=nolimits]
+\startformula
+\int_{-\infty}^{x}\frac{dx}{H(x)}
+\stopformula
+
+有时，一个公式存在不同的形式，有些文档格式要求用字母后缀以示区别，例如 2.3a，2.3b 之类，\CONTEXT\ 的数学环境将这类公式称为子公式，见下例。
+
+\start
+\switchtobodyfont[9pt]
+\startexample
+然后，对可信性 $(BC|D)$ 应用基本函数 $F$，可得：
+
+\startsubformulas
+\placeformula[eq:1]
+\startformula
+(ABC|D) = F\{F[(C|D), (B|CD)], (A|BCD)\}
+\stopformula
+
+不过，也可以在一开始认为 $AB$ 是一个命题，这样就可以从另一种顺序推出不同的结果：
+
+\placeformula[eq:2]
+\startformula
+(ABC|D) = F[(C|D), (AB|CD)] = F\{(C|D), F[(B|CD), (A|BCD)]\}
+\stopformula
+\stopsubformulas
+\stopexample
+\simpleexample[option=TEX]{\null}
+\startframedtext[width=broad]
+\getexample
+\stopframedtext
+\stop
+
+\noindent 如果需要消除字母后缀之前的间隔符号，可以用以下设定：
+
+\startTEX
+\defineseparatorset[none][]
+\setupformulas[numberseparatorset=none]
+\stopTEX
+\start
+\defineseparatorset[none][]
+\setupformulas[numberseparatorset=none]
+\switchtobodyfont[9pt]
+\startframedtext[width=broad]
+\getexample
+\stopframedtext
+\stop
+
+\section{三段论}
+
+\CONTEXT\ 为数学公式提供了 \type{matrix} 环境，能够像 \type{tabulate} 表格那样构造矩阵，见下例。在数学公式里，可以用 \tex{text} 命令构造一个嵌入式的 \TEX\ 环境，有些像抄录（Verbatim）环境里的 \TEX\ 逃逸。
+
+\startexample
+\placeformula
+\startformula
+\startmathmatrix
+  \NC \text{若 $A$ 为真，则 $B$ 为真} \NR
+  \NC \text{$A$ 为真} \NR
+  \HL
+  \NC \text{所以，$B$ 为真} \NR
+\stopmathmatrix
+\stopformula
+\stopexample
+\simpleexample[option=TEX]{\null}
+\getexample
+
+不过，\type{matrix} 环境只是语法像 \type{tabulate}，但二者于本质上是有区别的。\type{tabulate} 内容中的每一行可以用 \type{\NC\NR} 结尾，例如
+
+\startTEX
+\starttabulate[|c|]
+\NC 1 \NC\NR
+\stoptabulate
+\stopTEX
+
+\noindent \type{matrix} 不可如此，否则会导致矩阵的最后一列是一个空列，例如
+
+\startexample
+\placeformula
+\startformula
+\startmathmatrix
+  \NC \text{若 $A$ 为真，则 $B$ 为真} \NC\NR
+  \NC \text{$A$ 为真} \NC\NR
+  \HL
+  \NC \text{所以，$B$ 为真} \NC\NR
+\stopmathmatrix
+\stopformula
+\stopexample
+\simpleexample[option=TEX]{\null}
+\getexample
+
+\noindent 上例结果中的横线，要比前例略微向右伸出些许，此即矩阵空列所致，而 \type{tabulate} 环境无此问题，大概是因为它允许最后一列为空列，以便为表格设定右侧边界线。
+
+\section{Lua 宏}
+
+如果你也觉得 \TEX\ 宏编程是难以掌握的怪物，且觉得能用 Lua 语言为 \TEX\ 增加一些功能要更为容易，在 \in[lua] 节里已作基本介绍。\CONTEXT\ 为此类任务提供了一个更为直观的编程接口。下例用 Lua 代码实现了一个可将数字转化为带圈形式的宏。
+
+\startexample
+\startluacode
+interfaces.implement {
+  name = "circled",
+  public = true,
+  arguments = {"integer"},
+  actions = function(x) context('\\char"' .. tostring(2460+x-1)) end
+}
+\stopluacode
+% 测试
+\circled{3}\circled{6}\circled{1}
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+\noindent 上述代码中的 \type{name} 是宏名；\type{public} 必须设定为 \type{true}，表示该接口能以宏的形式调用；\type{arguments} 是参数表，\type{integer} 表示参数类型为整型数；\type{actions} 的值是 Lua 匿名函数，当接口以宏的形式调用时，便会触发该函数。
+
+如果要定义多参数宏，只需依序在 \type{arguments} 表里给出类型，例如
+
+\startTEX
+arguments = { "string", "integer", "boolean", "dimen" }
+\stopTEX
+
+\noindent 表示接受 4 个参数，类型依序为字符串、整型数、布尔值、尺度。
+
+参数类型也可以是 Hash 表。这类参数通常是用于定义具有选项参数的宏，亦即其参数为方括号形式，见下例。
+
+\startexample
+\startluacode
+interfaces.implement {
+  name = "upper",
+  public = true,
+  arguments = {"hash"},
+  actions = function(x)
+    if x.style == "bold" then
+      context("{\\bf " .. string.upper(x.text) .. "}")
+    else
+      context(string.upper(x.text))
+    end
+  end
+}
+\stopluacode
+% 测试
+\framed{\upper[text=demo,style=bold]}
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+\subject{结语}
+
+是结束，但也是开始。
+

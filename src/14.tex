@@ -1,271 +1,250 @@
-\chapter{写一本书？}
+\chapter[bibtex]{文献管理}
 
-至此，你所掌握的关于 \CONTEXT\ 的所有知识，无论是用于撰写书信，随笔，论文，还是制作幻灯片，皆已游刃有余。现在再掌握 \ConTeXt\ 对文档逻辑结构的划分以及为文档添加目录等功能，便可写书了，这是 \TEX\ 系统一直以来最为擅长的事情，也是 \TEX\ 系统为何复杂到令很多人畏惧的原因，他们从未想过自己有一天会写一本书。
+稍微严肃一些的文章，往往会附上一些与文章内容密切相关的参考文献。科研论文更是如此，牛顿都说过自己是站在巨人的肩膀上做事情的。参考文献便是巨人。任何一个 \TeX\ 系统皆不敢对支持参考文献排版这一事宜掉以轻心，否则 \TeX\ 无以为科技文献排版软件之先驱和典范。
 
-\section{书的内容结构}
+\section{数据格式}
 
-一本书，通常是由一组文章构成的，可分为序、前言、目录、正文篇章、跋、参考文献、索引、附录等内容，再加上封面，衬页、扉页等页面。对于书籍制作，\CONTEXT\ 对 \type{text} 环境进行了更为细致的划分：
+大多数 \TeX\ 系统在排版参考文献时，皆需依赖一个名为 bibtex 的外部程序。由 bibtex 基于文献数据文件生成参考文献列表信息，然后交由 \TeX\ 进行排版，这一过程通常是自动进行的，并不需要用户了解和干预。\ConTeXt\ 已在自身内部实现了 bibtex 程序的全部功能，故而不再依赖这个外部程序了。本文档在谈及 Bib\TEX\ 时，主要指文献数据格式。
 
-\starttyping[option=TEX]
-\starttext
-\startfrontmatter
-% 封面、扉页、序、前言、目录等内容
-\stopfrontmatter
-\startbodymatter
-% 正文篇章
-\stopbodymatter
-\startbackmatter
-% 跋，参考文献列表、索引等内容
-\stopbackmatter
-\startappendices
-% 附录
-\stopappendices
-\stoptext
-\stoptyping
+Bib\TEX\ 文献数据文件是纯文本文件，其中包含着论文、专著和手册等文献数据。例如，一篇期刊论文，其信息可表示为
 
-\section{文件结构}
-
-将一本书的内容全部放在一份 \CONTEXT\ 源文件中并不违法，但是数十万甚至上百万字的内容，无论是撰写还是修改必定极为不便。通常是将按照内容结构，将每部分内容制作为单独的 \type{.tex} 源文件，然后使用 \type{\input} 载入到主文件中。例如，主文档的主文件内容如下：
-
-\starttyping[option=TEX]
-\starttext
-\startfrontmatter
-\input cover  % cover.tex：封面
-\input preface  % preface.tex：序
-\stopfrontmatter
-\stoptyping
-\starttyping[option=TEX]
-\startbodymatter
-\input 01  % 01.tex：第一章
-\input 02  % 02.tex：第二章
-% ... ...
-\stopbodymatter
-\startbackmatter
-\title{参考文献}
-\placelistofpublications  % 参考文献列表
-\stopbackmatter
-\startappendices
-\null  % 暂时为空
-\stopappendices
-\stoptext
-\stoptyping
-
-\noindent 主文件 \type{\input} 的所有文件皆与主文件在同一目录。
-
-\section{样式}
-
-原则上，书籍的所有排版样式皆应在单独的文件中设定，然后使用 \type{\input} 或 \type{\environment} 命令在 \type{text} 环境之前将其载入。例如
-
-\starttyping[option=TEX]
-\environment book-style  % 载入book-style.tex
-\starttext
-% ... ... ...
-\stoptext
-\stoptyping
-
-\section{目录}
-
-\type{\placecontent} 可将全文章节标题及其所在页码等信息汇总为一个列表，以方便读者查阅。例如
-
-\cmdindex{placecontent}
-\starttyping[option=TEX]
-\usemodule[visual]
-\starttext
-\title{\fakewords{3}{5}}
-\placecontent
-\section{\fakewords{3}{5}}
-... ... ...
-\section{\fakewords{3}{5}}
-... ... ...
-\stoptext
-\stoptyping
-\midaligned{%
-  \clip[width=\textwidth,height=6cm,voffset=3cm]{%
-    \externalfigure[14/toc.pdf][width=\textwidth,frame=on]%
-  }%
+\starttyping
+@article{knuth-1984-literate,
+  title={Literate programming},
+  author={Knuth, Donald Ervin},
+  journal={The computer journal},
+  volume={27},
+  number={2},
+  pages={97--111},
+  year={1984},
+  publisher={Oxford University Press}
 }
+\stoptyping
 
-使用 \type{\setupcombinedlist} 可设定目录样式，例如设定可在目录中出现的标题级别以及列表样式。若得到常见的目录样式，只需作以下设定：
+\noindent 再例如一本专著，其信息可表示为
+
+\starttyping
+@book{knuth-1986-texbook,
+  title={The \TeX\ book},
+  author={Knuth, Donald Ervin and Bibby, Duane},
+  volume={1993},
+  year={1986},
+  publisher={Addison-Wesley Reading, MA}
+}
+\stoptyping
+
+为了学习 \ConTeXt\ 的参考文献排版功能，可将上述文献数据保存到一份空的文本文件里，例如 foo.bib，然后在同一目录下，建立 \CONTEXT\ 源文件 test.tex，其内容为
 
 \starttyping[option=TEX]
-\setupcombinedlist[content][alternative=c]
-\stoptyping
-\midaligned{%
-  \clip[width=\textwidth,height=6cm,voffset=3cm]{%
-    \externalfigure[14/toc-2.pdf][width=\textwidth,frame=on]%
-  }%
-}
+\usebtxdataset[foo.bib] % 加载 foo.bib
+\starttext
+Knuth 基于文学编程\cite[knuth-1984-literate]技术开发了
+\TEX\ 系统\cite[knuth-1986-texbook]。
 \blank
-\noindent 目录列表样式参数 \type{alternative} 有 \type{a}，\type{b}，\type{c}，\type{d} 四个值可选，默认是 \type{b}。本文档目录使用的是 \type{d}。
-
-\type{\setupcombinedlist} 亦可用于指定可出现在目录列表中的标题级别，例如
-
-\starttyping[option=TEX]
-\setupcombinedlist[content][list={chapter,section}]
+\placelistofpublications
+\stoptext
 \stoptyping
 
-注意，当 \type{\placecontent} 出现在 \type{\chapter} 之后时，生成的目录仅针对该章之内的各节。若是写书，需将 \type{\placecontent} 放在 \type{frontmatter} 环境，例如：
+\noindent 编译 test.tex，可得以下结果：
+% 大概因为 externalfigure 构造的对象没有基线，从而导致其后有一块难以消除的半行留白
+% 不得不在前面加上半行空行以达到留白对称的效果。
+\blank[halfline]
+\externalfigure[14/bibtex-example-01.pdf][width=\textwidth]
+
+若将文献数据文件视为文献数据库，则 bibtex 程序或者 \CONTEXT\ 内部实现的同样功能的模块相当于数据库的搜索引擎。在科研工作中，你可以将自己所读的所有文献置于一份 \type{.bib} 文件中，然后在写论文或专著时，按需引用。
+
+上述示例所用的文献样式是 \ConTeXt\ 默认样式。有三种预定义的文献样式：apa，aps 和 chicago，可在 \type{\placelistofpublications} 之前使用 \type{\usebtxdefinitions} 设定文献样式，例如若使用 aps 样式，只需
 
 \starttyping[option=TEX]
-\startfrontmatter
-\title{目录}
-\placecontent
-\stopfrontmatter
+\usebtxdefinitions[aps]
+\placelistofpublications
+\stoptyping
+\blank[halfline]
+\externalfigure[14/bibtex-example-02.pdf][width=\textwidth]
+
+预定义的样式，其细节可以调整。例如，以下命令将文献序号宽度设定为 \type{auto}，并将其与文献条目的间距设为半个字宽。
+
+\starttyping[option=TEX]
+\setupbtxlist[aps][width=auto,distance=.5em]
+\stoptyping
+\blank[halfline]
+\externalfigure[14/bibtex-example-03.pdf][width=\textwidth]
+
+\section{自制样式}
+
+\ConTeXt\ 提供的这几种文献样式可能并不符合你的要求，此时你有两个方案，第一个方案是放弃这一切，使用 \in[itemcite] 所述的廉价方案，第二个方案是基于 \CONTEXT\ 的文献样式机制，自己定义一种你想要的样式。如果你选择了后者，下文可为你提供一个简单的示例，希望有所帮助。
+
+假设要定义一种名为 bar 的文献样式。首先，按照 \ConTeXt\ 的文件命名约定，创建文件 publ-imp-bar.tex，先写入以下内容：
+
+\starttyping[option=TEX]
+\definebtx[bar]
 \stoptyping
 
-\noindent 可对全篇被列入目录列表的章节生成目录。
-
-使用 \type{\setuplist} 可对出现在目录列表中相应级别的标题样式分别予以设定，例如
+\noindent 上述代码定义了一个命名空间，其上层还有个空间，即 \type{btx}。然后你可以根据自己需要定义一些子空间。例如，为 \type{bar} 定义子空间 \type{list}，再为后者定义子空间 \type{article}：
 
 \starttyping[option=TEX]
-\setuplist[chapter]
-          [alternative=a,
-           before={\blank[halfline]},after={\blank[halfline]},style=bold]
-\setuplist[section]
-          [alternative=d,style=normal,pagestyle=smallbold]
+\definebtx[bar:list][bar]
+\definebtx[bar:list:article][bar:list]
 \stoptyping
 
-\CONTEXT\ 默认不允许无编号标题出现在目录中，但是倘若对无编号标题，例如 \type{\title} 作以下设定
+\noindent 实际上，子空间通常无需定义，只有当你需要为某个子空间设定外观时才需要定义它。
+
+\type{list} 空间包含了 Bib\TEX\ 数据格式中所有的文献条目和字段名。例如，\type{article} 空间表示期刊论文条目，在该空间内可以定义期刊论文的各种字段空间，例如
 
 \starttyping[option=TEX]
-\setuphead[title][incrementnumber=list]
-\stoptyping
-
-\noindent 之后便可将 \type{\title} 添加到目录列表，即
-
-\starttyping[option=TEX]
-\setupcombinedlist[content][list={title,chapter,section}]
-\stoptyping
-
-需要注意的是，在 \type{frontmatter} 环境中放置目录列表时，若使用以下代码
-
-\starttyping[option=TEX]
-\startfrontmatter
-\title{目录}
-\placecontent
-\stopfrontmatter
-\stoptyping
-
-\noindent 由于此时 \type{\title} 已被列入目录列表，因此 \type{\title{目录}} 本身会出现在目录列表中。为避免这一问题，需要为目录页单独定义一个标题。\CONTEXT\ 支持我们定义自己的标题，例如
-
-\starttyping[option=TEX]
-\definehead[TOC][title]
-\stoptyping
-
-\noindent 定义了一个新的标题 \type{\TOC}，它与 \type{\title} 的样式相同。在 \type{frontmatter} 环境中使用 \type{\TOC}：
-
-\starttyping[option=TEX]
-\startfrontmatter
-\TOC{目录}
-\placecontent
-\stopfrontmatter
-\stoptyping
-
-\noindent 由于我们并未将 \type{\TOC} 列入目录列表，因此上述问题得以解决。
-
-\section[reference]{引用}
-
-在本文档的插图、表格、数学公式等章节中，已简略介绍了 \CONTEXT\ 引用的用法。\CONTEXT\ 的标题和列表也支持引用。例如，本节的标题对应的排版命令是
-
-\starttyping[option=TEX]
-\section[reference]{引用}
-\stoptyping
-
-可以在文章几乎任何一个位置，像下面这样引用本节：
-
-\startsample
-我在 \at[reference] 页 \in[reference] 节\about[reference]中的一些内容。
-\stopsample
-\typesample[optio=TEX]
-\blueframed{\getsample}
-
-使用 \type{\textreference} 可在文档几乎任何位置插入引用。例如
-
-\cmdindex{textreference}
-\startsample
-我在此处放置了一个引用\textreference[myref]{一个引用}。
-\stopsample
-\typesample[option=TEX]
-\blueframed{\getsample}
-
-\startsample
-我在此处使用一个引用，它是 \at[myref] 的「\in[myref]」。
-\stopsample
-\typesample[option=TEX]
-\blueframed{\getsample}
-
-\section{脚注}
-
-若需要对书籍内容中一些文字进行注解，可采用脚注形式。\type{\footnote{...}} 可在待注解的文字之后插入脚注，并自动生成序号。例如
-
-\startsample
-我以脚注的形式告诉你一个关于 \CONTEXT\ 脚注的秘密\footnote{\CONTEXT\ 的脚注默认不支持中文断行，详见 \CONTEXT\ 邮件列表上的一次讨论\cite[chinese-footnotes]。}。
-\stopsample
-\typesample[option=TEX]
-\blueframed{\getsample}
-
-解决脚注中较长的中文无法断行这一问题，一种方法是在脚注中使用 \type{\setscript[hanzi]} 强行开启中文断行功能，为了简便，可以专门定义一个宏替代 \type{\footnote}：
-
-\starttyping[option=TEX]
-\def\zhfootnote#1{\setscript[hanzi]#1}
-\stoptyping
-
-\noindent 另一种方法是 \CONTEXT\ 超人 Wolfgang Schuster 提供的，使用了 \CONTEXT\ 的 \type{setups} 机制\cite[setups]：
-
-\starttyping[option=TEX]
-\startsetups footnote:hanzi
-\setscript[hanzi]
+\startsetups btx:bar:list:article
+  \texdefinition{btx:bar:list:author}\btxperiod\btxspace
+  \texdefinition{btx:bar:list:title}\btxperiod\btxspace
+  \texdefinition{btx:bar:list:journal}[J]\btxcomma\btxspace
+  \texdefinition{btx:bar:list:year}\btxcomma\btxspace
+  \texdefinition{btx:bar:list:volume}
+  \texdefinition{btx:bar:list:number}\btxcolon\btxspace
+  \texdefinition{btx:bar:list:pages}\btxperiod
 \stopsetups
-\setupnote[footnote][setups={footnote:hanzi}]
 \stoptyping
 
-\noindent 将上述代码添加到样式文件中即可。
-
-\section{索引}
-
-索引通常放在 \type{backmatter} 环境，即附在书的正文之后，以便检索在正文某页检索一些关键词。这些关键词在正文中需由 \type{\index} 给出。例如
+\noindent 上述代码定义了期刊论文的构成，其中 \type{\btxcomma}，\type{\btxperiod}，\type{\btxcolon}，\type{\btxspace} 分别为西文的逗号，句号，冒号和空格。倘若需要使用中文标点，亦可自行定义，例如：
 
 \starttyping[option=TEX]
-\startbackmatter
-\title{索引}
-\placeindex
-\stopbackmatter
+\def\btxchinesecomma{，}
+\def\btxchineseperiod{．}
+\def\btxchinesecolon{：}
 \stoptyping
 
-\startsample
-我在此演示 \type{\placeindex}\index[placeindex]{\type{\placeindex}}
-和 \type{\index}\index[index]{\type{\index}} 的用法。
-\stopsample
-\typesample[option=TEX]
-\blueframed{\getsample}
-\noindent \tex{placeindex} 产生的结果见本文档附录部分的「索引」。
-
-\section{书签}
-
-与目录类似，对于内容较多的 PDF 文档，提供书签（Bookmark）亦可便于他人阅读。书签通常显示于 PDF 阅读器的侧栏，如图 \in[13-bookmarks] 所示，点击某个书签便可跳转至其关联的页面。
-
-\placefigure[here][13-bookmarks]{PDF 书签}{\externalfigure[14/bookmarks.png][width=.7\textwidth]}
-
-为 \ConTeXt\ 生成的 PDF 文件制作书签，非常简单，只需在样式文件中添加以下语句，
+接下来，在 publ-imp-bar.tex 文件中定义期刊论文的各个字段，如下
 
 \starttyping[option=TEX]
-\setupinteraction[state=start,focus=standard]
-\setupinteractionscreen[option=bookmark]
-\placebookmarks[title,chapter,section][title,chapter]
+\starttexdefinition btx:bar:list:author
+  \btxflush{author}
+\stoptexdefinition
 \stoptyping
-
-\noindent 其中，\type{\setupinteraction} 用于开启 PDF 的用户交互特性。\type{\setupinteractionscreen} 用于设定 PDF 文件被阅读器打开后，以何种形式如何呈现在屏幕上，若其 \type{option} 值为 \type{bookmark}，则文件打开后，会自动开启阅读器的侧边栏并显示书签；若设置 \type{option} 为 \type{max}，则文件在被打开后会全屏显示。上述 \type{\placebookmarks} 语句的用途是设置可出现在书签栏的标题级别，且仅允许 \type{\title} 和 \type{\chapter} 级别的标题，其子标题列表可被展开。
-
-需要注意的是，\CONTEXT\ 同样默认无编号标题不被列入书签，但是倘若做以下设定
 
 \starttyping[option=TEX]
-\setuphead[title][incrementnumber=list]
+\starttexdefinition btx:bar:list:title
+  \color[darkred]{\bf\btxflush{title}}
+\stoptexdefinition
 \stoptyping
 
-\noindent 则 \type{\title} 亦可出现在书签列表中。
+\starttyping[option=TEX]
+\starttexdefinition btx:bar:list:journal
+  \btxflush{journal}
+\stoptexdefinition
+\starttexdefinition btx:bar:list:year
+    \btxflush{year}
+\stoptexdefinition
+\starttexdefinition btx:bar:list:volume
+    \btxflush{volume}
+\stoptexdefinition
+\starttexdefinition btx:bar:list:number
+  \ignorespaces  % 忽略空白字符
+  \btxleftparenthesis  % 左括号 (
+  \btxflush{number}
+  \btxrightparenthesis  % 右括号 )
+\stoptexdefinition
+\starttexdefinition btx:bar:list:pages
+  \btxflush{pages}
+\stoptexdefinition
+\stoptyping
 
-还需要注意一点， 书签功能取决于你所用的 PDF 阅读器是否支持。此外，你的 PDF 阅读器可能会将 \ConTeXt\ 生成的书签视为索引（Index），而其本身则提供了另一个叫作书签的功能，允许用户手动在侧边栏为文档的某一页建立链接，与 \CONTEXT\ 的书签原理相同。
+上述代码定义了样式 bar 的数据格式，其中 \tex{btxflush} 命令的作用是从 Bib\TEX\ 格式的文献库里获得各条目的字段内容。
 
-\section{小结}
+若让 \CONTEXT\ 能够按照这种格式将其呈现为文献列表的形式，需要定义一个同名的渲染环境，亦即在 publ-imp-bar.tex 文件中增加以下设定：
 
-用 \CONTEXT\ 排版一本书并不难，难的是书该如何写。
+\startTEX
+\definebtxrendering[bar]
+\stopTEX
+
+至此，新的文献样式 bar 便已定义完毕。在 publ-imp-bar.tex 文件所在目录下，建立测试文件 test.tex，其内容如下：
+
+\starttyping[option=TEX]
+\usebtxdataset[foo] % 加载 foo.bib
+\starttext
+Knuth 发明了文学编程语言 WEB\cite[knuth-1984-literate]。
+\blank
+\usebtxdefinitions[bar]   % 使用上文定义的参考文献列表样式 bar
+\placelistofpublications  % 排版文献列表
+\stoptext
+\stoptyping
+
+\noindent 编译 test.tex，结果如下图。
+
+\blank[halfline]
+\externalfigure[14/bibtex-example-04.pdf][width=\textwidth]
+
+\section{样式微调}
+
+上一节定义的 bar 样式，不满足多数中文学术期刊和学位论文的要求，存在的主要问题是，文献序号并非方括号形式且序号与文献条目的间距过大，英文的作者姓名没有将姓放在前面，名字放在后面并缩写。
+
+文献需要的样式可以用 \tex{setupbtxlist} 设定。类似于上文设定 apa 样式的文献序号的方法，将 bar 样式的文献序号设定为方括号形式，并缩小序号与文献条目的间距，只需
+
+\startTEX
+\setupbtxlist[bar][starter={[},stopper={]},width=auto,distance=1em]
+\stopTEX
+
+\noindent 实际上 \tex{setupbtxlist[bar]} 是 \tex{setuplist[btx:bar]} 的别名，二者是等效的。\tex{setuplist} 命令，我们在 \in[TOC] 节设定目录样式时已经见识过了。
+
+要设置文献条目中的作者信息的样式，需要为其定义命名空间，例如为 bar 样式定义作者信息的命名空间，需作以下定义：
+
+\startTEX
+\definebtx[bar:list:author][bar:list]
+\stopTEX
+
+\noindent 然后便可设定 \type{bar:list:author} 的外观，如下：
+
+\startTEX
+\setupbtx[bar:list:author]
+         [authorconversion=invertedshort,
+           separator:invertedinitials=\btxspace,
+           stopper:initials=\btxspace]
+\stopTEX
+
+\noindent 参数 \type{authorconversion} 用于设定作者姓名格式，\type{invertedshort} 可将作者的姓氏前置，名字后置，且该设定只会作用于西文的作者姓名，对中文作者姓名无效，原因是前者的姓名之间有空格作为间隔，有前后之分，而中文的作者姓名之间没有间隔。\type{separator:invertedinitials} 用于设定姓名之间的间隔符，默认是西文逗号。\type{stopper:initials} 用于设定作者姓氏简写字母后的符号，默认是西文句点。
+
+上述样式微调的结果如下图所示：
+
+\blank[halfline]
+\midaligned{\externalfigure[14/bibtex-example-fin.pdf][width=\textwidth,frame=on]}
+
+如果你不想为 bar 样式定义作者信息命名空间，也可以直接基于默认的作者信息命名空间设定样式，例如
+
+\startTEX
+\setupbtx[default:list:author]
+         [authorconversion=invertedshort,
+           separator:invertedinitials=\btxspace,
+           stopper:initials=\btxspace]
+\stopTEX
+
+自定义的文献样式，若未为其定义子命名空间，可以直接用默认的命名空间设定样式，而且这些默认的空间也皆有默认的样式，倘若你不设定，\CONTEXT\ 便按默认的样式渲染该空间表征的文献字段。
+
+\section{更具一般性}
+
+实际上，\CONTEXT\ 文件管理模块为文献数据源提供了别名机制，你可以为载入的文献数据取一个名字，然后基于该名字和文献样式定义渲染环境，最后再将该渲染环境呈现出来，便可得到文献列表，见下例
+
+\startTEX
+\usebtxdataset[bibdata][foo.bib]
+\setupbtx[dataset=bibdata] % 为 \cite 命令设定数据源
+\usebtxdefinitions[bar]    % 载入 bar 样式
+\definebtxrendering[references][bar][dataset=demo]
+\starttext
+Knuth 发明了文学编程语言 WEB\cite[knuth-1984-literate]。
+\blank
+% 排版文献列表，也可以用 \placebtxrendering[reference]
+\placelistofpublications[references]
+\stoptext
+\stopTEX
+
+\CONTEXT\ 的文献管理功能之所以设计得如此复杂，其意图是要支持同一份文献数据，可以用不同的文献样式排版。不过，我觉得这实在是一种过度设计，可以称得上失败。
+
+\section{第三条路}
+
+如果你对 \CONTEXT\ 的文献管理功能颇为不满，实际上还有第三条路可以走，那就是先用 \CONTEXT\ 内置的文献样式管理引用的文献，待完全定稿后，再手工将文献列表排版成你期望的样式。为了降低工作量，你也可以用现代的一些容易使用的脚本语言编写一个简陋的类似 bibtex 的程序作为辅助工具。
+
+\subject{结语}
+
+Hans Hagen 为 \ConTeXt\ 文献管理功能专门写了一份约 100 页的手册，见
+
+\starttyping
+$ mtxrun --search mkiv-publications.pdf
+\stoptyping
+
+\noindent 在不理解本文自定义文献样式所用的各命令及其参数的含义时，可从该手册获得更多的理解……只是这份手册内容凌乱，缺乏概观式的介绍，我建议先阅读文档 \cite[bib]，先存下一些不解，然后再阅读该手册。

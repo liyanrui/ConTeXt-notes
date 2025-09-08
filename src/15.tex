@@ -1,8 +1,8 @@
-\chapter[zhfonts]{需要 zhfonts 吗？}
+\chapter[zhfonts]{zhfonts 模块}
 
-基于第 \in[chinese-fonts] 章介绍的汉字字体的设定方法，使用 \CONTEXT\ 足以排版中文文档，但是存在汉字标点符号的间距过大且无法与正文左右边界对齐等问题。若你对此无法忍受，可以考虑使用我写的 zhfonts 模块，另外该模块显著简化了中文字体的设定。
+基于第 \in[chinese-fonts] 章介绍的汉字字体的设定方法，使用 \CONTEXT\ 足以排版中文文档，但是存在汉字标点符号的间距过大且无法与正文左右边界对齐等问题。若你对此无法忍受，可以考虑使用我写的 zhfonts 模块，另外该模块显著简化了中文字体的设定。这一章的内容应当在第 \in[chinese-fonts] 章中出现，但是我不太想过早炫耀我的工作，何况它如此微薄。
 
-\section{zhfonts 初印象}
+\section{初印象}
 
 根据现在你已经掌握的 \CONTEXT\ 知识，理解以下代码，想必已不在话下：
 
@@ -19,6 +19,7 @@
 \setuppapersize[S4]
 \setuplayout[width=middle]
 \showglyphs  % 显示字形边界盒
+
 \starttext
 小知不及大知，小年不及大年 [... 省略很多字 ...] 此小大之辩也。
 \stoptext
@@ -30,6 +31,7 @@
 \setuppapersize[S4]
 \setuplayout[width=middle]
 \showglyphs  % 显示字形边界盒
+
 \starttext
 小知不及大知，小年不及大年 [... 省略很多字 ...] 此小大之辩也。
 \stoptext
@@ -37,17 +39,24 @@
 \noindent 对应的排版结果如图 \in[fig:zhfonts] 所示。认真对比图 \in[none-zhfonts] 和图 \in[fig:zhfonts] 中的标点符号的排版结果，则不难发现 zhfonts 模块解决的问题是标点间距微调。
 
 \placefigure[here][none-zhfonts]{未使用 zhfonts 的中文标点排版效果}{%
-  \clip[width=\textwidth,height=5cm,voffset=1.8cm]{%
+  \clip[width=\textwidth,height=4.1cm,voffset=1.7cm]{%
     \externalfigure[15/none-zhfonts.pdf][width=\textwidth]}}
 \placefigure[here][fig:zhfonts]{使用 zhfonts 的中文标点排版结果}{%
-  \clip[width=\textwidth,height=4.25cm,voffset=1.8cm]{%
+  \clip[width=\textwidth,height=3.75cm,voffset=1.7cm]{%
     \externalfigure[15/zhfonts.pdf][width=\textwidth]}}
 
-\section{安装 zhfonts}
+\section{安装}
 
 \useURL[zhfonts][https://github.com/liyanrui/zhfonts/archive/refs/heads/master.zip]
-下载 zhfonts-master.zip 包，网络链接为\\
-\blueframed{\from[zhfonts]}\\
+\useURL[zhfonts-gitee][https://gitee.com/garfileo/zhfonts/repository/archive/master.zip]
+首先下载 zhfonts-master.zip 包，如果你能访问 Github 网站，则获取地址为
+
+\noindent\boxquote{\from[zhfonts]}
+
+\noindent 否则可以从国内的 Gitee 网站获取，则获取地址为
+
+\noindent\boxquote{\from[zhfonts-gitee]}
+
 解包后可得目录 zhfonts-master，将其更名为 zhfonts 并移动至
 \starttyping
 $TEXROOT/texmf-local/tex/context/third
@@ -62,16 +71,16 @@ $ context --generate
 
 \noindent 以使 \CONTEXT\ 能够通过 \type{\usemodule[zhfonts]} 搜索并加载 zhfonts 模块的相关文件。
 
-如果你的系统中装有 git，可在 \bluebox{\type{$TEXROOT/texmf-local/tex/context/third}} 目录执行以下命令安装 zhfonts模块：
+如果你的系统中装有 git，可在 \boxquote{\type{$TEXROOT/texmf-local/tex/context/third}} 目录执行以下命令安装 zhfonts模块：
 
 \starttyping
 $ git clone https://github.com/liyanrui/zhfonts.git
 $ context --generate
 \stoptyping
 
-\noindent 日后若要更新 zhfonts，只需将上述的 \bluebox{\type{git clone ...}} 换成 \bluebox{\type{git pull}}。
+\noindent 日后若要更新 zhfonts，只需将上述的 \boxquote{\type{git clone ...}} 换成 \boxquote{\type{git pull}}。
 
-\section{基本用法}
+\section{用法}
 
 zhfonts 模块默认使用 simsun.ttc，simhei.ttf，simkai.ttf 这三款汉字字体——想必你早已按照 \in[fonts-installation] 节的介绍安装了它们——，西文字体则使用随 \CONTEXT\ 发行的 Latin Modern 系列字体。
 
@@ -96,7 +105,7 @@ zhfonts 默认使用 11 pt 正体字（宋体 + Latin Modern Serif）作为正�
 \stoptyping
 \placefigure[none]{}{\externalfigure[15/02.pdf]}
 
-\section{\type{\setupzhfonts}}
+\section{字体设定}
 
 使用 \type{\setupzhfonts} 可替换 zhfonts 默认的中文和西文字体。例如，将默认的汉字的衬线字族的粗体更换为 NotoSerifCJK-Bold.ttc\footnote{Google 开发的 Noto 字体中的一款，需要你去网络上搜索获取并按照 \in[fonts-installation] 节所介绍的方式予以安装。}：
 
@@ -120,19 +129,10 @@ zhfonts 默认使用 11 pt 正体字（宋体 + Latin Modern Serif）作为正�
 \starttyping[option=TEX]
 \setupzhfonts
   [latin,serif|sans|mono]
-  [regular=...,
-   bold=...,
-   italic=...,
-   bolditalic=...]
+  [regular=..., bold=..., italic=..., bolditalic=...]
 \stoptyping
 
-对于数学字体，zhfonts 使用 \CONTEXT\ 默认的数学字体。如果你想更换其他的数学字体，请参考 \CONTEXT\ wiki 页「Math fonts」\cite[math-fonts]，例如切换为 antykwa 字体，只需
-
-\starttyping[option=TEX]
-\setupzhfonts[math][antykwa]
-\stoptyping
-
-zhfonts 并未使用汉字字体中的西文字形，而是将汉字字体作为替补字体「注入」到西文字体，从而将汉字字体与西文字体组成了混合字体，具体原因已在 \in[fallback-fonts] 节给出了说明。
+zhfonts 并未使用汉字字体中的西文字形，而是将汉字字体作为替补字体「注入」到西文字体，具体原因已在 \in[fallback-fonts] 节给出了说明。
 
 两种不同的字体，混合到一起，可能会出现字形尺寸不一致的情况。若遇到这种情况，可使用 \type{\setupzhfonts} 的 \type{fontname@n.n} 的参数形式设置汉字的缩放比例。例如
 
@@ -149,9 +149,33 @@ zhfonts 并未使用汉字字体中的西文字形，而是将汉字字体作为
 \stoptyping
 \placefigure[none]{}{\externalfigure[15/03.pdf]}
 
-\section{小结}
+\section{数学字体}
 
-zhfonts 模块是基于 \CONTEXT\ 的传统的 Typescript 机制实现的汉字字体和英文字体的混合。若想见识一下 Typescript 的恐怖之处，只需编译以下内容的 \CONTEXT\ 源文件：
+zhfonts 模块默认使用的数学字体是 \CONTEXT\ 默认的 Latin Modern 数学字体。如果你想换成其他数学字体，设定方法与上文所述的方法有所区别，原因是数学字体有些复杂，而且可选性也不太多。文档\cite[math-fonts]里已经提供了一些 \CONTEXT\ 自带的数学字体的配置。这些配置用 \CONTEXT\ 的术语来说，即 Typescript。在使用 \tex{setupzhfonts} 命令替换默认的数学字体时，你可以直接用某款数学字体的 Typescript 名字指代该字体。例如若将 xits 字体设为数学字体，其 Typescript 名字是 \type{xits}，设定命令如下：
+
+\startTEX
+\setupzhfonts[math][xits]
+\stopTEX
+
+如果你需要使用某款外部数学字体，你需要按照第 \in[chinese-fonts] 章所述方法将其安装到 \CONTEXT\ 环境里，然后为它写一小段基本的 Typescript。下面以 Google 开发的 Noto Sans Math 字体为例，假设你安装了该字体，那么面向该字体的基本的 Typescript 代码如下：
+
+\startTEX
+\starttypescript[math][this-is-noto-sans-math]
+  \definefontsynonym[MathRoman][file:NotoSansMath-Regular.ttf]
+\stoptypescript
+\stopTEX
+
+\noindent 然后便可以用 \tex{setupzhfonts} 设定该字体：
+
+\startTEX
+\setupzhfonts[math][this-is-noto-sans-math]
+\stopTEX
+
+如果你需要为某款数学字体作细致入微的配置，那只能是精心研究 \CONTEXT\ 的像天书一样的 Typescript 机制了。我没法讲述这部分内容，因为它们超出了我的能力。
+
+\subject{结语}
+
+zhfonts 模块是基于 \CONTEXT\ 的传统的 Typescript 机制实现的汉字字体和英文字体的混合。若想见识 Typescript 的恐怖之处，只需编译以下内容的 \CONTEXT\ 源文件：
 
 \starttyping[option=TEX]
 \usemodule[zhfonts]
@@ -159,3 +183,5 @@ zhfonts 模块是基于 \CONTEXT\ 的传统的 Typescript 机制实现的汉字�
 \showzhfonts
 \stoptext
 \stoptyping
+
+\noindent 如果你想改进 zhfonts 模块，文档\cite[zhfonts] 介绍了 zhfonts 模块的一些关键技术，希望有所帮助。如果你需要汉字直排功能，可使用黄复雄所写的模块\cite[vtypeset]。

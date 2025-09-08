@@ -1,285 +1,380 @@
-\chapter{幻灯片}
+\chapter{写一本书？}
 
-现在你已经领略甚至可能全部掌握了 \ConTeXt\ 常用的的排版元素，若不使用它们而是依然使用 Microsoft PowerPoint 制作幻灯片甚为可惜。如果你已决意使用 \ConTeXt\ 制作幻灯片，你会发现，你几乎不需要再学习多少新的 \ConTeXt\ 命令便可随心所欲地制作清新质朴的幻灯片了。
+除了之前章节介绍的所有排版元素，一本书还要有目录、引用、脚注、索引、书签等元素。本章对这些元素给出一些示例性质的介绍，以便你能快速将其应用到你的文档里。详细介绍是不太可能的，原因是，即使我愿意为每个元素写出一章的内容详尽介绍，你也未必会看的，一方面是这些元素本身就枯燥无味，另一方面在一般性的场景中，你也无需了解关于它们的太多细节。不过，对每个元素给出简要介绍后，我会附上更为详尽的介绍以备你日后参考之用。
 
-\section{纸面尺寸}
+\section{结构}
 
-纸面尺寸是每一页的打印尺寸。至此为止，本文档之前所有的示例，在 \type{TEXpage} 环境里的，纸面尺寸取决于文档内容的多少，而在 \type{text} 环境里的，纸面尺寸默认是 A4，即 $21\,{\rm cm}\times 29.7\,{\rm cm}$，如果你需要将该尺寸换成 A5，只需在样式文件中作以下设定
-
-\cmdindex{setuppapersize}
-\starttyping[option=TEX]
-\setuppapersize[A5]
-\stoptyping
-
-制作幻灯片通常不需要太大的纸面尺寸。\ConTeXt\ 提供了 S4 尺寸（$400\,{\rm pt}\times 300\,{\rm pt}$），可将其作为幻灯片的纸面尺寸。也可以自己定义纸面尺寸并使用，例如
+一本书，通常是由一组文章构成的，可分为序、前言、目录、正文篇章、跋、参考文献、索引、附录等内容，再加上封面，衬页、扉页等页面。对于书籍制作，\CONTEXT\ 对 \type{text} 环境给出了更为细致的划分：
 
 \starttyping[option=TEX]
-\definepapersize[foo][width=640pt,height=480pt]
-\setuppapersize[foo]
+\starttext
+\startfrontmatter
+% 此处放置封面、扉页、序、前言、目录等内容
+\stopfrontmatter
+\startbodymatter
+% 此处为正文篇章
+\stopbodymatter
+\startbackmatter
+% 此处方式跋，参考文献列表、索引等内容
+\stopbackmatter
+\startappendices
+% 此处为附录
+\stopappendices
+\stoptext
 \stoptyping
 
-实际上，纸面尺寸仅对排版结果的打印很重要，倘若只是在计算机（或投影仪）屏幕上观看排版结果，我们总是可以通过调整正文字体大小去应对过大或过小的纸面尺寸，但是纸面尺寸的宽高比例，对于屏幕非常重要。通常，幻灯片的宽高比应当与屏幕的分辨率相适应为最佳。例如，我的屏幕分辨率是 $1600\times 900$，那么我要制作的幻灯片页面的宽高比也应当是 $16:9$，故而纸面尺寸可设定为
+对于上述文档逻辑结构，皆为 \tex{definesectionblock} 命令\cite[sectionblock]定义的区块实例，你也可以用这个命令定义自己的结构。
 
-\cmdindex{definepapersize}
+将一本书的内容全部放在同一份源文件中并不违法，但无论是撰写还是修改必定极为不便，故而通常是构造一份主文件，其内容如下例，而书的各部分内容则存放在一些独立的源文件里，然后用 \type{\input} 命令将其载入到主文件中。
+
 \starttyping[option=TEX]
-\definepapersize[foo][width=640pt,height=360pt]
-\setuppapersize[foo]
+% 主文件
+\starttext
+\startfrontmatter
+\input cover  % cover.tex：封面
+\input preface  % preface.tex：序
+\stopfrontmatter
+\stoptyping
+\starttyping[option=TEX]
+\startbodymatter
+\input 01  % 01.tex：第一章
+\input 02  % 02.tex：第二章
+% ... ...
+\stopbodymatter
+\startbackmatter
+\title{参考文献}
+\placelistofpublications  % 参考文献列表
+\stopbackmatter
+\startappendices
+\null  % 暂时为空
+\stopappendices
+\stoptext
 \stoptyping
 
-现在，我们可以制作幻灯片的最原始的形式：
+\noindent 主文件 \type{\input} 命令载入的文件通常位于同一目录。
 
+原则上，书籍的所有排版样式皆应在单独的文件中设定，然后使用 \type{\input} 或 \type{\environment} 命令在 \type{text} 环境之前将其载入。例如
+
+\starttyping[option=TEX]
+\environment book-style  % 载入book-style.tex
+\starttext
+% ... ... ...
+\stoptext
+\stoptyping
+
+\section[TOC]{目录}
+
+\type{\placecontent} 可将全文章节标题及其所在页码等信息汇总为一个列表，以方便读者查阅。例如
+
+\cmdindex{placecontent}
 \starttyping[option=TEX]
 \usemodule[visual]
-\definepapersize[foo][width=640pt,height=360pt]
-\setuppapersize[foo]
 \starttext
 \title{\fakewords{3}{5}}
-\fakewords{50}{100}
+\placecontent
+\section{\fakewords{3}{5}}
+... ... ...
+\section{\fakewords{3}{5}}
+... ... ...
 \stoptext
 \stoptyping
-\midaligned{\externalfigure[13/slides-1.pdf][width=.6\textwidth,frame=on]}
+\midaligned{%
+  \clip[width=\textwidth,height=6cm,voffset=3cm]{%
+    \externalfigure[13/toc.pdf][width=\textwidth,frame=on]%
+  }%
+}
 
-\section{页面布局}
-
-在 \type{text} 环境之前添加以下代码
-
-\starttyping[option=TEX]
-\showframe
-\stoptyping
-
-\noindent 可在页面上显示当前的页面布局，结果如图 \in[12-layout-1] 所示。可根据图 \in[ConTeXt-layout] 理解页面布局中各区域名称和尺寸参数名称。
-
-\placefigure[here][12-layout-1]{\ConTeXt\ 默认的页面布局}{\externalfigure[13/layout-1.pdf][width=.6\textwidth]}
-
-\placefigure[here][ConTeXt-layout]{页面布局注解}{\externalfigure[13/ConTeXt-layout.svg][width=.8\textwidth]}
-
-使用 \type{\setlayout} 可对各区域尺寸进行调整，例如让版心居中，即图 \in[ConTeXt-layout] 所示的 \type{width} 和 \type{textheight} 确定的区域居中，因为在默认情况下，它有些偏左。我们已经知道，页面的横向尺寸是 640 pt，按照以下设定便可将问题解决：
-
-\cmdindex{setuplayout}
-\starttyping[option=TEX]
-\setuplayout
-  [leftedge=0pt,leftedgedistance=0pt,
-   leftmargin=80pt,leftmargindistance=10pt,
-   backspace=90pt,
-   rightedge=0pt,rightedgedistance=0pt,
-   rightmargin=80pt,rightmargindistance=10pt,
-   width=460pt]
-\stoptyping
-
-\noindent 上述设定，实现了页面布局中页面总宽度值 640 pt 的分配，但是要注意一点，\type{backspace} 的值等于 4 个以 \type{left} 为前缀的参数值之和，虽然在设定了它的各个分量后，但 \ConTeXt\ 在遇到默认的 \type{backspace} 值与实际的 \type{left...} 参数值之和不符时，会根据 \type{backspace} 值进行页面布局。倘若我们不关心 \type{left...} 参数，即 \ConTeXt\ 默认对页面左侧留白区域默认如何分配，仅需要让 \ConTeXt\ 知道 \type{backspace=90pt}，则上述代码可简化为
+使用 \type{\setupcombinedlist} 可设定目录样式，例如设定可在目录中出现的标题级别以及列表样式。若得到常见的目录样式，只需作以下设定：
 
 \starttyping[option=TEX]
-\setuplayout
-  [backspace=90pt,
-   rightedge=0pt,rightedgedistance=0pt,
-   rightmargin=80pt,rightmargindistance=10pt,
-   width=460pt]
+\setupcombinedlist[content][alternative=c]
 \stoptyping
-
-\noindent 还可以进一步简化，因为 \ConTeXt\ 对 \type{rightedge} 和 \type{rightedgedistance} 赋予的默认值原本就是 0，因此有
-
-\starttyping[option=TEX]
-\setuplayout
-  [backspace=90pt,
-   rightmargin=80pt,rightmargindistance=10pt,
-   width=460pt]
-\stoptyping
-
-如果我们只关心版心的横向居中问题，并不关心左右留白区域的尺寸，最为简单的布局方式是
-
-\starttyping[option=TEX]
-\setuplayout[width=middle]
-\stoptyping
-
-以上设置的是页面横向布局。对于纵向布局，存在与 \type{backspace} 类似的问题，即 \type{topspace} 的设定。\type{tospace} 的值是 \type{top} + \type{topdistance}，但是在 \type{\setuplayout} 中只对后者进行设定是无效的，必须先设定 \type{tospace}，然后再将其值分配给 \type{top} 和 \type{topdistance}，或让 \ConTeXt\ 自动分配。
-
-对于页面纵向布局参数，我要去掉页面顶部和底部留白，只需作以下设定
-
-\starttyping[option=TEX]
-topspace=0pt,height=middle,bottom=0pt
-\stoptyping
-
-\noindent 现在全部的页面布局设定如下：
-
-\starttyping[option=TEX]
-\setuplayout[width=middle,topspace=0pt,height=middle,footer=40pt]
-\stoptyping
-
-完成页面布局设定后，别忘记去掉 \type{text} 环境之前的 \type{\showframe} 语句。此外，我建议你在 \type{text} 环境里动手试验一番 \type{\showlayout}。
-
-\section[slide-fonts]{字体}
-
-在 \ConTeXt\ 使用汉字字体，对此估计你已经颇为熟悉了。在幻灯片中，我使用以下字体：
-
-\starttyping[option=TEX]
-\definefallbackfamily
-  [myfonts][ss][latinmodernsans][range={0x0000-0x0400},force=yes]
-\definefontfamily[myfonts][ss][simhei][bf=simhei,it=kaiti,bi=simhei]
-\setscript[hanzi]
-\setupbodyfont[myfonts,ss,16pt]
-\stoptyping
-
-\noindent 上述字体设定并不完整，尚未设定衬线字族和等宽字族，这些待需要时再予以设定。
-
-\section[regular-style]{常规样式}
-
-首先，消除 \ConTeXt\ 默认在页面顶部设置的页码：
-
-\starttyping[option=TEX]
-\setuppagenumbering[location=]
-\stoptyping
-
-\noindent 幻灯片通常不需要页码，即使需要页码，默认的页码出现的位置和字号皆不合适。
-
-设置行间距为 1.75 倍，即 $1.75\times 16\,{\rm pt}$：
-
-\starttyping[option=TEX]
-\setupinterlinespace[line=28pt]
-\stoptyping
-
-以下代码设置了第 1 级列表样式，（1）定义一个新的列表项符号，将其设置列表项默认符号；（2）消除列表项之间的额外间距；（3）列表项的符号和内容之间插入 .5em 的间距；（4）列表前后各空 1/4 行，因为在幻灯片中，纵向空间颇为珍贵。
-
-\starttyping[option=MP]
-\startuseMPgraphic{square}
-  path a, b;
-  a := (-.5, 0) -- (-.5, .5) -- (.5, .5);
-  b := (-.5, -.5) -- (.5, -.5) -- (.5, 0);
-  for i = a, b:
-    draw i scaled 10pt withpen pencircle scaled 2pt withcolor darkred;
-  endfor;
-  draw (0, 0) withpen pensquare scaled 4pt withcolor darkred;
-\stopuseMPgraphic
-\stoptyping
-\starttyping[option=TEX]
-\definesymbol[10][{\lower.15ex\hbox{\useMPgraphic{square}}}]
-\setupitemize
-  [1][10,packed]
-  [distance=0.4em,
-   before={\blank[quarterline]},after={\blank[quarterline]}]
-\stoptyping
-\noindent 如果你还需要二级、三级列表，可参照上述设定制作适合的样式。
-
-将幻灯片一级无编号标题和有编号标题均设置为居中对齐，字号级别为 \type{b}，颜色为 \type{darkred}，前后各空半行：
-
-\starttyping[option=TEX]
-\setuphead
-  [title,chapter]
-  [align=center,style=\ssb,color=darkred,
-   before={\blank[halfline]},after={\blank[halfline]}]
-\stoptyping
-
-现在，在 \type{text} 环境中随便写点什么，察验上述设定是否起效。
-
-\starttyping[option=TEX]
-\starttext
-\startbuffer[foo]
-\chapter{蒙}
-亨。匪我求童蒙，童蒙求我；初筮告，再三渎，渎则不告。利贞。
-\startitemize
-\item 初六，发蒙，利用刑人，用说桎梏；以往吝。
-\item 九二，包蒙，吉。纳妇，吉；子克家。
-\item 六三，勿用取女，见金夫，不有躬，无攸利。
-\item 六四，困蒙，吝。
-\item 六五，童蒙，吉。
-\item 上九，击蒙，不利为寇，利御寇。
-\stopitemize
-\stopbuffer
-\dorecurse{10}{\getbuffer[foo]}
-\stoptext
-\stoptyping
-\midaligned{\externalfigure[13/slides-2.pdf][width=.6\textwidth,frame=on]}
-
-\noindent 上述代码使用了 \ConTeXt\ 的 \type{buffer} 环境和循环宏 \type{\dorecurse}。所谓 \type{buff}，是一个可以设定名字的缓存，它可以包含 \ConTeXt\ 排版代码。\type{\getbuffer} 可获得指定名字的缓存中所包含的全部代码。\type{\dorecurse} 可以将其所含内容重复指定次数。上述代码所产生的效果是生成十页内容相同的幻灯片。
-
-截止至此，我们第一次在示例中使用有编号标题。对于 \type{\chapter} 建议在幻灯片样式中增加以下设定，将其数字编号更改为中文编号，另外设置编号不参与对齐，亦即只有标题内容参与对齐：
-
-\starttyping[option=TEX]
-\setuphead[chapter][conversion=chinesenumerals,alternative=inmargin]
-\stoptyping
-\midaligned{\externalfigure[13/slides-3.pdf][width=.6\textwidth,frame=on]}
+\midaligned{%
+  \clip[width=\textwidth,height=6cm,voffset=3cm]{%
+    \externalfigure[13/toc-2.pdf][width=\textwidth,frame=on]%
+  }%
+}
 \blank
+\noindent 目录列表样式参数 \type{alternative} 有 \type{a}，\type{b}，\type{c}，\type{d} 四个值可选，默认是 \type{b}。本文档目录使用的是 \type{d}。
 
-\noindent 如果你还需要二级、三级标题，可参照上述设定制作适合的样式。
+\type{\setupcombinedlist} 亦可用于指定可出现在目录列表中的标题级别，例如
+
+\starttyping[option=TEX]
+\setupcombinedlist[content][list={chapter,section}]
+\stoptyping
+
+注意，当 \type{\placecontent} 出现在 \type{\chapter} 之后时，生成的目录仅针对该章之内的各节。若是写书，需将 \type{\placecontent} 放在 \type{frontmatter} 环境，例如：
+
+\starttyping[option=TEX]
+\startfrontmatter
+\title{目录}
+\placecontent
+\stopfrontmatter
+\stoptyping
+
+\noindent 可对全篇被列入目录列表的章节生成目录。
+
+使用 \type{\setuplist} 可对出现在目录列表中相应级别的标题样式分别予以设定，例如
+
+\starttyping[option=TEX]
+\setuplist[chapter]
+          [alternative=a,
+           before={\blank[halfline]},after={\blank[halfline]},style=bold]
+\setuplist[section]
+          [alternative=d,style=normal,pagestyle=smallbold]
+\stoptyping
+
+\CONTEXT\ 默认不允许无编号标题出现在目录中，但是倘若对无编号标题，例如 \type{\title} 作以下设定
+
+\starttyping[option=TEX]
+\setuphead[title][incrementnumber=list]
+\stoptyping
+
+\noindent 之后便可将 \type{\title} 添加到目录列表，即
+
+\starttyping[option=TEX]
+\setupcombinedlist[content][list={title,chapter,section}]
+\stoptyping
+
+需要注意的是，在 \type{frontmatter} 环境中放置目录列表时，若使用以下代码
+
+\starttyping[option=TEX]
+\startfrontmatter
+\title{目录}
+\placecontent
+\stopfrontmatter
+\stoptyping
+
+\noindent 由于此时 \type{\title} 已被列入目录列表，因此 \type{\title{目录}} 本身会出现在目录列表中。为避免这一问题，需要为目录页单独定义一个标题。\CONTEXT\ 支持我们定义自己的标题，例如
+
+\starttyping[option=TEX]
+\definehead[TOC][title]
+\stoptyping
+
+\noindent 定义了一个新的标题 \type{\TOC}，它与 \type{\title} 的样式相同。在 \type{frontmatter} 环境中使用 \type{\TOC}：
+
+\starttyping[option=TEX]
+\startfrontmatter
+\TOC{目录}
+\placecontent
+\stopfrontmatter
+\stoptyping
+
+\noindent 由于我们并未将 \type{\TOC} 列入目录列表，因此上述问题得以解决。
+
+文档\cite[toc]对目录给出了更为全面的介绍，可作进一步的参考。
+
+\section[reference]{引用}
+
+在之前的列表、表格、插图和数学公式等章节中，已简略介绍了 \CONTEXT\ 引用的用法。\CONTEXT\ 的标题也支持引用。例如，本节的标题对应的排版命令是
+
+\starttyping[option=TEX]
+\section[reference]{引用}
+\stoptyping
+
+可以在文章几乎任何一个位置，像下面这样引用本节：
+
+\startexample
+我在 \at[reference] 页 \in[reference] 节\about[reference]中的一些内容。
+\stopexample
+\typeexample[optio=TEX]
+\startframedtext[width=broad]
+\getexample
+\stopframedtext
+
+使用 \type{\textreference} 可在文档几乎任何位置插入引用。例如
+
+\cmdindex{textreference}
+\startexample
+我在此处放置了一个引用\textreference[myref]{一个引用}。
+\stopexample
+\typeexample[option=TEX]
+\startframedtext[width=broad]
+\getexample
+\stopframedtext
+
+\startexample
+我在此处使用一个引用，它是 \at[myref] 的「\in[myref]」。
+\stopexample
+\typeexample[option=TEX]
+\startframedtext[width=broad]
+\getexample
+\stopframedtext
+
+\section{脚注}
+
+若需要对书籍内容中一些文字进行注解，可采用脚注形式。\tex{footnote} 命令可在待注解的文字之后插入脚注，并自动生成序号。例如
+
+\startexample
+我以脚注的形式告诉你一个关于 \CONTEXT\ 脚注的秘密\footnote{\CONTEXT\ 的脚注默认不支持中文断行，详见 \CONTEXT\ 邮件列表上的一次讨论\cite[chinese-footnotes]。}。
+\stopexample
+\typeexample[option=TEX]
+\startframedtext[width=broad]
+\getexample
+\stopframedtext
+
+解决脚注中较长的中文无法断行这一问题，一种方法是在脚注中使用 \type{\setscript[hanzi]} 强行开启中文断行功能，为了简便，可以专门定义一个宏替代 \type{\footnote}：
+
+\starttyping[option=TEX]
+\def\zhfootnote#1{\setscript[hanzi]#1}
+\stoptyping
+
+\noindent 也可以用 \CONTEXT\ 超人 Wolfgang Schuster 提供的方法，使用 \type{setups} 机制\cite[setups]，为脚注构造专用的设定，见下例。
+
+\starttyping[option=TEX]
+\startsetups footnote:hanzi
+\setscript[hanzi]
+\stopsetups
+\setupnote[footnote][setups={footnote:hanzi}]
+\stoptyping
+
+\section{索引}
+
+索引通常放在 \type{backmatter} 环境，即附在书的正文之后，以便检索在正文某页检索一些关键词。这些关键词在正文中需由 \type{\index} 给出。例如
+
+\starttyping[option=TEX]
+\startbackmatter
+\title{索引}
+\placeindex
+\stopbackmatter
+\stoptyping
+
+\startexample
+我在此演示 \tex{placeindex}\index[placeindex]{\tex{placeindex}}
+和 \type{\index}\index[index]{\type{\index}} 的用法。
+\stopexample
+\typeexample[option=TEX]
+\startframedtext[width=broad]
+\getexample
+\stopframedtext
+
+\noindent \tex{placeindex} 产生的结果见本文档附录部分的「索引」。
+
+\section{书签}
+
+与目录类似，对于内容较多的 PDF 文档，提供书签（Bookmark）亦可便于他人阅读。书签通常显示于 PDF 阅读器的侧栏，如图 \in[13-bookmarks] 所示，点击某个书签便可跳转至其关联的页面。
+
+\placefigure[here][13-bookmarks]{PDF 书签}{\externalfigure[13/bookmarks.png][width=.7\textwidth]}
+
+为 PDF 文件制作书签，只需在样式文件中添加以下语句：
+
+\starttyping[option=TEX]
+\setupinteraction[state=start,focus=standard]
+\setupinteractionscreen[option=bookmark]
+\placebookmarks[title,chapter,section][title,chapter]
+\stoptyping
+
+\noindent 其中，\type{\setupinteraction} 用于开启 PDF 的用户交互特性。\type{\setupinteractionscreen} 用于设定 PDF 文件被阅读器打开后，以何种形式如何呈现在屏幕上，若其 \type{option} 值为 \type{bookmark}，则文件打开后，会自动开启阅读器的侧边栏并显示书签；若设置 \type{option} 为 \type{max}，则文件在被打开后会全屏显示。上述 \type{\placebookmarks} 语句的用途是设置可出现在书签栏的标题级别，且仅允许 \type{\title} 和 \type{\chapter} 级别的标题，其子标题列表可被展开。
+
+需要注意的是，\CONTEXT\ 同样默认无编号标题不被列入书签，但是倘若做以下设定
+
+\starttyping[option=TEX]
+\setuphead[title][incrementnumber=list]
+\stoptyping
+
+\noindent 则 \type{\title} 亦可出现在书签列表中。
+
+还需要注意一点， 书签功能取决于你所用的 PDF 阅读器是否支持。此外，你的 PDF 阅读器可能会将 \ConTeXt\ 生成的书签视为索引（Index），而其本身则提供了另一个叫作书签的功能，允许用户手动在侧边栏为文档的某一页建立链接，与 \CONTEXT\ 的书签原理相同。
+
+\section{双面}
+
+为了省纸，书籍通常是双面排版印刷，此时页码的位置要对开设定。如果订口和翻口是非对称的，还需要按双面模式设定页面布局。通常是翻口和底部（地脚）的留白要大一些，以便人们在读书时写注解。经典的双面排印布局是 Van de Graaf 的 Conon 版式，用 \CONTEXT\ 的页面布局可表达为
+
+\startTEX
+\usemodule[visual]
+% 纸张为 A4
+\setuppapersize[A4]
+% Van de Graaf Conon 版式
+\setuplayout
+        [backspace=.111\paperwidth,
+         width=.667\paperwidth,
+         topspace=.056\paperheight,
+         height=.778\paperheight]
+% 开启双面对开模式
+\setuppagenumbering[alternative=doublesided]
+\starttext
+\dorecurse{30}{\fakewords{50}{150}\par}
+\stoptext
+\stopTEX
+
+\placefigure[force][conon]{Van deGraaf Conon 版式}{\externalfigure[13/van.png][width=.6\textwidth]}
+
+\section{页眉}
+
+在页眉区域放置内容，需要用 \tex{setupheadertexts} 命令\cmdindex{setupheadertexts}。在单面排印的情况下，该命令支持三个参数，第一个参数是可选的，若不设定，则值默认是 \type{text}，表示版心上下的页眉和页脚局部区域，也可以将其值设为 \type{margin}，此时表示的是订口和翻口上下的页眉和页脚局部区域。
+
+下例设定了正文区域上方的页眉左侧和右侧区域的内容。
+
+\startTEX
+\setupheadertexts[页眉左侧][页眉右侧]
+\stopTEX
+
+如果你需要在订口和翻口上方的页眉区域放置内容，可按下例实现。
+
+\startTEX
+\setupheadertexts[margin][订口上方的页眉][翻口上方的页眉]
+\stopTEX
+
+在双面对开模式下，页眉和页脚的设定则需要五个参数，第一个参数依然是 \type{text} 或 type{margin}，至于后四个参数，其中前两个用于设定偶数页的页眉和页脚的左右两侧，后两个则用于设定奇数页的页眉左右两侧。下例是对偶数页和奇数页的正文上方页眉内容的设定。
+
+\startTEX
+\setupheadertexts[偶数页的页眉左侧][偶数页的页眉右侧]
+                 [奇数页的页眉左侧][奇数页的页眉右侧]
+\stopTEX
+
+下例是偶数页和奇数页的订口和翻口上方的页眉内容的设定。
+
+\startTEX
+\setupheadertexts
+  [margin]
+  [偶数页的页眉左侧][偶数页的页眉右侧][奇数页的页眉左侧][奇数页的页眉右侧]
+\stopTEX
+
+页眉区域通常可以放置章节标题以及页码等内容。本文档主要作为屏幕读物，而非印刷读物，故而采用了单面模式，但是页眉是按双面对开模式设定的，如下：
+
+\startTEX
+\def\CurrentChapter{%
+  第 \headnumber[chapter]\ 章\kern 1em\getmarking[chapter]%
+}
+\def\CurrentSection{%
+  \headnumber[section][current]%
+  \kern 2em%
+  \getmarking[section][current]%
+}
+\setupheadertexts[\CurrentChapter][pagenumber][pagenumber][\CurrentSection]
+\stopTEX
+
+\noindent 在单面模式下，偶数页的页眉左侧和右侧显示的分别是当前小节的标题和页码，而奇数页的页眉左侧和右侧显示的分别是当前章的标题和页码，并未按上述设定。但是若开启了双面对开模式，奇数页的页眉便会按上述设定，页码在左侧，章的标题在右侧。
+
+本文档的页眉设定用了几个之前未曾提及的命令，其中 \tex{headnumber}\cmdindex{headnumber} 可以取得当前章节的序号，\tex{getmarking}\cmdindex{getmarking} 可以取得当前章节的标题，\tex{kern}\cmdindex{kern} 命令用于制作指定宽度的间距。此外，我还需要再次提醒，要注意上述宏定义里的注释符，它们的用途是消除其后的换行符，以防在宏展开时这些换行符被当成空格而污染排版内容。
+
+也许你忽然想到，如果我想在正文上方的页眉区域或下方的页脚区域的中部放置内容，该如何实现呢？页眉和页脚的设定命令皆支持单参数形式，可用于在正文上方页眉或下方页脚中部放置内容，下例绘制了页眉底线，并居中放置了一些内容。
+
+\startTEX
+\setupheadertexts
+  [\framed[width=\textwidth, frame=off, bottomframe=on]{页眉内容}]
+\stopTEX
+
+你也能将上例扩展为在页眉的左侧、中部和右侧放置内容，同时带有底线的效果，而无需使用 \tex{setupheadertexts} 命令的多参数形式，只是在双面对开模式下，你需要用 \tex{ifodd} 命令\cmdindex{ifodd}判断当前页码的奇偶性，然后相应调整左右侧内容，下例可作为参考。
+
+\startTEX
+\defineframed[framedheader]
+             [width=\textwidth, frame=off, bottomframe=on]
+\def\myheader{%
+  \ifodd\pagenumber
+    \framedheader{左侧\hfill 中部\hfill\pagenumber}%
+  \else
+    \framedheader{\pagenumber\hfill 中部\hfill 右侧}%
+  \fi%
+}
+\setupheadertexts[\myheader]
+\stopTEX
+\placefigure[force][myheader]{自定义页眉}{\externalfigure[13/myheader.png][width=\textwidth]}
 
 \section{页脚}
 
-在 \in[regular-style] 节中，我关闭了 \ConTeXt\ 好意提供的页码。因为我希望页码出现在页面的右下角，且除以总页数，以便清楚幻灯片的进度。
+在 \in[footer] 节已经用 \tex{setupfootertexts} 命令\cmdindex{setupfootertexts}为幻灯片设置了页脚区域，该命令的参数形式与 \tex{setupheadertexts} 相同，故其用法不再赘述。
 
-\ConTeXt\ 提供了 \type{\setupfootertexts} 命令，可以在页脚左、右区域放入文字、盒子或图形等内容，同时提供了 \type{\setupfooter} 用于设定页脚区域的文字样式。另外，\type{\userpagenumber} 和 \type{\lastuserpage} 可分别用于获取当前页的页码和最后一页的页码。基于这些命令，便可实现能够表示进度的页码。例如
+\subject{结语}
 
-\cmdindex{setupfootertexts}
-\starttyping[option=TEX]
-\showframe
-\setupfooter[style=small,color=darkred]
-% 页脚左侧区域为空，右侧区域放置用于表示进度的页码
-\setupfootertexts[margin][][\hss\userpagenumber/\lastuserpage]
-\stoptyping
-\noindent 结果如图 \in[页码进度] 所示。
-\placefigure[here][页码进度]{第 4 页幻灯片}{\externalfigure[13/slides-4.pdf][page=4,width=.6\textwidth,frame=on]}
-
-现在，我们已经有了一个基本可用的幻灯片样式了。倘若使用刚学过的 \METAPOST\ 语言，琢磨一下，给幻灯片增加些许不庸俗又实用的装饰，也许会让人觉得你的幻灯片颇为用心。
-
-\section{进度条}
-
-现在，我们放弃使用当前页码除以总页数的方式表示进度，而是颇为用心地用 \METAPOST\ 在页面底部绘制一个进度条。实际上，用不了几行代码便可实现：
-
-\starttyping[option=MP]
-\startuseMPgraphic{processbar}
-numeric w, n, s, t;
-w := \overlaywidth; n := \lastuserpage;
-s := .5w / (n + 2); t := \userpagenumber - 1;
-path p; p := (fullsquare scaled \overlayheight);
-pickup pencircle scaled 2pt;
-picture q;
-q := image(for i = 0 upto n - 1:
-             p := (p shifted (2s, 0)) randomized .5pt;
-             if t = i: fill p withcolor darkgreen; fi;
-             draw p withcolor transparent(1, 0.5, darkgray);
-           endfor;);
-draw q xsized w;
-\stopuseMPgraphic
-\stoptyping
-
-\starttyping[option=TEX]
-\defineoverlay[process][\useMPgraphic{processbar}]
-\setupfootertexts[{\framed[frame=off,offset=0pt,
-                           width=\makeupwidth,height=.8em,
-                           background=process,empty=yes]{}}]
-\stoptyping
-
-\noindent 上述代码唯一需要解释之处是，当 \type{\setupfootertexts} 只有一个参数时，该参数的值会被安置在页脚的中间区域。所构造的进度条效果如图 \in[processbar] 所示。
-
-\placefigure[here][processbar]{第 3 页幻灯片}{\externalfigure[13/slides.pdf][width=.6\textwidth,page=4,frame=on]}
-
-\section{封面和致谢}
-
-幻灯片的封面和最后的致谢页皆可使用 \type{sandardmakeup} 环境制作。例如
-
-\index[standardmakeup]{standard makeup}
-\starttyping[option=TEX]
-\startstandardmakeup[align=center]
-\ssd \color[darkred]{如何用 \ConTeXt\ 制作幻灯片}
-\blank[2*line]
-\ssb 李某人
-\blank[line]
-2023 年 3 月 28 日
-\stopstandardmakeup
-\stoptyping
-\noindent 结果如图 \in[cover] 所示。
-
-之所以使用 \type{standardmakeup} 环境，是因为它是完全的空白页，且不会参与页码计数。
-\placefigure[here][cover]{封面}{\externalfigure[13/slides.pdf][width=.6\textwidth,page=1,frame=on]}
-
-\section{不要太刺眼}
-
-白色背景，往往过于刺眼。我们可将幻灯片背景色设置为浅灰色：
-
-\starttyping[option=TEX]
-\setupbackgrounds[page][backgroundcolor=lightgray,background=color]
-\stoptyping
-\noindent 结果如图 \in[slide-background] 所示。
-\placefigure[here][slide-background]{浅灰色背景}{\externalfigure[13/slides-finished.pdf][width=.6\textwidth,page=1,frame=on]}
-
-\section{小结}
-
-本章仅介绍了非常基本的幻灯片制作过程。一份精致的幻灯片样式，值得你用心设计，但是切记，不要喧宾夺主。质胜文则野，文胜质则史。孔子说，好的幻灯片样式，文质彬彬。本文制作的幻灯片示例，路数偏野。
+\TEX\ 系统复杂且难以掌握，主要原因在于排版本身便是极为复杂的事情，页眉区区方寸之地，若想随心所欲设置一些内容，已是颇为不易了，而写书更是工程级别的任务。绝大多数人，一生之中，工作量最大的单个作品大概是自己的学位论文，本科一二十页，硕士四五十页；到了博士阶段，学位论文有百余页，算得上书的级别。换言之，\TEX\ 在写博士论文这种程度的文档时，方能刚刚开始全面展现其功能和优势。换言之，用 \TEX\ 排版一份文档的难度取决于该文档要写什么以及如何写，不可脱离文档自身的内容和形式去看待某个排版系统的优点和缺点。

@@ -38,10 +38,11 @@
 
 \startsetups btx:gb:list:online
   \texdefinition{btx:gb:list:author}
-  \texdefinition{btx:gb:list:title}[EB/OL]\btxchineseperiod
-  \texdefinition{btx:gb:list:url}\btxchinesecomma
-  \texdefinition{btx:gb:list:year}
-  \btxchineseperiod
+  \texdefinition{btx:gb:list:title}%[EB/OL]
+              \btxchinesecomma
+              \texdefinition{btx:gb:list:year}
+              \btxchineseperiod\crlf
+  \rightaligned{\texdefinition{btx:gb:list:url}}
 \stopsetups
 
 \starttexdefinition btx:gb:list:author
@@ -87,5 +88,5 @@
 \stoptexdefinition
 
 \starttexdefinition btx:gb:list:url
-  「\underbar{\goto{\tt\hyphenatedurl{\btxflush{url}}}[url(\btxflush{url})]}」
+\underbar{\goto{\tt\tfx\hyphenatedurl{\btxflush{url}}}[url(\btxflush{url})]}
 \stoptexdefinition

@@ -1,0 +1,16 @@
+\usemodule[mindmap]
+\startMPpage
+mind.colors(darkred, darkblue, darkgreen);
+MM.BEGIN := .1; MM.END := .9;
+mind.enter("\type{context-win64}", 0);
+  mind.stretch(1.5);MM.BEGIN := .5; MM.END := .9;
+  mind("\type{install.bat}", 30);
+  mind("\type{setpath.bat}", 15);
+  mind.enter("\type{bin}", -5);
+    mind("\type{mtxrun.exe}", 15);
+    mind("\type{mtxrun.lua}", 0);
+    mind("\type{mtx-install.lua}", -15);
+  mind.exit;
+  mind("\type{installation.pdf}", -20);
+mind.exit
+\stopMPpage

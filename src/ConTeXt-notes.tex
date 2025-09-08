@@ -1,13 +1,38 @@
 \environment doc-env
-\usebtxdataset[ctxnotes.bib]
+\usebtxdataset[ctxnotes]
+
+%% 草稿水印
+%\startuseMPgraphic{水印图案}
+%% 标定绘图区域
+%draw (-.5PaperWidth, .5PaperHeight);
+%draw (.5PaperWidth, -.5PaperHeight);
+%% 水印图案
+%picture a; a := textext("{\bf 2025 版 $\cdot$ 草稿}");
+%numeric u[]; u1 := .7(bbwidth a);
+%path p, q; p := fullcircle scaled u1; q := fullcircle scaled (u1 + .4BodyFontSize);
+%p := p rotated (xpart ((0, 0) randomized (-90, 0)))
+%       shifted ((0, 0) randomized .8(PaperWidth, PaperHeight));
+%draw p withpen pencircle scaled BodyFontSize withcolor .7white;
+%q := q rotated (0 randomized 360) shifted (center p);
+%draw lmt_followtext [
+%  text = "{\tfxx\bf 2025 版 $\cdot$ 草稿}",
+%  spread = false,
+%  path = q
+%] withcolor .25[red, white];
+%\stopuseMPgraphic
+% 用上述 MetaPost 所绘图案作为页面背景
+%\defineoverlay[水印][\useMPgraphic{水印图案}]
+%\setupbackgrounds[page][background=水印]
+
 \starttext
 \startfrontmatter
 \input cover
 \input license
 \setuppagenumber[number=1]
 \setupuserpagenumber[numberconversion=romannumerals]
-\setups{FrontHeaderFooter}
+%\setups{HeaderFooter}
 \input preface % 自序
+\input preface-2 % 自序 2
 \TOC{目录}
 \placecontent
 \stopfrontmatter
@@ -31,17 +56,18 @@
 \input 13
 \input 14
 \input 15
+\input 16
 \stopbodymatter
 
-\startbackmatter
+\startappendices
 \input postscript
 \title{参考文献}
 \usebtxdefinitions[gb]
 \placelistofpublications
-\stopbackmatter
+\stopappendices
 
-\startappendices
+\startbackmatter
 \title{索引}
 \placeindex
-\stopappendices
+\stopbackmatter
 \stoptext

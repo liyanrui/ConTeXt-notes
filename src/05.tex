@@ -1,146 +1,274 @@
 \chapter{列表}
 
-若是帮领导起草并排版一份会议讲话稿，须知天下没有领导不偏爱含有列表的文章。大可以相信，\ConTeXt\ 列表绝对不会让领导失望。
+若是帮领导起草并排版一份会议讲话稿，须知天下没有领导不偏爱含有列表的文章。大可以相信，\CONTEXT\ 列表绝对不会让领导失望。
 
-\section{Todo List}
+\section{待办事项}
 
-在偷偷使用 ChatGPT 给领导起草讲稿之前，先用 \ConTeXt\ 列表安排一下今日待办事项：
+在准备用 ChatGPT 或 DeepSeek 给领导起草讲稿之前，先用 \CONTEXT\ 列表\index[itemize]{\type{itemize} 环境}安排一下今日待办事项：
 
-\startsample
+\startexample
 2023 年 3 月 22 日
 \startitemize
 \item 中午，晒十五分钟太阳
-\item 晚上，看流浪地球 \Romannumerals[2]
+\item 晚上，看流浪地球 \Romannumerals{2}
 \stopitemize
-\stopsample
-\sample[option=TEX][todo-list]{待办事项}{\externalfigure[05/todo-list.pdf]}
+\stopexample
+\example[option=TEX][todo-list]{待办事项}{\externalfigure[05/todo-list.pdf][width=.3\textwidth]}
 
-现在你已经学会了列表的用法了，剩下的，仅仅是设定它的样式。此外，你也学到了如何写大写的罗马数字，至于小写的，将 \type{\Romannumerals} 换成 \type{\romannumerals} 即可。
+现在你已经学会了列表的用法了，余下的事，大多是在设定它的样式。此外，你也学到了如何制作大写罗马数字。若需要制作小写罗马数字，只需将 \type{\Romannumerals} 换成 \type{\romannumerals}。
 
 \section{无序号列表}
 
-示例 \in[todo-list] 已经展示了样式最为简单的无序号列表，列表项符号是实心圆点。该示例中的列表实际上省略了列表项符号的设定，其完整形式为
+例 \in[todo-list] 已经展示了样式最为简单的无序号列表，列表项符号是实心圆点。该例中的列表实际上省略了列表项符号的设定，其完整形式为
 
 \starttyping[option=TEX]
 \startitemize[1]
 \item 中午，晒十五分钟太阳
-\item 晚上，看流浪地球 \Romannumerals[2]
+\item 晚上，看流浪地球 \Romannumerals{2}
 \stopitemize
 \stoptyping
 
-将上述代码中的数字 1 换成 2～9 的任何一个数字，可更换另一种列表项符号。例如
+将上述代码中的数字 \type{1} 换成 \type{2～9} 的任何一个数字，可更换序号样式。例如
 
-\startsample
+\startexample
 \startitemize[8]
 \item 中午，晒十五分钟太阳
-\item 晚上，看流浪地球 \Romannumerals[2]
+\item 晚上，看流浪地球 \Romannumerals{2}
 \stopitemize
-\stopsample
-\sample[option=TEX][]{改变列表项符号}{\externalfigure[05/todo-list-2.pdf]}
+\stopexample
+\example[option=TEX][]{改变列表项符号}{\externalfigure[05/todo-list-2.pdf][width=.3\textwidth]}
 
 \section{有序号列表}
 
-将无序号列表的数字参数换为 n，便可得到有序号列表。例如
+将无序号列表的符号参数换为 \type{n}，便可得到有序号列表。例如
 
-\startsample
+\startexample
 \startitemize[n]
 \item 中午，晒十五分钟太阳
-\item 晚上，看流浪地球 \Romannumerals[2]
+\item 晚上，看流浪地球 \Romannumerals{2}
 \stopitemize
-\stopsample
-\sample[option=TEX][]{有序号列表}{\externalfigure[05/todo-list-3.pdf]}
+\stopexample
+\example[option=TEX][]{有序号列表}{\externalfigure[05/todo-list-3.pdf][width=.3\textwidth]}
 
-有时，需要序号形式是带括号的数字，可作以下设定：
+有时，需要序号形式是带括号的数字，可像下面这样设定：
 
-\startsample
+\startexample
 \startitemize[n][left=(,right=),stopper=]
 \item 中午，晒十五分钟太阳
-\item 晚上，看流浪地球 \Romannumerals[2]
+\item 晚上，看流浪地球 \Romannumerals{2}
 \stopitemize
-\stopsample
-\sample[option=TEX][]{数字带括号的有序号列表}{\externalfigure[05/todo-list-4.pdf]}
+\stopexample
+\example[option=TEX][]{数字带括号的有序号列表}{\externalfigure[05/todo-list-4.pdf][width=.3\textwidth]}
 
-\noindent 其中「\type{stopper=}」是将参数 \type{stopper} 置空，达到的效果是消除列表项序号的西文句号后缀「\type{.}」。
+\noindent 其中\boxquote{\type{stopper=}}是将参数 \type{stopper} 置空，从而消除列表项序号之后的西文句点\boxquote{\type{.}}。
 
 若将列表项序号参数设定为 a，A，r，R，对应的序号形式分别为小写英文字母、大写英文字母、小写罗马数字、大写罗马数字。
 
-\section[item-sym-diy]{自定义符号列表}
-
-你可能会觉得 \ConTeXt\ 为无序号列表提供的列表项符号无法体现你的气质，\ConTeXt\ 说，Do it yourself! 下面我用 \METAPOST\ 代码绘制了一个小正方形，并令其边线略微受到随机扰动，然后将该图形定义为列表项符号：
-
-\startsample
-\startuseMPgraphic{foo}
-  path p;
-  p := fullsquare scaled 8pt randomized 1pt;
-  draw p withpen pencircle scaled 2pt
-         withcolor darkred;
-\stopuseMPgraphic
-
-\definesymbol
-  [10][{\lower.2ex\hbox{\useMPgraphic{foo}}}]
-\startitemize[10]
-\item 中午，晒十五分钟太阳
-\item 晚上，看流浪地球 \Romannumerals{2}
-\stopitemize
-\stopsample
-\sample[option=TEX][rsquare]{自定义符号的无序号列表}{\externalfigure[05/todo-list-5.pdf]}
-
-\noindent 现在你不懂上述代码的具体细节也无妨，观其大略即可，知道有一种可以画画的语言，叫 \METAPOST，它的代码可嵌入 \ConTeXt\ 环境作为插图使用，便已足够。
-
-对于有序号列表，有时会需要使用带圈的数字作为序号。虽然 Unicode 有相应的带圈字符的码位，例如 \char"2460，\char"2461……对应的 \TeX\ 命令是
-
-\starttyping[option=TEX]
-\char"2460，\char"2461……
-\stoptyping
-
-\noindent 但是这些带圈数字都是文字，并非数字。带圈的数字，无非是数字外面画个圆圈。画圆圈，用 \METAPOST\ 做此事，完全是不费吹灰之力，然后借助 \ConTeXt\ 的 overlay 机制\cite[overlay]，将圆圈作为 inframed\cite[framed] 的背景，再用 inframed 套住列表项序号即可，详见
-
-\startsample
-\startuseMPgraphic{foo}
-  path p;
-  p := fullcircle scaled 12pt;
-  draw p withpen pencircle scaled .4pt
-         withcolor darkred;
-\stopuseMPgraphic
-\defineoverlay[rsquare][\useMPgraphic{foo}]
-\def\fooframe#1{%
-  \inframed[frame=off,background=rsquare]{#1}%
-}
-
-\defineconversion[foo][\fooframe]
-\startitemize[foo][stopper=]
-\item 中午，晒十五分钟太阳
-\item 晚上，看流浪地球 \Romannumerals{2}
-\stopitemize
-\stopsample
-\sample[option=TEX][number-in-circle]{数字带圆圈的有序号列表}{\externalfigure[05/todo-list-6.pdf]}
-
-\noindent 你可能依然不知道上述代码具体细节，不必着急，以后会经常和它们打交道，逐渐便可熟悉。
-
-\section{间距调整}
+\section{留白}
 
 消除列表项之间的空白，只需
 
-\startsample
+\startexample
 2023 年 3 月 22 日
 \startitemize[1,packed]
 \item 中午，晒十五分钟太阳
 \item 晚上，看流浪地球 \Romannumerals{2}
 \stopitemize
-\stopsample
-\sample[option=TEX][]{消除列表项之间的空白}{\externalfigure[05/todo-list-7.pdf]}
+\stopexample
+\example[option=TEX][]{消除列表项之间的空白}{\externalfigure[05/todo-list-7.pdf][width=.3\textwidth]}
 
 消除列表前后以及列表项之间的空白，只需
 
-\startsample
+\startexample
 2023 年 3 月 22 日
 \startitemize[1,nowhite]
 \item 中午，晒十五分钟太阳
 \item 晚上，看流浪地球 \Romannumerals{2}
 \stopitemize
-\stopsample
-\sample[option=TEX][]{消除列表项之间的空白}{\externalfigure[05/todo-list-8.pdf]}
+\stopexample
+\example[option=TEX][]{消除列表项之间的空白}{\externalfigure[05/todo-list-8.pdf][width=.3\textwidth]}
 
-\section{小结}
+\section[itemcite]{引用}
 
-真正让你的领导失望并抱怨的应该是，他想要一份 Microsoft Word 文件，而你提交给他的却是只能看不能随手改动的 PDF 文件。
+在写论文时，通常要引用一些文献。这些文献通常是以列表的形式附在论文之后，在正文里以引用的方式自动呈现文献在列表中的序号。如此，当文献在列表中的次序有所调整时，正文中的引用所呈现的序号也会相应变化，而无需手工维护。基于列表的引用机制\index[liebxyy]{列表项引用}可以完成这类任务。
+
+\startexample
+\title{论文}
+
+正文引用了文献[\in[胡说]]和文献[\in[八道]]……
+
+\subject{参考文献}
+\startitemize[n,joinedup]
+             [left={[},right={]},
+              distance=.5em, stopper=]
+\item[胡说] 这是胡说的论文。
+\item[八道] 这是八道的论文。
+\stopitemize
+\stopexample
+\example[option=TEX][reflist]{参考文献列表及引用}{\externalfigure[05/reference.pdf][width=.425\textwidth]}
+
+上例中，列表的 \type{distance} 参数用于设定列表项的序号与内容的间距，我将其设定为半个字宽。\tex{item} 命令后的方括号中的内容是引用名。在正文里，使用 \tex{in} 命令可以通过列表项的引用名获得其序号。
+
+不过，这种基于列表的参考文献机制只适用于文献数量不多的情况。倘若有大量的参考文献数据，而文章仅引用其中一部分，对于此类任务，\CONTEXT\ 提供了更为专业的参考文献数据管理和引用机制，该机制的基本用法，见 \in[bibtex] 章。
+
+\section[drawing-sym]{画符}
+
+上文所述的列表样式用于常规文档的排版应该是足够用的，但现实中还有许多非常规文档，例如幻灯片、海报和杂志等，这类文档需要排版元素具有美学特征，而非朴素的科技文档特征。\CONTEXT\ 允许我们使用 MetaPost 语言画出我们想要的列表符号。
+
+MetaPost 是一种语法简洁但功能丰富的矢量绘图编程语言。\CONTEXT\ 早已内嵌了该语言的解释器，我们可以直接在 \CONTEXT\ 源文件里编写 MetaPost 代码，然后交由 \CONTEXT\ 编译器生成嵌入在排版结果中的图形。本文档的第 \in[metapost] 章讲述了 MetaPost 的基本语法，故而若下文代码超出你的理解范围，可先行阅读该章内容，也先保留不解，待后续读至该章时自然获解。此外，文档 \cite[mp-necessity,mp-ethos,mp-crow] 亦可供参考。
+
+由于 \CONTEXT\ 提供的列表项符号皆为黑色图案，现在我们用 MetaPost 语言在 \type{uniqueMPgraphic} 环境\index[uniqueMPgraphic]{\type{uniqueMPgraphic} 环境}里画带阴影且用复合色填充的正方形，见下例，准备用它作为列表项符号。
+
+\startMP
+\startuniqueMPgraphic{带阴影的正方形}
+numeric u; path p;
+u := BodyFontSize; 
+p := fullsquare scaled .8u;
+fill p shifted (.2u, -.2u) withcolor lightgray;
+fill p withcolor .5[blue, white];
+\stopuniqueMPgraphic
+\stopMP
+
+上述 \type{uniqueMPgraphic} 环境中的 MetaPost 代码可以作为插图使用，见下例。
+
+\startexample
+这个\,\uniqueMPgraphic{带阴影的正方形}\,是
+MetaPost 图形。
+\stopexample
+\example[option=TEX][square]{带阴影的正方形图案}{\externalfigure[05/square.pdf][width=.425\textwidth]}
+
+注意，上例源码中的\boxquote{\tex{,}}是 \TEX\ 命令，用于构造 $\frac{1}{6}$ 字宽的间距。顺便记着，\boxquote{\tex{;}}可构造 $\frac{5}{18}$ 字宽的间距，而一个字宽的空格可以用 \tex{quad} 命令构造\index[kongge]{空格}。有时在遇到普通空格过宽，或者空格被 \CONTEXT\ 编译器吞噬时，可以用这些 \TEX\ 间距命令构造空格。关于 \CONTEXT\ 里的空格，你需要知道，汉字之间的空格会被 \CONTEXT\ 编译器吞噬掉，而汉字与西文字符之间如果存在多个空格，\CONTEXT\ 编译器只保留 1 个。
+
+现在，请认真观察上例中的正方形图案，应该能发现它的位置与同一行的其他文字相比有些上浮，这是因为图形对象缺乏字符基线所致。字符基线是西文字体特有的概念，还记得小时候学英文时用的四线三格本子吗？那 4 条线从上往下数的第 3 条线便是西文字符的基线\index{baseline，基线}。这些西文字符的基线连接起来，便构成一行文字的基线，所有的汉字都在基线上面，有几个英文字符，如 \type{g}、\type{p}、\type{y} 等，它们的有一部分沉于基线之下。于是，一行文字里，字符的最大高度是由基线之上的部分加上基线之下的部分，这两个部分的尺寸比例是 $0.72:0.28$。上述示例创建的正方形图形，它的高度是最大字符高度，但是在排版时，它像汉字那样位于基线之上了，故而显得有些上浮。要解决这个问题，需要将图形置于 \tex{hbox} 命令\index[hbox]{\tex{hbox}}创建的水平盒子里，再用 \tex{lower} 命令\index[lower]{\tex{lower}}让这个盒子下沉 0.2 倍的 \tex{bodyfontsize}，见下例。
+
+\startTEX
+这个\,\lower.2\bodyfontsize\hbox{\uniqueMPgraphic{带阴影的正方形}}\,是 MetaPost 图形。
+\stopTEX
+\placeExample[here][square]{带阴影的正方形图案}{\externalfigure[05/square-2.pdf][width=.425\textwidth]}
+
+\noindent 为什么要下沉 0.2 倍的正文字号呢？原因是，作为阴影的正方形相对于淡蓝色的正方形向下偏移了 0.25 的正文字号。如果让包含了这个 MetaPost 图形的盒子下沉这个距离，刚好能让淡蓝色的正方形底线位于基线上。
+
+用 \tex{definesymbol} 命令\index[definesymbol]{\tex{definesymbol}}可将这个正方形图案定义为列表项符号，由于 \CONTEXT\ 的 9 种列表项符号的序号是从 1 至 9，故而我们自己画的符号可从序号 10 开始，即
+
+\startTEX
+\definesymbol[10][{\lower.2\bodyfontsize\hbox{\uniqueMPgraphic{带阴影的正方形}}}]
+\stopTEX
+
+\noindent 之后便可在列表环境里使用这个符号，见下例。
+
+\startexample
+\startitemize[10,nowhite]
+\item 中午，晒十五分钟太阳
+\item 晚上，看流浪地球 \Romannumerals{2}
+\stopitemize
+\stopexample
+\example[option=TEX][squaresym]{列表项的画符}{\externalfigure[05/todo-list-a.pdf][width=.3\textwidth]}
+
+\section[lua]{带圈的数字}
+
+对于有序列表，有些文档格式要求用带圆圈的数字，\CONTEXT\ 没有提供这种风格的列表项序号。不过，即使你并未明白上一节的列表项画符的一些技术细节，应该也有一些这样的信心——\CONTEXT\ 未提供的，我们总有办法创造出来。
+
+\CONTEXT\ 支持 Unicode 编码的文字，而汉字字体通常提供了带圈的数字，从 1 至 9，可以用 \tex{char} 命令\index[char]{\tex{char}}获得它们，例如
+
+\startTEX
+\char"2460，\char"2461，\cdots，\char"2468
+\stopTEX
+
+\noindent 结果为 \char"2460，\char"2461，\cdots，\char"2468。
+
+在列表环境里，可以用 \tex{sym}\index[sym]{\tex{sym}} 代替 \tex{item}，直接指定我们想要的序号。例如
+
+\startexample
+\startitemize
+\sym{\char"2460} 中午，晒十五分钟太阳
+\sym{\char"2461} 晚上，看流浪地球 \Romannumerals{2}
+\stopitemize
+\stopexample
+\example[option=TEX][circled]{带圈的序号}{\externalfigure[05/todo-list-b.pdf][width=.3\textwidth]}
+
+这样虽然能解决问题，但颇为不雅，亦即 Donald Knuth 所说的，快速而脏的东西。不过，要想得到高雅的结果，需要耗费一些心力，甚至需要一些编程。不过，实际上当你开始用 \CONTEXT\ 排版第一个示例时，你已经在编程了。\TEX\ 是一门排版编程语言，你见过的任何一个 \CONTEXT\ 命令，本质上都是一小段甚至上千行的 \TEX\ 程序。
+
+\TEX\ 编程对于大多数人而言，难以掌握，但是从 2000 年代末开始，\CONTEXT\ 开发者将更易掌握的 Lua 语言引入 \TEX\ 世界，使得 \TEX\ 编程变得容易许多，当然这需要你对 Lua 语言有所了解，文档 \cite[basic-lua] 是为 \CONTEXT\ 用户所写的 Lua 语言介绍。
+
+下文内容，也许会让你觉得难以理解，可以跳过去，也可以可先观其形，待你对 \CONTEXT\ 理解得更为深入时，再解其意。
+
+有序号列表的序号可用 \tex{defineconversion} 命令\index[defineconversion]{\tex{defineconversion}}定义。例如
+
+\startTEX
+\defineconversion[带圈数字][\CircledNumber]
+
+\startitemize[带圈数字]
+\item ... ... ...
+\item ... ... ...
+\stopitemize
+\stopTEX
+
+\noindent 关键在于 \tex{CircledNumber} 命令如何定义，该命令的形式如下
+
+\startTEX
+\def\CircledNumber#1{... 定义 ...}
+\stopTEX
+
+\noindent 其中 \type{#1} 表示 \tex{CircleNumber} 接受 1 个参数，即列表项的序号。由于 \tex{CircledNumber} 是由 \type{itemize} 环境触发的，且后者每次触发它时，就将当前列表项的序号传给它。于是，我们在实现 \tex{CircledNumber} 的定义时，所考虑的问题仅仅是如何将列表项的序号映射为带圆圈的数字，这个过程过去只能用 \TEX\ 语言实现，现在可以用 Lua 语言实现。不过，我们最好事先做一下热身运动，实现一种 \CONTEXT\ 已经实现了的序号，见下例。
+
+\startexample
+\def\FooNumber#1{【#1】}
+\defineconversion[Foo][\FooNumber]
+
+\startitemize[Foo][distance=1em, stopper=]
+\item 中午，晒十五分钟太阳
+\item 晚上，看流浪地球 \Romannumerals{2}
+\stopitemize
+\stopexample
+\example[option=TEX][foonumber]{汉字方括号序号列表}{\externalfigure[05/todo-list-c.pdf][width=.3\textwidth]}
+
+上例中的列表实际上等效于
+
+\startTEX
+\startitemize[n, nowhite][left=【, right=】, distance=1em, stopper=]
+... ... ...
+\stopitemize
+\stopTEX
+
+\noindent 不过基于该示例，你应该能够清晰地观察到 \tex{FooNumber} 所接受的参数是什么以及我们如何使用它的，只要将这个参数传递给一个 Lua 语言编写的函数，由后者将其映射为带圆圈的数字，则我们的问题便得以解决。现在，先写出这个 Lua 函数。\CONTEXT\ 允许我们在 \type{luacode} 环境里编写 Lua 代码\index[luacode]{\type{luacode} 环境}，见以下代码：
+
+\startLUA
+\startluacode
+function to_circled_number(x)
+  context('\\char"' .. tostring(2460 + x - 1))
+end
+\stopluacode
+\stopLUA
+
+\CONTEXT\ 编译器并非在同一个空间里执行 \CONTEXT\ 排版代码和嵌入的 Lua 代码，这两种代码各自有一个运行空间，毕竟它们是不同的编程语言。Lua 空间里的数据需要以字符串对象的形式通过 \type{context} 函数\index[contextfunc]{\type{context} 函数}传回 \CONTEXT\ 空间。
+
+上述函数 \type{to_circled_number} 所作的工作是，将外界传入的数值 \type{x} 减 1，再与 2460 相加，然后将所得结果用 \type{tostring} 转换为字符串，在其前面加上 \tex{char"} 前缀，最后由 \type{context} 函数将结果传回 \CONTEXT\ 空间。例如，假设 \type{x} 是 \type{3}，经过 \type{to_circled_number} 的一番处理，它变成了 Lua 字符串 \type[escape=yes]{'\\char"2462'}，该结果由 \type{context} 函数传回 \CONTEXT\ 空间。
+
+同理，在 \CONTEXT\ 空间调用 Lua 空间里的一个函数，也需要一个通道，该通道由 \tex{ctxlua} 命令\index[ctxlua]{\tex{ctxlua}}实现，基于这个命令便可定义 \tex{CircledNumber} 命令，即
+
+\startTEX
+\def\CircledNumber#1{\ctxlua{to_circled_number(#1)}}
+\stopTEX
+
+\noindent 于是，用带圆圈数字作为列表序号的任务便如此优雅地完成了。现在不妨登向高处，俯瞰整个方案。实际上并不难，对吗？
+
+\startexample
+\startluacode
+function to_circled_number(x)
+  context('\\char"' .. tostring(2460 + x - 1))
+end
+\stopluacode
+
+\def\CircledNumber#1{\ctxlua{to_circled_number(#1)}}
+\defineconversion[Foo][\FooNumber]
+
+\startitemize[CircledNumber][stopper=]
+\item 中午，晒十五分钟太阳
+\item 晚上，看流浪地球 \Romannumerals{2}
+\stopitemize
+\stopexample
+\example[option=TEX][good-circled]{Lua 与 \TEX\ 的结合}{\externalfigure[05/todo-list-b.pdf][width=.3\textwidth]}
+
+\subject{结语}
+
+本章的最后两节，可能会让你有一些压迫感。也许你原以为 \CONTEXT\ 已经为你提供好了一切命令，无论你想要什么样的排版效果，只需要找到相应的命令便可达成目的。这当然是不可能的，否则 \CONTEXT\ 开发者就成了上帝，他们知晓你的一切心意。上帝是不存在的，但这个世界是可编程的。

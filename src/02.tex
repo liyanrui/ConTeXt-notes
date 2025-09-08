@@ -1,223 +1,196 @@
-\chapter{沙盘游戏}
+\chapter{新手村}
 
-先不要急于学习使用 \ConTeXt\ 写论文，出专著，虽然它极为擅长这类任务，但是我还是希望先将它当成一个可爱的小朋友，慢慢去熟悉它。相信我，它值得你如此。
+不要急于探索如何使用 \CONTEXT\ 排版你的论文或专著，虽然它极为擅长这类任务，但是我还是希望你在新手村里待两天，学几个简单的招式，打一些立竿见影的怪物，培养一些成就感或信心。至于装备，只需要一个文本编辑器和一个 PDF 阅读器，前者用于编写 \CONTEXT\ 源文件，后者用于查看 \type{context} 命令的编译结果。
 
-\section{新手村}
+你的 PDF 阅读器最好能自动响应 PDF 文件的变化，亦即当所打开的 PDF 文件发生变化时，PDF 阅读器能自动刷新页面，例如 Windows 里的 Sumatra PDF，Linux 里的 Evince，macOS 里的 Skim 皆具有该功能。
 
-在第 \in[Installation] 章中，为了验证 \ConTeXt\ LMTX 是否已成功安装，我使用三条 \type{echo} 命令构造了一份简单的 \ConTeXt\ 源文件 foo.tex。事实上，可以使用任何一个文本编辑器来做此事。
+\section{单页环境}
 
-foo.tex 文件内容如下：
+在第 \in[Installation] 章中，为了验证 \CONTEXT\ LMTX 是否已成功安装，我使用三条 \type{echo} 命令构造了一份简单的 \CONTEXT\ 源文件 foo.tex。在生产环境，你需要一个文本编辑器，哪怕是功能最为简单的文本编辑器，也要比 \type{echo} 命令更适合做此事。
+
+现在，用你的文本编辑器重写一次 foo.tex，其内容如下：
 
 \starttyping[option=TEX]
-\startTEXpage[offset=1cm]
-Hello \ConTeXt!
+\startTEXpag[frame=on]
+Hello \CONTEXT!
 \stopTEXpage
 \stoptyping
 
-\noindent 执行以下命令\footnote{从本章开始，一直使用 Linux 风格的命令提示符 \type{$}。}，可将 foo.tex 编译成 PDF 文件 foo.pdf。
+\noindent 然后用 \type{context} 命令，将 foo.tex 编译成 PDF 文件 foo.pdf，亦即
 
 \starttyping
 $ context foo.tex
 \stoptyping
 
-\noindent 在使用 \type{context} 命令编译 ConTeXt 源文件时，可省略文件扩展名 \type{.tex}，故而上述命令可略微简写为
+\noindent 或
 
 \starttyping
 $ context foo
 \stoptyping
 
-想必你已敏锐觉察到了，凡是开头为反斜线「\type{\}」的英文单词，都是排版命令。的确如此。
+\noindent 从本章开始，在表达命令行语句时，将一直使用 Linux 风格的命令提示符 \type{$}。此外，我们将 \type{context} 命令称为 {\bf\CONTEXT\ 编译器}，有时我也会将后者简称为 \CONTEXT。
 
-排版命令 \type{\startTEXpage...\stopTEXpage} 称为 \type{TEXpage} 环境。这对排版命令所包含的内容，例如「\type{Hello \ConTeXt!}」会被安排在一个恰好能包含它的矩形排版空间。
+在 \CONTEXT\ 源文件里，前缀为反斜线 \type{\} 的英文单词，皆为排版命令。的确如此。排版命令\boxquote{\type{\startTEXpage...\stopTEXpage}} 称为 \type{TEXpage} 环境\index[TEXpage]{\type{TEXpage} 环境}。这对排版命令所包含的内容，例如\boxquote{\type{Hello \CONTEXT!}}会被安排在一个恰好能包含它的矩形排版空间。
 
-\type{TEXpage} 环境的 \type{frame} 参数用于控制边框是否开启，若该参数不存在，或其值为 \type{off}，表示无边框。\type{offset} 参数可用于对排版空间进行扩大或缩小，如示例 \in[starting-area] 所示，排版空间从中心向四周被扩大 2.5 mm。
+\type{TEXpage} 环境的 \type{frame} 参数用于控制边框是否开启，若该参数不存在，或其值为 \type{off}，表示无边框。\type{offset} 参数可用于对排版空间进行扩大或缩小，例如将排版空间从中心向四周被扩大 2.5 mm，结果见例 \in[starting-area]。
 
-\startsample
+\startexample
 \startTEXpage[frame=on,offset=2.5mm]
-Hello \ConTeXt!
+Hello \CONTEXT!
 \stopTEXpage
-\stopsample
-\sample[option=TEX][starting-area]{新手村}{\externalfigure[02/starting-area.pdf]}
+\stopexample
+\example[option=TEX][starting-area]{新手村}{\externalfigure[02/starting-area.pdf]}
 
-本章将 \type{TEXpage} 称为新手村，因它足够简单，便于我们观察大多数基本排版命令的效用，无需关心天头、地脚、订口、翻口、版心、页码等排版元素的设定。
+在下文里，所有新学的 \CONTEXT\ 排版命令皆以 \type{TEXpage} 为舞台，原因是因 \type{TEXpage} 足够简单，方便观察大多数基本排版命令的效用，无需关心天头、地脚、订口、翻口、版心、页码等排版元素的设定。
 
-\section{伪文字}
+\section{伪文}
 
-\ConTeXt\ 自带了一个可视化模块 visual，它提供了一些伪造单词的命令，可以生成一些黑色的长短随机的矩形块，将它们视为文字，我们在新手村的举止会为随心所欲。
+\CONTEXT\ 自带一个 visual 模块，该模块提供了命令 \tex{fakewords}\index[fakewords]{\tex{fakewords}}，可生成一些黑色的长短随机的矩形块。若将这些矩形块视为文字，在新手村里，我们举止会更为随心所欲一些，例如下例排版了两行文字，每一行由 3～5 个单词构成。
 
-如示例 \in[true-words] 所示，排版两行文字，每行由 5 个单词组成。示例 \in[true-words] 给出了伪文字的效果。同样是两行文字，每一行由 3～5 个单词构成。
-
-\startsample
-\usemodule[visual] % 加载可视化模块
-\startTEXpage[frame=on,offset=2.5mm]
-This is the first line.\\ % 强制换行
-This is the second line.
-\stopTEXpage
-\stopsample
-\sample[option=TEX][true-words]{两行真实文字}{\externalfigure[02/true-words.pdf]}
-
-\startsample
-\usemodule[visual]
+\startexample
+\usemodule[visual] % 载入 visual 模块
 \startTEXpage[frame=on,offset=2.5mm]
 \fakewords{3}{5}\\ 
 \fakewords{3}{5}
 \stopTEXpage
-\stopsample
-\sample[option=TEX][fakewords]{两行伪文字}{\externalfigure[02/fakewords.pdf]}
+\stopexample
+\example[option=TEX][fakewords]{两行伪文字}{\externalfigure[02/fakewords.pdf]}
 
-\section{注释}
+在例 \in[fakewords] 的源码中，\type{%} 及其后面的同一行文字，是 \TEX\ 注释文本，在编译过程中，它们会被忽略，不会出现在排版结果中。除了用于注释源码，注释符也能用于消除其后的换行符，以后你自定义 \TEX\ 命令时会用到这个功能。
 
-在示例 \in[true-words] 的源代码中，「\type{%}」及其后面的同一行文字，是 \TeX\ 注释文本，它们会被 \type{context} 程序忽略，故而不会出现在排版结果中。除了便于人类理解 \ConTeXt\ 源代码之外，注释符有时也会用于消除其后的换行符，在你打算亲手实现一些 \TeX\ 命令时会用到这个功能。
+\section{换行}
 
-\section{换行符}
-
-在示例 \in[true-words] 和 \in[fakewords] 的源代码中，「\type{\\}」是强制换行命令，倘若将其删除，即使在源代码中将文字分为两行，例如
+在例 \in[fakewords] 的源码中，\tex{\} 是强制换行命令\index[huanhangfu]{\type{换行命令}}，若将其删除，即使将文字分为两行，
 
 \starttyping[option=TEX]
 This is the first line.
 This is the second line.
 \stoptyping
 
-\noindent 排版结果依然是一行，而且换行符会被 \type{context} 程序视为一个空格，不妨亲自动手试验一下。
-
-在使用换行符的情况下，即使两行文字在源代码中处于同一行，例如
+\noindent 排版所得结果依然是一行，而且换行符会被 \CONTEXT\ 编译器视为一个空格，你可以亲自动手试验一下。在使用强制换行命令时，即使两行文字在源代码中处于同一行，例如
 
 \starttyping[option=TEX]
 This is the first line.\\ This is the second line.
 \stoptyping
 
-\noindent 排版结果依然是两行。
+\noindent 排版所得结果依然是两行。\type{\crlf} 也能用于文字强制换行。
 
-\type{\crlf} 也能用于对文字强制进行断行。倘若不希望对每一行都输入断行命令，也可以考虑使用 \type{lines} 环境，请参考示例 \in[lines]。
+\type{lines} 环境\index[lines 环境]{\type{lines} 环境}可以排版多行文本，无需 \tex{\} 或 \tex{crlf}，见下例。
 
-\startsample
-\usemodule[visual]
-\startTEXpage[frame=on,offset=2.5mm]
+\startexample
 \startlines
 \fakewords{3}{5}
 \fakewords{4}{7}
 \fakewords{5}{9}
 \stoplines
-\stopTEXpage
-\stopsample
-\sample[option=TEX][lines]{排版多行文本}{\externalfigure[02/lines.pdf]}
+\stopexample
+\example[option=TEX][lines]{排版多行文本}{\externalfigure[02/lines.pdf]}
 
 \section{分段}
 
-观察示例 \in[pars]，虽然排版结果依然是两行，但实际上它是两段。\type{\par} 是分段命令。
+观察例 \in[pars]，虽然排版结果依然是两行，但实际上是两段。\type{\par} 是分段命令。
 
-\startsample
-\usemodule[visual]
-\startTEXpage[frame=on,offset=2.5mm]
-\startlines
+\startexample
 \fakewords{3}{5}\par
 \fakewords{3}{5}
-\stoplines
-\stopTEXpage
-\stopsample
-\sample[option=TEX][pars]{分段}{\externalfigure[02/pars.pdf]}
+\stopexample
+\example[option=TEX][pars]{分段}{\externalfigure[02/pars.pdf][width=.325\textwidth]}
 
-通常很少使用分段符对文本进行分段，因为在 \ConTeXt\ 源文档中，只需在两段文字之间空一行便可实现分段。示例 \in[pars-2] 使用空行进行分段，并通过限定「新手村」的宽度为 6 cm，从而在促狭的空间里展示了多行伪文字构成的段落。
+\noindent 上例也能写成以下形式：
 
-\startsample
+\startTEX
+\fakewords{3}{5}\par \fakewords{3}{5}
+\stopTEX
+
+通常很少使用分段符对文本进行分段，因为在 \CONTEXT\ 源文档中，只需在两段文字之间空一行便可实现分段。例 \in[pars-2] 使用空行进行分段，并将页面宽度设定为 6cm，从而在促狭的空间里展示了多行伪文字构成的段落。
+
+\startexample
 \usemodule[visual]
 \startTEXpage[frame=on,offset=2.5mm,width=6cm]
-\fakewords{9}{15}
-
-\fakewords{9}{15}
-\stopTEXpage
-\stopsample
-\sample[option=TEX][pars-2]{多行文本构成的段落}{\externalfigure[02/pars-2.pdf]}
-
-段落可以设置首行缩进。中文排版的惯例是，段落首行需缩进 2 个汉字的宽度，示例 \in[pars-3] 实现了该需求，排版结果中段落开头的蓝色矩形区域表示文字缩进后产生的空白区域。尺寸 2em 即英文字母 \type{M} 的宽度的 2 倍，刚好与两个汉字的宽度相同。还有一个常用的尺寸单位 ex，它是英文字母 \type{x} 的高度。
-
-\startsample
-\usemodule[visual]
-\startTEXpage[frame=on,offset=2.5mm,width=6cm]
-\setupindenting[first,always,2em]
-\fakewords{9}{15}
-
+\fakewords{9}{15}\par
 \fakewords{9}{15}
 \stopTEXpage
-\stopsample
-\sample[option=TEX][pars-3]{设置段落首行缩进}{\externalfigure[02/pars-3.pdf]}
+\stopexample
+\example[option=TEX][pars-2]{多行文本构成的段落}{\externalfigure[02/pars-2.pdf][width=.325\textwidth]}
 
-根据文档「Faking text and more」\cite[faking-text]的提示，可将段落缩进区域的颜色定义为白色，从而可避免蓝色矩形块对视觉的干扰，见示例 \in[parindentcolor]。
+段落可以设置首行缩进。中文排版的惯例是，段落首行需缩进 2 个汉字的宽度，例 \in[parindent] 将段落首行缩进距离设定为 2em，即英文字母 \type{M} 的宽度的 2 倍，刚好与两个汉字的宽度相同。\CONTEXT\ 还有一个常用的尺寸单位 ex，它是英文字母 \type{x} 的高度。
 
-\startsample
+\startexample
 \usemodule[visual]
 \startTEXpage[frame=on,offset=2.5mm,width=6cm]
 \setupindenting[first,always,2em]
-% 将缩进区域的颜色由默认的蓝色改为白色
+% 将缩进区域的颜色设为白色
 \definecolor[fakeparindentcolor][white]
-\fakewords{9}{15}
-
+\fakewords{9}{15}\par
 \fakewords{9}{15}
 \stopTEXpage
-\stopsample
-\sample[option=TEX][parindentcolor]{消除段落缩进色块}{\externalfigure[02/parindentcolor.pdf]}
+\stopexample
+\example[option=TEX][parindent]{段落首行缩进}{\externalfigure[02/parindentcolor.pdf]}
 
-在设定段落首行缩进后，若不希望某个段落的首行被缩进，可在段落开头放置命令 \type{\noindent}。示例 \in[noindent]，第二段消除了第二段文字的首行缩进。
+\noindent visual 模块默认是将段落缩进区域设定为蓝色，为了让缩进区域更为直观而非明显，上例参考了文档 \cite[faking-text]，将其改为白色。
 
-\startsample
-\usemodule[visual]
-\startTEXpage[frame=on,offset=2.5mm,width=6cm]
-\setupindenting[first,always,2em]
-\definecolor[fakeparindentcolor][white]
-\fakewords{9}{15}
+在设定段落首行缩进后，若不希望某个段落的首行被缩进，可在段落开头放置命令 \type{\noindent}\index[indenting]{indenting + \tex{noindent}}，参考例 \in[noindent]。
 
+\startexample
+\fakewords{9}{15}\par
 \noindent\fakewords{9}{15}
-\stopTEXpage
-\stopsample
-\sample[option=TEX][noindent]{消除第二段的首行缩进}{\externalfigure[02/pars-4.pdf]}
+\stopexample
+\example[option=TEX][noindent]{消除第二段的首行缩进}{\externalfigure[02/pars-4.pdf][width=.325\textwidth]}
 
-\section[interlinespace]{行间距}
+\section[interlinespace]{行距}
 
-\ConTeXt\ 默认的段落内各行文字的间距是 2.8 ex，约等于 \ConTeXt\ 默认的正文字体大小 12 pt。可使用 \type{\setupinterlinespace}  对行间距进行调整。如示例 \in[pars-5] 将行间距设为 1.75 倍默认行距。
+\CONTEXT\ 默认的段落内各行文字的间距是 2.8ex，约等于 \CONTEXT\ 默认的正文字体大小 12pt。可使用 \type{\setupinterlinespace}\index[setupinterlinespace]{\tex{setupinterlinespace}} 命令对行间距进行调整。使用该命令，需要确定当前正文字体所用字号。例 \in[pars-5] 按默认的正文字体字号即 12pt 将行距设为该字号的 1.75 倍。
 
-\startsample
-\usemodule[visual]
-\startTEXpage[frame=on,offset=2.5mm,width=6cm]
-\setupindenting[first,always,2em]
-\definecolor[fakeparindentcolor][white]
-\setupinterlinespace[1.75]
+\startexample
+% 1.75 * 12pt = 21pt
+\setupinterlinespace[line=21pt]
+\fakewords{9}{15}\par
 \fakewords{9}{15}
+\stopexample
+\example[option=TEX][pars-5]{多行文本构成的段落}{\externalfigure[02/pars-5.pdf]}
 
-\fakewords{9}{15}
-\stopTEXpage
-\stopsample
-\sample[option=TEX][pars-5]{多行文本构成的段落}{\externalfigure[02/pars-5.pdf]}
-
-不过，我发现示例 \in[pars-5] 的行间距设定语句若放在 \type{\startTEXpage} 语句之前则无效\footnote{在 \in[context-world] 节中会介绍 \type{\starttext ... \stoptext}，直接以默认行距倍数的方式设置行间距，若设定语句位于 \type{\starttext} 之前则同样无效。}，也许是当前的 \ConTeXt\ LMTX 版本存在 bug。
-
-还有一种行间距设定方法。待你掌握第 \in[chinese-fonts] 章中讲述的 \ConTeXt\ 字体设定方法，并清楚正文字体的大小时，可使用 \type{line} 参数设定最大行高。例如，若正文字体大小为 11 pt，以下代码可设定行间距为 1.75 倍：
+\noindent 上例设定的实际上是行高，只是在 \CONTEXT\ 中，行间距是相邻两行文字的基线距离，恰好等于行高。由于 \CONTEXT\ 提供了 \tex{bodyfontsize} 命令\index[bodyfontsize]{\tex{bodyfontsize}}，通过它能获得当前正文字体的字号，故而上例亦可写为让 \CONTEXT\ 编译器自动计算行高的形式：
 
 \starttyping[option=TEX]
-\setupinterlinespace[line=19.25pt]
+\setupinterlinespace[line=1.75\bodyfontsize]
+\fakewords{9}{15}\par
+\fakewords{9}{15}
 \stoptyping
 
-\noindent 之所以是 19.25 pt，是因它等于 $1.75\times 11$ pt。最大行高即行间距，因为在 \CONTEXT\ 中，行间距是相邻两行文字的基线距离，恰好等于一行文字的最大高度。本文档在后文示例中皆使用该方式设定行间距。
+\CONTEXT\ 是 \TEX\ 的上层建筑，上例中用一个数字直接乘以一个能获得某种尺寸的命令，这是 \TEX\ 的语法。今后，我们会时常用这种形式构造一些尺寸。如果能够以字号确定行高，就无需单独为行高设定一个尺寸了。我认为排版作为一门艺术，其根本在于，是为不同尺度建立联系，用尽量少的尺度控制尽量的尺度，类似于物理学的杠杆原理。我甚至觉得，任何一门艺术皆应如此。
 
 \section{对齐}
 
-有时，希望将一行文字居左、居中或居右放置，可分别使用 \type{\leftaligned}，\type{\midaligned} 和\type{\rightaligned} 进行排版，请参考示例 \in[aligned-1]。
+将一行文字居左、居中或居右放置，可分别使用 \type{\leftaligned}，\type{\midaligned} 和\type{\rightaligned} 进行排版\index{alignment，单行对齐\crlf\tex{leftaligned}\crlf\tex{midaligned}\crlf\tex{rightaligned}}，请参考例 \in[aligned-1]。
 
-\startsample
-\usemodule[visual]
-\startTEXpage
-  [frame=on,offset=2.5mm,width=6cm]
+\startexample
 \leftaligned{\fakewords{1}{2}}
 \midaligned{\fakewords{1}{2}}
 \rightaligned{\fakewords{1}{2}}
-\stopTEXpage
-\stopsample
-\sample[option=TEX][aligned-1]{多行文本构成的段落}{\externalfigure[02/aligned-1.pdf]}
+\stopexample
+\example[option=TEX][aligned-1]{多行文本构成的段落}{\externalfigure[02/aligned-1.pdf]}
 
-如果是一段文字需要居左、居中或居右排版，可使用 \type{alignment} 环境，通过该环境的参数控制对齐形式。示例 \in[aligned-2] 展示了段落的三种对齐形式。
+现在，你已经有能力用伪文字写一封谁也看不懂内容的书信了，见例 \in[letter]。注意，该例使用了 \tex{dorecurse} 命令\index[dorecurse]{\tex{dorecurse}}，该命令可将其第 2 个参数复制 $n$ 次，$n$ 值由该命令的第 1 个参数设定。
 
-\startsample
+\startexample
 \usemodule[visual]
-\startTEXpage[frame=on,offset=2.5mm,width=6cm]
+\startTEXpage[frame=on,offset=1cm,width=10cm]
+\definecolor[fakeparindentcolor][white]
+\setupindenting[first,always,2em]
+\noindent\fakewords{1}{1}:\par
+\fakewords{1}{2}\par
+\dorecurse{3}{\fakewords{20}{50}\par}
+\fakewords{1}{1}\par
+\noindent\fakewords{1}{1}\par
+\rightaligned{\fakewords{1}{1}}\par
+\rightaligned{\fakewords{1}{1}}
+\stopTEXpage
+\stopexample
+\example[option=TEX][letter]{一封谁也看不懂的信}{\externalfigure[02/letter.pdf][width=.35\textwidth]}
+
+如果是一段文字需要居左、居中或居右排版，可使用 \type{alignment} 环境\index[alignment]{\type{alignment} 环境}，通过该环境的参数控制对齐形式。例 \in[aligned-2] 展示了段落的三种对齐形式。
+
+\startexample
 \startalignment[flushleft] % 左对齐
 1. \fakewords{5}{15}
 \stopalignment
@@ -227,33 +200,9 @@ This is the first line.\\ This is the second line.
 \startalignment[flushright] % 右对齐
 3. \fakewords{5}{15}
 \stopalignment
-\stopTEXpage
-\stopsample
-\sample[option=TEX][aligned-2]{段落对齐}{\externalfigure[02/aligned-2.pdf]}
+\stopexample
+\example[option=TEX][aligned-2]{段落对齐}{\externalfigure[02/aligned-2.pdf][width=.375\textwidth]}
 
-\section{写一封谁也看不懂的信}
+\subject{结语}
 
-现在，我们已经有能力用伪文字排版一封谁也看不懂内容的书信了，见示例 \in[letter]。也许现在你很想用汉字给朋友写封信，并告诉他，这封信的排版是你亲手用 \ConTeXt\ 制作的。我劝你暂时最好放弃这个想法，写英文书信是完全可以的。
-
-\startsample
-\usemodule[visual]
-\startTEXpage
-  [frame=on,offset=1cm,width=10cm]
-\definecolor[fakeparindentcolor][white]
-\setupindenting[first,always,2em]
-\noindent\fakewords{1}{1}:\par
-\fakewords{1}{2}\par
-\fakewords{20}{50}\par
-\fakewords{20}{50}\par
-\fakewords{20}{50}\par
-\fakewords{1}{1}\par
-\noindent\fakewords{1}{1}\par
-\rightaligned{\fakewords{1}{1}}\par
-\rightaligned{\fakewords{1}{1}}
-\stopTEXpage
-\stopsample
-\sample[option=TEX][letter]{一封谁也看不懂的信}{\externalfigure[02/letter.pdf][width=.425\textwidth]}
-
-\section{小结}
-
-恭喜你，走出了新手村。在下一章学会安装和使用汉字字体，便可以闯荡 \ConTeXt\ 世界了。
+排版是一门艺术，\CONTEXT\ 排版自然也是如此。接触艺术最好的办法是，附庸风雅，多观察一些例子，掌握基本排版命令的用法，筑好根基。理解了这一点，你就可以走出新手村了。接下来你的第一个重要任务是在漫无边际的 \CONTEXT\ 世界里寻找汉字。

@@ -156,16 +156,32 @@
 \TL[3]
 \NC 天下皆知美之为美，斯恶已；皆知善之为善，斯不善已。
 \VL 道冲而用之或不盈。渊兮似万物之宗。
- \NR
+\NR
 \BL[3]
 \stoptabulate
 \stopexample
 \simpleexample[option=TEX]{\null}
 \getexample
 
+不过，上例有诡异之处，最右侧单元的内容没有顶格放置，而是下沉到单元底部了。具体原因不明，而且只有列格式为段落时，才会出现该问题。解决方法很简单，只需在 \tex{NR} 之间添加 \tex{NC}，见下例。
+
+\startexample
+\starttabulate[|p|p|]
+\TL[3]
+\NC 天下皆知美之为美，斯恶已；皆知善之为善，斯不善已。
+\VL 道冲而用之或不盈。渊兮似万物之宗。
+\NC\NR  % 关键改动之处
+\BL[3]
+\stoptabulate
+\stopexample
+\simpleexample[option=TEX]{\null}
+\getexample
+
+{\bf 为稳妥起见，在使用表格时，建议在每个 \tex{NR} 之前都添加 \tex{NC}，\CONTEXT\ 官方文档也是如此写法。}
+
 \section{像插图那样}
 
-虽然我还没有介绍如何在文档中插入图片，但是表格可以像插图那样出现于文档，通常居中放置，并配备标题，\tex{placetable} 命令可做此事，见下例。
+虽然我还没有介绍如何在文档中插入图片，但是表格可以像插图那样出现于文档，通常居中放置，并配备标题，\tex{placetable} 命令可做此事，见下例。不过，该例也有诡异之处，即使右侧列格式是段落，\tex{NR} 之前没有放置 \tex{NC}，但是在 \tex{placetable} 的作用下，右侧单元内容的位置变得正常了。
 
 \mainlanguage[en]
 \startexample
@@ -280,7 +296,7 @@
 
 \startexample
 \starttabulate[|p|p|p|p|]
-\NC A. 花非花 \NC B. 雾非雾 \NC C. 夜半来 \NC D. 天明去 \NR
+\NC A. 花非花 \NC B. 雾非雾 \NC C. 夜半来 \NC D. 天明去 \NC\NR
 \stoptabulate
 \stopexample
 \simpleexample[option=TEX]{\null}
@@ -314,8 +330,8 @@
 
 \startTEX
 \starttabulate[|p|p|]
-\NC A. 花非花 \NC B. 雾非雾 \NR
-\NC C. 夜半来 \NC D. 天明去 \NR
+\NC A. 花非花 \NC B. 雾非雾 \NC\NR
+\NC C. 夜半来 \NC D. 天明去 \NC\NR
 \stoptabulate
 \stopTEX
 
@@ -327,8 +343,8 @@
 \setuptabulate[distance=0mm, unit=0mm, rulethickness=4pt]
 \starttabulate[|p|p|]
 \HL
-\NC A. 花非花 \NC B. 雾非雾 \NR
-\NC C. 夜半来 \NC D. 天明去 \NR
+\NC A. 花非花 \NC B. 雾非雾 \NC\NR
+\NC C. 夜半来 \NC D. 天明去 \NC\NR
 \HL
 \stoptabulate
 \stopexample
@@ -344,8 +360,8 @@
 \setuptabulate[Options][rulethickness=4pt]
 \startOptions
 \HL
-\NC A. 花非花 \NC B. 雾非雾 \NR
-\NC C. 夜半来 \NC D. 天明去 \NR
+\NC A. 花非花 \NC B. 雾非雾 \NC\NR
+\NC C. 夜半来 \NC D. 天明去 \NC\NR
 \HL
 \stopOptions
 \stopexample

@@ -102,7 +102,7 @@
 \stopexample
 \simpleexample[option=TEX]{\getexample}
 
-不过，三线表的顶线和底线，粗度要比表格内的线要粗一些。虽然 \tex{\HL} 不能设定粗细，但 \type{tabulate} 环境提供了 \tex{TL} 和 \tex{BL}，可分别用于绘制指定粗细以及颜色的表格顶线和底线，T 表示 Top，B 表示 Bottom，这两种横线命令的用法如下：
+不过，三线表的顶线和底线，粗度要比表格内的线要粗一些。虽然 \tex{HL} 不能设定粗细，但 \type{tabulate} 环境提供了 \tex{TL} 和 \tex{BL}，可分别用于绘制指定粗细以及颜色的表格顶线和底线，T 表示 Top，B 表示 Bottom，这两种横线命令的用法如下：
 
 \startexample
 \starttabulate[|c|c|c|]
@@ -206,7 +206,7 @@
 %   [headstyle=\rm, style=\tfx, align=center, location=top]
 \stopTEX
 
-\noindent \tex{setupcaption}\index[setupcaption]{\tex{setupcaption}} 的 \type{headstyle} 参数用于设定表格标题的序号部分（包括前缀）的样式，其值为 \type{normal} 时，表示使用字族中的正体，等效于 \tex{\rm}；该参数的默认值是 bold，即粗体。\type{style} 参数用于设定标题的正体风格，其值 \type{small} 表示用小号字，等效于 \tex{\tfx}。\type{align} 参数，在 \in[essay] 节已经见过了，应当将其设为 \type{center} 方能避免标题汉字之间的粘连被意外激活而导致文字蓬松。\type{location} 参数用于设定标题在表格上方（top）还是在底部（bottom)，还是在其他位置。上述样式设定产生的效果见表 \in[table-cn-style]。
+\noindent \tex{setupcaption}\index[setupcaption]{\tex{setupcaption}} 的 \type{headstyle} 参数用于设定表格标题的序号部分（包括前缀）的样式，其值为 \type{normal} 时，表示使用字族中的正体，等效于 \tex{rm}；该参数的默认值是 bold，即粗体。\type{style} 参数用于设定标题的正体风格，其值 \type{small} 表示用小号字，等效于 \tex{tfx}。\type{align} 参数，在 \in[essay] 节已经见过了，应当将其设为 \type{center} 方能避免标题汉字之间的粘连被意外激活而导致文字蓬松。\type{location} 参数用于设定标题在表格上方（top）还是在底部（bottom)，还是在其他位置。上述样式设定产生的效果见表 \in[table-cn-style]。
 
 \mainlanguage[cn]
 \setupcaption
@@ -233,7 +233,7 @@
 
 也许你会有所不解，表格出现的位置还需要设定吗？它难道不是理所应当出现在 \tex{placetable} 所在的位置吗？答案是，\CONTEXT\ 的表格和插图是浮动的，排版引擎会尽量为它们寻找合适的安放空间，而 \type{here} 和 \type{force} 可以禁止排版引擎的自作聪明。\boxquote{位置}参数也可以设定为 \type{left} 和 \type{right}，分别将表格放置于页面的左侧和右侧。
 
-至于 \tex{placetable} 的\boxquote{引用}，其幕后的机制和用法与 \in[itemcite] 节介绍的列表项引用相似。你可以为表格设定一个引用名，例如 \type{foo}，然后在正文里可以用 \tex{\in[foo]} 以序号的形式引用该表格，例如
+至于 \tex{placetable} 的\boxquote{引用}，其幕后的机制和用法与 \in[itemcite] 节介绍的列表项引用相似。你可以为表格设定一个引用名，例如 \type{foo}，然后在正文里可以用 \tex{in[foo]} 以序号的形式引用该表格，例如
 
 \startTEX
 如表 \in[foo] 所示，... ... ...\par

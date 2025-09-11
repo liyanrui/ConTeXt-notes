@@ -25,9 +25,6 @@
 
 如果你是用 zhfonts 模块设定字体，该模块里已经为你设置好了章序号的形式，而且这也是 zhfonts 唯一做的额外的事。
 
-\the\availablehsize\relax
-\the\hsize\relax
-
 比章（chapter）更高级别的标题是部分（part），如果你想顺便设定\boxquote{第 x 部分}，只需
 
 \startTEX
@@ -94,7 +91,7 @@
 \stopexample
 \example[option=TEX][strange-blank]{上下间距不对称}{\externalfigure[16/foo.pdf][frame=on]}
 
-这种奇怪的现象，实际上在 \in[drawing-sym] 节已经遇到过了，原因是 \tex{externalfigure} 载入的外部图形也是没有基线，结果导致其位置偏上。此时，插图的底线与下一行文字的基线刚好是一行文字的高度，需要让插图下沉半个行高，才能让其上下间距近似对称，见下例。
+这种奇怪的现象，在 \in[drawing-sym] 节已遇到过了，原因是 \tex{externalfigure} 载入的外部图形也是没有基线，结果导致其位置偏上。此时，插图的底线与下一行文字的基线刚好是一行文字的高度，需要让插图下沉半个行高，才能让其上下间距近似对称，见下例。
 
 \startexample
 \startTEXpage[width=6cm]

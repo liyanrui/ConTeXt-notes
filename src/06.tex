@@ -8,8 +8,8 @@
 
 \startexample
 \starttabulate[|l|c|r|]
-\NC 1 \NC 2 \NC 3 \NR
-\NC 4 \NC 5 \NC 6 \NR
+\NC 1 \NC 2 \NC 3 \NC\NR
+\NC 4 \NC 5 \NC 6 \NC\NR
 \stoptabulate
 \stopexample
 \simpleexample[option=TEX]{\getexample}
@@ -93,10 +93,10 @@
 \startexample
 \starttabulate[|c|c|c|]
 \HL
-\NC 甲 \NC 乙 \NC 丙 \NR
+\NC 甲 \NC 乙 \NC 丙 \NC\NR
 \HL
-\NC 一 \NC 二 \NC 三 \NR
-\NC one \NC two \NC three \NR
+\NC 一 \NC 二 \NC 三 \NC\NR
+\NC one \NC two \NC three \NC\NR
 \HL
 \stoptabulate
 \stopexample
@@ -107,10 +107,10 @@
 \startexample
 \starttabulate[|c|c|c|]
 \TL[3]
-\NC 甲 \NC 乙 \NC 丙 \NR
+\NC 甲 \NC 乙 \NC 丙 \NC\NR
 \HL
-\NC 一 \NC 二 \NC 三 \NR
-\NC one \NC two \NC three \NR
+\NC 一 \NC 二 \NC 三 \NC\NR
+\NC one \NC two \NC three \NC\NR
 \BL[3,darkred]
 \stoptabulate
 \stopexample
@@ -123,10 +123,10 @@
 \startexample
 \starttabulate[|c|c|c|]
 \TL[3]
-\NC 甲 \NC 乙 \NC 丙 \NR
+\NC 甲 \NC 乙 \NC 丙 \NC\NR
 \FL[1, 2, blue]
-\NC 一 \NC 二 \NC 三 \NR
-\NC one \NC two \NC three \NR
+\NC 一 \NC 二 \NC 三 \NC\NR
+\NC one \NC two \NC three \NC\NR
 \BL[3,darkred]
 \stoptabulate
 \stopexample
@@ -143,7 +143,7 @@
          \startitemize
          \item 中午，晒十五分钟太阳
          \item 晚上，看流浪地球\,\Romannumerals{2}
-         \stopitemize \NR
+         \stopitemize \NC\NR
 \BL[3]
 \stoptabulate
 \stopexample
@@ -156,28 +156,12 @@
 \TL[3]
 \NC 天下皆知美之为美，斯恶已；皆知善之为善，斯不善已。
 \VL 道冲而用之或不盈。渊兮似万物之宗。
-\NR
+\NC\NR
 \BL[3]
 \stoptabulate
 \stopexample
 \simpleexample[option=TEX]{\null}
 \getexample
-
-不过，上例有诡异之处，最右侧单元的内容没有顶格放置，而是下沉到单元底部了。具体原因不明，而且只有列格式为段落时，才会出现该问题。解决方法很简单，只需在 \tex{NR} 之间添加 \tex{NC}，见下例。
-
-\startexample
-\starttabulate[|p|p|]
-\TL[3]
-\NC 天下皆知美之为美，斯恶已；皆知善之为善，斯不善已。
-\VL 道冲而用之或不盈。渊兮似万物之宗。
-\NC\NR  % 关键改动之处
-\BL[3]
-\stoptabulate
-\stopexample
-\simpleexample[option=TEX]{\null}
-\getexample
-
-{\bf 为稳妥起见，在使用表格时，建议在每个 \tex{NR} 之前都添加 \tex{NC}，\CONTEXT\ 官方文档也是如此写法。}
 
 \section{像插图那样}
 
@@ -190,7 +174,7 @@
   \TL[3]
   \NC 天下皆知美之为美，斯恶已；皆知善之为善，斯不善已。
   \VL 道冲而用之或不盈。渊兮似万物之宗。
-  \NR
+  \NC\NR
   \BL[3]
   \stoptabulate
 }
@@ -234,7 +218,7 @@
   \TL[3]
   \NC 天下皆知美之为美，斯恶已；皆知善之为善，斯不善已。
   \VL 道冲而用之或不盈。渊兮似万物之宗。
-  \NR
+  \NC\NR
   \BL[3]
   \stoptabulate
 }
@@ -264,18 +248,18 @@
 
 \placetable[right,none][]{}{
   \starttabulate[|c|c||c]
-  \NC 2 \NC 9 \NC 4 \NR
-  \NC 3 \NC 5 \NC 7 \NR
-  \NC 6 \NC 1 \NC 8 \NR
+  \NC 2 \NC 9 \NC 4 \NC\NR
+  \NC 3 \NC 5 \NC 7 \NC\NR
+  \NC 6 \NC 1 \NC 8 \NC\NR
   \stoptabulate
 }
 
 \startTEX
 \placetable[right,none][]{}{
   \starttabulate[|c|c||c]
-    \NC 2 \NC 9 \NC 4 \NR
-    \NC 3 \NC 5 \NC 7 \NR
-    \NC 6 \NC 1 \NC 8 \NR
+    \NC 2 \NC 9 \NC 4 \NC\NR
+    \NC 3 \NC 5 \NC 7 \NC\NR
+    \NC 6 \NC 1 \NC 8 \NC\NR
   \stoptabulate
 }
 \stopTEX

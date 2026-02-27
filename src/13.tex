@@ -215,8 +215,9 @@
 
 解决脚注中较长的中文无法断行这一问题，一种方法是在脚注中使用 \type{\setscript[hanzi]} 强行开启中文断行功能，为了简便，可以专门定义一个宏替代 \type{\footnote}：
 
+% https://github.com/liyanrui/ConTeXt-notes/issues/6
 \starttyping[option=TEX]
-\def\zhfootnote#1{\setscript[hanzi]#1}
+\def\zhfootnote#1{\footnote{\setscript[hanzi] #1}}
 \stoptyping
 
 \noindent 也可以用 \CONTEXT\ 超人 Wolfgang Schuster 提供的方法，使用 \type{setups} 机制\cite[setups]，为脚注构造专用的设定，见下例。

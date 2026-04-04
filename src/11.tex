@@ -1,6 +1,6 @@
-\chapter[metapost]{\METAPOST}
+\chapter[metapost]{作图}
 
-想必你已迫不及待想学习 \METAPOST\ 了。这大概是来自人类上古基因的冲动。人类先学会的是绘画，而后才是文字。只是不要妄图通过这区区一章内容掌握 \METAPOST，因为关于它的全部内容，足够写一本至少三百多页的书籍了。不过，本章内容足以给你打开一扇窗户，让 \METAPOST\ 的优雅气息拂过时常过于严肃的 \CONTEXT\ 世界。
+想必你已迫不及待想学习 \METAPOST\ 了，这大概是来自人类上古基因的冲动。人类先学会的是绘画，而后才是文字。不要妄图通过这区区一章内容掌握 \METAPOST，该期望需要有人写一本至少三百多页的书方能满足。不过，本章内容足以给你打开一扇窗户，让 \METAPOST\ 的优雅气息拂过时常过于严肃的 \CONTEXT\ 世界。
 
 \section{作图环境}
 
@@ -14,7 +14,7 @@
 \startreusableMPgraphic{name} ... \stopreusableMPgraphic
 \stopTEX
 
-\noindent 第一种环境用于临时作图，生成的图形会被插入到代码所在位置。第二种环境是生成单独的图形文件，以作其他用途。后面三种环境，生成的图形可根据环境的名称作为文章插图随处使用，但它们又有三种不同用途：
+\noindent 第一种环境用于临时作图，生成的图形会被插入到代码所在位置。第二种环境是生成单独的图形文件，以作其他用途。后面三种环境，生成的图形可根据环境的名称作为文章插图随处使用，区别仅在于应用场景，如下：
 
 \index[useMPgraphic]{\type{useMPgraphic} 环境}
 \index[uniqueMPgraphic]{\type{uniqueMPgraphic} 环境}
@@ -25,11 +25,11 @@
 \item \type{reusableMPgraphic}：无论如何使用，\METAPOST\ 代码只会被编译一次。
 \stopitemize
 
-\noindent 大多数情况下，建议选用 uniqueMPgraphic，但若图形中存在一些需要每次使用时都要有所变化的内容，可选用 useMPgraphic。
+\noindent 大多数情况下，建议选用 \type{uniqueMPgraphic} 环境，但若图形中存在一些需要每次使用时都要有所变化的内容，可选用 \type{useMPgraphic} 环境。
 
-在 \CONTEXT\ 中使用 \METAPOST\ 时，通常会使用 \CONTEXT\ 定义的一些 \METAPOST\ 宏，这些宏构成的集合，名曰 \MetaFun。
+需要注意的是，在 \CONTEXT\ 中使用 \METAPOST\ 时，通常会使用 \CONTEXT\ 定义的一些 \METAPOST\ 宏，这些宏构成的集合，名曰 \MetaFun。
 
-\section{画一个盒子}
+\section[drawing-box]{画一个盒子}
 
 \METAPOST\ 作图语句遵守基本的英文语法，理解起来颇为简单。下例，用粗度为 2 pt 的圆头笔用暗红色绘制一条经过四个点的封闭路径。
 
@@ -361,9 +361,7 @@ draw framed("{\bf 亢龙有悔}", 5mm);
 
 \section[sec:flow-chart]{简单的流程图}
 
-现在，请跟随我敲击键盘的手指，逐步画一幅描述数字求和过程的流程图，希望这次旅程能让你对 \METAPOST\ 的基本语法有一些全面的认识。
-
-首先，构造一个结点，表示数据输入。
+现在，请跟随我敲击键盘的手指，逐步画一幅描述数字求和过程的流程图，希望这次旅程能让你对 \METAPOST\ 的基本语法有一些全面的认识。首先，构造一个结点，表示数据输入。
 
 \starttyping[option=MP]
 string f; f := "\framed[frame=off,align=center]";
@@ -382,7 +380,7 @@ picture b; b := framed(f & "{$s\leftarrow s + i$}", offset);
 picture c; c := framed(f & "{$i\leftarrow i + 1$}", offset);
 \stoptyping
 
-还需要定义一个宏，用它构造菱形的条件判断结点：
+需要定义一个宏，用它构造菱形的条件判断结点：
 
 \starttyping[option=MP]
 vardef diamond (expr text, offset) =
@@ -397,7 +395,7 @@ enddef;
 picture d; d := diamond(f & "{$i > 100$}", 3 * offset);
 \stoptyping
 
-最后，再构造一个结点表示程序输出：
+再构造一个结点表示程序输出：
 
 \starttyping[option=MP]
 picture e;
@@ -413,7 +411,7 @@ d := d shifted (0, -4.5cm);
 e := e shifted (0, -7cm);
 \stoptyping
 
-现在可以画出所有结点了，即
+画出所有结点：
 
 \starttyping[option=MP]
 draw a; draw b; draw c; draw d; draw e;
@@ -421,16 +419,14 @@ draw a; draw b; draw c; draw d; draw e;
 \midaligned{\externalfigure[11/flowchart-1.pdf][frame=on]}
 \blank
 
-现在开始构造连接各结点的路径。首先构造结点 \type{a} 的底部中点到 \type{b} 的顶部中点的路径：
+构造节点 \type{a} 的底部中点到 \type{b} 的顶部中点的路径：
 
 \starttyping[option=MP]
 path ab;
 ab := .5[llcorner a, lrcorner a] -- .5[ulcorner b, urcorner b];
 \stoptyping
 
-\noindent 其中 \type{llcorner} 用于获取路径或画面实例的最小包围盒的左下角顶点坐标。同理，\type{ulcorner}，\type{urcorner} 和 \type{lrcorner} 分别获取包围盒的左上角、右上角和右下角顶点坐标。\type{.5[..., ...]} 用于计算两个点连线的中点。
-
-用类似的方法可以构造其他连接各结点的路径：
+\noindent 其中 \type{llcorner} 用于获取路径或画面实例的最小包围盒的左下角顶点坐标。同理，\type{ulcorner}，\type{urcorner} 和 \type{lrcorner} 分别获取包围盒的左上角、右上角和右下角顶点坐标。\type{.5[..., ...]} 用于计算两个点连线的中点。用类似的方法可以构造其他连接各节点的路径：
 
 \starttyping[option=MP]
 path bd;
@@ -453,7 +449,7 @@ drawarrow de withcolor darkred;
 \midaligned{\externalfigure[11/flowchart-2.pdf][frame=on]}
 \blank
 
-最后一步，路径标注：
+最后一步，标注路径：
 
 \starttyping[option=MP]
 pair no;  no  := point .4 along dc;
@@ -467,7 +463,7 @@ draw thetextext.rt("是", yes);
 
 \in[sec:flow-chart] 节的代码存在较多重复。可以用条件、循环，宏等形式予以简化。不过，我对它们给出的讲解并不会细致，为的正是走马观花，观其大略。
 
-首先，观察宏 \type{framed} 和 \type{diamond} 的定义，发现二者仅有的不同是前者用 \type{fullsquare} 绘制盒子，后者用 \type{fulldiamond}。因此，可以重新定义一个更为灵活的宏，用于制作结点：
+首先，观察宏 \type{framed} 和 \type{diamond} 的定义，发现二者仅有的不同是前者用 \type{fullsquare} 绘制盒子，后者用 \type{fulldiamond}。以重新定义一个更为灵活的宏，用于制作节点：
 
 \index[xysized]{\type{xysized}：\METAFUN\ 宏}
 \index[ifelse]{\type{if/else}：\METAPOST\ 条件语法}
@@ -487,7 +483,7 @@ vardef make_node(expr text, shape, offset) =
 enddef;
 \stoptyping
 
-\noindent 由于上述代码使用了 \METAPOST\ 的条件判断语法，以 \type{path shape} 判断 \type{shape} 是否为路径变量，从而使得 \type{make_node} 能构用于构造有无边框和有边框的结点：
+\noindent 由于上述代码使用了 \METAPOST\ 的条件判断语法，以 \type{path shape} 判断 \type{shape} 是否为路径变量，从而使得 \type{make_node} 能构用于构造有无边框和有边框的节点：
 
 \starttyping[option=MP]
 numeric offset; offset := 5mm;
@@ -496,13 +492,13 @@ picture a, b, c, d, e;
 a := make_node(f & "{$i\leftarrow 1$\\$s\leftarrow 0$}", none, 0);
 b := make_node(f & "{$s\leftarrow s + i$}", fullsquare, offset);
 c := make_node(f & "{$i\leftarrow i + 1$}", fullsquare, offset);
-d := make_node(f & "{$i > 100$}", fulldiamond, offset);
+d := make_node(f & "{$i > 100$}", fulldiamond, 3 * offset);
 e := make_node(f & "{$s$}", none, 0);
 \stoptyping
 
 在 \type{vardef} 宏中使用条件语句时需要注意，通常情况下不要条件结束语句 \type{fi} 后面添加分号，否则 \type{vardef} 宏的返回值会带上这个分号。在其他情境下，通常需要在  \type{fi} 加分号。还要注意，我在 \type{make_node} 宏中使用 \type{xysized} 取代了之前的 \type{xscale} 和 \type{yscale}，可直接指定路径或画面的尺寸。之所以如此，是因为我们无法确定 \type{make_node} 宏的第 2 个参数对应的路径是否为标准图形。
 
-在绘制结点和路径时，存在重复使用 \type{draw} 语句的情况，例如
+在绘制节点和路径时，存在重复使用 \type{drawarrow} 语句的情况，例如
 
 \starttyping[option=MP]
 drawarrow ab withcolor darkred; drawarrow bd withcolor darkred;
@@ -514,7 +510,7 @@ drawarrow de withcolor darkred;
 
 \index[for]{\METAPOST\ \type{for} 循环语法}
 \starttyping[option=MP]
-for i = ab, bd, cb, dc, de: draw i withcolor darkred; endfor; 
+for i = ab, bd, cb, dc, de: drawarrow i withcolor darkred; endfor; 
 \stoptyping
 
 为了便于获得路径或画面的包围盒的四边中点，定义以下宏：
@@ -526,7 +522,7 @@ vardef right(expr p) = .5[lrcorner p, urcorner p] enddef;
 vardef bottom(expr p) = .5[llcorner p, lrcorner p] enddef;
 \stoptyping
 
-\noindent 以绘制结点 \type{b} 的四边中点为测试用例
+\noindent 以绘制节点 \type{b} 的四边中点为测试用例
 
 \starttyping[option=MP]
 for i = left(b), top(b), right(b), bottom(b):
@@ -535,7 +531,7 @@ endfor;
 \stoptyping
 \midaligned{\externalfigure[11/flowchart-4.pdf]}
 
-基于上述宏，可以更为简洁地构造连接各结点的路径：
+基于上述宏，可以更为简洁地构造连接各节点的路径：
 
 \starttyping[option=MP]
 path ab; ab := bottom(a) -- top(b);
@@ -594,7 +590,7 @@ draw p randomized 5mm
 
 需要注意的是，当 overlay 作为 \tex{framed} 之类的盒子的背景时，盒子的尺寸会传递给 overlay，而 \METAPOST\ 代码里，也可以通过 \METAFUN\ 的内置变量 \type{OverlayWidth} 和 \type{OverlayHeight} 获得 overlay 的宽度和高度，亦即 \CONTEXT\ 里的 MetaPost 代码与 \CONTEXT\ 排版环境存在数据传递机制，该机制使得 \METAPOST\ 图形适配排版元素的尺寸成为可能。
 
-层\index[layer]{layer}本质上是一个可作为全页背景的 overlay，可使用绝对坐标或相对坐标对排版元素在页面上定位放置。下例定义了一个层 foo，并在三个不同位置分别放置一个随机矩形。
+层\index[layer]{layer}本质上是一个可作为全页背景的 overlay，可使用绝对坐标或相对坐标对排版元素在页面上定位放置。下例定义了一个层 foo，并在三个不同位置分别放置一个随机矩形——\in[drawing-box] 节中「随机晃动的矩形」。
 
 \startuseMPgraphic{square}
 path p;
@@ -653,9 +649,9 @@ draw fullcircle scaled 2cm withpen pencircle scaled 2pt withcolor darkgreen;
 
 \subject{结语}
 
-领域专用语言（DSL）最好是某种宏语言，而非模仿那些通用编程语言的机械化语言。\TEX\ 是排版领域的专用语言，而 \MetaPost\ 是绘图领域的专用语言，宏是它们的气质所在。
+领域专用语言（DSL）最好是某种宏语言，而非模仿那些通用编程语言的机械化语言。\TEX\ 是排版领域的专用语言，而 \MetaPost\ 是绘图领域的专用语言，它们皆为宏语言，使用它们排版或绘图，本质上是在从事宏编程活动。
 
-宏语言编程并不难，反而比大多数正经的编程语言容易很多，只是宏编程很容易出错。有时你只是手误，写错了一个变量的名字或者符号，宏编译器无法准确捕捉到错误的位置。对此，我的建议是，如果你打算定义一个宏，请不要去尝试将这个宏的代码写完，再去测试，而是先写出这个宏的最简单的形式，哪怕它一开始是空的，也应该代入参数测试一下，然后试着让这个宏逐渐生长，在生长过程中不断测试，亦即像照顾一株植物那样定义宏。
+宏语言编程并不难，反而比大多数正经的编程语言容易很多，只是宏编程很容易出错。有时你只是手误，写错了一个变量的名字或者符号，宏编译器无法准确捕捉到错误的位置。对此，我的建议是，如果你打算定义一个宏，请不要去尝试将这个宏的代码写完，再去测试，而是先写出这个宏的最简单的形式，哪怕它一开始是空的，也应该代入参数测试一下，然后试着让这个宏逐渐生长，在生长过程中不断测试。简而言之，应当像照顾一株植物一样定义宏。
 
 关于 \MetaPost\ 更为深入和全面的介绍，可参考其手册\cite[mpman] 以及 Hans Hagon 所写的 \METAFUN\ 手册，后者已在你所安装的 \CONTEXT\ 系统中了，使用以下命令可以找到它。
 

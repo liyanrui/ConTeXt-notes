@@ -55,7 +55,7 @@
 \stopexample
 \example[option=TEX][zaoshu]{散文示例 1}{\externalfigure[04/zaoshu.pdf][width=.3\textwidth]}
 
-上例未写出作者的名字，以便你能够观察到 \CONTEXT\ 标题之后第一段的首行是不缩进的，这是西文的排版习惯。在使用标题命令前，需要用 \tex{\setupheads}\index[setupheads]{\tex{setupheads}} 为所有标题设定其后第一段的首行必须缩进，见下例。
+上例未写出作者的名字，以便你能够观察到 \CONTEXT\ 标题之后第一段的首行是不缩进的，这是西文的排版习惯。在使用标题命令前，需要用 \tex{setupheads}\index[setupheads]{\tex{setupheads}} 为所有标题设定其后第一段的首行必须缩进，见下例。
 
 \startexample
 \setupindenting[first,always,2em]
@@ -90,7 +90,7 @@
 \stopexample
 \example[option=TEX][zaoshu-3]{散文示例 3}{\externalfigure[04/zaoshu-3.pdf][width=.3\textwidth]}
 
-若需要将标题居中，只需使用 \type{\setuphead}单独为 \type{\title} 设定样式：
+若需要将标题居中，只需使用 \type{\setuphead} 单独为 \type{\title} 设定样式：
 
 \starttyping[option=TEX]
 \setuphead[title][align=middle]
@@ -116,14 +116,12 @@
 \stopexample
 \example[option=TEX][zaoshu-4]{散文示例 4}{\externalfigure[04/zaoshu-4.pdf][width=.3\textwidth]}
 
-对于上例存在的问题，以前的方案是将 \tex{setuphead} 的参数 \type{align} 的值设定为 \type{{middle,broad}}，亦即
+对于上例存在的问题，只需将 \tex{setuphead} 的参数 \type{align} 的值设定为 \type{{middle,broad}} 便可适当放松 \CONTEXT\ 过于严格的对齐规则，见例 \in[zaoshu-5]。
 
 \startexample
 \setuphead[title][style=\bfc,align={middle,broad}]
 \stopexample
 \example[option=TEX][zaoshu-5]{散文示例 5}{\externalfigure[04/zaoshu-5.pdf][width=.3\textwidth]}
-
-\noindent 便可适当放松 \CONTEXT\ 过于严格的对齐规则。
 
 不知 \CONTEXT\ 从哪个版本开始，提供了新的参数 \type{center}\index[center]{\type{center} 属性}，它与 \type{{middle,broad}} 等效，故而上述设定亦可写为
 

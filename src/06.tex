@@ -14,7 +14,7 @@
 \stopexample
 \simpleexample[option=TEX]{\getexample}
 
-\noindent\boxquote{\type{|l|c|r|}}是表格各列的格式声明，你可以不指定各列的对齐方式，例如\boxquote{\type{||||}}，但是格式声明不能省略，否则表格的排版结果可能会变得非常诡异。\tex{NC} 用于构造新的单元格，\type{\NR} 用于构造一个新行。
+\noindent「\type{|l|c|r|}」是表格各列的格式声明，你可以不指定各列的对齐方式，例如「\type{||||}」，但是格式声明不能省略，否则表格的排版结果可能会变得非常诡异。\tex{NC} 用于构造新的单元格，\type{\NR} 用于构造一个新行。
 
 \section{边线}
 
@@ -44,7 +44,7 @@
 \stopexample
 \simpleexample[option=TEX]{\getexample}
 
-\section{对齐的假象}
+\section[tabulate-align]{对齐的假象}
 
 在上文的所有示例里，第 1 列和第 3 列的对齐实际上存在假象。即使将它们也设为居中对齐，它们的位置似乎依然不变，见下例，第 1 列依然是居左的，第 3 列依然是居右的。即使将第 1 列设为 \type{r}，将第 3 列设为 \type{l}，结果依然一样。甚至，即使你将第 2 列设为 \type{l} 或 \type{r}，结果它依然是居中的。
 
@@ -76,7 +76,7 @@
 \stopexample
 \simpleexample[option=TEX]{\getexample}
 
-在上例的基础上，我们只要设定各列宽度，便可以得到你预想的的对齐效果，见下例。设定列宽的格式声明是 \type{w(尺寸)}，可与对齐声明联合使用。
+在上例的基础上，只要设定各列宽度，便可以得到预想的对齐效果，见下例。设定列宽的格式声明是 \type{w(尺寸)}，可与对齐声明联合使用。
 
 \startexample
 \starttabulate[|rw(2cm)|cw(1cm)|lw(1.5cm)|][unit=0mm]
@@ -88,7 +88,7 @@
 
 \section{三线表}
 
-\type{tabulate} 环境主要是为科技文献排版中常用的三线表设计的，这是造成第一节中那些对齐假象的最根本的原因。在三线表中，是不需要表格竖线的，故而默认的 \type{unit} 参数值，不会给你造成任何不适，见下例。
+\type{tabulate} 环境主要是为科技文献排版中常用的三线表设计的，这是造成 \in[tabulate-align] 节对齐假象的最根本的原因。在三线表中，是不需要表格竖线的，故而默认的 \type{unit} 参数值，不会给你造成任何不适，见下例。
 
 \startexample
 \starttabulate[|c|c|c|]
@@ -116,7 +116,7 @@
 \stopexample
 \simpleexample[option=TEX]{\getexample}
 
-如果表格还需要定制更多横线的粗细， \type{tabulate} 环境还提供了 \tex{FL}、\tex{ML} 和 \tex{LL}，分别用于构造表格顶线之下的第一条横线，中间的横线以及最后一条横线。因而除了默认粗度的 \tex{HL} 之外，共有 5 种可设定粗细的线性备用，对于三线表而言，这些线足够用了，实际上我们只需要两种线，一种是 \tex{HL}，另一种是可设定粗细的，T、F、M、L、B 只是希望横线具有语义。
+如果表格还需要定制更多横线的粗细， \type{tabulate} 环境还提供了 \tex{FL}、\tex{ML} 和 \tex{LL}，分别用于构造表格顶线之下的第一条横线，中间的横线以及最后一条横线。因而除了默认粗度的 \tex{HL} 之外，共有 5 种可设定粗细的线型备用，对于三线表而言，这些线足够用了，实际上我们只需要两种线，一种是 \tex{HL}，另一种是可设定粗细的，T、F、M、L、B 只是希望横线具有语义。
 
 可设定横线粗细的命令，设定线的粗细的数字参数，其值是表格线默认粗度的倍数。实际上，还有一个数字参数，其值也是表格线默认粗度的倍数，用于构造虚线，即虚线的空白间隔是表格线默认粗度的倍数，见下例。
 
@@ -185,7 +185,7 @@
 \CONTEXT\ 默认的表格标题的位置以及序号前缀皆不合中文文档的常见格式，存在以下问题：
 
 \startitemize[packed]
-\item 序号的前缀应该\boxquote{表}，而非 \boxquote{Table}；
+\item 序号的前缀应该「表」，而非「Table」；
 \item 序号部分不应该是粗体，且字号应当比正文小一号；
 \item 标题中的文字过于蓬松，且应当位于表格上方。
 \stopitemize
@@ -229,11 +229,11 @@
 \placefigure[位置][引用]{标题}{\starttabulate ... \stoptabulate}
 \stopTEX
 
-上例将\boxquote{位置}设定为 \type{here}，意思是就在 \tex{placetable} 出现的位置插入表格，但并不是强制的，若需要强制，应将 \type{here} 换成 \type{force}。
+上例将「位置」设定为 \type{here}，意思是就在 \tex{placetable} 出现的位置插入表格，但并不是强制的，若需要强制，应将 \type{here} 换成 \type{force}。
 
-也许你会有所不解，表格出现的位置还需要设定吗？它难道不是理所应当出现在 \tex{placetable} 所在的位置吗？答案是，\CONTEXT\ 的表格和插图是浮动的，排版引擎会尽量为它们寻找合适的安放空间，而 \type{here} 和 \type{force} 可以禁止排版引擎的自作聪明。\boxquote{位置}参数也可以设定为 \type{left} 和 \type{right}，分别将表格放置于页面的左侧和右侧。
+也许你会有所不解，表格出现的位置还需要设定吗？它难道不是理所应当出现在 \tex{placetable} 所在的位置吗？答案是，\CONTEXT\ 的表格和插图是浮动的，排版引擎会尽量为它们寻找合适的安放空间，而 \type{here} 和 \type{force} 可以禁止排版引擎的自作聪明。「位置」参数也可以设定为 \type{left} 和 \type{right}，分别将表格放置于页面的左侧和右侧。
 
-至于 \tex{placetable} 的\boxquote{引用}，其幕后的机制和用法与 \in[itemcite] 节介绍的列表项引用相似。你可以为表格设定一个引用名，例如 \type{foo}，然后在正文里可以用 \tex{in[foo]} 以序号的形式引用该表格，例如
+至于 \tex{placetable} 的「引用」，其幕后的机制和用法与 \in[itemcite] 节介绍的列表项引用相似。你可以为表格设定一个引用名，例如 \type{foo}，然后在正文里可以用 \tex{in[foo]} 以序号的形式引用该表格，例如
 
 \startTEX
 如表 \in[foo] 所示，... ... ...\par
@@ -247,7 +247,7 @@
 \blank[halfline]
 
 \placetable[right,none][]{}{
-  \starttabulate[|c|c||c]
+  \starttabulate[|c|c|c]
   \NC 2 \NC 9 \NC 4 \NC\NR
   \NC 3 \NC 5 \NC 7 \NC\NR
   \NC 6 \NC 1 \NC 8 \NC\NR

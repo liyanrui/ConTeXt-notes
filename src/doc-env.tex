@@ -13,6 +13,7 @@
 \setuplayout[backspace=3cm,width=15cm,
              topspace=1.5cm,header=1.5cm,
              height=27.2cm,footer=1cm]
+
 % 双面对开
 %\setuppagenumbering[alternative=doublesided]
 %\showframe
@@ -102,7 +103,7 @@
   \quad%
   \getmarking[section][current]%
 }
-\setupheadertexts[\CurrentChapter][pagenumber][pagenumber][\CurrentSection]
+\setupheadertexts[\CurrentChapter][pagenumber][pagenumber][\CONTEXT\ 蹊径]
 \setupheader[style=\tfx]
 \stopsetups
 % 页眉：清空
@@ -220,7 +221,6 @@ fancybox(.35BodyFontSize);
 % 抄录环境里的单引号，会被替换为汉字单引号，我需要定义一个
 % 西文等宽字体，将其修正回来，即 /BTEX{\Qt'}/ETEX
 \definefont[Qt][lmmono10regular at 11pt]
-
 
 % ---------- example ----------------------
 \definebuffer[example]

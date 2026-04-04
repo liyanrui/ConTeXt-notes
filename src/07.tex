@@ -1,10 +1,10 @@
-\chapter{插图}
+\chapter[Figure]{插图}
 
 在很多情境下，一图胜千言。\CONTEXT\ 在插图方面，除了支持常见的 JPEG，GIF 和 PNG 等位图格式，也支持 PDF 和 SVG 等矢量图格式，还支持 \METAPOST\ 代码形式的内部图形——代码即插图。
 
 \section[figure]{外图}
 
-无论是位图还是矢量图，对于 \CONTEXT\ 而言，都是外部图形，在文档中插入的方法是相同的，皆使用 \tex{externalfigure} 命令\index[externalfigure]{\tex{externalfigure}}。假设 \CONTEXT\ 源文档所在目录存在位图文件 foo.png，用以下代码便可将其插入文档中该命令出现的地方，例如 \externalfigure[07/foo.png]。
+无论是位图还是矢量图，对于 \CONTEXT\ 而言，都是外部图形，在文档中插入的方法是相同的，皆使用 \tex{externalfigure} 命令\index[externalfigure]{\tex{externalfigure}}。假设源文档所在目录存在位图文件 foo.png，用以下代码便可将其插入文档，例如插入于此处： \externalfigure[07/foo.png][width=1cm]。
 
 \starttyping[option=TEX]
 \externalfigure[foo.png]
@@ -16,10 +16,10 @@
 \midaligned{\externalfigure[foo.png]}
 \stopTEX
 \blank[line]
-\midaligned{\externalfigure[07/foo.png]}
+\midaligned{\externalfigure[07/foo.png][width=.3\textwidth]}
 \blank[halfline]
 
-\tex{externalfigure} 有第 2 个参数，用于设定插图的宽度（width）和高度（hight），但通常只需设定一个，另一个可由 \CONTEXT\ 根据图像的宽高比自动计算，下例将插图的宽度设定为正文宽度的 0.3 倍，其中 \tex{textwidth} 可以获得正文宽度。
+\tex{externalfigure} 有第 2 个参数，用于设定插图的宽度（width）和高度（hight），但通常只需设定一个，另一个可由 \CONTEXT\ 根据图像的宽高比自动计算。下例将插图的宽度设定为正文宽度的 0.3 倍，其中 \tex{textwidth} 命令可获得正文版面宽度\index[textwidth]{\tex{textwidth}}。
 
 \startTEX
 \midaligned{\externalfigure[foo.png][width=.3\textwidth]}
@@ -38,7 +38,7 @@
 \midaligned{\externalfigure[07/foo.png][width=.3\textwidth]}
 \midaligned{\tfx 这是插图的标题}
 
-如果你想让插图标题能有序号，对于篇幅较小的文章，手工输入序号即可，见下例。建议在序号后，用 \tex{quad} 命令插入一个字宽的空白作为间隔，因为用普通的空格，只有半个字宽，效果不好。
+如果你想让插图标题能有序号，对于篇幅较小的文章，手工输入序号即可，见下例。建议在序号后，用 \tex{quad} 命令插入一个字宽的空白作为间隔\index[quad]{\tex{quad}}，因为用普通的空格，只有半个字宽，效果不好。
 
 \startTEX
 \midaligned{\externalfigure[07/foo.png][width=.3\textwidth]}
@@ -69,7 +69,7 @@
 \def\foo{\hskip 0pt plus 2pt minus 0pt}
 \stopTEX
 
-\noindent 当我们在文档里使用 \tex{foo} 时，\CONTEXT\ 编译器会用这个宏的定义将其替换掉，亦即宏的使用，本质上是通过宏的名字引用其定义，这个过程通常称为{\bf 宏的展开}。下面用类似的办法，定义一个插图宏，以简化图片文件的插入过程。
+\noindent 在文档里使用 \tex{foo} 时，\CONTEXT\ 编译器会用这个宏的定义将其替换掉，亦即宏的使用，本质上是通过宏的名字引用其定义，这个过程通常称为{\bf 宏的展开}。下面用类似的办法，定义一个插图宏，以简化图片文件的插入过程。
 
 \startTEX
 \definenumber[myfignum] % 插图序号计数器
@@ -77,11 +77,11 @@
 \def\myfigure#1#2{
   \midaligned{#2}
   \incrementnumber[myfignum]
-  \midaligned{\tfx 图 \getnumber[myfig]\quad #1}
+  \midaligned{\tfx 图 \getnumber[myfignum]\quad #1}
 }
 \stopTEX
 
-\tex{myfigure} 宏和我们用过那些排版命令在形式上并无区别，原因是后者也无非是 \TEX\ 和 \CONTEXT\ 开发者定义的宏而已。使用 \tex{myfigure} 需要向其提供两个参数，例如
+\tex{myfigure} 宏和其他排版命令在形式上并无区别，后者也无非是 \TEX\ 和 \CONTEXT\ 开发者定义的宏而已。使用 \tex{myfigure} 需要向其提供两个参数，例如
 
 \startTEX
 \myfigure{插图的标题}{\externalfigure[foo.png]}
@@ -108,8 +108,8 @@
   \incrementnumber[myfignum]
   \midaligned{\tfx 图 \getnumber[myfignum]\quad #1}
 }
-\myfigure{标题}{\externalfigure[07/foo.png]}
-\myfigure{标题}{\externalfigure[07/foo.png]}
+\myfigure{标题}{\externalfigure[07/foo.png][width=.3\textwidth]}
+\myfigure{标题}{\externalfigure[07/foo.png][width=.3\textwidth]}
 
 \indentation 不过，\CONTEXT\ 已经为插图提供了像 \tex{placetable} 那样的命令，即 \tex{placefigure}\index[placefigure]{\tex{placefigure}}。这个命令不仅能提供插图的序号，也能控制插图出现的位置，其用法与 \tex{placetable} 大致相似，可参考以下示例。
 
@@ -152,32 +152,30 @@
 \startexample
 \placefigure[force,none]{}{
   \startfloatcombination[nx=2,ny=1]
-    \placefigure{}{}  \placefigure{}{}
+  \placefigure{}{} \placefigure{}{}
   \stopfloatcombination
 }
 \stopexample
 \simpleexample[option=TEX]{\null}
 \getexample
-
-在上述例子里，想必你已经观察到了，\CONTEXT\ 的命令，当其参数里同时存在方括号形式和花括号形式时，对于前者而言，如果你不想设定它们，通常可以将其省略，亦即它们是{\bf 可选参数}。
 
 可以在 \tex{placefigure} 命令的第一个参数里用 \type{nonumber} 将插图标题的序号部分关闭，见下例，这个技巧可用于构造由一组子图构成的插图。
 
 \startexample
 \placefigure[force]{}{
   \startfloatcombination[nx=2,ny=1]
-    \placefigure[nonumber]{a\quad 子图}{}  \placefigure[nonumber]{b\quad 子图}{}
+  \placefigure[nonumber]{a\quad 子图}{} \placefigure[nonumber]{b\quad 子图}{}
   \stopfloatcombination
 }
 \stopexample
 \simpleexample[option=TEX]{\null}
 \getexample
 
-如果你从未听闻上述的 \type{floatcombination} 环境，单纯用你已掌握的 \type{tabulate} 环境和 \tex{externalfigure} 命令也能构造图片阵列，不妨一试。
+如果你从未听闻上述的 \type{floatcombination} 环境，单纯用你已掌握的 \type{tabulate} 环境和 \tex{externalfigure} 命令也能构造图片阵列，不妨一试。另外，在上述例子里，想必你已经观察到了，\CONTEXT\ 的命令，当其参数里同时存在方括号形式和花括号形式时，对于前者而言，如果你不想设定它们，通常可以将其省略，亦即它们是{\bf 可选参数}。
 
 \section{路径}
 
-上文所有示例，插图所用的图片文件皆需与 \CONTEXT\ 源文件位于统一目录。为了让目录更为整洁，在 \CONTEXT\ 源文件所在目录下可建立专用于存放文档插图的子目录，例如 figures。为了让 \CONTEXT\ 编译器在编译源文件时能够找到图片文件，可以在 \tex{externalfigure} 命令里设定图片文件的相对路径，例如
+上文所有示例，插图所用的图片文件皆需与 \CONTEXT\ 源文件位于同一目录。为了让目录中的文件更为整洁，可在源文件所在目录下建立专用于存放文档插图的子目录，例如 figures。为了让 \CONTEXT\ 编译器在编译源文件时能够找到图片文件，可以在 \tex{externalfigure} 命令里设定图片文件的相对路径，例如
 
 \startTEX
 \externalfigure[figures/foo.png]
@@ -195,7 +193,7 @@
 
 \startexample
 \startuseMPgraphic{foo}
-path p; p := fullsquare randomized (.1, .3) xyscaled (7cm, 3cm);
+path p; p := fullsquare randomized (.1, .3) xyscaled (7cm, 2cm);
 draw p withpen pencircle scaled 4pt withcolor darkred;
 \stopuseMPgraphic
 \placefigure[here, nonumber]{\METAFUN\ 示例}{\useMPgraphic{foo}}

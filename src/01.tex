@@ -1,14 +1,14 @@
 \chapter[Installation]{命令行}
 
-无论是安装还是使用 \CONTEXT，皆需要对命令行环境有所了解。原本未有介绍这方面知识的计划，但是考虑到我正在写一份世上最好的 \CONTEXT\ 入门文档，便有了些许动力。本章先分别介绍 Windows、Linux 和 macOS 系统的命令行环境的基本用法，以刚好满足安装和运行 \CONTEXT\ 的需求为要，然后再分别介绍在这三个系统里如何用命令行的方式安装 \CONTEXT\ 环境。
+无论是安装还是使用 \CONTEXT，皆需要对命令行环境有所了解。本章先分别介绍 Windows、Linux 和 macOS 系统的命令行环境的基本用法，以刚好满足安装和运行 \CONTEXT\ 环境需求为要。
 
-若你对命令行环境已颇为熟悉，可直接阅读从 \in[installation] 开始阅读，否则要有耐心从一个简单任务开始熟悉它的基本用法。这个任务是，在命令行环境里，创建 foo 目录，并在该目录内创建一份 Shell 脚本，令其可在命令行窗口中输出\boxquote{\type{不怕命令行}}。
+若你对命令行环境已颇为熟悉，只是想了解如何安装 \CONTEXT，可直接从 \in[installation] 节开始阅读，否则要有耐心从一个简单任务开始熟悉命令行的基本用法。这个任务是，在命令行环境里，创建 foo 目录，并在该目录内创建一份 Shell 脚本，令其可在命令行窗口中输出「\type{不怕命令行}」。
 
 \section{Windows 命令行}
 
-Windows 用户似乎天生畏惧甚至厌憎命令行环境，甚至很多人认为它早已被淘汰的上个世纪的东西。实际上这种认识是错误的，原因很简单，最新的 Windows 版本依然不仅不敢不提供它，反而处心积虑强化它。
+Windows 用户似乎天生畏惧甚至厌憎命令行环境，甚至很多人认为它是早已被淘汰的上个世纪的东西。这种认识是错误的，原因很简单，最新的 Windows 系统依然不仅依然提供它，甚至处心积虑强化它。
 
-在 Windows 系统中打开历史最为悠久的那个命令行窗口，有很多种方法，其中最快的应当是使用如图 \in[win-r] 所示的组合键「Win + R」，打开「运行」对话框，在其中输入\boxquote{\type{cmd}}，然后点击对话框上的「确定」按钮或单击回车键（Enter 键），便可打开与图 \in[cmd-window] 类似的命令行窗口，只不过你看到的应该是背景为黑色的窗口——我为了打印这一页时能省一些墨，将其改成了白色。
+在 Windows 系统中打开命令行窗口，有很多种方法，其中最快的应当是使用如图 \in[win-r] 所示的组合键「Win + R」，打开「运行」对话框，在其中输入「\type{cmd}」，然后点击对话框上的「确定」按钮或单击回车键（Enter 键），便可打开与图 \in[cmd-window] 类似的命令行窗口，只不过你看到的应该是背景为黑色的窗口——我为了打印这一页时能省一些墨，将其改成了白色。
 
 \startplacefigure[location=none]
 \startfloatcombination[nx=2,ny=1]
@@ -21,17 +21,19 @@ Windows 用户似乎天生畏惧甚至厌憎命令行环境，甚至很多人认
 \stopfloatcombination
 \stopplacefigure
 
-在命令行窗口里，所有要执行的命令皆在\boxquote{\type{>}}符号后输入，故而该符号叫作命令提示符。{\bf 需要注意，在输入命令之前，请查看输入法状态，将其切换为英文输入状态。}
+在命令行窗口里，所有要执行的命令皆在「\type{>}」符号后输入，故而该符号叫作{\bf 命令提示符}。需要注意，在输入命令之前，请查看输入法状态，将其切换为英文输入状态。
 
-任何一条命令都是在某个目录下执行的，该目录称为工作目录。命令提示符左侧内容表示一个文件目录，它就是工作目录。在命令行窗口中输入命令\boxquote{\type{d:}}，然后单击回车键便可执行该命令，结果是工作目录被切换为 d 盘。在命令行环境里，输入命令后，必须单击回车键键，方能使命令得以执行。
+任何一条命令都是在某个目录下执行的，该目录称为{\bf 工作目录}。命令提示符左侧内容表示文件目录，它就是工作目录。在命令行窗口中输入命令「\type{d:}」，然后单击回车键便可执行该命令，结果是工作目录被切换为 d 盘，倘若它存在。在命令行环境里，输入命令后，必须单击回车键，命令方能得以执行。
 
-现在，尝试执行命令\boxquote{\type{md foo}}。该命令可在 d 盘创建目录 foo，然后执行命令\boxquote{\type{cd foo}}，将工作目录切换为 foo。现在你的工作目录就是 \type{d:\foo} 或 \type{D:\foo}——Windows 的命令行语句里，字母不区分大小写。
+假设当前的命令行工作目录为 d 盘，请尝试执行命令「\type{md foo}」，该命令可在 d 盘创建目录 foo。然后执行命令「\type{cd foo}」，将工作目录切换为 foo。现在工作目录就是 \type{d:\foo} 或 \type{D:\foo}——Windows 的命令行语句里，无论是命令还是目录或文件名，不区分大小写。
 
-形如 \type{d:\foo} 这样的形式称为绝对路径，反斜线 \type{\} 称为路径分隔符。有相对路径吗？有。在 \type{d:\foo} 中执行命令\boxquote{\type{cd ..}}，便可将工作目录切换到上一级，即 d 盘。符号\boxquote{\type{..}}便是相对路径，表示工作目录的上级目录。在 \type{d:\foo} 中，若执行命令\boxquote{\type{cd ..\foo}}，则工作目录不会发生变化，因为 \type{d:\foo} 的上级目录的子目录 foo 依然是 \type{d:\foo}。形如 \type{..\foo} 的路径便是常见的相对路径形式。
+像 \type{d:\foo} 这样的目录形式称为{\bf 绝对路径}，反斜线 \type{\} 称为路径分隔符。有{\bf 相对路径}吗？有。在 \type{d:\foo} 中执行命令「\type{cd ..}」，便可将工作目录切换到上一级，即 d 盘。符号「\type{..}」便是相对路径，表示工作目录的上级目录。
 
-在 d 盘执行命令\boxquote{\type{cd ..}}，工作目录会发变化吗？不会。因为 Windows 任何一个盘符，它的上一级目录为空。
+在 \type{d:\foo} 中，若执行命令「\type{cd ..\foo}」，则工作目录不会发生变化，因为 \type{d:\foo} 的上级目录的子目录 foo 依然是 \type{d:\foo}。像「\type{..\foo}」这样的路径也是相对路径。
 
-理解上述内容，你应该能够凭借几个简单的命令便可遨游 Windows 文件系统了，只是我们的任务尚未完成。现在可将该任务具体为，在 \type{d:\foo} 中创建一份 Shell 脚本，执行该脚本，在命令行窗口中输出「\type{不怕命令行}」。在 Windows 系统中，Shell 脚本即命令行批处理文件，其扩展名通常为 \type{.bat}。在实现该脚本之前，需要了解 \type{echo} 命令的用法。
+在 d 盘执行命令「\type{cd ..}」，工作目录会发变化吗？不会。因为 Windows 任何一个盘，其上一级目录为空。
+
+若能理解上述内容，凭借几个简单的命令，便可遨游 Windows 文件系统了，只是我们的任务尚未开始。该任务是在 \type{d:\foo} 中创建一份 Shell 脚本，执行该脚本，在命令行窗口中输出「\type{不怕命令行}」。在 Windows 系统中，Shell 脚本即命令行批处理文件，其扩展名通常为 \type{.bat}。在实现该脚本之前，需要了解 \type{echo} 命令的用法。
 
 \type{echo} 命令亦称回显命令，其功能是读取一些文字，然后将其原样输出。例如，
 
@@ -40,15 +42,15 @@ Windows 用户似乎天生畏惧甚至厌憎命令行环境，甚至很多人认
 不怕命令行
 \stopmycmd
 
-\noindent 上述代码的第一行是执行\boxquote{\type{echo}} 命令，第二行是命令的输出结果。
+\noindent 上述代码的第一行是执行「\type{echo}」 命令，第二行是命令的输出结果。
 
-似乎 \type{echo} 是一个什么都不会做的命令，这样的命令有什么用呢？它的一个用途是，通过命令行的输出重定向机制，将一些内容写入文件。例如，
+似乎 \type{echo} 是一个什么都不会做的命令，这样的命令有什么用呢？它的一个用途是，通过命令行的输出重定向机制，将一些内容写入制定的文件。例如，
 
 \startmycmd
 d:\foo> echo @echo off > foo.bat
 \stopmycmd
 
-\noindent 上述命令通过输出重定向符\boxquote{\type{>}}将原本会输出到命令行窗口的文字\boxquote{\type{@echo off}}输出到文件 \type{d:\foo\foo.bat} 。倘若该文件事先并不存在，系统会自动创建它。
+\noindent 上述命令通过输出重定向符「\type{>}」将原本会输出到命令行窗口的文字「\type{@echo off}」输出到文件 \type{d:\foo\foo.bat} c 。倘若该文件事先并不存在，系统会自动创建它。
 
 现在，用 \type{echo} 命令向文件 \type{d:\foo\foo.bat} 的尾部追加一行文字：
 
@@ -56,7 +58,7 @@ d:\foo> echo @echo off > foo.bat
 > echo echo 不怕命令行 >> foo.bat
 \stopmycmd
 
-\noindent 注意，向一份已存在的文件追加内容，所用的输出重定向符号是\boxquote{\type{>>}}，在这种情况下若使用\boxquote{\type{>}}，则文件原有内容会被追加的内容完全替换。
+\noindent 「\type{>>}」也是输出重定向符号，它能够向一份已存在的文件追加内容。在上述代码中，若使用「\type{>}」，则文件原有内容会被新的内容完全替换。
 
 现在，略有纪念意义的时刻到了，这可能是你此生首个甚至也可能是最后一个批处理文件，执行它吧！
 
@@ -65,7 +67,7 @@ d:\foo> echo @echo off > foo.bat
 不怕命令行
 \stopmycmd
 
-\noindent 注意，上述命令里的\boxquote{\type{.}}表示工作目录本身，故而\boxquote{\type{.\foo.bat}}也是一种相对路径，表示工作目录里的 foo.bat 文件。不过，在 Windows 命令行环境里，这种形式的相对路径可以忽略，亦即上述命令可写为
+\noindent 上述命令里的「\type{.}」表示工作目录本身，故而「\type{.\foo.bat}」也是一种相对路径，表示工作目录里的 foo.bat 文件。不过，在 Windows 命令行环境里，这种形式的相对路径可以忽略，亦即上述命令可写为
 
 \startmycmd
 > foo.bat
@@ -88,7 +90,7 @@ d:\foo> echo @echo off > foo.bat
 > setx /M PATH "%PATH;%d:\foo"
 \stopmycmd
 
-\noindent 务必注意，该命令仅在「以管理员身份」启动的命令行窗口中生效。在 Windows 开始菜单里的搜索栏，输入\boxquote{\type{cmd}}并单击回车键键提交，然后鼠标右键单击搜索结果，在弹出的菜单中选择「以管理员身份运行」。
+\noindent 务必注意，该命令仅在「以管理员身份」启动的命令行窗口中生效。在 Windows 开始菜单里的搜索栏，输入「\type{cmd}」并单击回车键键提交，然后鼠标右键单击搜索结果，在弹出的菜单中选择「以管理员身份运行」。
 
 验证 \type{d:\foo} 是否被成功添加到系统 \type{PATH} 变量，只需在除 \type{d:\foo} 之外的任一目录验证能否执行 foo.bat，例如
 
@@ -102,18 +104,20 @@ d:\foo> echo @echo off > foo.bat
 \useURL[Windows 命令行][https://www.bilibili.com/video/BV1vk4y1h7LE/]
 若不知如何以管理员身份运行命令行窗口，亦可通过图形界面设置 \type{PATH} 变量。我已将上述构建 \type{d:\foo\foo.bat} 以及如何通过图形界面设置系统 \type{PATH} 变量等过程录制为视频，网络链接为\boxquote{\from[Windows 命令行]}，从而避免层峦叠障的 Windows 窗口截图占据本章太多篇幅。
 
-\section{Linux 终端}
+\section{Linux 和 macOS 终端}
 
-在 Linux 系统中，命令行窗口通常称作「终端（Terminal）」。对于 Linux 用户而言，我可以放心假设他们已经知道如何开启终端窗口，甚至我也能假设他们已经很熟悉下文所讲的一切了，这就是 Linux 世界的风采。
+在 Linux 系统中，命令行窗口通常称作终端（Terminal），终端里运行的是某种 Shell 程序，它负责执行用户输入的各种命令。 Linux 用户大都知道如何开启终端，甚至我可以放心假设他们已经很熟悉下文所讲的一切了。下面，我以 Bash Shell 为例，写一个脚本，在终端里输出「不怕命令行」。
 
-现在我们进入 \type{$HOME} 目录，亦即 \type{~} 目录，在其下创建子目录 foo，如下
+首先，在终端里进入 \type{$HOME} 目录，亦即 \type{~} 目录，在其中创建子目录 foo：
 
 \startmycmd
 $ cd ~
 $ mkdir foo
 \stopmycmd
 
-\noindent Linux 的命令提示符通常是 \type{$}。接下来进入 foo 目录，用命令输出重定向，将 \type{echo} 命令的输出结果写入 foo.sh 文件：
+\noindent 注意，Linux 的命令提示符通常是 \type{$}。
+
+进入 foo 目录，用命令输出重定向，将 \type{echo} 命令的输出结果写入 foo.sh 脚本：
 
 \startmycmd
 $ cd foo
@@ -121,28 +125,19 @@ $ echo #!/bin/bash > foo.sh
 $ echo echo 不怕命令行 >> foo.sh
 \stopmycmd
 
-\noindent 使用 \type{chmod} 命令为 foo.sh 增加可执行权限，让它像程序一样运行：
+使用 \type{chmod} 命令为 foo.sh 增加可执行权限，使之能够像程序一样运行：
 
 \startmycmd
 $ chmod +x foo.sh
 \stopmycmd
 
-\noindent 运行 foo.sh：
-
-\startmycmd
-$ ./foo.sh
-不怕命令行
-\stopmycmd
-
-以下命令将 \type{~/foo} 添加至系统环境变量 \type{PATH} 并使之生效，
+以下命令将 \type{~/foo} 添加至系统环境变量 \type{PATH} 并使之在当前终端里生效：
 
 \startmycmd
 $ cd ~
-$ echo 'export PATH=~/foo:$PATH' >> .bashrc
+$ echo /BTEX{\Qt'}/ETEXexport PATH=~/foo:$PATH/BTEX{\Qt'}/ETEX >> .bashrc
 $ source .bashrc
 \stopmycmd
-
-注意，上述代码中的单引号是必须的，它能抑制所包含的 Bash 变量的展开，即抑制 \type{$PATH} 的展开。此外，等号两侧不能出现空格。
 
 在任一目录下执行 foo.sh 以验证 \type{~/foo} 是否已被添加至 \type{PATH} 变量，例如
 
@@ -152,26 +147,20 @@ $ foo.sh
 不怕命令行
 \stopmycmd
 
-若想对 Bash Shell 有更多的了解，可阅读拙作：
-
-\startitemize[packed]
-\item 听说你讨厌 Bash\cite[bash-haters]
-\item 写给高年级小学生的 Bash 指南\cite[bash-tutor]
-\item Bash 之丑陋\cite[ugly-bash]。
-\stopitemize
-  
-\section{macOS 终端}
-
-macOS 和 Linux 皆为 Unix-like（类 Unix）系统，故而二者终端环境的用法近乎相同，如果你知道如何开启 macOS 的终端窗口，则上文所述的 Linux 命令的用法也适于 macOS。不过，macOS 从 Catalina 版开始，默认的 Shell 不再是 Bash，而是 zsh，故而在设置 \type{PATH} 变量时，命令需变更为
+由于 macOS 和 Linux 皆为 Unix-like（类 Unix）系统，故而二者终端环境的用法近乎相同。如果你知道如何开启 macOS 的终端窗口，则上文所述的 Linux 命令的用法也适于 macOS。不过，macOS 从 Catalina 版开始，默认的 Shell 不再是 Bash，而是 zsh，故而在设置 \type{PATH} 变量时，命令需变更为
 
 \language[en]
 \startmycmd
 $ cd ~
-$ echo 'export PATH=~/foo:$PATH' >> .zshrc
+$ echo /BTEX{\Qt'}/ETEXexport PATH=~/foo:$PATH/BTEX{\Qt'}/ETEX >> .zshrc
 $ source .zshrc
 \stopmycmd
 
-\section[installation]{为 Windows 安装 \CONTEXT}
+类 Unix 系统里的 Shell 虽然有很多种，但它们的用法颇为相似，而且以 Bash 最为常用。若想对 Bash Shell 有更多的了解，可以阅读我写的一些文章\cite[bash-haters,bash-tutor,ugly-bash]。
+
+\section[installation]{安装 \CONTEXT}
+
+一旦掌握了你所用的操作系统中的命令行基本用法，安装 \CONTEXT\ 就简单多了，下文将分别介绍在 Windows、Linux 以及 macOS 系统入如何安装它。
 
 \useURL[installation][https://wiki.contextgarden.net/Introduction/Installation]
 \CONTEXT\ 的最新版本是 \CONTEXT\ LMTX，面向 Windows 系统的安装包可从 \boxquote{\from[installation]} 获取，例如 Intel 或 AMD 的 64 位 CPU 架构的 Windows 机器，选择下载 X86 64bits 版本即可。下文以该版本的安装包为例，讲述 \CONTEXT\ LMTX 的安装过程。
@@ -218,8 +207,6 @@ $ source .zshrc
 
 如果你没有 PDF 阅读器，或者每次重新编译 \type{.tex} 文件时，你的 PDF 阅读器没有自动更新显示 PDF 文件的内容，我建议你用 Sumatra PDF 阅读器，其下载页面位于\boxquote{\from[sumatra]}。
 
-\section{为 Linux 安装 \CONTEXT}
-
 假设你的 Linux 是 Inter 或 AMD 架构的 64 位系统，并且你希望将 \CONTEXT\ LMTX 安装在 \type{~/opt} 目录，亦即 \type{~/opt}，则整个安装过程可表述为以下 Bash 命令：
 
 \startmycmd
@@ -228,12 +215,10 @@ $ cd ~/opt/context
 $ wget https://lmtx.pragma-ade.com/install-lmtx/context-linux-64.zip
 $ unzip context-linux-64.zip
 $ sh install.sh
-$ echo 'export PATH=~/opt/context/tex/texmf-linux-64/bin:$PATH' >> ~/.bashrc
+$ echo /BTEX{\Qt'}/ETEXexport PATH=~/opt/context/tex/texmf-linux-64/bin:$PATH/BTEX{\Qt'}/ETEX >> ~/.bashrc
 $ mtxrun --generate
 $ rm context-linux-64.zip
 \stopmycmd
-
-\section{为 macOS 安装 \CONTEXT}
 
 在 macOS 系统中安装 \CONTEXT\ LMTX 所用命令与上述 Linux 系统安装命令近乎相同，只是 macOS 环境里默认可能没有 \type{wget} 命令，不过你可以用 \type{curl} 命令替代它。以下命令可获得面向 macOS 64 位系统的 \CONTEXT\ LMTX 安装包：
 
@@ -248,7 +233,7 @@ $ sudo xattr -r -d com.apple.quarantine ~/opt/context/bin/mtxrun
 $ sudo xattr -r -d com.apple.quarantine ~/opt/context/tex/texmf-osx-64/bin/*
 \stopmycmd
 
-\section{接力棒}
+\section{接力式安装}
 
 \useURL[installation][https://wiki.contextgarden.net/Introduction/Installation]
 上述安装方法源于\boxquote{\switchtobodyfont[9pt]\from[installation]}，其中面向 Windows 和 Linux 的安装过程，我皆已实践，除文件下载速度太慢以及安装过程偶有中断之外，没有其他问题。面向 macOS 系统的安装过程，我没有条件予以验证，只能纸上谈兵。
@@ -268,8 +253,4 @@ $ sudo xattr -r -d com.apple.quarantine ~/opt/context/tex/texmf-osx-64/bin/*
 
 \subject{结语}
 
-本章内容，其意不止在于讲述如何在命令行环境里安装 \CONTEXT\ 包，它更希望你能熟悉甚至习惯以命令行的方式工作。图形界面程序虽然让你觉得更友好，但永远也不要觉得命令行很原始落后。实际上在大多数生产场景里，命令行环境是火焰喷射器，而图形界面程序像是一根又一根精美的火柴，上面还能雕梁画栋。
-
-即使 Windows 的命令行批处理文件在功能上远弱于 Linux 和 macOS 里的 Shell 脚本，当你在对其有所掌握时，依然能从中受益良多，因为这类脚本通常可以将许多繁琐的工作变为自动化的过程。
-
-你对命令行环境的重视，实质上也能体现对 \TeX\ 开发者们的的尊重。大多数 \TeX\ 开发者，是在自己的爱好驱动下工作的，而非产品经理的爱好。若你作为用户，熟悉命令行环境的用法，便意味着这些开发者可以从编写图形界面的繁重工作中解放出来，将生命更多地燃烧在 \TeX\ 功能的开发上。实际上于我而言，也能节省很多精力，我并不想用大量的截图和文字记述任何一个软件的安装过程。
+也许你已经学会了如何在命令行环境里安装 \CONTEXT，但我更希望你能熟悉甚至习惯以命令行的方式工作。著名的开源运动先驱者 Eric Raymond 在其《Unix 编程艺术》一书的附录部分写了一些禅宗式的寓言，其中有一则与图形界面程序有关。在这则寓言里，一个程序员对 Unix 领域的一个智者说，现代的，设计得当的操作系统可以在图形用户界面里做任何事情。智者没说话，只是用手指了一下月亮，旁边有条狗冲着智者的手狂吠。程序员不解其意。智者陆续又指了佛像、窗户、程序员的脑袋和路边的石头，程序员依然不解。智者只好轻拍程序员鼻子两下，将其扔到旁边的垃圾桶中。当程序员试图从垃圾桶中爬出来时，狗跑过来，在他身上撒尿。此刻程序员终于悟出，图形界面的问题在于难以用语言与他人交流软件的用法。

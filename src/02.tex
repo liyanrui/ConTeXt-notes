@@ -1,14 +1,14 @@
 \chapter{新手村}
 
-不要急于探索如何使用 \CONTEXT\ 排版你的论文或专著，虽然它极为擅长这类任务，但是我还是希望你在新手村里待两天，学几个简单的招式，打一些立竿见影的怪物，培养一些成就感或信心。至于装备，只需要一个文本编辑器和一个 PDF 阅读器，前者用于编写 \CONTEXT\ 源文件，后者用于查看 \type{context} 命令的编译结果。
+不要急于探索如何使用 \CONTEXT\ 排版你的论文或专著，尽管它极为擅长这类任务，但是我还是希望你在新手村里待两天，学几个简单的招式，打一些立竿见影的怪物，培养一些信心。在这个游戏里，你需要的装备，只是一个文本编辑器和一个 PDF 阅读器，前者用于编写 \CONTEXT\ 源文件，后者用于查看 \type{context} 命令的编译结果。
 
-你的 PDF 阅读器最好能自动响应 PDF 文件的变化，亦即当所打开的 PDF 文件发生变化时，PDF 阅读器能自动刷新页面，例如 Windows 里的 Sumatra PDF，Linux 里的 Evince，macOS 里的 Skim 皆具有该功能。
+你的 PDF 阅读器最好能自动响应 PDF 文件的变化，亦即 PDF 文件发生变化时，PDF 阅读器能自动承诺更新打开它并将页面定位到上一次的观看位置。Windows 里的 Sumatra PDF、Linux 里的 Evince、macOS 里的 Skim 等 PDF 阅读器皆有此功能。
 
-\section{单页环境}
+\section{卡片}
 
-在第 \in[Installation] 章中，为了验证 \CONTEXT\ LMTX 是否已成功安装，我使用三条 \type{echo} 命令构造了一份简单的 \CONTEXT\ 源文件 foo.tex。在生产环境，你需要一个文本编辑器，哪怕是功能最为简单的文本编辑器，也要比 \type{echo} 命令更适合做此事。
+在第 \in[Installation] 章中，为了验证 \CONTEXT\ LMTX 是否已成功安装，我使用三条 \type{echo} 命令构造了一份简单的 \CONTEXT\ 源文件 foo.tex。事实上，你需要一个文本编辑器，哪怕是功能最为简单的文本编辑器，也要比 \type{echo} 命令更适合做此事。
 
-现在，用你的文本编辑器重写一次 foo.tex，其内容如下：
+用你的文本编辑器重写一次 foo.tex，其内容如下：
 
 \starttyping[option=TEX]
 \startTEXpage[frame=on]
@@ -28,11 +28,11 @@ $ context foo.tex
 $ context foo
 \stoptyping
 
-\noindent 从本章开始，在表达命令行语句时，将一直使用 Linux 风格的命令提示符 \type{$}。此外，我们将 \type{context} 命令称为 {\bf\CONTEXT\ 编译器}，有时我也会将后者简称为 \CONTEXT。
+\noindent 从本章开始，在表达命令行语句时，将一直使用 Linux 风格的命令提示符 \type{$}。此外，将 \type{context} 命令称为 {\bf\CONTEXT\ 编译器}，有时我也会将后者简称为 \CONTEXT。
 
-在 \CONTEXT\ 源文件里，前缀为反斜线 \type{\} 的英文单词，皆为排版命令。的确如此。排版命令\boxquote{\type{\startTEXpage...\stopTEXpage}} 称为 \type{TEXpage} 环境\index[TEXpage]{\type{TEXpage} 环境}。这对排版命令所包含的内容，例如\boxquote{\type{Hello \CONTEXT!}}会被安排在一个恰好能包含它的矩形排版空间。
+在 \CONTEXT\ 源文件里，前缀为反斜线 \type{\} 的西文单词，皆为排版命令。形如 \type{\startxxx...\stopxxx} 这样的排版命令称为 \type{xxx} 环境。\type{TEXpage} 环境\index[TEXpage]{\type{TEXpage} 环境}就是我们的新手村，用于演练今后所学的一些基本的 \CONTEXT\ 排版命令，该环境的内容会被 \CONTEXT\ 编译器安排在尺寸紧致的矩形排版空间里，像一张卡片。
 
-\type{TEXpage} 环境的 \type{frame} 参数用于控制边框是否开启，若该参数不存在，或其值为 \type{off}，表示无边框。\type{offset} 参数可用于对排版空间进行扩大或缩小，例如将排版空间从中心向四周被扩大 2.5 mm，结果见例 \in[starting-area]。
+\type{TEXpage} 环境的 \type{frame} 参数用于控制边框是否开启，若该参数不存在或其值为 \type{off}，表示无边框。\type{offset} 参数可用于扩大或缩小对排版空间，例 \in[starting-area] 将排版空间从中心向四周扩大了 2.5 mm；若尺寸为负，则产生缩小效果。
 
 \startexample
 \startTEXpage[frame=on,offset=2.5mm]
@@ -41,11 +41,9 @@ Hello \CONTEXT!
 \stopexample
 \example[option=TEX][starting-area]{新手村}{\externalfigure[02/starting-area.pdf]}
 
-在下文里，所有新学的 \CONTEXT\ 排版命令皆以 \type{TEXpage} 为舞台，原因是因 \type{TEXpage} 足够简单，方便观察大多数基本排版命令的效用，无需关心天头、地脚、订口、翻口、版心、页码等排版元素的设定。
-
 \section{伪文}
 
-\CONTEXT\ 自带一个 visual 模块，该模块提供了命令 \tex{fakewords}\index[fakewords]{\tex{fakewords}}，可生成一些黑色的长短随机的矩形块。若将这些矩形块视为文字，在新手村里，我们举止会更为随心所欲一些，例如下例排版了两行文字，每一行由 3～5 个单词构成。
+\CONTEXT\ 自带一个名为 visual 的模块，该模块提供了命令 \tex{fakewords}\index[fakewords]{\tex{fakewords}}，可生成一些黑色的长短随机的矩形块。若将这些矩形块视为文字，在新手村里，我们举止会更为随心所欲一些，例如下例排版了两行文字，每一行由 3～5 个单词构成。
 
 \startexample
 \usemodule[visual] % 载入 visual 模块
@@ -99,7 +97,7 @@ This is the first line.\\ This is the second line.
 \noindent 上例也能写成以下形式：
 
 \startTEX
-\fakewords{3}{5}\par \fakewords{3}{5}
+\fakewords{3}{5}\par\fakewords{3}{5}
 \stopTEX
 
 通常很少使用分段符对文本进行分段，因为在 \CONTEXT\ 源文档中，只需在两段文字之间空一行便可实现分段。例 \in[pars-2] 使用空行进行分段，并将页面宽度设定为 6cm，从而在促狭的空间里展示了多行伪文字构成的段落。
@@ -107,7 +105,8 @@ This is the first line.\\ This is the second line.
 \startexample
 \usemodule[visual]
 \startTEXpage[frame=on,offset=2.5mm,width=6cm]
-\fakewords{9}{15}\par
+\fakewords{9}{15}
+  
 \fakewords{9}{15}
 \stopTEXpage
 \stopexample
@@ -132,14 +131,15 @@ This is the first line.\\ This is the second line.
 在设定段落首行缩进后，若不希望某个段落的首行被缩进，可在段落开头放置命令 \type{\noindent}\index[indenting]{indenting + \tex{noindent}}，参考例 \in[noindent]。
 
 \startexample
-\fakewords{9}{15}\par
+\fakewords{9}{15}
+  
 \noindent\fakewords{9}{15}
 \stopexample
 \example[option=TEX][noindent]{消除第二段的首行缩进}{\externalfigure[02/pars-4.pdf][width=.325\textwidth]}
 
 \section[interlinespace]{行距}
 
-\CONTEXT\ 默认的段落内各行文字的间距是 2.8ex，约等于 \CONTEXT\ 默认的正文字体大小 12pt。可使用 \type{\setupinterlinespace}\index[setupinterlinespace]{\tex{setupinterlinespace}} 命令对行间距进行调整。使用该命令，需要确定当前正文字体所用字号。例 \in[pars-5] 按默认的正文字体字号即 12pt 将行距设为该字号的 1.75 倍。
+\CONTEXT\ 默认的段落内各行文字的间距是 2.8ex，约等于 \CONTEXT\ 默认的正文字体大小 12pt。可使用 \type{\setupinterlinespace}\index[setupinterlinespace]{\tex{setupinterlinespace}} 命令对行间距进行调整。使用该命令，需要确定当前正文字体所用字号。例 \in[pars-5] 按 \CONTEXT\ 默认的正文字体字号即 12pt，将行距设为该字号的 1.75 倍。
 
 \startexample
 % 1.75 * 12pt = 21pt
@@ -149,7 +149,9 @@ This is the first line.\\ This is the second line.
 \stopexample
 \example[option=TEX][pars-5]{多行文本构成的段落}{\externalfigure[02/pars-5.pdf]}
 
-\noindent 上例设定的实际上是行高，只是在 \CONTEXT\ 中，行间距是相邻两行文字的基线距离，恰好等于行高。由于 \CONTEXT\ 提供了 \tex{bodyfontsize} 命令\index[bodyfontsize]{\tex{bodyfontsize}}，通过它能获得当前正文字体的字号，故而上例亦可写为让 \CONTEXT\ 编译器自动计算行高的形式：
+例 \in[pars-5] 设定的实际上是行高。在 \CONTEXT\ 中，行高是相邻两行文字的基线距离，可将其视为行间距。可能你并不清楚基线的概念。还记得小时候学英文时用的四线三格本子吗？那 4 条线从下往上数的第 2 条线便是基线\index{baseline, 基线}。
+
+\CONTEXT\ 提供了 \tex{bodyfontsize} 命令\index[bodyfontsize]{\tex{bodyfontsize}}，通过它能获得当前正文字体的字号，于是例 \in[pars-5] 可改写为
 
 \starttyping[option=TEX]
 \setupinterlinespace[line=1.75\bodyfontsize]
@@ -157,11 +159,11 @@ This is the first line.\\ This is the second line.
 \fakewords{9}{15}
 \stoptyping
 
-\CONTEXT\ 是 \TEX\ 的上层建筑，上例中用一个数字直接乘以一个能获得某种尺寸的命令，这是 \TEX\ 的语法。今后，我们会时常用这种形式构造一些尺寸。如果能够以字号确定行高，就无需单独为行高设定一个尺寸了。我认为排版作为一门艺术，其根本在于，是为不同尺度建立联系，用尽量少的尺度控制尽量的尺度，类似于物理学的杠杆原理。我甚至觉得，任何一门艺术皆应如此。
+\CONTEXT\ 是 \TEX\ 的上层建筑，上例中用一个数字直接乘以一个能获得某种尺寸的命令，这是 \TEX\ 的语法。今后，我们会时常用这种形式构造一些尺寸。如果能够以字号确定行高，就无需单独为行高设定一个尺寸了。我认为排版作为一门艺术，其根本在于，是为不同尺度建立联系，用尽量少的尺度控制尽量的尺度，我甚至觉得，任何一门艺术皆应如此。
 
 \section{对齐}
 
-将一行文字居左、居中或居右放置，可分别使用 \type{\leftaligned}，\type{\midaligned} 和\type{\rightaligned} 进行排版\index{alignment，单行对齐\crlf\tex{leftaligned}\crlf\tex{midaligned}\crlf\tex{rightaligned}}，请参考例 \in[aligned-1]。
+将一行文字居左、居中或居右放置，可分别用 \type{\leftaligned}，\type{\midaligned} 和\type{\rightaligned} 予以实现\index{alignment，单行对齐\crlf\tex{leftaligned}\crlf\tex{midaligned}\crlf\tex{rightaligned}}，请参考例 \in[aligned-1]。
 
 \startexample
 \leftaligned{\fakewords{1}{2}}
@@ -188,7 +190,7 @@ This is the first line.\\ This is the second line.
 \stopexample
 \example[option=TEX][letter]{一封谁也看不懂的信}{\externalfigure[02/letter.pdf][width=.35\textwidth]}
 
-如果是一段文字需要居左、居中或居右排版，可使用 \type{alignment} 环境\index[alignment]{\type{alignment} 环境}，通过该环境的参数控制对齐形式。例 \in[aligned-2] 展示了段落的三种对齐形式。
+若一段文字需要居左、居中或居右排版，可使用 \type{alignment} 环境\index[alignment]{\type{alignment} 环境}，通过该环境的参数控制对齐形式。例 \in[aligned-2] 展示了段落的三种对齐形式。
 
 \startexample
 \startalignment[flushleft] % 左对齐
@@ -205,4 +207,4 @@ This is the first line.\\ This is the second line.
 
 \subject{结语}
 
-排版是一门艺术，\CONTEXT\ 排版自然也是如此。接触艺术最好的办法是，附庸风雅，多观察一些例子，掌握基本排版命令的用法，筑好根基。理解了这一点，你就可以走出新手村了。接下来你的第一个重要任务是在漫无边际的 \CONTEXT\ 世界里寻找汉字。
+排版是一门艺术，\CONTEXT\ 排版自然也是如此。接触艺术最好的办法是，附庸风雅，多观察一些例子，掌握基本排版命令的用法，筑好根基。理解了这一点，你就可以走出新手村了。之后，你的第一个重要任务是，在 \CONTEXT\ 茫茫世界里寻找汉字。

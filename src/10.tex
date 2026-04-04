@@ -4,7 +4,7 @@
 
 \section{\TEX\ 盒子}
 
-前面已经多次暗示和明示，\TEX\ 系统是 \CONTEXT\ 的底层，二者的关系犹如引擎（发动机）和汽车的关系。对 \TEX\ 引擎丝毫不懂，并不影响你学习和使用 \CONTEXT\ 排版一份精致的文档，但是懂一些引擎层面工作原理，未必会有用处，但是你现在也并不能确定将来会不会成为一名 \TEX\ 黑客，如同你从前也从未想过有一天会学习 \CONTEXT。
+之前的章节里，已多次暗示和明示，\TEX\ 系统是 \CONTEXT\ 的底层，二者的关系犹如引擎（发动机）和汽车的关系。对 \TEX\ 引擎丝毫不懂，并不影响你学习和使用 \CONTEXT\ 排版一份精致的文档。不过，懂得一些引擎层面工作原理，虽然貌似未必会有用处，但是实际上你并不能确定将来自己会不会成为一名 \TEX\ 黑客，如同你从前也从未想过有一天会学习 \CONTEXT。
 
 在 \TEX\ 系统中，盒子是很重要的事物。例如，在 \CONTEXT\ 的排版的每一个段落，是一个竖向盒子，即 \type{\vbox}，该盒子之内又有一些横向盒子，即 \type{\hbox}，它们是段落的每一行。我们可以直接用这两种盒子构造一个不甚规整的段落：
 
@@ -65,14 +65,14 @@
 
 \cmdindex{inframed}
 \starttyping[option=TEX]
-\type{\inframed{\type{\inframed{...}}}}
+\inframed{\type{\inframed{...}}}
 \stoptyping
 
 \noindent 结果为 \inframed{\type{\inframed{...}}}。倘若使用 \type{\framed}，例如
 
 \cmdindex{framed}
 \starttyping[option=TEX]
-\type{\framed{\type{\framed{...}}}}
+\framed{\type{\framed{...}}}
 \stoptyping
 
 \noindent 结果为 \framed{\type{\framed{...}}}。可以发现，\type{\inframed} 更适合在正文中使用，因为它能与文字基线对齐。事实上，\type{\inframed} 与 \type{\framed[location=low]} 等效，故而前者是后者的特例。例如
@@ -138,7 +138,7 @@
   \framed[align={flushleft,lohi}]{A}
 }
 
-\noindent 注意，上述代码中的 \tex{setupframed}\index[setupframed]{\tex{setupframed}} 命令可以设定 \tex{framed} 盒子的样式，所作设定会影响到该命令之后的所有 \type{\framed} 盒子，但是，如果是在编组内设定盒子样式，所作设定不会影响编组之外的盒子。上述嗲吗中的 \tex{line} 命令之后跟随的便是编组。
+\noindent 注意，上述代码中的 \tex{setupframed}\index[setupframed]{\tex{setupframed}} 命令可以设定 \tex{framed} 盒子的样式，所作设定会影响到该命令之后的所有 \type{\framed} 盒子，但是，如果是在编组内设定盒子样式，所作设定不会影响编组之外的盒子。上述代码中的 \tex{line} 命令之后跟随的便是编组。
 
 \section[framebg]{背景}
 
@@ -168,7 +168,7 @@
 \midaligned{\inframed[background=foo,frame=off]{你好啊！}}
 \blank
 
-也能在 overlay 里插入 \METAPOST\ 代码绘制的矢量图形，将其作为盒子的背景，见下例。
+\noindent 也能在 overlay 里插入 \METAPOST\ 代码绘制的矢量图形，将其作为盒子的背景，例如
 
 \starttyping[option=TEX]
 \startuseMPgraphic{foo}
@@ -234,7 +234,7 @@ draw p withpen pencircle scaled .4pt withcolor darkred;
 
 \section{段落盒子}
 
-上文的的示例，盒子里的内容都非常简单。事实上，\tex{framed} 能够容纳段落，只是默认情况下，它不具备段落断行功能，需要将其参数 \type{align} 的值设为 \type{normal} 方能断行，见下例。
+上文的示例，盒子里的内容都非常简单。事实上，\tex{framed} 能够容纳段落，只是默认情况下，它不具备段落断行功能，需要将其参数 \type{align} 的值设为 \type{normal} 方能断行，见下例。
 
 \startexample
 \framed[width=6cm, align=normal]{%

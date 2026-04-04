@@ -1,4 +1,4 @@
-\chapter{杂技}
+\chapter[misc]{杂技}
 
 前面章节所述内容足以应对风格不甚讲究的文档排版任务，例如一些个人文档，如日记、随笔、读书笔记之类。从学习的角度而言，我也很建议先用 \CONTEXT\ 完成此类任务，从而逐渐熟悉其基本用法。但现实中总有一些非常规的要求。一些特定的问题，其解决方法难以独立构成章节，故而我将其汇总为一章，并且自由发挥，想到什么，便写什么。可将这部分内容视为 \CONTEXT\ 在微观视角下的形态。
 
@@ -10,7 +10,7 @@
 \setuphead[title][page=no]
 \stopTEX
 
-在排版手册或书籍时，若文档分成多章，则章的序号的形式通常是\boxquote{第 x 章}，若构造该形式的序号，若主语言界面\footnote{\CONTEXT\ 为一些关键词提供了多语言环境，例如英文的 Figure、Table、Chapter 等关键词，在中文界面下分别是图、表、章等。}为英文，则可以像下面这样设定章序号的前缀和后缀。
+在排版手册或书籍时，若文档分成多章，则章的序号的形式通常是「第 x 章」，若构造该形式的序号，若主语言界面\footnote{\CONTEXT\ 为一些关键词提供了多语言环境，例如英文的 Figure、Table、Chapter 等关键词，在中文界面下分别是图、表、章等。}为英文，则可以像下面这样设定章序号的前缀和后缀。
 
 \startTEX
 \setuplabeltext
@@ -27,11 +27,11 @@
   [chapter={{第\,},{\,章}}]
 \stopTEX
 
-\noindent 上述代码中的\boxquote{\tex{,}}，之前讲过，它能够制造一个较小的间距，比它略宽一些的是\boxquote{\tex{;}}，再宽一些便是空格字符。
+\noindent 上述代码中的「\tex{,}」，之前讲过，它能够制造一个较小的间距，比它略宽一些的是「\tex{;}」，再宽一些便是空格字符。
 
 如果你是用 zhfonts 模块设定字体，该模块里已经为你设置好了章序号的形式，而且这也是 zhfonts 唯一做的额外的事。
 
-比章（chapter）更高级别的标题是部分（part），如果你想顺便设定\boxquote{第 x 部分}，只需
+比章（chapter）更高级别的标题是部分（part），如果你想顺便设定「第 x 部分」，只需
 
 \startTEX
 \setuplabeltext
@@ -86,7 +86,7 @@
 
 \section{奇怪的间距}
 
-如果你只是单纯的插入一张图片，并让它独占一段且居中，如果你不想用 \tex{placefigure} 命令，可以像下面这样做，但是所得结果可能是你意想不到的，插图顶部距离上一段太近，而底部又有一些间距。
+若只是单纯插入一张图片，令其独占一段且居中，而你不想用 \tex{placefigure} 命令，可以像下面这样做，但是所得结果可能是你意想不到的，插图顶部距离上一段太近，而底部又有一些间距。
 
 \startexample
 \startTEXpage[width=6cm]
@@ -192,7 +192,7 @@
 \stoptabulate
 \stopTEX
 
-实际上在 \in[placeformula] 节，已经看到了 \tex{placeformula} 省略花括号的写法：
+\noindent 在 \in[placeformula] 节，你已见识过了 \tex{placeformula} 省略花括号的写法：
 
 \startTEX
 \placeformula[formula-foo]
@@ -225,7 +225,7 @@
 
 \section{非常规序号}
 
-如果一份文档是由多章构成，插图和表格，这些浮动对象的序号默认是每章都会重置，即从 1 开始，且以该章的序号为前缀，例如\boxquote{图 2.3}，表示第 2 章的第 3 幅插图。有些文档格式要求的是插图和表格的序号贯穿全文，亦即序号从 1 开始，一直递增，直至文档结束，要实现这种效果，可以用以下设定：
+如果一份文档是由多章构成，插图和表格，这些浮动对象的序号默认是每章都会重置，即从 1 开始，且以该章的序号为前缀，例如「图 2.3」，表示第 2 章的第 3 幅插图。有些文档格式要求的是插图和表格的序号贯穿全文，亦即序号从 1 开始，一直递增，直至文档结束，要实现这种效果，可以用以下设定：
 
 \startTEX
 \setupcaption[figure][way=bytext,prefix=no]
@@ -238,15 +238,15 @@
 \setupcaptions[way=bytext,prefix=no]
 \stopTEX
 
-\noindent \CONTEXT\ 默认的浮动对象序号的样式是\boxquote{\type{way=bychapter, prefix=yes}}。
+\noindent \CONTEXT\ 默认的浮动对象序号的样式是「\type{way=bychapter, prefix=yes}」。
 
-插图、表格以及公式的序号，有些文档格式认为以短横线作为间隔符会更好看一些，例如\boxquote{\type{2-3}}。Wolfgang Schuster 给出的解决方案是
+插图、表格以及公式的序号，有些文档格式认为以短横线作为间隔符会更好看一些，例如「\type{2-3}」。\CONTEXT\ 超人 Wolfgang Schuster 给出的解决方案是
 
 \startTEX
 \setupcaptions[prefixsegments=chapter,prefixconnector=-]
 \stopTEX
 
-\noindent 上述设定，可将图片、表格的序号转变为 x-y 形式。至于数学公式，亦可作类似设定：
+\noindent 上述设定，可将图片、表格的序号转变为 x-y 形式。至于数学公式，亦可作类似设定，例如：
 
 \startTEX
 \setupformulas[prefixsegments=chapter,prefixconnector=-]
@@ -364,7 +364,7 @@ a^2 + b^2 = c^2
 
 \section{Lua 宏}
 
-如果你也觉得 \TEX\ 宏编程是难以掌握的怪物，且觉得能用 Lua 语言为 \TEX\ 增加一些功能要更为容易，在 \in[lua] 节里已作基本介绍。\CONTEXT\ 为此类任务提供了一个更为直观的编程接口。下例用 Lua 代码实现了一个可将数字转化为带圈形式的宏。
+如果你也觉得 \TEX\ 宏编程是难以掌握的怪物，且觉得能用 Lua 语言为 \TEX\ 增加一些功能要更为容易——在 \in[lua] 节里已作基本介绍，那么不妨了解一下 \CONTEXT\ 为此类需求提供的更为直观的编程接口，下例利用了该接口重新实现了一个可将数字转化为带圈形式的宏。
 
 \startexample
 \startluacode
@@ -414,5 +414,4 @@ interfaces.implement {
 
 \subject{结语}
 
-是结束，但也是开始。
-
+至此，本文档所介绍的绝大多数 \CONTEXT\ 排版命令，应付常规的技术文档排版任务，绰绰有余。然而，ConTeXt 还有许多更高深的命令，其用法对我而言是超纲了……不过，无论 \CONTEXT\ 提供了多少排版命令，也无法覆盖现实中全部的排版需求，前者是有限的，而后者总是会发生变化。庄子说，指穷于为薪，火传也，不知其尽也。若将排版命令视为薪柴，那么 \CONTEXT\ 之火如何传续呢？答案是，编程。

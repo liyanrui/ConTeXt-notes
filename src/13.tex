@@ -1,4 +1,4 @@
-\chapter{写一本书？}
+\chapter{写书}
 
 除了之前章节介绍的所有排版元素，一本书还要有目录、引用、脚注、索引、书签等元素。本章对这些元素给出一些示例性质的介绍，以便你能快速将其应用到你的文档里。详细介绍是不太可能的，原因是，即使我愿意为每个元素写出一章的内容详尽介绍，你也未必会看的，一方面是这些元素本身就枯燥无味，另一方面在一般性的场景中，你也无需了解关于它们的太多细节。不过，对每个元素给出简要介绍后，我会附上更为详尽的介绍以备你日后参考之用。
 
@@ -97,13 +97,13 @@
 \blank
 \noindent 目录列表样式参数 \type{alternative} 有 \type{a}，\type{b}，\type{c}，\type{d} 四个值可选，默认是 \type{b}。本文档目录使用的是 \type{d}。
 
-\type{\setupcombinedlist} 亦可用于指定可出现在目录列表中的标题级别，例如
+\type{\setupcombinedlist} 亦可用于设定目录列表中的标题级别，例如若让章与节出现在目录中，只需
 
 \starttyping[option=TEX]
 \setupcombinedlist[content][list={chapter,section}]
 \stoptyping
 
-注意，当 \type{\placecontent} 出现在 \type{\chapter} 之后时，生成的目录仅针对该章之内的各节。若是写书，需将 \type{\placecontent} 放在 \type{frontmatter} 环境，例如：
+注意，当 \type{\placecontent} 出现在 \type{\chapter} 之后时，生成的目录仅针对该章之内的各节。若是写书，需将 \type{\placecontent} 放在 \type{frontmatter} 环境，例如
 
 \starttyping[option=TEX]
 \startfrontmatter
@@ -112,9 +112,9 @@
 \stopfrontmatter
 \stoptyping
 
-\noindent 可对全篇被列入目录列表的章节生成目录。
+\noindent 可将全篇章节列入目录。
 
-使用 \type{\setuplist} 可对出现在目录列表中相应级别的标题样式分别予以设定，例如
+\type{\setuplist} 可用于设定目录列表中的标题样式，例如
 
 \starttyping[option=TEX]
 \setuplist[chapter]
@@ -124,13 +124,15 @@
           [alternative=d,style=normal,pagestyle=smallbold]
 \stoptyping
 
-\CONTEXT\ 默认不允许无编号标题出现在目录中，但是倘若对无编号标题，例如 \type{\title} 作以下设定
+\noindent 上述代码设定的目录样式，与本文档的目录样式已经非常接近了。
+
+无编号标题，例如 \type{\title}、\type{\subject} 等标题默认不会出现在目录中，不过，\CONTEXT\ 也为它们留出了后门。以 \type{\title} 为例，先作以下设定
 
 \starttyping[option=TEX]
 \setuphead[title][incrementnumber=list]
 \stoptyping
 
-\noindent 之后便可将 \type{\title} 添加到目录列表，即
+\noindent 然后便可将其添加到目录列表，如下
 
 \starttyping[option=TEX]
 \setupcombinedlist[content][list={title,chapter,section}]
@@ -145,13 +147,13 @@
 \stopfrontmatter
 \stoptyping
 
-\noindent 由于此时 \type{\title} 已被列入目录列表，因此 \type{\title{目录}} 本身会出现在目录列表中。为避免这一问题，需要为目录页单独定义一个标题。\CONTEXT\ 支持我们定义自己的标题，例如
+\noindent 由于此时 \type{\title} 已被列入目录列表，因此 \type{\title{目录}} 本身会出现在目录列表中。为避免这一问题，需要为目录页定义专用的标题命令。\CONTEXT\ 支持自定义标题命令，例如
 
 \starttyping[option=TEX]
 \definehead[TOC][title]
 \stoptyping
 
-\noindent 定义了一个新的标题 \type{\TOC}，它与 \type{\title} 的样式相同。在 \type{frontmatter} 环境中使用 \type{\TOC}：
+\noindent 定义了一个新的标题 \type{\TOC}，它会继承 \type{\title} 的样式。在 \type{frontmatter} 环境中使用 \type{\TOC}，如下
 
 \starttyping[option=TEX]
 \startfrontmatter
@@ -160,9 +162,7 @@
 \stopfrontmatter
 \stoptyping
 
-\noindent 由于我们并未将 \type{\TOC} 列入目录列表，因此上述问题得以解决。
-
-文档\cite[toc]对目录给出了更为全面的介绍，可作进一步的参考。
+\noindent 便可让目录页的标题从目录列表中得以逃逸。文档\cite[toc]对目录排版给出了更为细致的介绍，可作进一步参考。
 
 \section[reference]{引用}
 
@@ -206,21 +206,21 @@
 若需要对书籍内容中一些文字进行注解，可采用脚注形式。\tex{footnote} 命令可在待注解的文字之后插入脚注，并自动生成序号。例如
 
 \startexample
-我以脚注的形式告诉你一个关于 \CONTEXT\ 脚注的秘密\footnote{\CONTEXT\ 的脚注默认不支持中文断行，详见 \CONTEXT\ 邮件列表上的一次讨论\cite[chinese-footnotes]。}。
+我以脚注的形式告诉你一个关于 \CONTEXT\ 脚注的秘密\footnote{\CONTEXT\ 的脚注默认不支持中文断行。}。
 \stopexample
 \typeexample[option=TEX]
 \startframedtext[width=broad]
 \getexample
 \stopframedtext
 
-解决脚注中较长的中文无法断行这一问题，一种方法是在脚注中使用 \type{\setscript[hanzi]} 强行开启中文断行功能，为了简便，可以专门定义一个宏替代 \type{\footnote}：
+若让脚注里的中文内容能够断行，只需在脚注中使用 \type{\setscript[hanzi]} 强行开启中文断行功能。为了简便，可定义一个宏替代 \type{\footnote}：
 
 % https://github.com/liyanrui/ConTeXt-notes/issues/6
 \starttyping[option=TEX]
 \def\zhfootnote#1{\footnote{\setscript[hanzi] #1}}
 \stoptyping
 
-\noindent 也可以用 \CONTEXT\ 超人 Wolfgang Schuster 提供的方法，使用 \type{setups} 机制\cite[setups]，为脚注构造专用的设定，见下例。
+\noindent 另一种方法是 \CONTEXT\ 超人 Wolfgang Schuster 提供的，用 \type{setups} 机制\cite[setups]为脚注构造专用的设定，例如：
 
 \starttyping[option=TEX]
 \startsetups footnote:hanzi
@@ -249,7 +249,7 @@
 \getexample
 \stopframedtext
 
-\noindent \tex{placeindex} 产生的结果见本文档附录部分的「索引」。
+\noindent \tex{placeindex} 产生的结果见本文档附录的索引部分。
 
 \section{书签}
 
@@ -265,7 +265,7 @@
 \placebookmarks[title,chapter,section][title,chapter]
 \stoptyping
 
-\noindent 其中，\type{\setupinteraction} 用于开启 PDF 的用户交互特性。\type{\setupinteractionscreen} 用于设定 PDF 文件被阅读器打开后，以何种形式如何呈现在屏幕上，若其 \type{option} 值为 \type{bookmark}，则文件打开后，会自动开启阅读器的侧边栏并显示书签；若设置 \type{option} 为 \type{max}，则文件在被打开后会全屏显示。上述 \type{\placebookmarks} 语句的用途是设置可出现在书签栏的标题级别，且仅允许 \type{\title} 和 \type{\chapter} 级别的标题，其子标题列表可被展开。
+\noindent \type{\setupinteraction} 用于开启 PDF 的用户交互特性。\type{\setupinteractionscreen} 用于设定 PDF 文件被阅读器打开后，以何种形式如何呈现在屏幕上，若其 \type{option} 值为 \type{bookmark}，则文件打开后，会自动开启阅读器的侧边栏并显示书签；若设置 \type{option} 为 \type{max}，则文件在被打开后会全屏显示。上述 \type{\placebookmarks} 语句的用途是设置可出现在书签栏的标题级别，且仅允许 \type{\title} 和 \type{\chapter} 的子标题列表可以展开。
 
 需要注意的是，\CONTEXT\ 同样默认无编号标题不被列入书签，但是倘若做以下设定
 
@@ -316,11 +316,12 @@
 \setupheadertexts[margin][订口上方的页眉][翻口上方的页眉]
 \stopTEX
 
-在双面对开模式下，页眉和页脚的设定则需要五个参数，第一个参数依然是 \type{text} 或 type{margin}，至于后四个参数，其中前两个用于设定偶数页的页眉和页脚的左右两侧，后两个则用于设定奇数页的页眉左右两侧。下例是对偶数页和奇数页的正文上方页眉内容的设定。
+在双面对开模式下，页眉和页脚的设定则需要五个参数，第一个参数依然是 \type{text} 或 \type{margin}，至于后四个参数，其中前两个用于设定偶数页的页眉和页脚的左右两侧，后两个则用于设定奇数页的页眉左右两侧。下例是对奇数页和偶数页的正文上方页眉内容的设定。
 
 \startTEX
-\setupheadertexts[偶数页的页眉左侧][偶数页的页眉右侧]
-                 [奇数页的页眉左侧][奇数页的页眉右侧]
+\setupheadertexts
+    [奇数页的页眉左侧][奇数页的页眉右侧]
+    [偶数页的页眉左侧][偶数页的页眉右侧]
 \stopTEX
 
 下例是偶数页和奇数页的订口和翻口上方的页眉内容的设定。
@@ -328,7 +329,8 @@
 \startTEX
 \setupheadertexts
   [margin]
-  [偶数页的页眉左侧][偶数页的页眉右侧][奇数页的页眉左侧][奇数页的页眉右侧]
+  [奇数页的页眉左侧][奇数页的页眉右侧]
+  [偶数页的页眉左侧][偶数页的页眉右侧]
 \stopTEX
 
 页眉区域通常可以放置章节标题以及页码等内容。本文档主要作为屏幕读物，而非印刷读物，故而采用了单面模式，但是页眉是按双面对开模式设定的，如下：
@@ -337,15 +339,10 @@
 \def\CurrentChapter{%
   第 \headnumber[chapter]\ 章\kern 1em\getmarking[chapter]%
 }
-\def\CurrentSection{%
-  \headnumber[section][current]%
-  \kern 2em%
-  \getmarking[section][current]%
-}
-\setupheadertexts[\CurrentChapter][pagenumber][pagenumber][\CurrentSection]
+\setupheadertexts[\CurrentChapter][pagenumber][pagenumber][\CONTEXT\ 蹊径]
 \stopTEX
 
-\noindent 在单面模式下，偶数页的页眉左侧和右侧显示的分别是当前小节的标题和页码，而奇数页的页眉左侧和右侧显示的分别是当前章的标题和页码，并未按上述设定。但是若开启了双面对开模式，奇数页的页眉便会按上述设定，页码在左侧，章的标题在右侧。
+\noindent 在单面模式下，奇数页的页眉左侧和右侧显示的分别是当前章名和页码，而偶数页的页眉左侧和右侧显示的分别是书名和页码，但是若开启了双面对开模式，偶数页的页眉便会按上述设定，页码在左侧，书名在右侧。
 
 本文档的页眉设定用了几个之前未曾提及的命令，其中 \tex{headnumber}\cmdindex{headnumber} 可以取得当前章节的序号，\tex{getmarking}\cmdindex{getmarking} 可以取得当前章节的标题，\tex{kern}\cmdindex{kern} 命令用于制作指定宽度的间距。此外，我还需要再次提醒，要注意上述宏定义里的注释符，它们的用途是消除其后的换行符，以防在宏展开时这些换行符被当成空格而污染排版内容。
 

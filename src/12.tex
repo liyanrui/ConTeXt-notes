@@ -1,6 +1,6 @@
 \chapter{幻灯片}
 
-现在你已经领略甚至可能全部掌握了 \CONTEXT\ 常用的的排版元素，若不使用它们而是依然使用 Microsoft PowerPoint 或 WPS 之类的软件制作幻灯片则甚为可惜。现在若是用 \CONTEXT，只需要再掌握寥寥几条排版命令便可制作出独具风格的幻灯片了。
+现在你大概已经领略甚至可能掌握了 \CONTEXT\ 常用的排版元素，若依然使用 Microsoft PowerPoint 或 WPS 之类的软件制作幻灯片则甚为可惜。其实，只需再掌握寥寥几条排版命令便可以用 \CONTEXT\ 制作出独具风格的幻灯片了。
 
 \section{纸面尺寸}
 
@@ -86,60 +86,59 @@
    width=460pt]
 \stoptyping
 
-如果我们只关心版心的横向居中问题，并不关心左右留白区域的尺寸，最为简单的布局方式是
+如果只关心版心的横向居中问题，并不关心左右留白区域的尺寸，最为简单的布局方式是
 
 \starttyping[option=TEX]
 \setuplayout[width=middle]
 \stoptyping
 
-以上设置的是页面横向布局。对于纵向布局，存在与 \type{backspace} 类似的问题，即 \type{topspace} 的设定。\type{topspace} 的值是 \type{top} + \type{topdistance}，但是在 \type{\setuplayout} 中只对后者进行设定是无效的，必须先设定 \type{topspace}，然后再将其值分配给 \type{top} 和 \type{topdistance}，或让 \CONTEXT\ 自动分配。
-
-制作幻灯片时，除了纵向居中，可以需要去掉页面顶部和底部留白从而节省一些纵向空间，脚注区域可以保留，故而纵向参数可设定为
+以上设置的是页面横向布局。对于纵向布局，存在与 \type{backspace} 类似的问题，即 \type{topspace} 的设定。\type{topspace} 的值是 \type{top} + \type{topdistance}，但是在 \type{\setuplayout} 中只对后者进行设定是无效的，必须先设定 \type{topspace}，然后再将其值分配给 \type{top} 和 \type{topdistance}，或让直接将 \type{height} 设为 \type{middle}，让 \CONTEXT\ 自动确定纵向布局。以下纵向参数
 
 \starttyping[option=TEX]
 height=middle,topspace=0pt,bottom=0pt,footer=40pt
 \stoptyping
 
-\noindent 现在全部的页面布局设定如下：
+\noindent 达到的效果是，页面纵向居中，去除页面顶部和底部留白以节省空间，脚注区域保留。
+
+下面给出一个完整的页面布局设定：
 
 \starttyping[option=TEX]
 \setuplayout[width=middle,height=middle,topspace=0pt,bottom=0pt,footer=40pt]
 \stoptyping
 \midaligned{\externalfigure[12/layout-2.pdf][width=.6\textwidth,frame=on]}
 
-完成页面布局设定后，别忘记去掉 \type{text} 环境之前的 \type{\showframe} 语句。此外，我建议你在 \type{text} 环境里动手试验一番 \type{\showlayout}。
+在完成页面布局设定后，别忘记去掉 \type{text} 环境之前的 \type{\showframe} 语句。此外，我建议你在 \type{text} 环境里动手试验一番 \type{\showlayout}。
 
 \section[slide-fonts]{字体}
 
-在 \CONTEXT\ 使用汉字字体，对此估计你已经颇为熟悉了。在幻灯片中，我对字体作以下设定：
+在 \CONTEXT\ 使用汉字字体，对此估计你已经颇为熟悉了。在幻灯片中，字体可设定为
 
 \starttyping[option=TEX]
 \definefallbackfamily
-  [myfonts][ss][latinmodernsans][range={0x0000-0x0400},force=yes]
+  [myfonts][ss][latinmodernsans]
+  [range={0x0000-0x0400},force=yes]
 \definefontfamily[myfonts][ss][simhei][bf=simhei,it=kaiti,bi=simhei]
 \setscript[hanzi]
 \setupbodyfont[myfonts,ss,16pt]
 \stoptyping
 
-\noindent 上述字体设定并不完整，尚未设定衬线字族和等宽字族，这些字族可在需要时再予以设定。
+\noindent 幻灯片所用字体，通常以无衬线字体为主，因为这类字体在屏幕上较为醒目。至于衬线字体和等宽字体，可依情况而定。
 
 \section[regular-style]{常规样式}
 
-首先，消除 \CONTEXT\ 默认在页面顶部设置的页码：
+幻灯片通常不需要页码，即使需要页码，默认的页码出现的位置和字号皆不合适，故而需消除 \CONTEXT\ 默认在页面顶部设置的页码：
 
 \starttyping[option=TEX]
 \setuppagenumbering[location=]
 \stoptyping
 
-\noindent 幻灯片通常不需要页码，即使需要页码，默认的页码出现的位置和字号皆不合适。
-
-设置行间距为 1.75 倍：
+行间距可设为正文字号的 1.75 倍：
 
 \starttyping[option=TEX]
 \setupinterlinespace[line=1.75\bodyfontsize]
 \stoptyping
 
-下例设置了列表的第 1 级样式，具体为 (1) 将 \in[drawing-sym] 节实现的列表项符号作为默认列表项符号，只是正方形的阴影颜色略加修改，\type{.75white} 等价于 rgb 三元组 \type{(0.75, 0.75, 0.75)}；(2) 消除列表项的间距；（3） 在列表项的符号和内容之间插入 .5em 的间距；(4) 让列表前后各空 1/4 行。
+下例设置了列表的第 1 级样式，具体为 (1) 将 \in[drawing-sym] 节实现的列表项符号作为默认列表项符号，只是正方形的阴影颜色略加修改；(2) 消除列表项的间距；（3） 在列表项的符号和内容之间插入 .5em 的间距；(4) 让列表前后各空 1/4 行。
 
 \starttyping[option=MP]
 \startuseMPgraphic{square}
@@ -158,18 +157,21 @@ fill p withcolor .5[blue, white];
                before={\blank[quarterline]},
                after={\blank[quarterline]}]
 \stoptyping
-\noindent 如果你还需要二级、三级列表，只需将 \tex{setupitemize} 的第 1 个参数换成 2、3，然后参照上例设定其样式。
+\noindent 注意，上述代码中的 \type{.75white} 等效于 rgb 三元组 \type{(0.75, 0.75, 0.75)}。另外，若需要二级和三级列表，只需将 \tex{setupitemize} 的第 1 个参数换成 2 或 3，然后参照上例设定列表样式。
 
-然后将幻灯片一级标题设置为居中对齐，字号级别为 \type{b}，颜色为 \type{darkred}，前后各空半行：
+将幻灯片一级标题设置为居中对齐，并设置字号和颜色，且令其前后各空半行：
 
 \starttyping[option=TEX]
 \setuphead
   [title,chapter]
-  [align=center,style=\ssb,color=darkred,
-   before={\blank[halfline]},after={\blank[halfline]}]
+  [align=center,
+    style=\ssb,
+    color=darkred,
+    before={\blank[halfline]},
+    after={\blank[halfline]}]
 \stoptyping
 
-现在，在 \type{text} 环境中随便写点什么，察验上述设定是否起效。
+可以在 \type{text} 环境里随便写点什么，以察验上述设定是否起效，例如：
 
 \starttyping[option=TEX]
 \starttext
@@ -178,8 +180,6 @@ fill p withcolor .5[blue, white];
 亨。匪我求童蒙，童蒙求我；初筮告，再三渎，渎则不告。利贞。
 \startitemize
 \item 初六，发蒙，利用刑人，用说桎梏；以往吝。
-\stoptyping
-\starttyping[option=TEX]
 \item 九二，包蒙，吉。纳妇，吉；子克家。
 \item 六三，勿用取女，见金夫，不有躬，无攸利。
 \item 六四，困蒙，吝。
@@ -190,25 +190,22 @@ fill p withcolor .5[blue, white];
 \dorecurse{3}{\getbuffer[foo]}
 \stoptext
 \stoptyping
-\midaligned{\externalfigure[12/slides-2.pdf][width=.6\textwidth,frame=on]}
+\midaligned{\externalfigure[12/slides-2.pdf][width=.625\textwidth,frame=on]}
 
 \noindent 上述代码使用了 \CONTEXT\ 的 \type{buffer} 环境\index[buffer]{\type{buffer} 环境}。所谓 \type{buffer}，是可以设定名字的缓存，它可以包含 \CONTEXT\ 排版代码。\type{\getbuffer} 用于获取缓存内容。
 
-截止至此，我们第一次在示例中使用有编号标题。对于 \type{\chapter} 建议在幻灯片样式中将数字编号更改为中文编号，另外设置编号的样式为 \type{inmargin}，表示编号不参与居中对齐，只有标题内容参与对齐，见下例。
+以下设定，可将标题的数字编号更改为中文编号，且将编号样式设定为 \type{inmargin}，表示编号不参与居中对齐，只有标题内容参与对齐。
 
 \starttyping[option=TEX]
 \setuphead[chapter][conversion=chinesenumerals,alternative=inmargin]
 \stoptyping
-\midaligned{\externalfigure[12/slides-3.pdf][width=.6\textwidth,frame=on]}
-\blank
-
-\noindent 如果你还需要二级、三级标题，可参照上述设定，依法炮制。
+\midaligned{\externalfigure[12/slides-3.pdf][width=.625\textwidth,frame=on]}
 
 \section[footer]{页脚}
 
-在 \in[regular-style] 节中，我关闭了 \CONTEXT\ 好意提供的页码。因为我希望页码出现在页面的右下角，且除以总页数，以便清楚幻灯片的进度。
+在 \in[regular-style] 节中，我关闭了 \CONTEXT\ 好意提供的页码，但并非不需要页码，而是我期望页码能出现在页面的右下角，且除以总页数，以便清楚幻灯片的进度。
 
-\CONTEXT\ 提供了 \type{\setupfootertexts} 命令\cmdindex{setupfootertexts}，可以在页脚左、右区域放入文字、盒子或图形等内容，同时提供了 \type{\setupfooter} 用于设定页脚区域的文字样式。另外，\type{\userpagenumber}\cmdindex{userpagenumber} 和 \type{\lastuserpage}\cmdindex{lastuserpage} 可分别用于获取当前页的页码和最后一页的页码。基于这些命令，便可实现能够表示进度的页码。例如
+\CONTEXT\ 提供了 \type{\setupfootertexts} 命令\cmdindex{setupfootertexts}，可以在页脚左、右区域放入文字、盒子或图形等内容，同时提供了 \type{\setupfooter} 用于设定页脚区域的文字样式。另外，\type{\userpagenumber}\cmdindex{userpagenumber} 和 \type{\lastuserpage}\cmdindex{lastuserpage} 可分别用于获取当前页的页码和最后一页的页码。基于这些命令，便可实现能够表示进度的页码，例如
 
 \cmdindex{setupfootertexts}
 \starttyping[option=TEX]
@@ -220,11 +217,7 @@ fill p withcolor .5[blue, white];
 \noindent 结果如图 \in[页码进度] 所示。
 \placefigure[here][页码进度]{第 4 页幻灯片}{\externalfigure[12/slides-4.pdf][page=4,width=.6\textwidth,frame=on]}
 
-现在，我们已经有了一个基本可用的幻灯片样式了。倘若使用刚学过的 \METAPOST\ 语言，琢磨一下，给幻灯片增加些许不庸俗又实用的装饰，也许会让人觉得你的幻灯片颇为用心。
-
-\section{进度条}
-
-现在，我们放弃使用当前页码除以总页数的方式表示进度，而是用 \METAPOST\ 画一个进度条，见以下代码。
+也可以用 \METAPOST\ 代码将页码可视化，使之成为进度条，例如：
 
 \starttyping[option=MP]
 \startuseMPgraphic{processbar}
@@ -253,10 +246,10 @@ draw q xsized w;
 
 \placefigure[here][processbar]{第 2 页幻灯片}{\externalfigure[12/slides-finished.pdf][width=.6\textwidth,page=3,frame=on]}
 
-\section{封面和致谢}
+\section{封面}
 
 \index[standardmakeup]{\type{standardmakeup} 环境}
-幻灯片的封面皆可使用 \type{sandardmakeup} 环境制作，见下例。
+幻灯片的封面可使用 \type{sandardmakeup} 环境制作，见下例。
 
 \index[standardmakeup]{standard makeup}
 \starttyping[option=TEX]
@@ -285,9 +278,9 @@ draw q xsized w;
 \stoptyping
 \placefigure[force][slide-background]{全页插图背景}{\externalfigure[12/slides-finished.pdf][width=.6\textwidth,page=1]}
 
-你也可以不断尝试用 \METAPOST\ 语言画一些图形作为封面背景。这份文档的封面上像迷宫一样的线条便是用 \METAPOST\ 代码画出的。
+你也可以尝试用 \METAPOST\ 语言画一些图形作为封面背景。这份文档的封面上像迷宫一样的线条便是用 \METAPOST\ 代码画出的。
 
-至于幻灯片最后的致谢页，依然可以用 \type{makeup} 环境制作。
+至于幻灯片最后的致谢页，亦可视为封面，用 \type{makeup} 环境制作。
 
 \subject{结语}
 

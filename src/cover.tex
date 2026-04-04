@@ -44,7 +44,7 @@ p := hilbert(OverlayWidth, 5) yscaled(OverlayHeight / OverlayWidth);
 p := p randomized 2pt;
 
 numeric u, n; u := 5cm; n := (arclength p) / u;
-pickup pencircle scaled 2pt;
+pickup pencircle scaled 4pt;
 for i = 1 upto n:
   q := p cutafter (point u on p);
   p := p cutbefore (point u on p);
@@ -80,14 +80,14 @@ draw p withcolor \MPcolor{lightsteelblue};
 \startstandardmakeup
 \hfil
   \startcolor[yellow]
-    \coverbox[width=.8\textwidth,height=7cm,location=middle]{
-      \midaligned{{\switchtobodyfont[ss,32pt]{\CONTEXT\, 蹊径}}}
+    \coverbox[width=\textwidth,height=8cm,location=middle]{
+      \midaligned{{\switchtobodyfont[ss,42pt]{\CONTEXT\, 蹊径}}}
       \blank[1cm]
       \start
-      \switchtobodyfont[ss,16pt]
+      \switchtobodyfont[ss,20pt]
       \midaligned{李延瑞}
       \blank[5mm]
-      2025.09.10
+      2026.04.04
       \stop
     }
   \stopcolor

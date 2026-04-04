@@ -1,6 +1,6 @@
 \chapter{数学}
 
-\TeX\ 原本是 Donald Knuth 专为排版他的计算机算法专著而发明。这类书籍本质上属于数学类书籍，亦即排版数学公式是 \TeX\ 最擅长的任务，这也是我对数学的唯一兴趣了。希望你是因为喜欢数学而喜欢 \TeX。近年来，\CONTEXT\ 对 \TEX\ 的数学公式的排版做出了许多显著的改进，现已自成体系，但限于能力，本章仅能略述一二。
+\TeX\ 原本是 Donald Knuth 为排版他的计算机算法专著而发明。他写的书属于数学类书籍，故而排版数学公式便成为 \TeX\ 最擅长的任务——这也是我对数学的唯一兴趣了，希望你是因为喜欢数学而喜欢 \TeX。近年来，\CONTEXT\ 对 \TEX\ 的数学公式的排版做出了许多显著的改进，俨然自成体系，限于能力，本章仅能略述一二。
 
 \section{\TEX\ 风格}
 
@@ -69,7 +69,7 @@ $$
 \int_0^{+\infty}f(x) {\rm d}x
 \stopformula
 
-\indentation 用 \type{\in[formula-foo]} 命令可引用上例构造的数学公式的序号，结果为 \in[formula-foo]。需要注意的是，数学公式之后的第一个中文段落的首行缩进会被消除，需要用 \tex{indentation}\index[indenting]{indenting + \tex{indentation}} 命令强行缩进，见下例。
+\indentation 用 \type{\in[formula-foo]} 命令可引用上例构造的数学公式的序号，结果为 \in[formula-foo]。需要注意的是，数学公式之后的第一个中文段落的首行缩进会被消除，若需缩进，可用 \tex{indentation}\index[indenting]{indenting + \tex{indentation}} 命令强行缩进，见下例。
 
 \startTEX
 \placeformula

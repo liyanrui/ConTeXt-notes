@@ -1,6 +1,6 @@
 \chapter{一字不差}
 
-在现在这个时代，文档出现一些计算机程序代码片段，是很常见的事。通常建议用等宽字体呈现这些代码且原样显示，像是过去打字机的输出结果，故而 Verbatim text，我将其译为\boxquote{文本抄录}。
+在现在这个时代，文档出现一些计算机程序代码片段，是很常见的事。通常建议用等宽字体呈现这些代码且原样显示，像是过去打字机的输出结果，这种排版元素在西文里称为 Verbatim text，我将其译为「抄录」。
 
 \section{抄录}
 
@@ -74,7 +74,7 @@ Hello \CONTEXT!
 \getexample
 \stop
 
-不幸的是，目前 \CONTEXT\ 仅实现了 \TEX，\METAPOST，Lua，XML 等代码的着色。
+\noindent 不幸的是，目前 \CONTEXT\ 仅实现了 \TEX，\METAPOST，Lua，XML 等代码的着色。
 
 \section{逃逸区}
 
@@ -108,7 +108,7 @@ Hello \CONTEXT!
 
 上述示例基于 \TEX\ 逃逸区实现的代码着色胜在简单，失于繁琐，不过如果你熟悉某种编程语言，诸如 Python，Lua 或者 Awk 之类的脚本语言，你可以编写程序，自动生成这类着色代码，然后将其插入到文档里。
 
-我应该一直都没有告诉你，如何给文字着色\index[yanse]{颜色}。\CONTEXT\ 预定义了一些标准颜色，可直接使用这些颜色的名字对文字进行着色，例如\boxquote{\type{{\magenta 紫色}}}，结果为\boxquote{\magenta 紫色}，也可以使用 \type{\color} 命令，例如\boxquote{\type{\color[lightmagenta]{浅紫色}}}，结果为\boxquote{\color[lightmagenta]{浅紫色}}。以下代码可用于查看 \CONTEXT\ 预定义颜色，
+我应该一直都没有告诉你，如何给文字着色\index[yanse]{颜色}。\CONTEXT\ 预定义了一些标准颜色，可直接使用这些颜色的名字对文字进行着色，例如「\type{{\magenta 紫色}}」，结果为「{\magenta 紫色}」，也可以使用 \type{\color} 命令，例如「\type{\color[lightmagenta]{浅紫色}}」，结果为「\color[lightmagenta]{浅紫色}」。以下代码可用于查看 \CONTEXT\ 预定义颜色，
 
 \starttyping[option=TEX]
 \startTEXpage[offset=4pt]
@@ -136,19 +136,20 @@ Hello \CONTEXT!
 
 下例是 \type{typing} 环境未开启空格显示的效果。
 
-\startexample
+\startTEX
 \starttyping
-本 行 每 个 汉 字 之 后 都 有 空 格， 但 是 你 看 不 见 它， 除 非 space=on ！
+本/BTEX\,/ETEX行/BTEX\,/ETEX每/BTEX\,/ETEX个/BTEX\,/ETEX汉/BTEX\,/ETEX字/BTEX\,/ETEX之/BTEX\,/ETEX后/BTEX\,/ETEX都/BTEX\,/ETEX有/BTEX\,/ETEX空/BTEX\,/ETEX格，/BTEX\,/ETEX但/BTEX\,/ETEX是/BTEX\,/ETEX你/BTEX\,/ETEX看/BTEX\,/ETEX不/BTEX\,/ETEX见/BTEX\,/ETEX它，/BTEX\,/ETEX除/BTEX\,/ETEX非/BTEX\,/ETEXspace=on！
 \stoptyping
-\stopexample
-\simpleexample[option=TEX]{\null}
-\getexample
+\stopTEX
+\starttyping
+本 行 每 个 汉 字 之 后 都 有 空 格， 但 是 你 看 不 见 它， 除 非 space=on！
+\stoptyping
 
 \noindent 作为比较，下例是开启了空格显示的效果。
 
 \startTEX
 \starttyping[space=on]
-本 行 每 个 汉 字 之 后 都 有 空 格， 你 能 看 见 它 。
+本/BTEX\,/ETEX行/BTEX\,/ETEX每/BTEX\,/ETEX个/BTEX\,/ETEX汉/BTEX\,/ETEX字/BTEX\,/ETEX之/BTEX\,/ETEX后/BTEX\,/ETEX都/BTEX\,/ETEX有/BTEX\,/ETEX空/BTEX\,/ETEX格，/BTEX\,/ETEX你/BTEX\,/ETEX能/BTEX\,/ETEX看/BTEX\,/ETEX见/BTEX\,/ETEX它/BTEX\,/ETEX。
 \stoptyping
 \stopTEX
 \starttyping[space=on]

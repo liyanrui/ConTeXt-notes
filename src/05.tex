@@ -15,7 +15,7 @@
 \stopexample
 \example[option=TEX][todo-list]{待办事项}{\externalfigure[05/todo-list.pdf][width=.3\textwidth]}
 
-现在你已经学会了列表的用法了，余下的事，大多是在设定它的样式。此外，你也学到了如何制作大写罗马数字。若需要制作小写罗马数字，只需将 \type{\Romannumerals} 换成 \type{\romannumerals}。
+现在你已经学会了列表的用法了，余下的事，仅仅是根据需要定义它的外观。此外，你也学到了如何制作大写罗马数字。若需要制作小写罗马数字，只需将 \type{\Romannumerals} 换成 \type{\romannumerals}。
 
 \section{无序号列表}
 
@@ -60,7 +60,7 @@
 \stopexample
 \example[option=TEX][]{数字带括号的有序号列表}{\externalfigure[05/todo-list-4.pdf][width=.3\textwidth]}
 
-\noindent 其中\boxquote{\type{stopper=}}是将参数 \type{stopper} 置空，从而消除列表项序号之后的西文句点\boxquote{\type{.}}。
+\noindent 其中「\type{stopper=}」是将参数 \type{stopper} 置空，从而消除列表项序号之后的西文句点「\type{.}」。
 
 若将列表项序号参数设定为 a，A，r，R，对应的序号形式分别为小写英文字母、大写英文字母、小写罗马数字、大写罗马数字。
 
@@ -90,7 +90,7 @@
 
 \section[itemcite]{引用}
 
-在写论文时，通常要引用一些文献。这些文献通常是以列表的形式附在论文之后，在正文里以引用的方式自动呈现文献在列表中的序号。如此，当文献在列表中的次序有所调整时，正文中的引用所呈现的序号也会相应变化，而无需手工维护。基于列表的引用机制\index[liebxyy]{列表项引用}可以完成这类任务。
+在写论文时，通常要引用一些文献。这些文献通常是以列表的形式附在论文之后，在正文里以引用的方式自动呈现文献在列表中的序号。如此，当文献在列表中的次序有所调整时，正文中的引用所呈现的序号也会相应变化，而无需手工维护。基于列表的引用机制\index[liebxyy]{列表项引用}可以完成这类任务，见例 \in[reflist]。
 
 \startexample
 \title{论文}
@@ -107,7 +107,7 @@
 \stopexample
 \example[option=TEX][reflist]{参考文献列表及引用}{\externalfigure[05/reference.pdf][width=.425\textwidth]}
 
-上例中，列表的 \type{distance} 参数用于设定列表项的序号与内容的间距，我将其设定为半个字宽。\tex{item} 命令后的方括号中的内容是引用名。在正文里，使用 \tex{in} 命令可以通过列表项的引用名获得其序号。
+例 \in[reflist] 中，列表的 \type{distance} 参数用于设定列表项的序号与内容的间距，我将其设定为半个字宽。\tex{item} 命令后的方括号中的内容是引用名。在正文里，使用 \tex{in} 命令可以通过列表项的引用名获得其序号。
 
 不过，这种基于列表的参考文献机制只适用于文献数量不多的情况。倘若有大量的参考文献数据，而文章仅引用其中一部分，对于此类任务，\CONTEXT\ 提供了更为专业的参考文献数据管理和引用机制，该机制的基本用法，见 \in[bibtex] 章。
 
@@ -117,7 +117,7 @@
 
 MetaPost 是一种语法简洁但功能丰富的矢量绘图编程语言。\CONTEXT\ 早已内嵌了该语言的解释器，我们可以直接在 \CONTEXT\ 源文件里编写 MetaPost 代码，然后交由 \CONTEXT\ 编译器生成嵌入在排版结果中的图形。本文档的第 \in[metapost] 章讲述了 MetaPost 的基本语法，故而若下文代码超出你的理解范围，可先行阅读该章内容，也先保留不解，待后续读至该章时自然获解。此外，文档 \cite[mp-necessity,mp-ethos,mp-crow] 亦可供参考。
 
-由于 \CONTEXT\ 提供的列表项符号皆为黑色图案，现在我们用 MetaPost 语言在 \type{uniqueMPgraphic} 环境\index[uniqueMPgraphic]{\type{uniqueMPgraphic} 环境}里画带阴影且用复合色填充的正方形，见下例，准备用它作为列表项符号。
+由于 \CONTEXT\ 提供的列表项符号皆为黑色图案，可以用 MetaPost 画一些彩色图案作为列表项符号。下面先用 MetaPost 语言在 \type{uniqueMPgraphic} 环境\index[uniqueMPgraphic]{\type{uniqueMPgraphic} 环境}里画一个带阴影且用复合色填充的正方形：
 
 \startMP
 \startuniqueMPgraphic{带阴影的正方形}
@@ -129,22 +129,22 @@ fill p withcolor .5[blue, white];
 \stopuniqueMPgraphic
 \stopMP
 
-上述 \type{uniqueMPgraphic} 环境中的 MetaPost 代码可以作为插图使用，见下例。
+\noindent\type{uniqueMPgraphic} 环境中的 MetaPost 代码可以作为插图使用，见例 \in[shaded-square]。
 
 \startexample
 这个\,\uniqueMPgraphic{带阴影的正方形}\,是
 MetaPost 图形。
 \stopexample
-\example[option=TEX][square]{带阴影的正方形图案}{\externalfigure[05/square.pdf][width=.425\textwidth]}
+\example[option=TEX][shaded-square]{带阴影的正方形图案}{\externalfigure[05/square.pdf][width=.425\textwidth]}
 
-注意，上例源码中的\boxquote{\tex{,}}是 \TEX\ 命令，用于构造 $\frac{1}{6}$ 字宽的间距。顺便记着，\boxquote{\tex{;}}可构造 $\frac{5}{18}$ 字宽的间距，而一个字宽的空格可以用 \tex{quad} 命令构造\index[kongge]{空格}。有时在遇到普通空格过宽，或者空格被 \CONTEXT\ 编译器吞噬时，可以用这些 \TEX\ 间距命令构造空格。关于 \CONTEXT\ 里的空格，你需要知道，汉字之间的空格会被 \CONTEXT\ 编译器吞噬掉，而汉字与西文字符之间如果存在多个空格，\CONTEXT\ 编译器只保留 1 个。
+例 \in[shaded-square] 中的「\tex{,}」是 \TEX\ 命令，用于构造 $\frac{1}{6}$ 字宽的间距。顺便记着，「\tex{;}」可构造 $\frac{5}{18}$ 字宽的间距，而一个字宽的空格可以用 \tex{quad} 命令构造\index[kongge]{空格}。有时在遇到普通空格过宽，或者空格被 \CONTEXT\ 编译器吞噬时，可以用这些 \TEX\ 间距命令构造空格。关于 \CONTEXT\ 里的空格，你需要知道，汉字之间的空格会被 \CONTEXT\ 编译器吞噬掉，而汉字与西文字符之间如果存在多个空格，\CONTEXT\ 编译器只保留 1 个。
 
-现在，请认真观察上例中的正方形图案，应该能发现它的位置与同一行的其他文字相比有些上浮，这是因为图形对象缺乏字符基线所致。字符基线是西文字体特有的概念，还记得小时候学英文时用的四线三格本子吗？那 4 条线从上往下数的第 3 条线便是西文字符的基线\index{baseline，基线}。这些西文字符的基线连接起来，便构成一行文字的基线，所有的汉字都在基线上面，有几个英文字符，如 \type{g}、\type{p}、\type{y} 等，它们的有一部分沉于基线之下。于是，一行文字里，字符的最大高度是由基线之上的部分加上基线之下的部分，这两个部分的尺寸比例是 $0.72:0.28$。上述示例创建的正方形图形，它的高度是最大字符高度，但是在排版时，它像汉字那样位于基线之上了，故而显得有些上浮。要解决这个问题，需要将图形置于 \tex{hbox} 命令\index[hbox]{\tex{hbox}}创建的水平盒子里，再用 \tex{lower} 命令\index[lower]{\tex{lower}}让这个盒子下沉 0.2 倍的 \tex{bodyfontsize}，见下例。
+现在，请认真观察上例中的正方形图案，应该能发现它的位置与同一行的其他文字相比有些上浮，这是因为图形对象缺乏字符基线所致。字符基线是西文字体特有的概念。西文字符的基线连接起来，便构成一行文字的基线。大多数字符包括汉字都在基线之上，只是有一些西文字符，如 \type{g}、\type{p}、\type{y} 等，它们的有一部分沉于基线之下。于是，一行文字里，字符的最大高度是由基线之上的部分加上基线之下的部分，这两个部分的尺寸比例是 $0.72:0.28$。上述示例创建的正方形图形，它的高度是最大字符高度，但是在排版时，它像汉字那样位于基线之上了，故而显得有些上浮。要解决这个问题，需要将图形置于 \tex{hbox} 命令\index[hbox]{\tex{hbox}}创建的水平盒子里，再用 \tex{lower} 命令\index[lower]{\tex{lower}}让这个盒子下沉 0.2 倍的 \tex{bodyfontsize}，见例 \in[lower-square]。
 
 \startTEX
 这个\,\lower.2\bodyfontsize\hbox{\uniqueMPgraphic{带阴影的正方形}}\,是 MetaPost 图形。
 \stopTEX
-\placeExample[here][square]{带阴影的正方形图案}{\externalfigure[05/square-2.pdf][width=.425\textwidth]}
+\placeExample[here][lower-square]{带阴影的正方形图案}{\externalfigure[05/square-2.pdf][width=.425\textwidth]}
 
 \noindent 为什么要下沉 0.2 倍的正文字号呢？原因是，作为阴影的正方形相对于淡蓝色的正方形向下偏移了 0.25 的正文字号。如果让包含了这个 MetaPost 图形的盒子下沉这个距离，刚好能让淡蓝色的正方形底线位于基线上。
 
@@ -154,7 +154,7 @@ MetaPost 图形。
 \definesymbol[10][{\lower.2\bodyfontsize\hbox{\uniqueMPgraphic{带阴影的正方形}}}]
 \stopTEX
 
-\noindent 之后便可在列表环境里使用这个符号，见下例。
+\noindent 之后便可在列表环境里使用这个符号，见例 \in[squaresym]。
 
 \startexample
 \startitemize[10,nowhite]
@@ -209,7 +209,7 @@ MetaPost 图形。
 \def\CircledNumber#1{... 定义 ...}
 \stopTEX
 
-\noindent 其中 \type{#1} 表示 \tex{CircleNumber} 接受 1 个参数，即列表项的序号。由于 \tex{CircledNumber} 是由 \type{itemize} 环境触发的，且后者每次触发它时，就将当前列表项的序号传给它。于是，我们在实现 \tex{CircledNumber} 的定义时，所考虑的问题仅仅是如何将列表项的序号映射为带圆圈的数字，这个过程过去只能用 \TEX\ 语言实现，现在可以用 Lua 语言实现。不过，我们最好事先做一下热身运动，实现一种 \CONTEXT\ 已经实现了的序号，见下例。
+\noindent 其中 \type{#1} 表示 \tex{CircleNumber} 接受 1 个参数，即列表项的序号。由于 \tex{CircledNumber} 是由 \type{itemize} 环境触发的，且后者每次触发它时，就将当前列表项的序号传给它。于是，我们在实现 \tex{CircledNumber} 的定义时，所考虑的问题仅仅是如何将列表项的序号映射为带圆圈的数字，这个过程过去只能用 \TEX\ 语言实现，现在可以用 Lua 语言实现。不过，我们最好事先做一下热身运动，实现一种 \CONTEXT\ 已经实现了的序号，见例 \in[foonumber]。
 
 \startexample
 \def\FooNumber#1{【#1】}
@@ -222,7 +222,7 @@ MetaPost 图形。
 \stopexample
 \example[option=TEX][foonumber]{汉字方括号序号列表}{\externalfigure[05/todo-list-c.pdf][width=.3\textwidth]}
 
-上例中的列表实际上等效于
+例 \in[foonumber] 中的列表实际上等效于
 
 \startTEX
 \startitemize[n, nowhite][left=【, right=】, distance=1em, stopper=]
@@ -235,14 +235,14 @@ MetaPost 图形。
 \startLUA
 \startluacode
 function to_circled_number(x)
-  context('\\char"' .. tostring(2460 + x - 1))
+  context(/BTEX{\Qt'}/ETEX\\char"/BTEX{\Qt'}/ETEX .. tostring(2460 + x - 1))
 end
 \stopluacode
 \stopLUA
 
 \CONTEXT\ 编译器并非在同一个空间里执行 \CONTEXT\ 排版代码和嵌入的 Lua 代码，这两种代码各自有一个运行空间，毕竟它们是不同的编程语言。Lua 空间里的数据需要以字符串对象的形式通过 \type{context} 函数\index[contextfunc]{\type{context} 函数}传回 \CONTEXT\ 空间。
 
-上述函数 \type{to_circled_number} 所作的工作是，将外界传入的数值 \type{x} 减 1，再与 2460 相加，然后将所得结果用 \type{tostring} 转换为字符串，在其前面加上 \tex{char"} 前缀，最后由 \type{context} 函数将结果传回 \CONTEXT\ 空间。例如，假设 \type{x} 是 \type{3}，经过 \type{to_circled_number} 的一番处理，它变成了 Lua 字符串 \type[escape=yes]{'\\char"2462'}，该结果由 \type{context} 函数传回 \CONTEXT\ 空间。
+上述函数 \type{to_circled_number} 所作的工作是，将外界传入的数值 \type{x} 减 1，再与 2460 相加，然后将所得结果用 \type{tostring} 转换为字符串，在其前面加上 \tex{char"} 前缀，最后由 \type{context} 函数将结果传回 \CONTEXT\ 空间。例如，假设 \type{x} 是 \type{3}，经过 \type{to_circled_number} 的一番处理，它变成了 Lua 字符串 \type[escape=yes]{/BTEX{\Qt'}/ETEX\\char"2462/BTEX{\Qt'}/ETEX}，该结果由 \type{context} 函数传回 \CONTEXT\ 空间。
 
 同理，在 \CONTEXT\ 空间调用 Lua 空间里的一个函数，也需要一个通道，该通道由 \tex{ctxlua} 命令\index[ctxlua]{\tex{ctxlua}}实现，基于这个命令便可定义 \tex{CircledNumber} 命令，即
 
@@ -250,19 +250,19 @@ end
 \def\CircledNumber#1{\ctxlua{to_circled_number(#1)}}
 \stopTEX
 
-\noindent 于是，用带圆圈数字作为列表序号的任务便如此优雅地完成了。现在不妨登向高处，俯瞰整个方案。实际上并不难，对吗？
+\noindent 于是，用带圆圈数字作为列表序号的任务便如此优雅地完成了，见例 \in[good-circled]。现在不妨登上高处，俯瞰整个方案。实际上并不难，对吗？
 
 \startexample
 \startluacode
 function to_circled_number(x)
-  context('\\char"' .. tostring(2460 + x - 1))
+  context(/BTEX{\Qt'}/ETEX\\char"/BTEX{\Qt'}/ETEX .. tostring(2460 + x - 1))
 end
 \stopluacode
 
 \def\CircledNumber#1{\ctxlua{to_circled_number(#1)}}
-\defineconversion[Foo][\FooNumber]
+\defineconversion[CircledNum][\CircledNumber]
 
-\startitemize[CircledNumber][stopper=]
+\startitemize[CircledNum][stopper=]
 \item 中午，晒十五分钟太阳
 \item 晚上，看流浪地球 \Romannumerals{2}
 \stopitemize
@@ -271,4 +271,4 @@ end
 
 \subject{结语}
 
-本章的最后两节，可能会让你有一些压迫感。也许你原以为 \CONTEXT\ 已经为你提供好了一切命令，无论你想要什么样的排版效果，只需要找到相应的命令便可达成目的。这当然是不可能的，否则 \CONTEXT\ 开发者就成了上帝，他们知晓你的一切心意。上帝是不存在的，但这个世界是可编程的。
+本章的最后两节，可能会让你有一些压迫感。也许你原以为 \CONTEXT\ 已经为你提供好了一切命令，无论你想要什么样的排版效果，只需要找到相应的命令便可达成目的。这当然是不可能的，否则 \CONTEXT\ 开发者就成了上帝，知晓你的一切心意。上帝是不存在的，但这个世界是可编程的。

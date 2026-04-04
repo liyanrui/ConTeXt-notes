@@ -4,9 +4,9 @@
 
 \section{数据格式}
 
-大多数 \TeX\ 系统在排版参考文献时，皆需依赖一个名为 bibtex 的外部程序。由 bibtex 基于文献数据文件生成参考文献列表信息，然后交由 \TeX\ 进行排版，这一过程通常是自动进行的，并不需要用户了解和干预。\ConTeXt\ 已在自身内部实现了 bibtex 程序的全部功能，故而不再依赖这个外部程序了。本文档在谈及 Bib\TEX\ 时，主要指文献数据格式。
+大多数 \TeX\ 系统在排版参考文献时，皆需依赖一个名为 bibtex 的外部程序。由 bibtex 基于文献数据文件生成参考文献列表信息，然后交由 \TeX\ 进行排版，这一过程通常是自动进行的，并不需要用户了解和干预。\ConTeXt\ 已在自身内部实现了 bibtex 程序的全部功能，故而不再依赖这个外部程序了。
 
-Bib\TEX\ 文献数据文件是纯文本文件，其中包含着论文、专著和手册等文献数据。例如，一篇期刊论文，其信息可表示为
+文献数据文件是纯文本文件，其中包含着论文、专著和手册等文献数据。例如，一篇期刊论文，其信息可表示为
 
 \starttyping
 @article{knuth-1984-literate,
@@ -53,7 +53,7 @@ Knuth 基于文学编程\cite[knuth-1984-literate]技术开发了
 
 若将文献数据文件视为文献数据库，则 bibtex 程序或者 \CONTEXT\ 内部实现的同样功能的模块相当于数据库的搜索引擎。在科研工作中，你可以将自己所读的所有文献置于一份 \type{.bib} 文件中，然后在写论文或专著时，按需引用。
 
-上述示例所用的文献样式是 \ConTeXt\ 默认样式。有三种预定义的文献样式：apa，aps 和 chicago，可在 \type{\placelistofpublications} 之前使用 \type{\usebtxdefinitions} 设定文献样式，例如若使用 aps 样式，只需
+上述示例所用的文献样式是 \ConTeXt\ 默认样式。在 \type{\placelistofpublications} 之前可使用 \type{\usebtxdefinitions} 设定文献样式，有三种预定义样式可选，分别为 apa，aps 和 chicago。例如使用 aps 作为文献样式，只需
 
 \starttyping[option=TEX]
 \usebtxdefinitions[aps]
@@ -198,9 +198,7 @@ Knuth 发明了文学编程语言 WEB\cite[knuth-1984-literate]。
            stopper:initials=\btxspace]
 \stopTEX
 
-\noindent 参数 \type{authorconversion} 用于设定作者姓名格式，\type{invertedshort} 可将作者的姓氏前置，名字后置，且该设定只会作用于西文的作者姓名，对中文作者姓名无效，原因是前者的姓名之间有空格作为间隔，有前后之分，而中文的作者姓名之间没有间隔。\type{separator:invertedinitials} 用于设定姓名之间的间隔符，默认是西文逗号。\type{stopper:initials} 用于设定作者姓氏简写字母后的符号，默认是西文句点。
-
-上述样式微调的结果如下图所示：
+\noindent 参数 \type{authorconversion} 用于设定作者姓名格式，其值 \type{invertedshort} 可将作者的姓氏前置，名字后置，但该设定只会作用于西文的作者姓名，对中文作者姓名无效，原因是前者的姓名之间有空格作为间隔，故而有前后之分，而中文的作者姓名之间没有间隔。\type{separator:invertedinitials} 用于设定姓名之间的间隔符，默认是西文逗号。\type{stopper:initials} 用于设定作者姓氏简写字母后的符号，默认是西文句点。上述样式微调的结果如下图所示：
 
 \blank[halfline]
 \midaligned{\externalfigure[14/bibtex-example-fin.pdf][width=\textwidth,frame=on]}

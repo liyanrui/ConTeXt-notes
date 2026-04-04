@@ -38,9 +38,9 @@ int main(void) {
 \type{\setuptyping} 的 \type{line} 参数可用于设定代码行号。通过 \type{\setuplinenumbering}\index[setuplinenumbering]{\tex{setuplinenumbering}} 可定制行号样式。下例开启代码行号，并将行号到 \type{typing} 环境的距离设为 0.5em：
 
 \startexample
-\setuptyping[numbering=line,
-             before={\startframedtext[width=broad]},
-             after={\stopframedtext}]
+\setuptyping
+  [numbering=line,
+   before={\startframedtext[width=broad]}, after={\stopframedtext}]
 \setuplinenumbering[typing][distance=.5em]
 \starttyping
 #include <stdio.h>
@@ -78,7 +78,7 @@ Hello \CONTEXT!
 
 \section{逃逸区}
 
-倘若你不嫌麻烦，利用 \type{\type} 和 \type{typing} 环境的逃逸（Escape）机制，即 \type{/BTEX.../ETEX}\index[BTEX]{\type{/BTEX ... /ETEX}}，也能实现代码着色。例如
+利用 \type{\type} 和 \type{typing} 环境的逃逸（Escape）机制，也能实现代码着色。例如
 
 \startTEX[escape=no]
 \starttyping[escape=yes]

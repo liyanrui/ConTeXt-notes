@@ -10,7 +10,8 @@
 
 \startexample
 \vbox{
-  \hbox{离离原上草}\hbox{一岁一枯荣}\hbox{野火烧不尽}\hbox{春风吹又生}
+  \hbox{离离原上草}\hbox{一岁一枯荣}
+  \hbox{野火烧不尽}\hbox{春风吹又生}
 }
 \stopexample
 \example[option=TEX][todo-list]{竖向盒子和横向盒子}{\externalfigure[10/vbox-and-hbox.pdf]}
@@ -193,7 +194,7 @@ draw p withpen pencircle scaled .4pt withcolor darkred;
 
 上例定义了一个宏 \tex{fooframe}，它能为盒子里的文字套上一个圆，例如 \type{\fooframe{123}}，结果为 \fooframe{12345}，还记得 \in[lua] 节实现带圈数字的方案吗？现在又多了一个方案，而且该方案不依赖于所用字体是否提供带圈字符。
 
-\section{盒子的深度}
+\section[box-depth]{盒子的深度}
 
 如果你仔细观察，\CONTEXT\ 盒子里的内容在水平方向是精确居中的，但是在竖直方向上却并非如此。例如
 

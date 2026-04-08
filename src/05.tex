@@ -186,11 +186,11 @@ MetaPost 图形。
 \stopexample
 \example[option=TEX][circled]{带圈的序号}{\externalfigure[05/todo-list-b.pdf][width=.3\textwidth]}
 
-这样虽然能解决问题，但颇为不雅，亦即 Donald Knuth 所说的，快速而脏的东西。不过，要想得到高雅的结果，需要耗费一些心力，甚至需要一些编程。不过，实际上当你开始用 \CONTEXT\ 排版第一个示例时，你已经在编程了。\TEX\ 是一门排版编程语言，你见过的任何一个 \CONTEXT\ 命令，本质上都是一小段甚至上千行的 \TEX\ 程序。
+这样虽然能解决问题，但颇为不雅，亦即 Donald Knuth 所说的，快速而脏的东西。不过，要想得到高雅的结果，需要耗费一些心力，甚至需要一些编程。
 
-\TEX\ 编程对于大多数人而言，难以掌握，但是从 2000 年代末开始，\CONTEXT\ 开发者将更易掌握的 Lua 语言引入 \TEX\ 世界，使得 \TEX\ 编程变得容易许多，当然这需要你对 Lua 语言有所了解，文档 \cite[basic-lua] 是为 \CONTEXT\ 用户所写的 Lua 语言介绍。
+实际上当你开始用 \CONTEXT\ 排版第一个示例时，你已经在编程了。\TEX\ 是一门排版编程语言，你见过的任何一个 \CONTEXT\ 命令，本质上都是一小段甚至上千行的 \TEX\ 程序。
 
-下文内容，也许会让你觉得难以理解，可以跳过去，也可以可先观其形，待你对 \CONTEXT\ 理解得更为深入时，再解其意。
+\TEX\ 编程对于大多数人而言，难以掌握，但是从 2000 年代末开始，\CONTEXT\ 开发者将更易掌握的 Lua 语言引入 \TEX\ 世界，使得 \TEX\ 编程变得容易许多，当然这需要你对 Lua 语言有所了解。若你对这一主题颇感兴趣，可以先行阅读第 \in[programming] 章，然后再阅读下文。
 
 有序号列表的序号可用 \tex{defineconversion} 命令\index[defineconversion]{\tex{defineconversion}}定义。例如
 
@@ -252,13 +252,14 @@ end
 
 \noindent 于是，用带圆圈数字作为列表序号的任务便如此优雅地完成了，见例 \in[good-circled]。现在不妨登上高处，俯瞰整个方案。实际上并不难，对吗？
 
-\startexample
+\startLUA
 \startluacode
 function to_circled_number(x)
   context(/BTEX{\Qt'}/ETEX\\char"/BTEX{\Qt'}/ETEX .. tostring(2460 + x - 1))
 end
 \stopluacode
-
+\stopLUA
+\startexample
 \def\CircledNumber#1{\ctxlua{to_circled_number(#1)}}
 \defineconversion[CircledNum][\CircledNumber]
 

@@ -1,0 +1,198 @@
+\chapter[programming]{编程}
+
+在第 \in[chinese-fonts] 章的开始，简单论述了 \TEX\ 与 \CONTEXT\ 以及 \LATEX\ 的关系。\TEX\ 系统的精妙之处在于，它是可编程的，是开放的，它像是给我们提供了一些积木以及一些简单的组合规则，使得我们也能具备建造像 \LATEX\ 和 \CONTEXT\ 这些上层建筑的能力。我并不是说，你也应当再搭建某种上层建筑。实际上即使在日常使用 \LATEX\ 或 \CONTEXT\ 时，\TEX\ 的编程机制依然非常有用，甚至你可以从这些工作里逐步获得建造上层建筑的能力。
+
+我在之前的一些章节里也曾粗略提及了 \TEX\ 的编程机制，诸如自定义一些简单的宏，也对 \CONTEXT\ LMTX 所支持的 Lua 编程机制作了一些介绍。本章尝试对这两种编程机制再作一些专门的探讨。不过，我并没有足够的精力和动力成为 \TEX\ 编程专家，我所能做的仅仅是为你在使用 \CONTEXT\ 时开启一个更为神秘且宏大的视角。
+
+\section[tex-macro]{宏}
+
+也许你用的输入法不太方便打出直角引号。在 \TEX\ 里，只需要定义一个简单的宏便可让此事无需劳烦输入法。例如
+
+\startexample
+\def\zhqt#1{「#1」}
+\zhqt{被中文直角引号包含的文本}
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+对于 \TEX\ 普通用户而言，宏最大的用处是提供简写。是的，你无需编程，便已经能得到宏编程机制的好处了，甚至可以将宏的名字定义为中文：
+
+\startexample
+\def\引号#1{「#1」}
+\引号{被中文直角引号包含的文本}
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+\noindent 像 \type{\zhqt} 这样的宏称为有参数的宏。在向宏传递参数时，花括号实际上并非必须，例如
+
+\startexample
+\def\zhqt#1{「#1」}
+\zhqt被中文直角引号包含的文本
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+\noindent 输出的结果里，只有「被」字会被直角引号包含。
+
+对于有参数的宏而言，用花括号构造的编组，会被 \TEX\ 视为一个整体，与单个字符等效。下面的例子定义了带有 2 个参数的宏，它不仅能给文字加上中文直角引号，而且还能将文字渲染为指定的颜色。
+
+\startexample
+\def\zhqt#1#2{「\color[#1]{#2}」}
+\zhqt{red}{被中文直角引号包含的文本}
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+在定义有参数宏时，若参数两侧存在某些符号时，则在使用宏时也必须提供相同的符号，这种符号称为宏参数的定界符。例如
+
+\startTEX
+\def\zhqt[#1]#2{「\color[#1]{#2}」}
+\zhqt[red]{被中文直角引号包含的文本}
+\stopTEX
+
+至此，也许你觉得这一切似乎平平无奇。我们定义一个有参数的宏，在使用它时，不过是向其喂入一些文本，再等待它吐出我们期待的文本——该过程称为「宏的展开」——，然而当你尝试让宏「吐出」自身时，就会遇到一件奇怪的事情。例如
+
+\startTEX
+\def\foo{\foo}
+\foo
+\stopTEX
+
+\noindent 当 \TEX\ 在试图展开 \tex{foo} 时，它便会陷入无休止的状态，因为它会对展开所得 \tex{foo} 再度展开，亦即 \TEX\ 总是努力将一个宏展开至无所展开时为止。这件奇怪的事情实际上已经触及到编程的本质——递归。我建议你不要轻易尝试上述示例，除非你知道如何关闭一个正在努力工作的程序。
+
+\section{变量}
+
+若想将 \TEX\ 从上一节中 \tex{foo} 无尽展开的地狱里解救出来，必须通过寄存器，保存某种状态，从而有机会确定何时截止 \TEX\ 对 \tex{foo} 的展开。
+
+早期的 \TEX\ 提供了 256 个可用于保存整数的寄存器。\CONTEXT\ 所用的 luameta\TEX\ 已将这类寄存器的数量拓展为数以万计。可以用 \tex{newcount} 命令获得一个尚未被使用的整数寄存器，例如
+
+\startexample
+\newcount\mynum
+\mynum = 42
+{\bf 宇宙的秘密是 \the\mynum。}
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+可以对整数寄存器中的数据做数学运算，例如加法或减法：
+
+\startexample
+\newcount\mynum
+\mynum = 42
+\advance\mynum by 1  % \the\mynum + 1
+\advance\mynum by -1 % \the\mynum - 1
+{\bf 宇宙的秘密是 \the\mynum。}
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+若你有幸学过汇编语言，此刻应该不难感受到一些熟悉的气息。除了整数寄存器，\TEX\ 还有其他类型的寄存器，最为常用的有尺寸寄存器与盒子寄存器。例如，在 \CONTEXT\ 经常使用的一个命令 \tex{textwidth}，它实际上是尺寸寄存器，其中存储的值是正文版面的宽度。至于盒子寄存器，在 \in[box-depth] 节便已对其有所领略。
+
+现在可不必关心 \TEX\ 究竟有哪些寄存器以及它们如何使用。不过，若你已经熟悉某种或某些编程语言，我建议你将 \TEX\ 的寄存器视为特定类型的变量。例如整数寄存器，你可以理解为是整型变量。尺寸寄存器，可以理解为实数变量。盒子寄存器，可以理解为结构体或对象。使用 \tex{def} 定义的一些无参数的宏，可理解为字符串变量——上一节定义的 \tex{foo} 宏是个例外。
+
+\section{条件}
+
+\TEX\ 提供了 \tex{ifnum} 命令，可用于比较两个整数的大小或是否相等，例如
+
+\startexample
+\newcount\mynum
+\mynum = 42
+\ifnum\mynum = 42 宇宙的秘密是 \the\mynum。\else\relax\fi
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+\noindent 上述代码里所做的比较是，如果 \tex{mynum} 寄存器里存储的值为 42，则输出宇宙的秘密，否则什么都不做——可将 \tex{relax} 命令理解为它什么都不做……或者无为。若将 \type{=} 更换为 \type{<} 或 \type{>} 则分别可比较 \tex{mynum} 中的值小于或大于 42。也许将上述示例中换为更为正经的编程语言来表达，能让你看得更清楚一些，例如用 C 语言：
+
+\starttyping
+/BTEX\color[darkgreen]{int}/ETEX mynum = 42;
+/BTEX\color[darkblue]{if}/ETEX (mynum == 42) {
+        printf(/BTEX\color[darkred]{"宇宙的秘密是 \%d。"}/ETEX, mynum);
+} /BTEX\color[darkblue]{else}/ETEX ;
+\stoptyping
+
+\TEX\ 也提供了其他形式的条件命令，诸如 \tex{ifdim}、\tex{ifodd}、\tex{ifhmode} 等，这些条件命令还是在需要它们出现的时候再探讨其用法吧。
+
+\section{函数}
+
+现在，我们有能力拯救从 \tex{foo} 里解救 \TEX\ 了，例如
+
+\startexample
+\def\foo#1{%
+  \ifnum #1 < 42 \advance #1 by 1 \foo{#1}%
+  \else\relax%
+  \fi%
+}
+\newcount\TEST
+\TEST = 0
+\foo\TEST
+宇宙的秘密是 \the\TEST。
+\stopexample
+\simpleexample[option=TEX]{\getexample}
+
+\noindent 注意，宏定义里每一行末尾的注释符通常是有必要的，它的作用是防止在宏的展开结果里引入额外的换行符。此刻的 \tex{foo} 像是一个可控的递归函数。
+
+通过上述示例，想必你已领悟，在使用有参数的宏时，若其参数是一个命令，也可以不用编组，因为 \TEX\ 会将一个命令视为一个整体传给宏。为了让你更为深刻理解宏的本质抑或它的凶险，我对上例 \tex{ifnum} 语句略作改动，如下
+
+\startTEX
+\ifnum #1 < 42 \advance #1 by 1\foo{#1}%
+\stopTEX
+
+\noindent 你可以先思考一下结果会当如何，然后验证一下。
+
+倘若你愿意将有参数的宏视为函数或计算过程，也许能感受到 \TEX\ 颇为有趣的地方——宏既可以表达数据，也可以表达代码或运算。在正经的编程语言里，大概只有 Lisp 系的语言拥有类似神韵。
+
+\section{Lua}
+
+在 Lua 语言里——可能你不懂这门编程语言，但它很简单——，也可以定义一个函数，使之类似于 \in[tex-macro] 节中 \tex{foo} 宏，如下
+
+\startLUA
+function foo()
+    foo()
+end
+\stopLUA
+
+\CONTEXT\ 允许我们在 \type{luacode} 环境里编写 Lua 代码，例如
+
+\startLUA
+\startluacode
+function foo()
+    foo()
+end
+\stopluacode
+\stopLUA
+
+\CONTEXT\ 也允许我们通过宏去调用 Lua 函数，若调用上述的 \type{foo} 函数，只需
+
+\startTEX
+\ctxlua{foo()}
+\stopTEX
+
+\noindent 倘若你动手操练了上述代码，应该能看到 \CONTEXT\ 会给出类似以下编译错误：
+
+\starttyping
+token call, execute: [ctxlua]:3: stack overflow
+stack traceback:
+... ... ...
+\stoptyping
+
+\noindent 这是栈溢出错误。因为 \type{foo} 函数是无穷递归，而 Lua 解释器在受到无有穷尽的 \type{foo} 函数的折磨时，会选择玉石俱焚，而不是像 \TEX\ 那样受困于这种折磨无法解脱。
+
+我们也可以通过让 \type{foo} 函数讲述宇宙的秘密的方式，拯救 Lua 解释器。例如
+
+\startLUA
+\startluacode
+function foo(x)
+    if x == 42 then
+        context("宇宙的秘密是 %d。", x)
+    else
+        foo(x + 1)
+    end
+end
+\stopluacode
+\stopLUA
+
+\noindent 然后只需像下面这样调用 \type{foo} 函数便可得到宇宙的秘密：
+
+\startTEX
+\ctxlua{foo(0)}
+\stopTEX
+
+\CONTEXT\ 命令 \tex{ctxlua} 与 Lua 代码里的 \type{context} 函数，你可以将其理解为 \CONTEXT\ 世界与 Lua 世界的通道的两端。有了这一通道，你可以用 Lua 语言编写程序，然后在 \CONTEXT\ 世界里调用它们。
+
+\subject{结语}
+
+也许你本身已是一位训练有素的软件开发者，熟悉许多编程语言，即便如此，当你第一次瞥到 \TEX\ 的宏编程机制时，大概印象是，\TEX\ 作为排版软件可谓优秀，但作为编程语言可谓丑陋不堪。当你写的一个宏出错时，也许会觉得自己面临了一场雪崩，没有一片雪花是无辜的。好在 Lua\TEX\ 已问世十余年了，现已进化为更为轻盈的 LuaMeta\TEX。在你厌恶宏编程时，总是可以考虑用 Lua 语言编写程序，而 \TEX\ 的宏可以作为界面。不过，我的能力只是为你打开一个通向 \TEX\ 幽深世界的入口。至于你在这个世界里能够走多远，会遭遇什么——那是我看不到的，希望会是一段传奇。

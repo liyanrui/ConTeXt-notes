@@ -651,13 +651,13 @@ draw fullcircle scaled 2cm withpen pencircle scaled 2pt withcolor darkgreen;
 
 宏语言编程并不难，反而比大多数正经的编程语言容易很多，只是宏编程很容易出错。有时你只是手误，写错了一个变量的名字或者符号，宏编译器无法准确捕捉到错误的位置。对此，我的建议是，如果你打算定义一个宏，请不要去尝试将这个宏的代码写完，再去测试，而是先写出这个宏的最简单的形式，哪怕它一开始是空的，也应该代入参数测试一下，然后试着让这个宏逐渐生长，在生长过程中不断测试。简而言之，应当像照顾一株植物一样定义宏。
 
-关于 \MetaPost\ 更为深入和全面的介绍，可参考其手册\cite[mpman] 以及 Hans Hagon 所写的 \METAFUN\ 手册，后者已在你所安装的 \CONTEXT\ 系统中了，使用以下命令可以找到它。
+关于 \MetaPost\ 更为深入和全面的介绍，可参考其手册\cite[mpman] 以及 Hans Hagen 所写的 \METAFUN\ 手册，后者已在你所安装的 \CONTEXT\ 系统中了，使用以下命令可以找到它。
 
 \starttyping
 $ mtxrun --search metafun-p.pdf
 \stoptyping
 
-另外，由 Hans Hagon 主持且尚在开发中的 LuaMetaFun 项目可谓是下一代 \METAPOST，关于该项目的一些进展和成果，见
+另外，由 Hans Hagen 主持且尚在开发中的 LuaMetaFun 项目可谓是下一代 \METAPOST，关于该项目的一些进展和成果，见
 
 \starttyping
 $ mtxrun --search luametafun.pdf

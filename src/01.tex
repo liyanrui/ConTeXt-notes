@@ -135,7 +135,7 @@ $ chmod +x foo.sh
 
 \startmycmd
 $ cd ~
-$ echo /BTEX{\Qt'}/ETEXexport PATH=~/foo:$PATH/BTEX{\Qt'}/ETEX >> .bashrc
+$ echo 'export PATH=~/foo:$PATH' >> .bashrc
 $ source .bashrc
 \stopmycmd
 
@@ -152,7 +152,7 @@ $ foo.sh
 \language[en]
 \startmycmd
 $ cd ~
-$ echo /BTEX{\Qt'}/ETEXexport PATH=~/foo:$PATH/BTEX{\Qt'}/ETEX >> .zshrc
+$ echo 'export PATH=~/foo:$PATH' >> .zshrc
 $ source .zshrc
 \stopmycmd
 
@@ -215,7 +215,7 @@ $ cd ~/opt/context
 $ wget https://lmtx.pragma-ade.com/install-lmtx/context-linux-64.zip
 $ unzip context-linux-64.zip
 $ sh install.sh
-$ echo /BTEX{\Qt'}/ETEXexport PATH=~/opt/context/tex/texmf-linux-64/bin:$PATH/BTEX{\Qt'}/ETEX >> ~/.bashrc
+$ echo 'export PATH=~/opt/context/tex/texmf-linux-64/bin:$PATH' >> ~/.bashrc
 $ mtxrun --generate
 $ rm context-linux-64.zip
 \stopmycmd

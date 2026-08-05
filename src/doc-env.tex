@@ -219,8 +219,10 @@ fancybox(.35BodyFontSize);
    style=\switchtobodyfont[tt,10pt],
    escape=yes]
 % 抄录环境里的单引号，会被替换为汉字单引号，我需要定义一个
-% 西文等宽字体，将其修正回来，即 /BTEX{\Qt'}/ETEX
-\definefont[Qt][lmmono10regular at 11pt]
+% 西文等宽字体，将其修正回来，即 '
+% 2026.7.30: 是 zhfonts 模块里等宽字体特性的设定有问题导致的，
+%            这个修复方案便废弃了。
+%\definefont[Qt][lmmono10regular at 11pt]
 
 % ---------- example ----------------------
 \definebuffer[example]

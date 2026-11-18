@@ -110,7 +110,7 @@ e = mc^2
 
 \section{定理和证明}
 
-对于数学工作者而言，最重要的任务是发现数学定理，并给予证明。\CONTEXT\ 没有为数学家们提供定理及其证明的排版命令，但是提供了实现这类命令的机制，即枚举。\type{itemize} 环境实际上可谓是枚举的特例。使用 \tex{defineenumeration}\index[definenumeration]{\tex{defineenumeration}} 可以定义新的枚举特例，例如
+对于数学工作者而言，最重要的任务是发现数学定理，并给予证明。\CONTEXT\ 没有为数学家们提供定理及其证明的排版命令，但是提供了实现这类命令的机制，即枚举。\type{itemize} 环境实际上可谓是枚举的特例。使用 \cmdindex{defineenumeration} 可以定义新的枚举特例，例如
 
 \startTEX
 \defineenumeration[theorem][text=定理]
@@ -130,7 +130,7 @@ e = mc^2
 
 \noindent 通过上例，可观察到，\type{theorem} 环境的序号会自动递增，这意味着，无论你发现了多少个数学定理，都可以反复使用该环境呈现它，只是其样式也许并非你想要的。
 
-如果你希望定理的序号和内容的首行处于同一行，可将定理环境的样式设定为紧凑模式\index[setupenumeration]{\tex{setupenumeration}}，见下例。
+如果你希望定理的序号和内容的首行处于同一行，可通过 \cmdindex{setupenumeration} 将定理环境的样式设定为紧凑模式，见下例。
 
 \startexample
 \setupenumeration[theorem][alternative=serried]

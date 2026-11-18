@@ -4,7 +4,7 @@
 
 \section[figure]{外图}
 
-无论是位图还是矢量图，对于 \CONTEXT\ 而言，都是外部图形，在文档中插入的方法是相同的，皆使用 \tex{externalfigure} 命令\index[externalfigure]{\tex{externalfigure}}。假设源文档所在目录存在位图文件 foo.png，用以下代码便可将其插入文档，例如插入于此处： \externalfigure[07/foo.png][width=1cm]。
+无论是位图还是矢量图，对于 \CONTEXT\ 而言，都是外部图形，在文档中插入的方法是相同的，皆使用 \cmdindex{externalfigure} 命令。假设源文档所在目录存在位图文件 foo.png，用以下代码便可将其插入文档，例如插入于此处： \externalfigure[07/foo.png][width=1cm]。
 
 \starttyping[option=TEX]
 \externalfigure[foo.png]
@@ -38,7 +38,7 @@
 \midaligned{\externalfigure[07/foo.png][width=.3\textwidth]}
 \midaligned{\tfx 这是插图的标题}
 
-如果你想让插图标题能有序号，对于篇幅较小的文章，手工输入序号即可，见下例。建议在序号后，用 \tex{quad} 命令插入一个字宽的空白作为间隔\index[quad]{\tex{quad}}，因为用普通的空格，只有半个字宽，效果不好。
+如果你想让插图标题能有序号，对于篇幅较小的文章，手工输入序号即可，见下例。建议在序号后，用 \cmdindex{quad} 命令插入一个字宽的空白作为间隔，因为用普通的空格，只有半个字宽，效果不好。
 
 \startTEX
 \midaligned{\externalfigure[07/foo.png][width=.3\textwidth]}
@@ -50,17 +50,17 @@
 
 \section{标题}
 
-倘若你担心插图太多，手工输入的插图序号难免会错乱，可以用 \CONTEXT\ 的计数器功能，让序号自动递增。首先，需要用 \tex{definenumber} 命令\index[definenumber]{\tex{definenumber}}定义一个计数器，给它取个名字，例如 \type{myfig}。
+倘若你担心插图太多，手工输入的插图序号难免会错乱，可以用 \CONTEXT\ 的计数器功能，让序号自动递增。首先，需要用 \cmdindex{definecounter} 命令定义一个计数器，给它取个名字，例如 \type{myfig}。
 
 \startTEX
-\definenumber[myfig]
+\definecounter[myfig]
 \stopTEX
 
-一开始，计数器没有值，需要用 \tex{incrementnumber} 命令\index[incrementnumber]{\tex{incrementnumber}}让它增 1，令其值为 1。要取得计数器的值，需要用 \tex{getnumber} 命令\index[getnumber]{\tex{getnumber}}。例如以下代码的排版效果是在文档页面里显示数字 1 和 2。
+一开始，计数器没有值，需要用 \cmdindex{incrementcounter} 命令让它增 1，令其值为 1。要取得计数器的值，需要用 \cmdindex{convertedcounter} 命令。例如以下代码的排版效果是在文档页面里显示数字 1 和 2。
 
 \startTEX
-\incrementnumber[myfig]\getnumber[myfig]  % 1
-\incrementnumber[myfig]\getnumber[myfig]  % 2
+\incrementcounter[myfig]\convertedcounter[myfig]  % 1
+\incrementcounter[myfig]\convertedcounter[myfig]  % 2
 \stopTEX
 
 知道上述计数器命令，便可为插图序号定义一个宏，每次从计数器取值，用作插图序号，然后将其增 1。在 \in[breaking-lines] 节里，我们曾经定义过一个宏 \tex{foo}：
@@ -72,12 +72,12 @@
 \noindent 在文档里使用 \tex{foo} 时，\CONTEXT\ 编译器会用这个宏的定义将其替换掉，亦即宏的使用，本质上是通过宏的名字引用其定义，这个过程通常称为{\bf 宏的展开}。下面用类似的办法，定义一个插图宏，以简化图片文件的插入过程。
 
 \startTEX
-\definenumber[myfignum] % 插图序号计数器
+\definecounter[myfignum] % 插图序号计数器
 
 \def\myfigure#1#2{
   \midaligned{#2}
-  \incrementnumber[myfignum]
-  \midaligned{\tfx 图 \getnumber[myfignum]\quad #1}
+  \incrementcounter[myfignum]
+  \midaligned{\tfx 图 \convertedcounter[myfignum]\quad #1}
 }
 \stopTEX
 
@@ -91,8 +91,8 @@
 
 \startTEX
 \midaligned{\externalfigure[foo.png]}
-\midaligned{\tfx 图 \getnumber[myfignum]\quad 插图的标题}
-\incrementnumber[myfignum] % 插图序号增 1
+\midaligned{\tfx 图 \convertedcounter[myfignum]\quad 插图的标题}
+\incrementcounter[myfignum] % 插图序号增 1
 \stopTEX
 
 下例演示了 \tex{myfigure} 的用法并给出了排版结果，插图和标题都是重复的，区别仅在于它们的序号。
@@ -105,14 +105,15 @@
 \definenumber[myfignum] % 插图序号计数器
 \def\myfigure#1#2{
   \midaligned{#2}
-  \incrementnumber[myfignum]
-  \midaligned{\tfx 图 \getnumber[myfignum]\quad #1}
+  \incrementcounter[myfignum]
+  \midaligned{\tfx 图 \convertedcounter[myfignum]\quad #1}
 }
 \myfigure{标题}{\externalfigure[07/foo.png][width=.3\textwidth]}
 \myfigure{标题}{\externalfigure[07/foo.png][width=.3\textwidth]}
 
-\indentation 不过，\CONTEXT\ 已经为插图提供了像 \tex{placetable} 那样的命令，即 \tex{placefigure}\index[placefigure]{\tex{placefigure}}。这个命令不仅能提供插图的序号，也能控制插图出现的位置，其用法与 \tex{placetable} 大致相似，可参考以下示例。
+\indentation 不过，\CONTEXT\ 已经为插图提供了像 \tex{placetable} 那样的命令，即 \cmdindex{placefigure}。这个命令不仅能提供插图的序号，也能控制插图出现的位置，其用法与 \tex{placetable} 大致相似，可参考以下示例。
 
+\start
 \startTEX
 \placefigure[here][引用]{标题}
             {\externalfigure[foo.png][width=.3\textwidth]}
@@ -123,19 +124,21 @@
   [here][引用]
   {标题}
   {\externalfigure[07/foo.png][width=.3\textwidth]}
-\mainlanguage[cn]
+\stop
 
 类似表格，插图标题序号的前缀若要改为中文的「图」而非默认的「Figure」，需要使用 \tex{mainlanguage[cn]} 将界面切换为中文环境。插图标题的样式，也是通过 \tex{setupcaption} 设定，只是该命令的第 1 个参数是 \type{figure}。下例设定了符合中文排版惯例的插图标题样式。
 
+\start
 \startTEX
 \mainlanguage[cn]
 \setupcaption[figure][headstyle=\rm, style=\tfx, align=center]
 \stopTEX
+\stop
 \setupcaption[figure][headstyle=\rm, style=\tfx, align=center]
 
 \section{阵列}
 
-有时，为了节省页面空间，会将一组图片并排放置，形成一个阵列，该需求可基于 \type{floatcombination} 实现\index[floatcombination]{\type{floatcombination} 环境}，例如以下代码可构造一行三列的插图阵列。
+有时，为了节省页面空间，会将一组图片并排放置，形成一个阵列，该需求可基于 \cmdindex[floatcombination 环境]{startfloatcombination} 实现，例如以下代码可构造一行三列的插图阵列。
 
 \startexample
 \startfloatcombination[nx=2,ny=1]

@@ -25,9 +25,8 @@
 }
 \stoptyping
 
-还有一种横向盒子 \type{\line}，其宽度是正文的宽度，该盒子内的文字会向两边伸展并与正文两侧边界对齐，例如
+还有一种横向盒子 \cmdindex{line}，其宽度是正文的宽度，该盒子内的文字会向两边伸展并与正文两侧边界对齐，例如
 
-\cmdindex{line}
 \starttyping[option=TEX]
 \line{\darkred\bf 我能吞下玻璃而不伤身体。}
 \stoptyping
@@ -62,16 +61,16 @@
 
 在 \CONTEXT\ 层面，通常很少使用 \TEX\ 盒子，而是使用 \type{\inframed} 和 \type{\framed}——前者是后者的特例。与 \TEX\ 盒子相比，\CONTEXT\ 层面的盒子可以显示边框，且有非常多的参数可以定制它们的外观。
 
-\type{\inframed} 用于正文，可用于给一行文字增加边框，例如
+\cmdindex{inframed} 用于正文，可用于给一行文字增加边框，例如
 
-\cmdindex{inframed}
 \starttyping[option=TEX]
 \inframed{\type{\inframed{...}}}
 \stoptyping
 
-\noindent 结果为 \inframed{\type{\inframed{...}}}。倘若使用 \type{\framed}，例如
+\noindent 结果为 \inframed{\type{\inframed{...}}}。
 
-\cmdindex{framed}
+倘若使用 \cmdindex{framed}，例如
+
 \starttyping[option=TEX]
 \framed{\type{\framed{...}}}
 \stoptyping
@@ -139,21 +138,23 @@
   \framed[align={flushleft,lohi}]{A}
 }
 
-\noindent 注意，上述代码中的 \tex{setupframed}\index[setupframed]{\tex{setupframed}} 命令可以设定 \tex{framed} 盒子的样式，所作设定会影响到该命令之后的所有 \type{\framed} 盒子，但是，如果是在编组内设定盒子样式，所作设定不会影响编组之外的盒子。上述代码中的 \tex{line} 命令之后跟随的便是编组。
+\noindent 注意，上述代码中的 \cmdindex{setupframed} 命令可以设定 \tex{framed} 盒子的样式，所作设定会影响到该命令之后的所有 \type{\framed} 盒子，但是，如果是在编组内设定盒子样式，所作设定不会影响编组之外的盒子。上述代码中的 \tex{line} 命令之后跟随的便是编组。
 
-\section[framebg]{背景}
+\section[framebg]{样式}
 
-可将颜色作为 \type{\framed} 的背景。例如
+受益于 \CONTEXT\ 的参数机制，我们可以通过设置 \type{backgroundcolor}、\allowbreak\type{foregroundcolor}、\allowbreak\type{foregroundstyle} 来控制背景以及文字的颜色和样式。例如
 
 \starttyping[option=TEX]
 \inframed
   [background=color,
    backgroundcolor=lightgray,
+   foregroundcolor=blue,
+   foregroundstyle=ssbfa,
    width=2cm,
    frame=off]{\bf foo}
 \stoptyping
 
-\noindent 结果为 \inframed[background=color,backgroundcolor=lightgray,width=2cm,frame=off]{\bf foo}。
+\noindent 结果为 \inframed[background=color,backgroundcolor=lightgray,foregroundcolor=blue,foregroundstyle=ssbfa,width=2cm,frame=off]{\bf foo}。
 
 通过 overlay，可将一些排版元素作为 \type{\framed} 的背景。例如
 
@@ -182,6 +183,7 @@ draw p withpen pencircle scaled .4pt withcolor darkred;
   \inframed[frame=off,background=circle]{#1}%
 }
 \stoptyping
+
 \startuseMPgraphic{foo}
 path p;
 p := fullcircle scaled OverlayWidth;
@@ -204,9 +206,8 @@ draw p withpen pencircle scaled .4pt withcolor darkred;
 
 \noindent 结果为 \inframed{\framed{我看到一棵樱桃树}}。可见 \type{\inframed} 内部的 \type{\framed} 的底部有着看似多余的空白。使用盒子的参数 \type{depth} 可以消除这些空白，但问题在于这处空白从何而来及其高度是多少。该问题与底层 \TEX\ 的西文排版机制有关。
 
-无论是 \TEX\ 还是 \CONTEXT\ 盒子，它们本身是没有深度的，但是当它们里面的文字或盒子有深度时，它们便有了深度。至于深度值具体是多大，可以借助 \TEX\ 的盒子寄存器进行测量。例如，定义一个盒子寄存器 \type{box0}：
+无论是 \TEX\ 还是 \CONTEXT\ 盒子，它们本身是没有深度的，但是当它们里面的文字或盒子有深度时，它们便有了深度。至于深度值具体是多大，可以借助 \TEX\ 的盒子寄存器进行测量。例如，通过 \cmdindex{setbox} 定义一个盒子寄存器 \type{box0}：
 
-\cmdindex{setbox}
 \starttyping[option=TEX]
 \setbox0\hbox{\inframed{\framed{我看到一棵樱桃树}}}
 \stoptyping
@@ -235,7 +236,7 @@ draw p withpen pencircle scaled .4pt withcolor darkred;
 
 \section{段落盒子}
 
-上文的示例，盒子里的内容都非常简单。事实上，\tex{framed} 能够容纳段落，只是默认情况下，它不具备段落断行功能，需要将其参数 \type{align} 的值设为 \type{normal} 方能断行，见下例。
+上文的示例，盒子里的内容都非常简单。事实上，\tex{framed} 能够容纳段落，只是默认情况下，它不具备段落断行功能，需要为参数 \type{align} 赋值方能断行，见下例。
 
 \startexample
 \framed[width=6cm, align=normal]{%

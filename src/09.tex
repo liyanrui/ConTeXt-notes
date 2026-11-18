@@ -4,7 +4,7 @@
 
 \section{抄录}
 
-抄录有两种形式，一种是位于一行文字之内，用 \type{\type{...}} 排版\index[type]{\tex{type}}，另一种是位于段落之间的 \type{typing} 环境\index[typing]{\type{typing} 环境}。例如
+抄录有两种形式，一种是位于一行文字之内，用 \cmdindex{type} 排版，另一种是位于段落之间的 \cmdindex{typing} 环境。例如
 
 \startexample
 \startframedtext[width=broad]
@@ -35,7 +35,7 @@ int main(void) {
 \simpleexample[option=TEX]{\null}
 \start\getexample\stop
 
-\type{\setuptyping} 的 \type{line} 参数可用于设定代码行号。通过 \type{\setuplinenumbering}\index[setuplinenumbering]{\tex{setuplinenumbering}} 可定制行号样式。下例开启代码行号，并将行号到 \type{typing} 环境的距离设为 0.5em：
+\type{\setuptyping} 的 \type{line} 参数可用于设定代码行号。通过 \cmdindex{setuplinenumbering} 可定制行号样式。下例开启代码行号，并将行号到 \type{typing} 环境的距离设为 0.5em：
 
 \startexample
 \setuptyping
@@ -116,7 +116,7 @@ Hello \CONTEXT!
 \stopTEXpage
 \stoptyping
 
-\noindent 使用 \type{\definecolor}\index[definecolor]{\tex{definecolor}} 可以通过设定红（r）、绿（g）、蓝（b）分量定义颜色。例如
+\noindent 使用 \cmdindex{definecolor} 可以通过设定红（r）、绿（g）、蓝（b）分量定义颜色。例如
 
 \startexample
 \definecolor[myred][r=.8,g=.2,b=.2]
@@ -124,7 +124,7 @@ Hello \CONTEXT!
 \stopexample
 \simpleexample[option=TEX]{\getexample}
 
-\noindent 上例可以让你顺便学会另一种给文字增加外框的方法。也可以用 \type{\colored}\index[colored]{\tex{colored}} 直接设定 rgb 颜色对文字着色，以下代码与上例等效：
+\noindent 上例可以让你顺便学会另一种给文字增加外框的方法。也可以用 \cmdindex{colored} 直接设定 rgb 颜色对文字着色，以下代码与上例等效：
 
 \startTEX
 \framed{\colored[r=.8,g=.2,b=.2]{给你点 color see see！}}
@@ -158,7 +158,7 @@ Hello \CONTEXT!
 
 \section{样式设定}
 
-\tex{setuptype}\index[setuptype]{\tex{setuptype}} 和 \tex{setuptyping}\index[setuptyping]{\tex{setuptyping}} 可分别用于设置行内和行间抄录环境的样式。例如将行内抄录的颜色设为深红色，并打开空格显示：
+\cmdindex{setuptype} 和 \cmdindex{setuptyping} 可分别用于设置行内和行间抄录环境的样式。例如将行内抄录的颜色设为深红色，并打开空格显示：
 
 \startTEX
 \setuptype[color=darkred,space=on]
@@ -173,7 +173,7 @@ Hello \CONTEXT!
              escape=yes]
 \stopTEX
 
-使用 \type{\definetype}\index[definetype]{\tex{definetype}} 和 \type{\definetyping}\index[definetyping]{\tex{definetyping}} 可以定义专用的抄录环境，见下例。
+使用 \cmdindex{definetype} 和 \cmdindex{definetyping} 可以定义专用的抄录环境，见下例。
 
 \starttyping[option=TEX]
 \definetyping[foo][escape=yes,space=on,option=TEX]

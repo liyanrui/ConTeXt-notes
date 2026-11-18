@@ -30,7 +30,7 @@ $ context foo
 
 \noindent 从本章开始，在表达命令行语句时，将一直使用 Linux 风格的命令提示符 \type{$}。此外，将 \type{context} 命令称为 {\bf\CONTEXT\ 编译器}，有时我也会将后者简称为 \CONTEXT。
 
-在 \CONTEXT\ 源文件里，前缀为反斜线 \type{\} 的西文单词，皆为排版命令。形如 \type{\startxxx...\stopxxx} 这样的排版命令称为 \type{xxx} 环境。\type{TEXpage} 环境\index[TEXpage]{\type{TEXpage} 环境}就是我们的新手村，用于演练今后所学的一些基本的 \CONTEXT\ 排版命令，该环境的内容会被 \CONTEXT\ 编译器安排在尺寸紧致的矩形排版空间里，像一张卡片。
+在 \CONTEXT\ 源文件里，前缀为反斜线 \type{\} 的西文单词，皆为排版命令。形如 \type{\startxxx...\stopxxx} 这样的排版命令称为 \type{xxx} 环境。\cmdindex[TEXpage 环境]{startTEXpage} 就是我们的新手村，用于演练今后所学的一些基本的 \CONTEXT\ 排版命令，该环境的内容会被 \CONTEXT\ 编译器安排在尺寸紧致的矩形排版空间里，像一张卡片。
 
 \type{TEXpage} 环境的 \type{frame} 参数用于控制边框是否开启，若该参数不存在或其值为 \type{off}，表示无边框。\type{offset} 参数可用于扩大或缩小对排版空间，例 \in[starting-area] 将排版空间从中心向四周扩大了 2.5 mm；若尺寸为负，则产生缩小效果。
 
@@ -43,7 +43,7 @@ Hello \CONTEXT!
 
 \section{伪文}
 
-\CONTEXT\ 自带一个名为 visual 的模块，该模块提供了命令 \tex{fakewords}\index[fakewords]{\tex{fakewords}}，可生成一些黑色的长短随机的矩形块。若将这些矩形块视为文字，在新手村里，我们举止会更为随心所欲一些，例如下例排版了两行文字，每一行由 3～5 个单词构成。
+\CONTEXT\ 自带一个名为 visual 的模块，该模块提供了命令 \cmdindex{fakewords}，可生成一些黑色的长短随机的矩形块。若将这些矩形块视为文字，在新手村里，我们举止会更为随心所欲一些，例如下例排版了两行文字，每一行由 3～5 个单词构成。
 
 \startexample
 \usemodule[visual] % 载入 visual 模块
@@ -73,7 +73,7 @@ This is the first line.\\ This is the second line.
 
 \noindent 排版所得结果依然是两行。\type{\crlf} 也能用于文字强制换行。
 
-\type{lines} 环境\index[lines 环境]{\type{lines} 环境}可以排版多行文本，无需 \tex{\} 或 \tex{crlf}，见下例。
+\cmdindex[lines 环境]{startlines} 可以排版多行文本，无需 \tex{\} 或 \tex{crlf}，见下例。
 
 \startexample
 \startlines
@@ -139,7 +139,7 @@ This is the first line.\\ This is the second line.
 
 \section[interlinespace]{行距}
 
-\CONTEXT\ 默认的段落内各行文字的间距是 2.8ex，约等于 \CONTEXT\ 默认的正文字体大小 12pt。可使用 \type{\setupinterlinespace}\index[setupinterlinespace]{\tex{setupinterlinespace}} 命令对行间距进行调整。使用该命令，需要确定当前正文字体所用字号。例 \in[pars-5] 按 \CONTEXT\ 默认的正文字体字号即 12pt，将行距设为该字号的 1.75 倍。
+\CONTEXT\ 默认的段落内各行文字的间距是 2.8ex，约等于 \CONTEXT\ 默认的正文字体大小 12pt。可使用 \cmdindex{setupinterlinespace} 命令对行间距进行调整。使用该命令，需要确定当前正文字体所用字号。例 \in[pars-5] 按 \CONTEXT\ 默认的正文字体字号即 12pt，将行距设为该字号的 1.75 倍。
 
 \startexample
 % 1.75 * 12pt = 21pt
@@ -151,7 +151,7 @@ This is the first line.\\ This is the second line.
 
 例 \in[pars-5] 设定的实际上是行高。在 \CONTEXT\ 中，行高是相邻两行文字的基线距离，可将其视为行间距。可能你并不清楚基线的概念。还记得小时候学英文时用的四线三格本子吗？那 4 条线从下往上数的第 2 条线便是基线\index{baseline, 基线}。
 
-\CONTEXT\ 提供了 \tex{bodyfontsize} 命令\index[bodyfontsize]{\tex{bodyfontsize}}，通过它能获得当前正文字体的字号，于是例 \in[pars-5] 可改写为
+\CONTEXT\ 提供了 \cmdindex{bodyfontsize} 命令，通过它能获得当前正文字体的字号，于是例 \in[pars-5] 可改写为
 
 \starttyping[option=TEX]
 \setupinterlinespace[line=1.75\bodyfontsize]
@@ -172,7 +172,7 @@ This is the first line.\\ This is the second line.
 \stopexample
 \example[option=TEX][aligned-1]{多行文本构成的段落}{\externalfigure[02/aligned-1.pdf]}
 
-现在，你已经有能力用伪文字写一封谁也看不懂内容的书信了，见例 \in[letter]。注意，该例使用了 \tex{dorecurse} 命令\index[dorecurse]{\tex{dorecurse}}，该命令可将其第 2 个参数复制 $n$ 次，$n$ 值由该命令的第 1 个参数设定。
+现在，你已经有能力用伪文字写一封谁也看不懂内容的书信了，见例 \in[letter]。注意，该例使用了 \cmdindex{dorecurse} 命令，该命令可将其第 2 个参数复制 $n$ 次，$n$ 值由该命令的第 1 个参数设定。
 
 \startexample
 \usemodule[visual]
@@ -190,7 +190,7 @@ This is the first line.\\ This is the second line.
 \stopexample
 \example[option=TEX][letter]{一封谁也看不懂的信}{\externalfigure[02/letter.pdf][width=.35\textwidth]}
 
-若一段文字需要居左、居中或居右排版，可使用 \type{alignment} 环境\index[alignment]{\type{alignment} 环境}，通过该环境的参数控制对齐形式。例 \in[aligned-2] 展示了段落的三种对齐形式。
+若一段文字需要居左、居中或居右排版，可使用 \cmdindex[alignment 环境]{startalignment}，通过该环境的参数控制对齐形式。例 \in[aligned-2] 展示了段落的三种对齐形式。
 
 \startexample
 \startalignment[flushleft] % 左对齐

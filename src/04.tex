@@ -9,10 +9,10 @@
 在 \CONTEXT\ 中，标题分为两种，无编号的和有编号的。每种标题又分为诸多级别。无编号的标题，级别从高到低，排版命令依次为
 
 \startTEX
-\title{...} % 一级标题
-\subject{...} % 次级标题
-\subsubject{...} % 次次级标题
-\subsubsubject{...} % 次次次级标题
+\title{...} % 一级主题
+\subject{...} % 次级主题
+\subsubject{...} % 次次级主题
+\subsubsubject{...} % 次次次级主题
 ... ... ...
 \stopTEX
 
@@ -55,7 +55,7 @@
 \stopexample
 \example[option=TEX][zaoshu]{散文示例 1}{\externalfigure[04/zaoshu.pdf][width=.3\textwidth]}
 
-上例未写出作者的名字，以便你能够观察到 \CONTEXT\ 标题之后第一段的首行是不缩进的，这是西文的排版习惯。在使用标题命令前，需要用 \tex{setupheads}\index[setupheads]{\tex{setupheads}} 为所有标题设定其后第一段的首行必须缩进，见下例。
+上例未写出作者的名字，以便你能够观察到 \CONTEXT\ 标题之后第一段的首行是不缩进的，这是西文的排版习惯。在使用标题命令前，需要用 \cmdindex{setupheads} 为所有标题设定其后第一段的首行必须缩进，见下例。
 
 \startexample
 \setupindenting[first,always,2em]
@@ -79,7 +79,7 @@
 \stopexample
 \example[option=TEX][zaoshu-2]{散文示例 2}{\externalfigure[04/zaoshu-2.pdf][width=.3\textwidth]}
 
-上例存在的问题是，作者名字距正文过近，而难以凸显。不要尝试在作者名字之后增加一些空行来解决这个问题。\TeX\ 引擎在遇到多个空行时，它也只是把它们当成一个空行，并将其视为 \type{\par}。在版面的竖直方向，段落之间，或标题与段落之间，或标题与标题之间……增加空白距离，可使用 \type{\blank} 命令\index[blank]{\tex{blank}}。下例在作者和正文之间增加一个空行的距离，只需 \type{\blank[line]}；要增加 $n$ 个空行的距离，只需 \type{\blank[n*line]}。
+上例存在的问题是，作者名字距正文过近，而难以凸显。不要尝试在作者名字之后增加一些空行来解决这个问题。\TeX\ 引擎在遇到多个空行时，它也只是把它们当成一个空行，并将其视为 \type{\par}。在版面的竖直方向，段落之间，或标题与段落之间，或标题与标题之间……增加空白距离，可使用 \cmdindex{blank} 命令。下例在作者和正文之间增加一个空行的距离，只需 \type{\blank[line]}；要增加 $n$ 个空行的距离，只需 \type{\blank[n*line]}。
 
 \startexample
 \title{鲁迅家的后园}
@@ -100,6 +100,12 @@
 
 \starttyping[option=TEX]
 \setuphead[title][style=\bfc,align=middle]
+\stoptyping
+
+现在您可以随意的设置任意层级标题的样式了，只需要将上述设置中的 \type{title} 修改为您想要设置的层级名称即可。例如：
+
+\starttyping[option=TEX]
+\setuphead[chapter][style=\bfc,align=middle]
 \stoptyping
 
 例 \in[zaoshu-4] 的排版结果已经基本合规了，只是标题里的汉字的分布有些疏松，原因是汉字之间粘连的伸长特性被激活了，大概是 \CONTEXT\ 过于追求文字居中对齐精度所致。
@@ -198,7 +204,7 @@
 
 \noindent foo-env.tex 即为样式文件，它可以重复使用，也可以分享给他人使用。
 
-假设我们在排版一份文档时使用上述 foo-env.tex 文件中的样式，只需用 \tex{environment} 命令\index[environment]{\tex{environment}}将该文件的内容载入即可。例如
+假设我们在排版一份文档时使用上述 foo-env.tex 文件中的样式，只需用 \cmdindex{environment} 命令将该文件的内容载入即可。例如
 
 \startTEX
 \environment foo-env % 文件扩展名可以省略

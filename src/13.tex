@@ -64,9 +64,8 @@
 
 \section[TOC]{目录}
 
-\type{\placecontent} 可将全文章节标题及其所在页码等信息汇总为一个列表，以方便读者查阅。例如
+\cmdindex{placecontent} 可将全文章节标题及其所在页码等信息汇总为一个列表，以方便读者查阅。例如
 
-\cmdindex{placecontent}
 \starttyping[option=TEX]
 \usemodule[visual]
 \starttext
@@ -182,9 +181,8 @@
 \getexample
 \stopframedtext
 
-使用 \type{\textreference} 可在文档几乎任何位置插入引用。例如
+使用 \cmdindex{textreference} 可在文档几乎任何位置插入引用。例如
 
-\cmdindex{textreference}
 \startexample
 我在此处放置了一个引用\textreference[myref]{一个引用}。
 \stopexample
@@ -302,7 +300,7 @@
 
 \section{页眉}
 
-在页眉区域放置内容，需要用 \tex{setupheadertexts} 命令\cmdindex{setupheadertexts}。在单面排印的情况下，该命令支持三个参数，第一个参数是可选的，若不设定，则值默认是 \type{text}，表示版心上下的页眉和页脚局部区域，也可以将其值设为 \type{margin}，此时表示的是订口和翻口上下的页眉和页脚局部区域。
+在页眉区域放置内容，需要用 \cmdindex{setupheadertexts} 命令。在单面排印的情况下，该命令支持三个参数，第一个参数是可选的，若不设定，则值默认是 \type{text}，表示版心上下的页眉和页脚局部区域，也可以将其值设为 \type{margin}，此时表示的是订口和翻口上下的页眉和页脚局部区域。
 
 下例设定了正文区域上方的页眉左侧和右侧区域的内容。
 
@@ -344,7 +342,7 @@
 
 \noindent 在单面模式下，奇数页的页眉左侧和右侧显示的分别是当前章名和页码，而偶数页的页眉左侧和右侧显示的分别是书名和页码，但是若开启了双面对开模式，偶数页的页眉便会按上述设定，页码在左侧，书名在右侧。
 
-本文档的页眉设定用了几个之前未曾提及的命令，其中 \tex{headnumber}\cmdindex{headnumber} 可以取得当前章节的序号，\tex{getmarking}\cmdindex{getmarking} 可以取得当前章节的标题，\tex{kern}\cmdindex{kern} 命令用于制作指定宽度的间距。此外，我还需要再次提醒，要注意上述宏定义里的注释符，它们的用途是消除其后的换行符，以防在宏展开时这些换行符被当成空格而污染排版内容。
+本文档的页眉设定用了几个之前未曾提及的命令，其中 \cmdindex{headnumber} 可以取得当前章节的序号，\cmdindex{getmarking} 可以取得当前章节的标题，\cmdindex{kern} 命令用于制作指定宽度的间距。此外，我还需要再次提醒，要注意上述宏定义里的注释符，它们的用途是消除其后的换行符，以防在宏展开时这些换行符被当成空格而污染排版内容。
 
 也许你忽然想到，如果我想在正文上方的页眉区域或下方的页脚区域的中部放置内容，该如何实现呢？页眉和页脚的设定命令皆支持单参数形式，可用于在正文上方页眉或下方页脚中部放置内容，下例绘制了页眉底线，并居中放置了一些内容。
 
@@ -353,7 +351,7 @@
   [\framed[width=\textwidth, frame=off, bottomframe=on]{页眉内容}]
 \stopTEX
 
-你也能将上例扩展为在页眉的左侧、中部和右侧放置内容，同时带有底线的效果，而无需使用 \tex{setupheadertexts} 命令的多参数形式，只是在双面对开模式下，你需要用 \tex{ifodd} 命令\cmdindex{ifodd}判断当前页码的奇偶性，然后相应调整左右侧内容，下例可作为参考。
+你也能将上例扩展为在页眉的左侧、中部和右侧放置内容，同时带有底线的效果，而无需使用 \tex{setupheadertexts} 命令的多参数形式，只是在双面对开模式下，你需要用 \cmdindex{ifodd} 命令判断当前页码的奇偶性，然后相应调整左右侧内容，下例可作为参考。
 
 \startTEX
 \defineframed[framedheader]
@@ -371,7 +369,7 @@
 
 \section{页脚}
 
-在 \in[footer] 节已经用 \tex{setupfootertexts} 命令\cmdindex{setupfootertexts}为幻灯片设置了页脚区域，该命令的参数形式与 \tex{setupheadertexts} 相同，故其用法不再赘述。
+在 \in[footer] 节已经用 \cmdindex{setupfootertexts} 命令为幻灯片设置了页脚区域，该命令的参数形式与 \tex{setupheadertexts} 相同，故其用法不再赘述。
 
 \subject{结语}
 

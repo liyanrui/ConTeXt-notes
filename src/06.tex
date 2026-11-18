@@ -206,8 +206,9 @@
 %   [headstyle=\rm, style=\tfx, align=center, location=top]
 \stopTEX
 
-\noindent \tex{setupcaption}\index[setupcaption]{\tex{setupcaption}} 的 \type{headstyle} 参数用于设定表格标题的序号部分（包括前缀）的样式，其值为 \type{normal} 时，表示使用字族中的正体，等效于 \tex{rm}；该参数的默认值是 bold，即粗体。\type{style} 参数用于设定标题的正体风格，其值 \type{small} 表示用小号字，等效于 \tex{tfx}。\type{align} 参数，在 \in[essay] 节已经见过了，应当将其设为 \type{center} 方能避免标题汉字之间的粘连被意外激活而导致文字蓬松。\type{location} 参数用于设定标题在表格上方（top）还是在底部（bottom)，还是在其他位置。上述样式设定产生的效果见表 \in[table-cn-style]。
+\noindent \cmdindex{setupcaption} 的 \type{headstyle} 参数用于设定表格标题的序号部分（包括前缀）的样式，其值为 \type{normal} 时，表示使用字族中的正体，等效于 \tex{rm}；该参数的默认值是 bold，即粗体。\type{style} 参数用于设定标题的正体风格，其值 \type{small} 表示用小号字，等效于 \tex{tfx}。\type{align} 参数，在 \in[essay] 节已经见过了，应当将其设为 \type{center} 方能避免标题汉字之间的粘连被意外激活而导致文字蓬松。\type{location} 参数用于设定标题在表格上方（top）还是在底部（bottom)，还是在其他位置。上述样式设定产生的效果见表 \in[table-cn-style]。
 
+\start
 \mainlanguage[cn]
 \setupcaption
   [table]
@@ -222,6 +223,7 @@
   \BL[3]
   \stoptabulate
 }
+\stop
 
 \tex{placetable} 命令需要 4 个参数，其形式可抽象为
 
@@ -296,14 +298,14 @@
 \getexample
 \blank[halfline]
 
-\noindent 之所以如此，是因为 \type{itemize} 环境是纵向优先。要解决这个问题，列表方案必须拆解为两个单行的列表，让第 2 个列表的序号续接第 1 个，见下例。
+\noindent 之所以如此，是因为 \type{itemize} 环境是纵向优先。改为横向优先即可（注意，必须使用 \type{\startitem} 和 \type{\stopitem} 环境命令包裹，而不是快捷命令），见下例。
 
 \startexample
-\startitemize[A, nowhite, columns, two]
-\item 花非花 \item 雾非雾
-\stopitemize
-\startitemize[A, nowhite, columns, two, continue]  
-\item 夜半来 \item 天明去
+\startitemize[A, nowhite, horizontal, two]
+\startitem 花非花 \stopitem
+\startitem 雾非雾 \stopitem
+\startitem 夜半来 \stopitem
+\startitem 天明去 \stopitem
 \stopitemize
 \stopexample
 \simpleexample[option=TEX]{\null}
@@ -321,7 +323,7 @@
 
 \section{样式设定}
 
-\type{tabulate} 环境的第 2 个参数可以设定表格的样式，例如上文设定过 \type{distance} 和 \type{unit} 的值。如果你的所有表格需要使用同一类样式，可以用 \tex{setuptabulate} 命令\index[setuptabulate]{\tex{setuptabulate}}统一设定，无需每个表格都作设定。例如
+\type{tabulate} 环境的第 2 个参数可以设定表格的样式，例如上文设定过 \type{distance} 和 \type{unit} 的值。如果你的所有表格需要使用同一类样式，可以用 \cmdindex{setuptabulate} 命令统一设定，无需每个表格都作设定。例如
 
 \startexample
 \setuptabulate[distance=0mm, unit=0mm, rulethickness=4pt]
@@ -337,7 +339,7 @@
 
 \noindent \type{rulethickness} 用于设定表格线条的粗度。
 
-如果你不想让表格的样式设定影响所有表格，而是想让它仅仅影响某类表格，你可以用 \tex{definetabulate}\index[definetabulate]{\tex{definetabulate}} 定义自己的表格类型，然后只为该类型的表格设定样式。例如
+如果你不想让表格的样式设定影响所有表格，而是想让它仅仅影响某类表格，你可以用 \cmdindex{definetabulate} 定义自己的表格类型，然后只为该类型的表格设定样式。例如
 
 \startexample
 \definetabulate[Options][|p|p|]

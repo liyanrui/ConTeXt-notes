@@ -1,0 +1,53 @@
+\definebtx[foo][specification=foa]
+\definebtxrendering[foo][specification=foa]
+
+\startsetups btx:foo:list:article
+  \texdefinition{btx:foo:list:author}\btxperiod\btxspace
+  \texdefinition{btx:foo:list:title}\btxperiod\btxspace
+  \texdefinition{btx:foo:list:journal}[J]\btxcomma\btxspace
+  \texdefinition{btx:foo:list:year}\btxcomma\btxspace
+  \texdefinition{btx:foo:list:volume}
+  \texdefinition{btx:foo:list:number}\btxcolon\btxspace
+  \texdefinition{btx:foo:list:pages}
+  \btxperiod
+\stopsetups
+
+\starttexdefinition btx:foo:list:author
+  \color[blue]{\btxflush{author}}
+\stoptexdefinition
+
+\starttexdefinition btx:foo:list:title
+  \color[red]{\btxflush{title}}
+\stoptexdefinition
+
+\starttexdefinition btx:foo:list:journal
+    \color[magenta]{\btxflush{journal}}
+\stoptexdefinition
+
+\starttexdefinition btx:foo:list:year
+    \btxflush{year}
+\stoptexdefinition
+
+\starttexdefinition btx:foo:list:volume
+    \btxflush{volume}
+\stoptexdefinition
+
+\starttexdefinition btx:foo:list:number
+  \ignorespaces  % 忽略空白字符
+  \btxleftparenthesis  % 左括号 (
+  \btxflush{number}
+  \btxrightparenthesis  % 右括号 )
+\stoptexdefinition
+
+\starttexdefinition btx:foo:list:pages
+  \btxflush{pages}
+\stoptexdefinition
+
+\setupbtxlist[foo][width=auto,distance=1em,starter={[},stopper={]}]
+
+\definebtx[foo:list:author][foo:list]
+\setupbtx
+  [foo:list:author]
+  [authorconversion=invertedshort,
+  separator:invertedinitials=\btxspace,
+  stopper:initials=\btxspace]

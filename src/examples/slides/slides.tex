@@ -1,0 +1,28 @@
+\input style
+\starttext
+\startstandardmakeup[align=center]
+\ssd \color[darkred]{如何用 \ConTeXt\ 制作幻灯片}
+\blank[2*line]
+\ssb 李某人
+\blank[line]
+2023 年 3 月 28 日
+\stopstandardmakeup
+
+\startbuffer[foo]
+\chapter{蒙}
+亨。匪我求童蒙，童蒙求我；初筮告，再三渎，渎则不告。利贞。
+\startitemize
+\item 初六，发蒙，利用刑人，用说桎梏；以往吝。
+\item 九二，包蒙，吉。纳妇，吉；子克家。
+\item 六三，勿用取女，见金夫，不有躬，无攸利。
+\item 六四，困蒙，吝。
+\item 六五，童蒙，吉。
+\item 上九，击蒙，不利为寇，利御寇。
+\stopitemize
+\stopbuffer
+\dorecurse{50}{\getbuffer[foo]}
+
+\startstandardmakeup[align=center]
+\ssd \color[darkred]{同志们，辛苦了！}
+\stopstandardmakeup
+\stoptext

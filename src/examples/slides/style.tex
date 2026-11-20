@@ -1,0 +1,52 @@
+% 页面布局
+\definepapersize[foo][width=640pt,height=360pt]
+\setuppapersize[foo]
+\setuplayout[width=middle,topspace=0pt,height=middle,footer=40pt]
+\setupbackgrounds[page][backgroundcolor=gray,background=color]
+% 字体
+\definefallbackfamily
+  [myfonts][ss][latinmodernsans][range={0x0000-0x0400},force=yes]
+\definefontfamily[myfonts][ss][simhei][bf=simhei,it=kaiti,bi=simhei]
+\setscript[hanzi]
+\setupbodyfont[myfonts,ss,16pt]
+% 常规
+\setuppagenumbering[location=]
+\setupinterlinespace[line=28pt]
+\startuseMPgraphic{square}
+  path a, b;
+  a := (-.5, 0) -- (-.5, .5) -- (.5, .5);
+  b := (-.5, -.5) -- (.5, -.5) -- (.5, 0);
+  for i = a, b:
+    draw i scaled 10pt withpen pencircle scaled 2pt withcolor darkred;
+  endfor;
+  draw (0, 0) withpen pensquare scaled 4pt withcolor darkred;
+\stopuseMPgraphic
+\definesymbol[10][{\lower.15ex\hbox{\useMPgraphic{square}}}]
+\setupitemize
+  [1][10,packed]
+  [distance=0.4em,
+   before={\blank[quarterline]},after={\blank[quarterline]}]
+% 标题
+\setuphead
+  [title,chapter]
+  [align=center,style=\ssb,color=darkred,
+   before={\blank[halfline]},after={\blank[halfline]}]
+\setuphead[chapter][conversion=chinesenumerals,alternative=inmargin]
+
+\startuseMPgraphic{processbar}
+  numeric w, n, s, t;
+  w := \overlaywidth; n := \lastuserpage; s := .5w / (n + 2); t := \userpagenumber - 1;
+  path p; p := (fullsquare scaled \overlayheight) randomized 1pt;
+  pickup pencircle scaled 1.25pt;
+  picture q;
+  q := image(for i = 0 upto n - 1:
+               p := (p shifted (2s, 0));
+               if t = i: fill p withcolor darkgreen; fi;
+               draw p withcolor darkgray;%transparent(1, 0.5, darkgray);
+             endfor;);
+  draw q xsized w;
+\stopuseMPgraphic
+\defineoverlay[process][\useMPgraphic{processbar}]
+\setupfootertexts[{\framed[frame=off,offset=0pt,
+                           width=\makeupwidth,height=.8em,
+                           background=process,empty=yes]{}}]

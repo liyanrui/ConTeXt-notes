@@ -4,23 +4,21 @@
 
 \section{纸面尺寸}
 
-纸面尺寸是页面的打印尺寸。至此为止，本文档之前所有的示例，在 \type{TEXpage} 环境里的，纸面尺寸取决于文档内容的多少，而在 \type{text} 环境里的，纸面尺寸默认是 A4，即 $21\,{\rm cm}\times 29.7\,{\rm cm}$。如果你需要将纸面尺寸换成 A5，只需在样式文件中作以下设定\cmdindex{setuppapersize}
+纸面尺寸是页面的打印尺寸。至此为止，本文档之前所有的示例，在 \type{TEXpage} 环境里的，纸面尺寸取决于文档内容的多少，而在 \type{text} 环境里的，纸面尺寸默认是 A4，即 $21\,{\rm cm}\times 29.7\,{\rm cm}$。如果你需要将纸面尺寸换成 A5，只需在样式文件中通过 \cmdindex{setuppapersize} 作以下设定
 
-\cmdindex{setuppapersize}
 \starttyping[option=TEX]
 \setuppapersize[A5]
 \stoptyping
 
-制作幻灯片通常不需要太大的纸面尺寸。\CONTEXT\ 提供了 S4 尺寸（$400\,{\rm pt}\times 300\,{\rm pt}$），可将其作为幻灯片的纸面尺寸，或者你根据自身需求定义一个纸面尺寸来用\cmdindex{definepapersize}，例如
+制作幻灯片通常不需要太大的纸面尺寸。\CONTEXT\ 提供了 S4 尺寸（$400\,{\rm pt}\times 300\,{\rm pt}$），可将其作为幻灯片的纸面尺寸，或者你根据自身需求通过 \cmdindex{definepapersize} 定义一个纸面尺寸来用，例如
 
 \starttyping[option=TEX]
 \definepapersize[slidesize][width=640pt,height=480pt]
 \setuppapersize[slidesize]
 \stoptyping
 
-实际上，纸面尺寸仅对排版结果的打印很重要，倘若只是在计算机（或投影仪）屏幕上观看排版结果，我们总是可以通过调整正文字体大小去应对过大或过小的纸面尺寸，但是纸面尺寸的宽高比例，对于屏幕非常重要。通常，幻灯片的宽高比应当与屏幕的分辨率相适应为最佳。例如，我的屏幕分辨率是 $1600\times 900$，那么我要制作的幻灯片页面的宽高比也应当是 $16:9$，故而纸面尺寸可设定为
+实际上，纸面尺寸仅对排版结果的打印很重要，倘若只是在计算机（或投影仪）屏幕上观看排版结果，我们总是可以通过调整正文字体大小去应对过大或过小的纸面尺寸，但是纸面尺寸的宽高比例，对于屏幕非常重要。通常，幻灯片的宽高比应当与屏幕的分辨率相适应为最佳。例如，我的屏幕分辨率是 $1600\times 900$，那么我要制作的幻灯片页面的宽高比也应当是 $16:9$，故而这个新定义的纸面尺寸可通过 \cmdindex{definepapersize} 设定为
 
-\cmdindex{definepapersize}
 \starttyping[option=TEX]
 \definepapersize[slidesize][width=640pt,height=360pt]
 \setuppapersize[slidesize]
@@ -54,9 +52,8 @@
 
 \placefigure[here][ConTeXt-layout]{页面布局注解}{\externalfigure[12/ConTeXt-layout.svg][width=.8\textwidth]}
 
-使用 \type{\setlayout}\cmdindex{setlayout} 可对各区域尺寸进行调整，例如让版心居中，即图 \in[ConTeXt-layout] 所示的 \type{width} 和 \type{textheight} 确定的区域居中，因为在默认情况下，它有些偏左。我们已经知道，页面的横向尺寸是 640pt，按以下设定即可令版心居中。
+使用 \cmdindex{setlayout} 可对各区域尺寸进行调整，例如让版心居中，即图 \in[ConTeXt-layout] 所示的 \type{width} 和 \type{textheight} 确定的区域居中，因为在默认情况下，它有些偏左。我们已经知道，页面的横向尺寸是 640pt，按以下设定即可令版心居中。
 
-\cmdindex{setuplayout}
 \starttyping[option=TEX]
 \setuplayout
   [leftedge=0pt,leftedgedistance=0pt,
@@ -192,7 +189,7 @@ fill p withcolor .5[blue, white];
 \stoptyping
 \midaligned{\externalfigure[12/slides-2.pdf][width=.625\textwidth,frame=on]}
 
-\noindent 上述代码使用了 \CONTEXT\ 的 \type{buffer} 环境\index[buffer]{\type{buffer} 环境}。所谓 \type{buffer}，是可以设定名字的缓存，它可以包含 \CONTEXT\ 排版代码。\type{\getbuffer} 用于获取缓存内容。
+\noindent 上述代码使用了 \CONTEXT\ 的 \index[buffer 环境]{startbuffer}。所谓 \type{buffer}，是可以设定名字的缓存，它可以包含 \CONTEXT\ 排版代码。\type{\getbuffer} 用于获取缓存内容。
 
 以下设定，可将标题的数字编号更改为中文编号，且将编号样式设定为 \type{inmargin}，表示编号不参与居中对齐，只有标题内容参与对齐。
 
@@ -205,9 +202,8 @@ fill p withcolor .5[blue, white];
 
 在 \in[regular-style] 节中，我关闭了 \CONTEXT\ 好意提供的页码，但并非不需要页码，而是我期望页码能出现在页面的右下角，且除以总页数，以便清楚幻灯片的进度。
 
-\CONTEXT\ 提供了 \type{\setupfootertexts} 命令\cmdindex{setupfootertexts}，可以在页脚左、右区域放入文字、盒子或图形等内容，同时提供了 \type{\setupfooter} 用于设定页脚区域的文字样式。另外，\type{\userpagenumber}\cmdindex{userpagenumber} 和 \type{\lastuserpage}\cmdindex{lastuserpage} 可分别用于获取当前页的页码和最后一页的页码。基于这些命令，便可实现能够表示进度的页码，例如
+\CONTEXT\ 提供了 \cmdindex{setupfootertexts} 命令，可以在页脚左、右区域放入文字、盒子或图形等内容，同时提供了 \cmdindex{setupfooter} 用于设定页脚区域的文字样式。另外，\cmdindex{userpagenumber} 和 \cmdindex{lastuserpage} 可分别用于获取当前页的页码和最后一页的页码。基于这些命令，便可实现能够表示进度的页码，例如
 
-\cmdindex{setupfootertexts}
 \starttyping[option=TEX]
 \setupfooter[style=small,color=darkred]
 % 令页脚左侧区域为空，右侧区域放置用于表示进度的页码

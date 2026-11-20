@@ -160,6 +160,8 @@ $ source .zshrc
 
 \section[installation]{安装 \CONTEXT}
 
+\startmainpoint{在 Windows 上安装}
+
 一旦掌握了你所用的操作系统中的命令行基本用法，安装 \CONTEXT\ 就简单多了，下文将分别介绍在 Windows、Linux 以及 macOS 系统入如何安装它。
 
 \useURL[installation][https://wiki.contextgarden.net/Introduction/Installation]
@@ -207,6 +209,10 @@ $ source .zshrc
 
 如果你没有 PDF 阅读器，或者每次重新编译 \type{.tex} 文件时，你的 PDF 阅读器没有自动更新显示 PDF 文件的内容，我建议你用 Sumatra PDF 阅读器，其下载页面位于\boxquote{\from[sumatra]}。
 
+\stopmainpoint
+
+\startmainpoint{在 Linux 上安装}
+
 假设你的 Linux 是 Inter 或 AMD 架构的 64 位系统，并且你希望将 \CONTEXT\ LMTX 安装在 \type{~/opt} 目录，亦即 \type{~/opt}，则整个安装过程可表述为以下 Bash 命令：
 
 \startmycmd
@@ -220,10 +226,30 @@ $ mtxrun --generate
 $ rm context-linux-64.zip
 \stopmycmd
 
+\stopmainpoint
+
+\startmainpoint{在 macOS 上安装}
+
 在 macOS 系统中安装 \CONTEXT\ LMTX 所用命令与上述 Linux 系统安装命令近乎相同，只是 macOS 环境里默认可能没有 \type{wget} 命令，不过你可以用 \type{curl} 命令替代它。以下命令可获得面向 macOS 64 位系统的 \CONTEXT\ LMTX 安装包：
 
 \startmycmd
-$ curl -O https://lmtx.pragma-ade.com/install-lmtx/context-osx-64.zip
+% 在用户目录下创建安装目录，然后跳转到安装目录下
+$ mkdir -p ~/context 
+$ cd context
+% 如果您的电脑是 Intel 系列的型号，则选择该链接下载
+$ curl -O https://lmtx.pragma-ade.com/install-lmtx/context-osx-64.zip 
+% 如果您的电脑是 M1 系列及以后的型号，则选择 ARM64 链接下载
+$ curl -O https://lmtx.pragma-ade.com/install-lmtx/context-osx-arm64.zip 
+% 解压刚才下载的压缩包，如果是 Intel 则解压 context-osx-64.zip
+$ unzip context-osx-arm64.zip 
+$ sh install.sh
+ % 将安装路径（对于 M 系列型号）注入到系统变量，注意路径名称
+$ echo 'export PATH=~/context/tex/texmf-osx-arm64/bin:$PATH' >> ~/.zshenv
+$ source ~/.zshenv
+$ mtxrun --generate
+% 验证是否成功安装
+$ context --version 
+$ rm context-osx-arm64.zip
 \stopmycmd
 
 在安装过程结束后，你可能需要消除一些文件的隔离标记。假设你的 \CONTEXT\ 安装目录为 \type{~/opt/context}，可执行以下命令完成该工作。
@@ -232,6 +258,8 @@ $ curl -O https://lmtx.pragma-ade.com/install-lmtx/context-osx-64.zip
 $ sudo xattr -r -d com.apple.quarantine ~/opt/context/bin/mtxrun
 $ sudo xattr -r -d com.apple.quarantine ~/opt/context/tex/texmf-osx-64/bin/*
 \stopmycmd
+
+\stopmainpoint
 
 \section{接力式安装}
 
@@ -248,6 +276,7 @@ $ sudo xattr -r -d com.apple.quarantine ~/opt/context/tex/texmf-osx-64/bin/*
 \section[ctx-in-texlive]{\TEX\ Live 中的 \CONTEXT}
 
 \TEX\ Live 是迄今为止最为权威的 \TeX\ 系统，\LaTeX\ 用户大多使用该系统，不过该系统也收录了 \CONTEXT\ 包。相比于 \CONTEXT，\TEX\ Live 是更为宏大的 \TeX\ 体系，前者可谓是后者的一颗行星。由于 \TEX\ Live 提供了图形界面的安装程序，如果你始终都不得命令行其门而入，可以考虑用该程序安装 \CONTEXT\ LMTX。
+\footnote{请注意，除非无法通过命令行安装，否则并不推荐使用 \TEX\ Live 。主要源自于：1. \TEX\ Live 中收录的 \CONTEXT\ 是年度更新的，很可能无法及时得到 bug 修复。2. \TEX\ Live 中的版本实际上对 Standalone（也就是命令安装的版本）的额外打包，去掉了一些不符合 \TEX\ Live 协议的文件。3. \TEX\ Live 中的版本并非完全受官方支持。}
 
 鉴于本章的主题是在命令行环境里安装 \CONTEXT，倘若在此讲述 \TEX\ Live 系统的图形化安装过程，结果必定会喧宾夺主，仅是安装过程的一些截图所占的篇幅就已经超过了前文所有内容。不过，为了让你能多一条路，该安装方式在上一节的 \CONTEXT\ 接力棒的在线文档中里也有记述，并且以视频的形式演示了安装过程。
 

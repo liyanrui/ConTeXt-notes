@@ -4,7 +4,7 @@
 
 \section{待办事项}
 
-在准备用 ChatGPT 或 DeepSeek 给领导起草讲稿之前，先用 \CONTEXT\ 列表\index[itemize]{\type{itemize} 环境}安排一下今日待办事项：
+在准备用 ChatGPT 或 DeepSeek 给领导起草讲稿之前，先用 \CONTEXT\ \cmdindex[itemize 环境]{startitemize} 安排一下今日待办事项：
 
 \startexample
 2023 年 3 月 22 日
@@ -111,13 +111,41 @@
 
 不过，这种基于列表的参考文献机制只适用于文献数量不多的情况。倘若有大量的参考文献数据，而文章仅引用其中一部分，对于此类任务，\CONTEXT\ 提供了更为专业的参考文献数据管理和引用机制，该机制的基本用法，见 \in[bibtex] 章。
 
+到此，我们实际上已经接触了 \CONTEXT\ 系统大部分命令的形式：
+
+\startitemize[n,packed,nowhite]
+  \item \type{\foo} 不接受任何参数的命令形式。
+  \item \type{\foo{words}} 接受文本或命令参数，并排版出来的命令形式。
+  \item \type{\foo[key=value,key1=value1]{words}} 接受一系列被逗号分割的键值对参数设置，和一个文本参数。
+  \item \type{\foo[option,option1]{words}} 接受一系列被逗号分隔的参数设置，和一个文本参数。
+  \item \type{\foo[option,option1][key=value,key1=value2]{words}} 接受一系列被逗号分割的参数设置，和一个文本参数。
+  \item \type{\startfoo} 和 \type{\stopfoo} 对于很多命令都会存在环境命令的形式和快捷命令的形式。
+  \item \type{\setupfoo} 设置某个命令。很多命令都可以通过 setup 进行统一设置。
+  \item \type{\definefoo} 定义某个命令的新实例。很多命令都可以通过 define 定义一个新的实例来满足不同的需求。
+\stopitemize
+
+因此，如果你能觉得每次都要写一遍 \type{\startitemize[n, joinedup][left={[}, right={]}, distance=.5em, stopper=]} 很麻烦，就可以使用 \type{\setupfoo} 进行统一设置，
+或者使用 \type{\definefoo} 定义一个新的实例。
+
+\starttyping[option=TEX]
+\setupitemgroup[itemize][option={n,joinedup}, left={[}, right={]}, distance=.5em, stopper=]
+% 如此设置之后，在该命令之后的所有 itemize 都会继承此次设置。而无需每次都书写一遍。
+
+\defineitemgroup[MyItemize][option={n,joinedup}, left={[}, right={]}, distance=.5em, stopper=]
+% 如此定义之后，就可以使用下面的形式来快速调用。当然，命令的名称你可以用大小写字母随意定义。但尽量不要重名。
+\startMyItemize
+  \item BlaBla
+  \item BlaBla
+\stopMyItemize
+\stoptyping
+
 \section[drawing-sym]{画符}
 
 上文所述的列表样式用于常规文档的排版应该是足够用的，但现实中还有许多非常规文档，例如幻灯片、海报和杂志等，这类文档需要排版元素具有美学特征，而非朴素的科技文档特征。\CONTEXT\ 允许我们使用 MetaPost 语言画出我们想要的列表符号。
 
 MetaPost 是一种语法简洁但功能丰富的矢量绘图编程语言。\CONTEXT\ 早已内嵌了该语言的解释器，我们可以直接在 \CONTEXT\ 源文件里编写 MetaPost 代码，然后交由 \CONTEXT\ 编译器生成嵌入在排版结果中的图形。本文档的第 \in[metapost] 章讲述了 MetaPost 的基本语法，故而若下文代码超出你的理解范围，可先行阅读该章内容，也先保留不解，待后续读至该章时自然获解。此外，文档 \cite[mp-necessity,mp-ethos,mp-crow] 亦可供参考。
 
-由于 \CONTEXT\ 提供的列表项符号皆为黑色图案，可以用 MetaPost 画一些彩色图案作为列表项符号。下面先用 MetaPost 语言在 \type{uniqueMPgraphic} 环境\index[uniqueMPgraphic]{\type{uniqueMPgraphic} 环境}里画一个带阴影且用复合色填充的正方形：
+由于 \CONTEXT\ 提供的列表项符号皆为黑色图案，可以用 MetaPost 画一些彩色图案作为列表项符号。下面先用 MetaPost 语言在 \cmdindex[uniqueMPgraphic 环境]{startuniqueMPgraphic} 里画一个带阴影且用复合色填充的正方形：
 
 \startMP
 \startuniqueMPgraphic{带阴影的正方形}
@@ -139,7 +167,7 @@ MetaPost 图形。
 
 例 \in[shaded-square] 中的「\tex{,}」是 \TEX\ 命令，用于构造 $\frac{1}{6}$ 字宽的间距。顺便记着，「\tex{;}」可构造 $\frac{5}{18}$ 字宽的间距，而一个字宽的空格可以用 \tex{quad} 命令构造\index[kongge]{空格}。有时在遇到普通空格过宽，或者空格被 \CONTEXT\ 编译器吞噬时，可以用这些 \TEX\ 间距命令构造空格。关于 \CONTEXT\ 里的空格，你需要知道，汉字之间的空格会被 \CONTEXT\ 编译器吞噬掉，而汉字与西文字符之间如果存在多个空格，\CONTEXT\ 编译器只保留 1 个。
 
-现在，请认真观察上例中的正方形图案，应该能发现它的位置与同一行的其他文字相比有些上浮，这是因为图形对象缺乏字符基线所致。字符基线是西文字体特有的概念。西文字符的基线连接起来，便构成一行文字的基线。大多数字符包括汉字都在基线之上，只是有一些西文字符，如 \type{g}、\type{p}、\type{y} 等，它们的有一部分沉于基线之下。于是，一行文字里，字符的最大高度是由基线之上的部分加上基线之下的部分，这两个部分的尺寸比例是 $0.72:0.28$。上述示例创建的正方形图形，它的高度是最大字符高度，但是在排版时，它像汉字那样位于基线之上了，故而显得有些上浮。要解决这个问题，需要将图形置于 \tex{hbox} 命令\index[hbox]{\tex{hbox}}创建的水平盒子里，再用 \tex{lower} 命令\index[lower]{\tex{lower}}让这个盒子下沉 0.2 倍的 \tex{bodyfontsize}，见例 \in[lower-square]。
+现在，请认真观察上例中的正方形图案，应该能发现它的位置与同一行的其他文字相比有些上浮，这是因为图形对象缺乏字符基线所致。字符基线是西文字体特有的概念。西文字符的基线连接起来，便构成一行文字的基线。大多数字符包括汉字都在基线之上，只是有一些西文字符，如 \type{g}、\type{p}、\type{y} 等，它们的有一部分沉于基线之下。于是，一行文字里，字符的最大高度是由基线之上的部分加上基线之下的部分，这两个部分的尺寸比例是 $0.72:0.28$。上述示例创建的正方形图形，它的高度是最大字符高度，但是在排版时，它像汉字那样位于基线之上了，故而显得有些上浮。要解决这个问题，需要将图形置于 \cmdindex{hbox} 命令创建的水平盒子里，再用 \cmdindex{lower} 命令让这个盒子下沉 0.2 倍的 \tex{bodyfontsize}，见例 \in[lower-square]。
 
 \startTEX
 这个\,\lower.2\bodyfontsize\hbox{\uniqueMPgraphic{带阴影的正方形}}\,是 MetaPost 图形。
@@ -148,7 +176,7 @@ MetaPost 图形。
 
 \noindent 为什么要下沉 0.2 倍的正文字号呢？原因是，作为阴影的正方形相对于淡蓝色的正方形向下偏移了 0.25 的正文字号。如果让包含了这个 MetaPost 图形的盒子下沉这个距离，刚好能让淡蓝色的正方形底线位于基线上。
 
-用 \tex{definesymbol} 命令\index[definesymbol]{\tex{definesymbol}}可将这个正方形图案定义为列表项符号，由于 \CONTEXT\ 的 9 种列表项符号的序号是从 1 至 9，故而我们自己画的符号可从序号 10 开始，即
+用 \cmdindex{definesymbol} 命令可将这个正方形图案定义为列表项符号，由于 \CONTEXT\ 的 9 种列表项符号的序号是从 1 至 9，故而我们自己画的符号可从序号 10 开始，即
 
 \startTEX
 \definesymbol[10][{\lower.2\bodyfontsize\hbox{\uniqueMPgraphic{带阴影的正方形}}}]
@@ -168,7 +196,7 @@ MetaPost 图形。
 
 对于有序列表，有些文档格式要求用带圆圈的数字，\CONTEXT\ 没有提供这种风格的列表项序号。不过，即使你并未明白上一节的列表项画符的一些技术细节，应该也有一些这样的信心——\CONTEXT\ 未提供的，我们总有办法创造出来。
 
-\CONTEXT\ 支持 Unicode 编码的文字，而汉字字体通常提供了带圈的数字，从 1 至 9，可以用 \tex{char} 命令\index[char]{\tex{char}}获得它们，例如
+\CONTEXT\ 支持 Unicode 编码的文字，而汉字字体通常提供了带圈的数字，从 1 至 9，可以用 \cmdindex{char} 命令获得它们，例如
 
 \startTEX
 \char"2460，\char"2461，\cdots，\char"2468
@@ -176,7 +204,7 @@ MetaPost 图形。
 
 \noindent 结果为 \char"2460，\char"2461，\cdots，\char"2468。
 
-在列表环境里，可以用 \tex{sym}\index[sym]{\tex{sym}} 代替 \tex{item}，直接指定我们想要的序号。例如
+在列表环境里，可以用 \cmdindex{sym} 代替 \tex{item}，直接指定我们想要的序号。例如
 
 \startexample
 \startitemize
@@ -190,7 +218,7 @@ MetaPost 图形。
 
 实际上当你开始用 \CONTEXT\ 排版第一个示例时，你已经在编程了。\TEX\ 是一门排版编程语言，你见过的任何一个 \CONTEXT\ 命令，本质上都是一小段甚至上千行的 \TEX\ 程序。\TEX\ 编程对于大多数人而言，难以掌握，但是从 2000 年代末开始，\CONTEXT\ 开发者将更易掌握的 Lua 语言引入 \TEX\ 世界，使得 \TEX\ 编程变得容易许多，当然这需要你对 Lua 语言有所了解。若你对这一主题颇感兴趣，可以先行阅读第 \in[programming] 章，然后再阅读下文。
 
-有序号列表的序号可用 \tex{defineconversion} 命令\index[defineconversion]{\tex{defineconversion}}定义。例如
+有序号列表的序号可用 \cmdindex{defineconversion} 命令定义。例如
 
 \startTEX
 \defineconversion[带圈数字][\CircledNumber]
@@ -228,7 +256,7 @@ MetaPost 图形。
 \stopitemize
 \stopTEX
 
-\noindent 不过基于该示例，你应该能够清晰地观察到 \tex{FooNumber} 所接受的参数是什么以及我们如何使用它的，只要将这个参数传递给一个 Lua 语言编写的函数，由后者将其映射为带圆圈的数字，则我们的问题便得以解决。现在，先写出这个 Lua 函数。\CONTEXT\ 允许我们在 \type{luacode} 环境里编写 Lua 代码\index[luacode]{\type{luacode} 环境}，见以下代码：
+\noindent 不过基于该示例，你应该能够清晰地观察到 \tex{FooNumber} 所接受的参数是什么以及我们如何使用它的，只要将这个参数传递给一个 Lua 语言编写的函数，由后者将其映射为带圆圈的数字，则我们的问题便得以解决。现在，先写出这个 Lua 函数。\CONTEXT\ 允许我们在 \cmdindex[luacode 环境]{startluacode} 里编写 Lua 代码，见以下代码：
 
 \startLUA
 \startluacode
@@ -242,7 +270,7 @@ end
 
 上述函数 \type{to_circled_number} 所作的工作是，将外界传入的数值 \type{x} 减 1，再与 2460 相加，然后将所得结果用 \type{tostring} 转换为字符串，在其前面加上 \tex{char"} 前缀，最后由 \type{context} 函数将结果传回 \CONTEXT\ 空间。例如，假设 \type{x} 是 \type{3}，经过 \type{to_circled_number} 的一番处理，它变成了 Lua 字符串 \type[escape=yes]{'\\char"2462'}，该结果由 \type{context} 函数传回 \CONTEXT\ 空间。
 
-同理，在 \CONTEXT\ 空间调用 Lua 空间里的一个函数，也需要一个通道，该通道由 \tex{ctxlua} 命令\index[ctxlua]{\tex{ctxlua}}实现，基于这个命令便可定义 \tex{CircledNumber} 命令，即
+同理，在 \CONTEXT\ 空间调用 Lua 空间里的一个函数，也需要一个通道，该通道由 \cmdindex{ctxlua} 命令实现，基于这个命令便可定义 \tex{CircledNumber} 命令，即
 
 \startTEX
 \def\CircledNumber#1{\ctxlua{to_circled_number(#1)}}
@@ -271,3 +299,4 @@ end
 \subject{结语}
 
 本章的最后两节，可能会让你有一些压迫感。也许你原以为 \CONTEXT\ 已经为你提供好了一切命令，无论你想要什么样的排版效果，只需要找到相应的命令便可达成目的。这当然是不可能的，否则 \CONTEXT\ 开发者就成了上帝，知晓你的一切心意。上帝是不存在的，但这个世界是可编程的。
+

@@ -2,6 +2,9 @@
 \usemodule[zhfonts]
 \definefont[kaiti][name:kaiti]
 %\setupalign[granular]
+\mainlanguage[cn]
+\language[cn]
+\usesymbols[fontawesome]
 \usecolors[svg]
 %\showgrid
 \setupinteraction[state=start,focus=standard,color=darkblue]
@@ -32,7 +35,7 @@
 \setuphead
   [title,chapter]
   [style=\bfb,header=empty,footer=empty,before=,after={\blank[2*line]},align=center]
-\setuphead[chapter][alternative=inmargin]
+\setuphead[chapter][alternative=inmargin,bodypartlabel=chapter,]
 \setuphead[subject,section][style=\bfa,before={\blank},after={\blank}]
 \setuphead[subsubject,subsection][style=\bf,before={\blank},after={\blank}]
 \definehead[TOC][title]
@@ -45,6 +48,7 @@
 \setuphead
   [chapter,title]
   [page=mychapterpagebreak]
+\setuplabeltext[cn][chapter={第\,,\,章}]
 
 % 若使用了以下文档结构化环境，需要将其分页设定清空
 % 方能满足下面的页眉和页脚的断页规则。
@@ -66,7 +70,6 @@
    pagestyle=smallitalic,
    width=fit]
 %\def\ChapterNumber#1{\doiftext{#1}{第 #1 章\quad}}  % 若 #1 是存在，则将其中文化
-\def\ChapterNumber#1{第 #1 章\quad}
 \setuplist
   [chapter]
   [alternative=a,
@@ -74,8 +77,9 @@
    after={\blank[halfline]},
    style=bold,
    width=fit,
+   label=yes,
    pagenumber=no,
-   numbercommand=\ChapterNumber]
+   distance=1em]
 \def\PageNumber#1{\underbars{#1}.}
 \setuplist
   [section]
@@ -115,21 +119,29 @@
 \startsetups footnote:hanzi
 \setscript[hanzi]
 \stopsetups
-\setupnote[footnote][textstyle=bold,setups={footnote:hanzi}]
+\setupnote[footnote][textstyle=bfx,setups={footnote:hanzi}]
 \setupnotation[footnote][way=bypage] % 来自 wolfgang 的 tip
 
 % 索引
-\def\cmdindex#1{\index[#1]{\tex{#1}}}
+\tolerant\def\cmdindex[#1]#:#2{%
+  \ifparameter#1\or
+    \goto{\type{#1}\high{\switchtobodyfont[5pt]\symbol[fontawesome][circle_blank]}}[url(https://wiki.contextgarden.net/Command/#2)]%
+    \index[#1]{\type{#1}}%
+  \else
+    \goto{\tex{#2}\high{\switchtobodyfont[5pt]\symbol[fontawesome][circle_blank]}}[url(https://wiki.contextgarden.net/Command/#2)]%
+    \index[#2]{\tex{#2}}%
+  \fi}
 %---- 列表 ----
 \setupfloats[indentnext=yes] 
 \setupcaptions[style=\tfx, headstyle=\rm, align=center]
 %\setupitemize[each][packed,serried,inmargin][margin=2em]
 \setupitemize[each][distance=.4em]
 \setupinmargin[left,right][style=\tfx]
-\definedescription
-  [definition]
-  [location=top,hang=20,width=broad,indenting=always,style=\ss,headstyle=\bf]
-  
+% \definedescription
+%   [definition]
+%   [location=top,hang=20,width=broad,indenting=always,style=\ss,headstyle=\bf]
+
+\definedescription[mainpoint][alternative=top,indentnext=yes,indenting={always,2em}]
 % 表格标题（为了第 6 章表格的演示，这部分内容需要在介绍 \placetable 之后才出现，
 % 见 06.tex
 %\setupcaption
@@ -227,6 +239,7 @@ fancybox(.35BodyFontSize);
 % ---------- example ----------------------
 \definebuffer[example]
 \definefloat[Example][Examples]
+\setupfloat [Example][indentnext=yes]
 \setuplabeltext[cn][Example={例 }]
 
 \newdimen\LeftExampleWidth

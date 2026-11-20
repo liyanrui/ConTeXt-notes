@@ -30,7 +30,11 @@
 
 以上关于 \TEX\ 根目录的讨论，仅针对 \CONTEXT\ 社区提供的 \CONTEXT\ 环境。对于 \TEX\ Live 而言，可将 \type{texmf-local} 目录的上级目录作为 \type{$TEXROOT}。为了便于描述，从现在开始，以虚构的类 Unix 环境变量风格的 \type{$TEXROOT} 指代 \TEX\ 根目录，不再使用具体路径。此外，路径中的目录间隔符也统一使用类 Unix 风格进行表示，用 \type{/} 而非 Windows 风格的 \tex{}，例如 \type{$TEXROOT/texmf} 表示 \TEX\ 根目录的子目录 \type{texmf}。
 
-清楚何为 \TEX\ 根目录后，便可为 \CONTEXT\ 安装宋体、黑体和楷体等汉字字体，具体过程如下：
+清楚何为 \TEX\ 根目录后，便可为 \CONTEXT\ 安装宋体、黑体和楷体等汉字字体%
+\footnote{对于 macOS，更好的方案是寻找自己想要的字体，并按照步骤安装在  \CONTEXT\ 的 texmf-local 或者 texmf-font 目录下。%
+          虽然系统也安装了宋黑楷仿宋四种基本的字体，但实际上他们是作为扩展字体存在的。而且对于不同版本的系统，安装的位置也不同。%
+          还有一个不推荐直接使用系统字体的原因是系统字体大多是 ttc 格式，而 \CONTEXT\ 对该格式支持并不完美。}%
+，具体过程如下：
 
 \startitemize[n,packed][stopper=,left=(,right=)]
 \item 将字体文件复制到 \type{$TEXROOT/texmf-local/fonts/truetype/msfonts} 目录，若该目录不存在，可自行创建；
@@ -60,11 +64,11 @@ nsimsun          nsimsun      nsimsun    simsun.ttc   2         ...
 
 \noindent 请留意上述命令输出信息 \type{identifier} 和 \type{familyname} 栏，因为 \in[define-family] 节需要这些名字。
 
-需要注意，上述过程安装的字体都是有版权的，倘若作商业用途，需要向开发这些字体的公司支付授权费用。本文档之所以选择使用它们，主要是为了兼容国内在文档字体选用上的积习。网络上能够找到 Google 公司开发的一系列免费的汉字字体，例如 Noto 系列，其安装方式可参考上述过程，无须赘述。此外，若安装扩展名为「\type{.otf}」的字体，即 OpenType 字体，建议将它们安装到 \type{$TEXROOT/texmf-local/fonts/opentype} 目录，若无该目录，可自行创建。
+需要注意，上述过程安装的字体都是有版权的，倘若作商业用途，需要向开发这些字体的公司支付授权费用。本文档之所以选择使用它们，主要是为了兼容国内在文档字体选用上的积习。网络上能够找到 Google 公司开发的一系列免费的汉字字体，例如 Noto 系列。其安装方式可参考上述过程，无须赘述。此外，若安装扩展名为「\type{.otf}」的字体，即 OpenType 字体，建议将它们安装到 \type{$TEXROOT/texmf-local/fonts/opentype} 目录，若无该目录，可自行创建\footnote{对于 macOS 系统，我们可以更多的选择 otf 格式，但是对于 Windows 系统，我们应该尽量选择 ttf 格式}。
 
 \section{使用字体}
 
-例 \in[hello-hanzi] 演示了如何在单页环境定义字号为 12pt 的宋体，黑体和楷体等字体切换命令\index[definefont]{\tex{definefont}}，并使用它们各排版一行文字。
+例 \in[hello-hanzi] 演示了如何在单页环境定义字号为 12pt 的宋体，黑体和楷体等字体切换命令 ------ \cmdindex{definefont}，并使用它们各排版一行文字。
 
 \startexample
 \startTEXpage[frame=on,offset=4pt]
@@ -100,7 +104,7 @@ nsimsun          nsimsun      nsimsun    simsun.ttc   2         ...
 \stopexample
 \example[option=TEX][将错就错]{中文段落无法断行}{\externalfigure[03/breakinglines-2.pdf]}
 
-现在，到了你灵机一动的时刻了。既然换行符被 \TEX\ 引擎视为空白字符从而误打误撞完成了断行，倘若在汉字之间手工插入一些空格字符，\TEX\ 能否实现汉字断行呢？答案是，的确如此。例 \in[手工断行] 源码中的 \type[space=on]{ } 符号表示空格字符，这些空格字符的存在使得汉字发生了断行，只是它们也让汉字分布颇为蓬松。
+现在，到了你灵机一动的时刻了。既然换行符被 \TEX\ 引擎视为空白字符从而误打误撞完成了断行，倘若在汉字之间手工插入一些空格字符，\TEX\ 能否实现汉字断行呢？答案是：的确如此。例 \in[手工断行] 源码中的 \type[space=on]{ } 符号表示空格字符，这些空格字符的存在使得汉字发生了断行，只是它们也让汉字分布颇为蓬松。
 
 \startexample
 \song
@@ -126,7 +130,7 @@ nsimsun          nsimsun      nsimsun    simsun.ttc   2         ...
 \stopexample
 \example[option=TEX,space=on][手工插入粘连断行]{中文段落手工插入粘连进行断行}{\externalfigure[03/breakinglines-4.pdf]}
 
-\noindent 需要注意的是，\TEX\ 会自动忽略排版命令后尾随的一个空格，因此 \type{\foo} 之后虽然有一个空格，但该空格不会在排版结果里出现。
+\noindent 需要注意的是，\TEX\ 会自动忽略排版命令（不含参数）后尾随的一个空格，因此 \type{\foo} 之后虽然有一个空格，但该空格不会在排版结果里出现。
 
 由于没有人愿意像例 \in[手工插入粘连断行] 那样排版汉字，因此 \CONTEXT\ 提供了一个可以自动在汉字之间插入粘连的命令\index[setscript]{\tex{setscript}}，即
 
@@ -228,7 +232,7 @@ Math in display mode:
 
 \section[define-family]{汉字字族}
 
-使用 \type{\definefontfamily} 可将一组汉字字体定义为字族\index[definefontfamily]{\tex{definefontfamily}}，用 \type{\setupbodyfont} 命令将其\index[setupbodyfont]{\tex{setupbodyfont}}设定为默认字族。例 \in[setupbodyfont] 将 10.5pt 的宋体作为正文默认字体——该字号对应中文排版的 5 号字。注意 \type{\setupindenting} 却只能在单页环境之内有效，这让我有些不解，权作新手村的规矩吧。
+使用 \cmdindex{definefontfamily} 可将一组汉字字体定义为字族，用 \cmdindex{setupbodyfont} 命令将其设定为默认字族。例 \in[setupbodyfont] 将 10.5pt 的宋体作为正文默认字体——该字号对应中文排版的 5 号字。注意 \type{\setupindenting} 却只能在单页环境之内有效，这让我有些不解，权作新手村的规矩吧。
 
 \startexample
 \definefontfamily[myfonts][rm][nsimsun]
@@ -266,7 +270,7 @@ Math in display mode:
 
 为汉字定义字族还有一种传统方法，使用 \CONTEXT\ 的 typescript 机制，但是需要写许多代码，但以前只有这一种方法，而且我也为了理解它而耗费了许多青春。现在我们可以对它说，别了，typescript！
 
-\section[fallback-fonts]{字形替换}
+\section[fallback-fonts]{字体回退}
 
 也许你现在觉得自己在新手村里已经脱胎换骨，能够自由地在 \CONTEXT\ 世界里使用汉字。是的，你可以如此觉得，只要你的排版内容没有西方文字。
 
@@ -277,7 +281,7 @@ Math in display mode:
   {英文字形比较}
   {\externalfigure[03/bad-latin.pdf][width=.4\textwidth]}
 
-\type{\definefallbackfamily} 可以用一种字体中的部分字形替换另一种字体的对应字形\index[definefallbackfamily]{\tex{definefallbackfamily}}。例 \in[fallbacks] 使用 latinmodernroman 字族里的每种字体的 Unicode 码位区间 $[0\mathrm{x}0000, 0\mathrm{x}0400]$ 中的所有字形强行替换了 nsimsun 字族中每种字体（包括替补字体）的相应字形。
+\cmdindex{definefallbackfamily} 可以用一种字体中的部分字形替换另一种字体的对应字形。例 \in[fallbacks] 使用 latinmodernroman 字族里的每种字体的 Unicode 码位区间 $[0\mathrm{x}0000, 0\mathrm{x}0400]$ 中的所有字形强行替换了 nsimsun 字族中每种字体（包括替补字体）的相应字形。
 
 \startexample
 \definefallbackfamily
@@ -289,11 +293,11 @@ Math in display mode:
 \setupbodyfont[myfonts,16pt]
 \setscript[hanzi]
 \startTEXpage[frame=on,offset=4pt]
-爱因斯坦 Einstein\\ \bf 爱因斯坦 Einstein\\
-\it 爱因斯坦 Einstein\\ \bi 爱因斯坦 Einstein
+爱因斯坦 Einstein\\ {\bf 爱因斯坦 Einstein}\\
+{\it 爱因斯坦 Einstein}\\ {\bi 爱因斯坦 Einstein}
 \stopTEXpage
 \stopexample
-\example[option=TEX][fallbacks]{字形替换}{\externalfigure[03/fallbacks.pdf]}
+\example[option=TEX][fallbacks]{字体回退}{\externalfigure[03/fallbacks.pdf]}
 
 也可以使用 \CONTEXT\ 已经定义了名字的 Unicode 码位区间代替 16 进制数字形式的区间，例如，
 

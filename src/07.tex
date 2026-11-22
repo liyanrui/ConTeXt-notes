@@ -1,3 +1,7 @@
+\environment doc-env
+
+\startcomponent *
+
 \chapter[Figure]{插图}
 
 在很多情境下，一图胜千言。\CONTEXT\ 在插图方面，除了支持常见的 JPEG，GIF 和 PNG 等位图格式，也支持 PDF 和 SVG 等矢量图格式，还支持 \METAPOST\ 代码形式的内部图形——代码即插图。
@@ -69,7 +73,7 @@
 \def\foo{\hskip 0pt plus 2pt minus 0pt}
 \stopTEX
 
-\noindent 在文档里使用 \tex{foo} 时，\CONTEXT\ 编译器会用这个宏的定义将其替换掉，亦即宏的使用，本质上是通过宏的名字引用其定义，这个过程通常称为{\bf 宏的展开}。下面用类似的办法，定义一个插图宏，以简化图片文件的插入过程。
+\noindent 在文档里使用 \tex{foo} 时，\CONTEXT\ 编译器会用这个宏的定义将其替换掉，亦即宏的使用，本质上是通过宏的名字引用其定义，这个过程通常称为\emph{宏的展开}。下面用类似的办法，定义一个插图宏，以简化图片文件的插入过程。
 
 \startTEX
 \definecounter[myfignum] % 插图序号计数器
@@ -174,7 +178,7 @@
 \simpleexample[option=TEX]{\null}
 \getexample
 
-如果你从未听闻上述的 \type{floatcombination} 环境，单纯用你已掌握的 \type{tabulate} 环境和 \tex{externalfigure} 命令也能构造图片阵列，不妨一试。另外，在上述例子里，想必你已经观察到了，\CONTEXT\ 的命令，当其参数里同时存在方括号形式和花括号形式时，对于前者而言，如果你不想设定它们，通常可以将其省略，亦即它们是{\bf 可选参数}。
+如果你从未听闻上述的 \type{floatcombination} 环境，单纯用你已掌握的 \type{tabulate} 环境和 \tex{externalfigure} 命令也能构造图片阵列，不妨一试。另外，在上述例子里，想必你已经观察到了，\CONTEXT\ 的命令，当其参数里同时存在方括号形式和花括号形式时，对于前者而言，如果你不想设定它们，通常可以将其省略，亦即它们是\emph{可选参数}。
 
 \section{路径}
 
@@ -209,3 +213,5 @@ draw p withpen pencircle scaled 4pt withcolor darkred;
 \subject{结语}
 
 所谓插图，不过是个头大一些的文字罢了，而所谓文字，不过是个头小一些的插图罢了。我忽然有些好奇，用表音文字的民族，如果他们的先祖没有发明出像插图那样的文字，他们的语言像是从天而降的……这不科学。
+
+\stopcomponent

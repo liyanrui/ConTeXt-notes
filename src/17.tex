@@ -1,3 +1,7 @@
+\environment doc-env
+
+\startcomponent *
+
 \chapter[programming]{编程}
 
 在第 \in[chinese-fonts] 章的开始，简单论述了 \TEX\ 与 \CONTEXT\ 以及 \LATEX\ 的关系。\TEX\ 系统的精妙之处在于，它是可编程的，是开放的，它像是给我们提供了一些积木以及一些简单的组合规则，使得我们也能具备建造像 \LATEX\ 和 \CONTEXT\ 这些上层建筑的能力。我并不是说，你也应当再搭建某种上层建筑。实际上即使在日常使用 \LATEX\ 或 \CONTEXT\ 时，\TEX\ 的编程机制依然非常有用，甚至你可以从这些工作里逐步获得建造上层建筑的能力。
@@ -67,7 +71,23 @@
   \item 请在宏内换行时，在行末的命令（除无参数命令）之后添加 \% (不添加将会产生额外空白)。
 \stopitemize
 
-\section{变量}
+当然，更多的时候，我们其实只是想要定义一个或者多个变量方便在后续的文章内容中快速调用。这个时候我们可以通过 \cmdindex{setvariables}（注意，该命令是复数形式） 和 \cmdindex{getvariable} 来设置和调用一系列的变量。 
+
+\startexample
+% 第一个参数可以随便定义你想要的主题名称。
+% 第二个参数是键值对。我们通过对应的键取出对应的值。
+\setvariables[myvariable][key=value,key1=value1,key2=value2]
+
+key=\getvariable{myvariable}{key}\par
+key1=\getvariable{myvariable}{key1}\par
+key2=\getvariable{myvariable}{key2}
+\stopexample
+
+\typeexample
+
+\getexample
+
+\section{寄存器}
 
 若想将 \TEX\ 从上一节中 \tex{foo} 无尽展开的地狱里解救出来，必须通过寄存器，保存某种状态，从而有机会确定何时截止 \TEX\ 对 \tex{foo} 的展开。
 
@@ -76,18 +96,18 @@
 \startexample
 \newcount\mynum
 \mynum = 42 % 最好在赋值后额外添加一个空格或者使用 \relax 来显示标记赋值结束
-{\bf 宇宙的秘密是 \the\mynum。}
+\emph{宇宙的秘密是 \the\mynum。}
 \stopexample
 \simpleexample[option=TEX]{\getexample}
 
 可以对整数寄存器中的数据做数学运算，例如加法或减法：
 
 \startexample
-\newcount\mynum
-\mynum = 42
-\advance\mynum by 1  % \the\mynum + 1 % 最好在赋值后额外添加一个空格或者使用 \relax 来显示标记赋值结束
-\advance\mynum by -1 % \the\mynum - 1 % 最好在赋值后额外添加一个空格或者使用 \relax 来显示标记赋值结束
-{\bf 宇宙的秘密是 \the\mynum。}
+\newcount\mynumI
+\mynumI = 42
+\advance\mynumI by 1  % \the\mynumI + 1 % 最好在赋值后额外添加一个空格或者使用 \relax 来显示标记赋值结束
+\advance\mynumI by -1 % \the\mynumI - 1 % 最好在赋值后额外添加一个空格或者使用 \relax 来显示标记赋值结束
+\emph{宇宙的秘密是 \the\mynumI。}
 \stopexample
 \simpleexample[option=TEX]{\getexample}
 
@@ -100,10 +120,10 @@
 \TEX\ 提供了 \tex{ifnum} 命令，可用于比较两个整数的大小或是否相等，例如
 
 \startexample
-\newcount\mynum
-\mynum = 42
-\ifnum\mynum = 42 
-  宇宙的秘密是 \the\mynum。
+\newcount\mynumII
+\mynumII = 42
+\ifnum\mynumII = 42 
+  宇宙的秘密是 \the\mynumII。
 \else
   \relax
 \fi
@@ -127,8 +147,10 @@
 
 \startexample
 \def\foo#1{%
-  \ifnum #1 < 42 \advance #1 by 1 \foo{#1}%
-  \else\relax%
+  \ifnum #1 < 42 \advance #1 by 1 
+    \foo{#1}%
+  \else
+    \relax%
   \fi%
 }
 \newcount\TEST
@@ -208,7 +230,7 @@ end
 
 \CONTEXT\ 命令 \tex{ctxlua} 与 Lua 代码里的 \type{context} 函数，你可以将其理解为 \CONTEXT\ 世界与 Lua 世界的通道的两端。有了这一通道，你可以用 Lua 语言编写程序，然后在 \CONTEXT\ 世界里调用它们。
 
-\section{度量}
+\section{度量和单位}
 
 在前面的章节中，我们已经用到了一些在 \CONTEXT\ 常用的一些度量，比如：\tex{textwidth}。他代表了正文宽度。类似的，我们可以通过下面的命令获得其他常见的度量：
 
@@ -225,6 +247,23 @@ end
   \item \getdimension\paperheight
 \stopitemize
 
+但是每次想要设置某些元素的度量时都写一长串命令是令人痛苦的。所以我们可以通过单位来速写上述的度量。比如：
+
+\def\getunit#1#2{\type{#1} = \type{#2} = \the\dimexpr#1\relax}
+
+\startitemize[packed,nowhite]
+  \item \getunit{1tw}{1\textwidth}
+  \item \getunit{1th}{1\textheight}
+  \item \getunit{1lh}{1\lineheight}
+  \item \getunit{1fs}{1\bodyfontsize}
+  \item \getunit{1em}{1\emwidth}
+  \item \getunit{1ex}{1\exheight}
+  \item \getunit{1pw}{1\paperwidth}
+  \item \getunit{1ph}{1\paperheight}
+\stopitemize
+
 \subject{结语}
 
 也许你本身已是一位训练有素的软件开发者，熟悉许多编程语言，即便如此，当你第一次瞥到 \TEX\ 的宏编程机制时，大概印象是，\TEX\ 作为排版软件可谓优秀，但作为编程语言可谓丑陋不堪。当你写的一个宏出错时，也许会觉得自己面临了一场雪崩，没有一片雪花是无辜的。好在 Lua\TEX\ 已问世十余年了，现已进化为更为轻盈的 \LUAMETATEX。在你厌恶宏编程时，总是可以考虑用 Lua 语言编写程序，而 \TEX\ 的宏可以作为界面。不过，我的能力只是为你打开一个通向 \TEX\ 幽深世界的入口。至于你在这个世界里能够走多远，会遭遇什么——那是我看不到的，希望会是一段传奇。
+
+\stopcomponent

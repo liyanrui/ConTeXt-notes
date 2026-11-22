@@ -24,51 +24,55 @@
 %\defineoverlay[水印][\useMPgraphic{水印图案}]
 %\setupbackgrounds[page][background=水印]
 
-\starttext
-\startfrontmatter
-\input cover
-\input license
-\setuppagenumber[number=1]
-\setupuserpagenumber[numberconversion=romannumerals]
-%\setups{HeaderFooter}
-\input preface % 自序
-\input preface-2 % 自序 2
-\TOC{目录}
-\placecontent
-\stopfrontmatter
+\startproduct ctxnotes
+  \startfrontmatter
+    \input cover
+    \input license
+    \setuppagenumber[number=1]
+    \setupuserpagenumber[numberconversion=romannumerals]
+    %\setups{HeaderFooter}
+    \input preface % 自序
+    \input preface-2 % 自序 2
 
-\startbodymatter
-\setuppagenumber[number=1]
-\setupuserpagenumber[numberconversion=number]
-\setups{BodyHeaderFooter}
-\input 01
-\input 02
-\input 03
-\input 04
-\input 05
-\input 06
-\input 07
-\input 08
-\input 09
-\input 10
-\input 11
-\input 12
-\input 13
-\input 14
-\input 15
-\input 16
-\input 17
-\stopbodymatter
+    \TOC{目录}
+    \placecontent
 
-\startappendices
-\input postscript
-\title{参考文献}
-\usebtxdefinitions[gb]
-\placelistofpublications
-\stopappendices
+    \TOC{示例}
+    \placelist[Example]
+  \stopfrontmatter
 
-\startbackmatter
-\title{索引}
-\placeindex
-\stopbackmatter
-\stoptext
+  \startbodymatter
+    \setuppagenumber[number=1]
+    \setupuserpagenumber[numberconversion=number]
+    \setups{BodyHeaderFooter}
+    \component 01
+    \component 02
+    \component 03
+    \component 04
+    \component 05
+    \component 06
+    \component 07
+    \component 08
+    \component 09
+    \component 10
+    \component 11
+    \component 12
+    \component 13
+    \component 14
+    \component 15
+    \component 16
+    \component 17
+  \stopbodymatter
+
+  \startappendices
+    \input postscript
+    \title{参考文献}
+    \usebtxdefinitions[gb]
+    \placelistofpublications
+  \stopappendices
+
+  \startbackmatter
+    \title{索引}
+    \placeindex
+  \stopbackmatter
+\stopproduct

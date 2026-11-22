@@ -1,3 +1,7 @@
+\environment doc-env
+
+\startcomponent *
+
 \chapter{表格}
 
 表格通常用于呈现一些成行成列的数据，但是不要对此有刻板印象，有时一些非常规的页面布局，若基于表格实现，也许颇具奇效。\CONTEXT\ 有三种表格，从易到难，依次是 tabulate，table 和 xtable，详见文档 \cite[tables]，本章仅讲述 tabulate，而且我也建议你应该先掌握 tabulate，待其难以满足需求时，再考虑学习另外两种。
@@ -142,7 +146,7 @@
 \NC 列表 \NC
          \startitemize
          \item 中午，晒十五分钟太阳
-         \item 晚上，看流浪地球\,\Romannumerals{2}
+         \item 晚上，看流浪地球\,\convertnumber{R}{2}
          \stopitemize \NC\NR
 \BL[3]
 \stoptabulate
@@ -357,3 +361,5 @@
 \subject{结语}
 
 本文并未介绍 \type{tabulate} 环境的一切用法，例如单元格跨列、表格分页以及前景和背景颜色设置等主题皆未涉及，如果你需要了解这部分功能，可阅读文档 \cite[tabulation]。\type{tabulate} 环境有很多局限性，例如你无法让单元格跨越多行，也难以让单元格的内容能在竖直方向居于单元格空间的中部。如果你遇到了它的这些局限，就意味着你应该学习 \type{table} 环境了，见文档 \cite[natual-table]。
+
+\stopcomponent

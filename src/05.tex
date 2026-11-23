@@ -1,3 +1,7 @@
+\environment doc-env
+
+\startcomponent *
+
 \chapter{列表}
 
 若是帮领导起草并排版一份会议讲话稿，须知天下没有领导不偏爱含有列表的文章。大可以相信，\CONTEXT\ 列表绝对不会让领导失望。
@@ -10,12 +14,12 @@
 2023 年 3 月 22 日
 \startitemize
 \item 中午，晒十五分钟太阳
-\item 晚上，看流浪地球 \Romannumerals{2}
+\item 晚上，看流浪地球 \convertnumber{R}{2}
 \stopitemize
 \stopexample
 \example[option=TEX][todo-list]{待办事项}{\externalfigure[05/todo-list.pdf][width=.3\textwidth]}
 
-现在你已经学会了列表的用法了，余下的事，仅仅是根据需要定义它的外观。此外，你也学到了如何制作大写罗马数字。若需要制作小写罗马数字，只需将 \type{\Romannumerals} 换成 \type{\romannumerals}。
+现在你已经学会了列表的用法了，余下的事，仅仅是根据需要定义它的外观。此外，你也学到了如何制作大写罗马数字。若需要制作小写罗马数字，只需将 \type{{R}} 换成 \type{{r}}。
 
 \section{无序号列表}
 
@@ -24,7 +28,7 @@
 \starttyping[option=TEX]
 \startitemize[1]
 \item 中午，晒十五分钟太阳
-\item 晚上，看流浪地球 \Romannumerals{2}
+\item 晚上，看流浪地球 \convertnumber{R}{2}
 \stopitemize
 \stoptyping
 
@@ -33,7 +37,7 @@
 \startexample
 \startitemize[8]
 \item 中午，晒十五分钟太阳
-\item 晚上，看流浪地球 \Romannumerals{2}
+\item 晚上，看流浪地球 \convertnumber{R}{2}
 \stopitemize
 \stopexample
 \example[option=TEX][]{改变列表项符号}{\externalfigure[05/todo-list-2.pdf][width=.3\textwidth]}
@@ -45,7 +49,7 @@
 \startexample
 \startitemize[n]
 \item 中午，晒十五分钟太阳
-\item 晚上，看流浪地球 \Romannumerals{2}
+\item 晚上，看流浪地球 \convertnumber{R}{2}
 \stopitemize
 \stopexample
 \example[option=TEX][]{有序号列表}{\externalfigure[05/todo-list-3.pdf][width=.3\textwidth]}
@@ -55,7 +59,7 @@
 \startexample
 \startitemize[n][left=(,right=),stopper=]
 \item 中午，晒十五分钟太阳
-\item 晚上，看流浪地球 \Romannumerals{2}
+\item 晚上，看流浪地球 \convertnumber{R}{2}
 \stopitemize
 \stopexample
 \example[option=TEX][]{数字带括号的有序号列表}{\externalfigure[05/todo-list-4.pdf][width=.3\textwidth]}
@@ -72,7 +76,7 @@
 2023 年 3 月 22 日
 \startitemize[1,packed]
 \item 中午，晒十五分钟太阳
-\item 晚上，看流浪地球 \Romannumerals{2}
+\item 晚上，看流浪地球 \convertnumber{R}{2}
 \stopitemize
 \stopexample
 \example[option=TEX][]{消除列表项之间的空白}{\externalfigure[05/todo-list-7.pdf][width=.3\textwidth]}
@@ -83,7 +87,7 @@
 2023 年 3 月 22 日
 \startitemize[1,nowhite]
 \item 中午，晒十五分钟太阳
-\item 晚上，看流浪地球 \Romannumerals{2}
+\item 晚上，看流浪地球 \convertnumber{R}{2}
 \stopitemize
 \stopexample
 \example[option=TEX][]{消除列表项之间的空白}{\externalfigure[05/todo-list-8.pdf][width=.3\textwidth]}
@@ -124,7 +128,7 @@
   \item \type{\definefoo} 定义某个命令的新实例。很多命令都可以通过 define 定义一个新的实例来满足不同的需求。
 \stopitemize
 
-因此，如果你能觉得每次都要写一遍 \type{\startitemize[n, joinedup][left={[}, right={]}, distance=.5em, stopper=]} 很麻烦，就可以使用 \type{\setupfoo} 进行统一设置，
+因此，如果你觉得每次都要写一遍 \type{\startitemize[n, joinedup][left={[}, right={]}, distance=.5em, stopper=]} 很麻烦，就可以使用 \type{\setupfoo} 进行统一设置，
 或者使用 \type{\definefoo} 定义一个新的实例。
 
 \starttyping[option=TEX]
@@ -187,7 +191,7 @@ MetaPost 图形。
 \startexample
 \startitemize[10,nowhite]
 \item 中午，晒十五分钟太阳
-\item 晚上，看流浪地球 \Romannumerals{2}
+\item 晚上，看流浪地球 \convertnumber{R}{2}
 \stopitemize
 \stopexample
 \example[option=TEX][squaresym]{列表项的画符}{\externalfigure[05/todo-list-a.pdf][width=.3\textwidth]}
@@ -209,7 +213,7 @@ MetaPost 图形。
 \startexample
 \startitemize
 \sym{\char"2460} 中午，晒十五分钟太阳
-\sym{\char"2461} 晚上，看流浪地球 \Romannumerals{2}
+\sym{\char"2461} 晚上，看流浪地球 \convertnumber{R}{2}
 \stopitemize
 \stopexample
 \example[option=TEX][circled]{带圈的序号}{\externalfigure[05/todo-list-b.pdf][width=.3\textwidth]}
@@ -243,7 +247,7 @@ MetaPost 图形。
 
 \startitemize[Foo][distance=1em, stopper=]
 \item 中午，晒十五分钟太阳
-\item 晚上，看流浪地球 \Romannumerals{2}
+\item 晚上，看流浪地球 \convertnumber{R}{2}
 \stopitemize
 \stopexample
 \example[option=TEX][foonumber]{汉字方括号序号列表}{\externalfigure[05/todo-list-c.pdf][width=.3\textwidth]}
@@ -291,7 +295,7 @@ end
 
 \startitemize[CircledNum][stopper=]
 \item 中午，晒十五分钟太阳
-\item 晚上，看流浪地球 \Romannumerals{2}
+\item 晚上，看流浪地球 \convertnumber{R}{2}
 \stopitemize
 \stopexample
 \example[option=TEX][good-circled]{Lua 与 \TEX\ 的结合}{\externalfigure[05/todo-list-b.pdf][width=.3\textwidth]}
@@ -300,3 +304,4 @@ end
 
 本章的最后两节，可能会让你有一些压迫感。也许你原以为 \CONTEXT\ 已经为你提供好了一切命令，无论你想要什么样的排版效果，只需要找到相应的命令便可达成目的。这当然是不可能的，否则 \CONTEXT\ 开发者就成了上帝，知晓你的一切心意。上帝是不存在的，但这个世界是可编程的。
 
+\stopcomponent

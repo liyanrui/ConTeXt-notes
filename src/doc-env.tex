@@ -48,7 +48,7 @@
 \setuphead
   [chapter,title]
   [page=mychapterpagebreak]
-\setuplabeltext[cn][chapter={第\,,\,章}]
+\setuplabeltext[cn][chapter={第\,,\,章},reference:table={表~}]
 
 % 若使用了以下文档结构化环境，需要将其分页设定清空
 % 方能满足下面的页眉和页脚的断页规则。
@@ -123,14 +123,27 @@
 \setupnotation[footnote][way=bypage] % 来自 wolfgang 的 tip
 
 % 索引
-\tolerant\def\cmdindex[#1]#:#2{%
+% \cmdindex[*]{command name} url to Primitive
+% \cmdindex[environment name]{command name} url to ConTeXt
+% \cmdindex{command name} url to ConTeXt
+\unprotect% 这是必须的，让 \ifx\p_switcher\wildcardsymbol 成立的基础
+\tolerant\def\cmdindex[#1]#:#2%
+{\begingroup
   \ifparameter#1\or
-    \goto{\type{#1}\high{\switchtobodyfont[5pt]\symbol[fontawesome][circle_blank]}}[url(https://wiki.contextgarden.net/Command/#2)]%
-    \index[#1]{\type{#1}}%
+    \edef\p_switcher{#1}%
+    \ifx\p_switcher\wildcardsymbol
+      \goto{\tex{#2}\high{\switchtobodyfont[5pt]\symbol[fontawesome][circle_blank]}}[url(https://tug.org/utilities/plain/cseq.html\##2-rp)]%
+      \index[#2]{\tex{#2}}%
+    \else
+      \goto{\type{#1}\high{\switchtobodyfont[5pt]\symbol[fontawesome][circle_blank]}}[url(https://wiki.contextgarden.net/Command/#2)]%
+      \index[#1]{\type{#1}}%
+    \fi
   \else
     \goto{\tex{#2}\high{\switchtobodyfont[5pt]\symbol[fontawesome][circle_blank]}}[url(https://wiki.contextgarden.net/Command/#2)]%
     \index[#2]{\tex{#2}}%
-  \fi}
+  \fi
+\endgroup}
+\protect
 %---- 列表 ----
 \setupfloats[indentnext=yes] 
 \setupcaptions[style=\tfx, headstyle=\rm, align=center]
@@ -285,4 +298,6 @@ fancybox(.35BodyFontSize);
       style=boldface]
 
 \def\BibTeX{B\scale[height=.5em]{IB}\TeX}
+
+\definereferenceformat[refin]   [label=reference:*,    style=rm, type=number,  ]
 \stopenvironment

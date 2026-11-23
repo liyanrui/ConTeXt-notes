@@ -1,3 +1,7 @@
+\environment doc-env
+
+\startcomponent *
+
 \chapter{盒子}
 
 在 \in[drawing-sym] 节中，你已经见过盒子了，只是那时可能你还不知其究竟，本章将揭开它们的一些端倪。也有可能你早已钻研过 Donald Knuth 的《The \TeX\ Book》，对盒子的研究之深已经让我望风而拜，但是也许你未必熟悉 \CONTEXT\ 的盒子，故而本章仍有部分内容值得一观。
@@ -25,7 +29,7 @@
 }
 \stoptyping
 
-还有一种横向盒子 \cmdindex{line}，其宽度是正文的宽度，该盒子内的文字会向两边伸展并与正文两侧边界对齐，例如
+还有一种横向盒子 \cmdindex{line}\footnote{实际上就是 \type{\hbox to \hsize}的封装。因此你可以试试\type{\hbox to \hsize{我能吞下玻璃而不伤身体。}}}，其宽度是正文的宽度，该盒子内的文字会向两边伸展并与正文两侧边界对齐，例如
 
 \starttyping[option=TEX]
 \line{\darkred\bf 我能吞下玻璃而不伤身体。}
@@ -55,7 +59,7 @@
 \stopframedtext
 
 \index[hfil-hfill-hss]{\type{\hfil}，\type{\hfill} 和 \type{\hss}}
-\type{\hfill} 和 \type{\hss}，都是可无限伸缩的粘连，还有一个伸缩能力弱于 \type{\hfill} 的 \type{\hfil}。竖向的可无限伸缩的粘连有 \type{\vfil}，\type{\vfill} 和 \type{\vss}。
+\type{\hfill} 和 \type{\hss}，都是可无限伸缩的粘连，还有一个伸缩能力弱于 \type{\hfill} 的 \type{\hfil}。竖向的可无限伸缩的粘连有 \type{\vfil}，\type{\vfill} 和 \type{\vss}\footnote{对应的，竖向的伸缩粘连（skip）只能在竖向盒子（\type{\vbox}）中使用。通过这些伸缩粘连我们可以构造出顶部对齐，垂直对齐，底部对齐。}。
 
 \section{\CONTEXT\ 盒子}
 
@@ -142,7 +146,7 @@
 
 \section[framebg]{样式}
 
-受益于 \CONTEXT\ 的参数机制，我们可以通过设置 \type{backgroundcolor}、\allowbreak\type{foregroundcolor}、\allowbreak\type{foregroundstyle} 来控制背景以及文字的颜色和样式。例如
+受益于 \CONTEXT\ 的丰富参数机制，我们可以通过设置诸如 \type{backgroundcolor}、\allowbreak\type{foregroundcolor}、\allowbreak\type{foregroundstyle} 等来控制背景以及文字的颜色和样式。例如：
 
 \starttyping[option=TEX]
 \inframed
@@ -151,10 +155,10 @@
    foregroundcolor=blue,
    foregroundstyle=ssbfa,
    width=2cm,
-   frame=off]{\bf foo}
+   frame=off]{foo}
 \stoptyping
 
-\noindent 结果为 \inframed[background=color,backgroundcolor=lightgray,foregroundcolor=blue,foregroundstyle=ssbfa,width=2cm,frame=off]{\bf foo}。
+\noindent 结果为 \inframed[background=color,backgroundcolor=lightgray,foregroundcolor=blue,foregroundstyle=ssbfa,width=2cm,frame=off]{foo}。
 
 通过 overlay，可将一些排版元素作为 \type{\framed} 的背景。例如
 
@@ -206,7 +210,7 @@ draw p withpen pencircle scaled .4pt withcolor darkred;
 
 \noindent 结果为 \inframed{\framed{我看到一棵樱桃树}}。可见 \type{\inframed} 内部的 \type{\framed} 的底部有着看似多余的空白。使用盒子的参数 \type{depth} 可以消除这些空白，但问题在于这处空白从何而来及其高度是多少。该问题与底层 \TEX\ 的西文排版机制有关。
 
-无论是 \TEX\ 还是 \CONTEXT\ 盒子，它们本身是没有深度的，但是当它们里面的文字或盒子有深度时，它们便有了深度。至于深度值具体是多大，可以借助 \TEX\ 的盒子寄存器进行测量。例如，通过 \cmdindex{setbox} 定义一个盒子寄存器 \type{box0}：
+无论是 \TEX\ 还是 \CONTEXT\ 盒子，它们本身是没有深度的，但是当它们里面的文字或盒子有深度时，它们便有了深度。至于深度值具体是多大，可以借助 \TEX\ 的盒子寄存器进行测量。例如，通过 \cmdindex[*]{setbox} 定义一个盒子寄存器 \type{box0}：
 
 \starttyping[option=TEX]
 \setbox0\hbox{\inframed{\framed{我看到一棵樱桃树}}}
@@ -293,3 +297,5 @@ draw p withpen pencircle scaled .4pt withcolor darkred;
 \subject{结语}
 
 \TEX\ 盒子是无形的。\CONTEXT\ 盒子是有形的。老子曾说过，恒无欲，以观其妙；恒有欲，以观其所徼。故而，\TEX\ 要懂一些，\CONTEXT\ 也要懂一些。
+
+\stopcomponent

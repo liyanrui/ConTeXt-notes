@@ -1,3 +1,7 @@
+\environment doc-env
+
+\startcomponent *
+
 \chapter{新手村}
 
 不必急于探索如何使用 \CONTEXT\ 排版你的论文或专著，尽管它极为擅长这类任务。我希望你能在新手村里住两天，学一些简单招式，打一些怪物，立竿见影，培养一些信心。在这个游戏里，你需要的装备，只是一个文本编辑器和一个 PDF 阅读器，前者用于编写 \CONTEXT\ 源文件，后者用于查看 \type{context} 命令的编译结果。
@@ -28,7 +32,7 @@ $ context foo.tex
 $ context foo
 \stoptyping
 
-\noindent 从本章开始，在表达命令行语句时，将一直使用 Linux 风格的命令提示符 \type{$}。此外，将 \type{context} 命令称为 {\bf\CONTEXT\ 编译器}，有时我也会将后者简称为 \CONTEXT。
+\noindent 从本章开始，在表达命令行语句时，将一直使用 Linux 风格的命令提示符 \type{$}。此外，将 \type{context} 命令称为 \emph{\CONTEXT\ 编译器}，有时我也会将后者简称为 \CONTEXT。
 
 在 \CONTEXT\ 源文件里，前缀为反斜线 \type{\} 的西文单词，皆为排版命令。形如 \type{\startxxx...\stopxxx} 这样的排版命令称为 \type{xxx} 环境。\cmdindex[TEXpage 环境]{startTEXpage} 就是我们的新手村，用于演练今后所学的一些基本的 \CONTEXT\ 排版命令，该环境的内容会被 \CONTEXT\ 编译器安排在尺寸紧致的矩形排版空间里，像一张卡片。
 
@@ -135,7 +139,7 @@ This is the first line.\\ This is the second line.
   
 \noindent\fakewords{9}{15}
 \stopexample
-\example[option=TEX][noindent]{消除第二段的首行缩进}{\externalfigure[02/pars-4.pdf][width=.325\textwidth]}
+\example[option=TEX][noindent]{消除段落的首行缩进}{\externalfigure[02/pars-4.pdf][width=.325\textwidth]}
 
 \section[interlinespace]{行距}
 
@@ -147,7 +151,7 @@ This is the first line.\\ This is the second line.
 \fakewords{9}{15}\par
 \fakewords{9}{15}
 \stopexample
-\example[option=TEX][pars-5]{多行文本构成的段落}{\externalfigure[02/pars-5.pdf]}
+\example[option=TEX][pars-5]{设置段落的行间距}{\externalfigure[02/pars-5.pdf]}
 
 例 \in[pars-5] 设定的实际上是行高。在 \CONTEXT\ 中，行高是相邻两行文字的基线距离，可将其视为行间距。可能你并不清楚基线的概念。还记得小时候学英文时用的四线三格本子吗？那 4 条线从下往上数的第 2 条线便是基线\index{baseline, 基线}。
 
@@ -157,6 +161,14 @@ This is the first line.\\ This is the second line.
 \setupinterlinespace[line=1.75\bodyfontsize]
 \fakewords{9}{15}\par
 \fakewords{9}{15}
+\stoptyping
+
+当然，如果你觉得上述的设置方式有些繁琐，我们可以将上述命令简化为
+
+\starttyping[option=TEX]
+\setupinterlinespace[1.75\bodyfontsize]
+%或者
+\setupinterlinespace[1.75]
 \stoptyping
 
 \CONTEXT\ 是 \TEX\ 的上层建筑，上例中用一个数字直接乘以一个能获得某种尺寸的命令，这是 \TEX\ 的语法。今后，我们会时常用这种形式构造一些尺寸。如果能够以字号确定行高，就无需单独为行高设定一个尺寸了。我认为排版作为一门艺术，其根本在于，是为不同尺度建立联系，用尽量少的尺度控制尽量的尺度，我甚至觉得，任何一门艺术皆应如此。
@@ -170,7 +182,7 @@ This is the first line.\\ This is the second line.
 \midaligned{\fakewords{1}{2}}
 \rightaligned{\fakewords{1}{2}}
 \stopexample
-\example[option=TEX][aligned-1]{多行文本构成的段落}{\externalfigure[02/aligned-1.pdf]}
+\example[option=TEX][aligned-1]{对单个段落进行对齐}{\externalfigure[02/aligned-1.pdf]}
 
 现在，你已经有能力用伪文字写一封谁也看不懂内容的书信了，见例 \in[letter]。注意，该例使用了 \cmdindex{dorecurse} 命令，该命令可将其第 2 个参数复制 $n$ 次，$n$ 值由该命令的第 1 个参数设定。
 
@@ -196,7 +208,7 @@ This is the first line.\\ This is the second line.
 \startalignment[flushleft] % 左对齐
 1. \fakewords{5}{15}
 \stopalignment
-\startalignment[middle] % 居中对齐
+\startalignment[center] % 居中对齐
 2. \fakewords{5}{15}
 \stopalignment
 \startalignment[flushright] % 右对齐
@@ -205,6 +217,31 @@ This is the first line.\\ This is the second line.
 \stopexample
 \example[option=TEX][aligned-2]{段落对齐}{\externalfigure[02/aligned-2.pdf][width=.375\textwidth]}
 
+\section{特殊字符}
+
+在前面的介绍中，你可能已经发现有一些符号是具有特殊含义的。比如，\type{%} 表示其后该行所有的内容都将作为注释存在，而不排版出来。\type<<{>>、\type<<}>> 作为编组的开始和结束符号。我们直接输入这些符号往往不会直接排版到正文之中，反而可能引发错误。
+
+想要在正文中排版这些符号，我们大部分情况下，可以使用 \type{\} 作为转义符号将上述符号转移成普通的排版字符。常见的具有特殊功能的符号以及其对应的转义写法如\refin[specialchar]：
+
+\def\showspecialchar#1#2#3{\bTR\bTD #1\eTD\bTD #2\eTD\bTD #3\eTD\eTR}
+
+\placetable[split,here,force][specialchar]{输入特殊符号}
+{\bTABLE[split=repeat]
+  \showspecialchar{{\tt\#}}{\type{\#}}{标记参数}
+  \showspecialchar{{\tt\%}}{\type{\%}}{标记注释}
+  \showspecialchar{{\tt\&}}{\type{\&}}{用于表格}
+  \showspecialchar{{\tt\{}}{\type{\{}}{表示编组开始}
+  \showspecialchar{{\tt\}}}{\type{\}}}{表示编组结束}
+  \showspecialchar{\type<$>}{\type{\$}}{表示数学模式的开始和结束}
+  \showspecialchar{\type{_}}{\type{\_}}{原本用于数学模式，表示下标}
+  \showspecialchar{\type{^}}{\type{\^{}}}{原本用于数学模式，表示上标}
+  \showspecialchar{\type{~}}{\type{\~{}}}{表示一个不断行的空白}
+  \showspecialchar{\type{|}}{\type{\|}}{用于单词内部}
+  \showspecialchar{\type<\>}{\type{\textbackslash}}{表示命令开始}
+\eTABLE}
+
 \subject{结语}
 
 排版是一门艺术，\CONTEXT\ 排版自然也是如此。接触艺术最好的办法是，附庸风雅，多观察一些例子，掌握基本排版命令的用法，筑好根基。理解了这一点，你就可以走出新手村了。之后，你的第一个重要任务是，在 \CONTEXT\ 茫茫世界里寻找汉字。
+
+\stopcomponent
